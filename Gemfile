@@ -36,3 +36,12 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# for WEBrick booting
+gem 'therubyracer', '0.11.1'
+gem 'libv8', '~> 3.11.8.13'
+
+# To use Rails
+gem "twitter-bootstrap-rails"
+gem "less-rails"
+gem "less-rails-bootstrap"
