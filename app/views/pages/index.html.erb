@@ -1,3 +1,32 @@
 <div class="hero-unit">
-  <h1>Hello, World</h1>
+  <h1>Hello, ROMA</h1>
+
+<%
+#!/usr/bin/ruby
+require 'socket'
+
+#host = if ARGV[0] then ARGV[0] else 'localhost' end
+#port = if ARGV[1] then ARGV[1] else '10001' end
+host = "10.0.2.15"
+port = 10001
+@sock = TCPSocket.open(host, port)
+
+puts "[[socket start]]\r\n------------------"
+
+@sock.write("stats\r\n")
+@sock.each{|s|
+%>
+<%=
+  #puts s
+  s
+%>
+<br>
+<%
+  break if s == "END\r\n" 
+}
+
+puts "-------------\r\n[[socket closing]]"
+@sock.close
+%>
+
 </div>
