@@ -1,7 +1,3 @@
-<h1><U>Cluster</U></h1>
-<div class="hero-unit">
-  <h1>Hello, ROMA</h1>
-
 <%
 #!/usr/bin/ruby
 require 'socket'
@@ -11,23 +7,19 @@ require 'socket'
 host = "10.0.2.15"
 port = 10001
 @sock = TCPSocket.open(host, port)
-
-puts "[[socket start]]\r\n------------------"
-
+stats_result=[]
 @sock.write("stats\r\n")
 @sock.each{|s|
-%>
-<%=
-  #puts s
-  s
-%>
-<br>
-<%
+  stats_result << s
   break if s == "END\r\n" 
 }
-
-puts "-------------\r\n[[socket closing]]"
 @sock.close
 %>
 
+<h1><U>Cluster</U></h1>
+<div class="hero-unit">
+  <h1>Hello, ROMA</h1>
+  <% stats_result.each{|a| %>
+       <%= a %><br>
+  <%   } %>
 </div>
