@@ -10,16 +10,93 @@ port = 10001
 stats_result=[]
 @sock.write("stats\r\n")
 @sock.each{|s|
-  stats_result << s
   break if s == "END\r\n" 
+  stats_result << s
 }
 @sock.close
+
+version = stats_result.shift
+config = []
+stats = []
+storages = []
+wb = []
+routing = []
+connection = []
+others = []
+stats_result.each{|res|
+  case res.split(".")[0]
+    when "config"
+      config << res
+    when "stats"
+      stats << res
+    when /storages\[.*\]/
+      storages << res
+    when "write-behind"
+      wb << res
+    when "routing"
+      routing << res
+    when "connection"
+      connection << res
+    else
+      others << res
+  end
+}
+
 %>
 
 <h1><U>Cluster</U></h1>
+
 <div class="hero-unit">
   <h1>Hello, ROMA</h1>
-  <% stats_result.each{|a| %>
+  <%= version %><br>
+</div>
+
+<h2><U>Config</U></h1>
+<div class="hero-unit">
+  <% config.each{|a| %>
        <%= a %><br>
   <%   } %>
 </div>
+
+<h2><U>stats</U></h1>
+<div class="hero-unit">
+  <% stats.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
+<h2><U>storages</U></h1>
+<div class="hero-unit">
+  <% storages.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
+<h2><U>write-behind</U></h1>
+<div class="hero-unit">
+  <% wb.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
+<h2><U>routing</U></h1>
+<div class="hero-unit">
+  <% routing.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
+<h2><U>connection</U></h1>
+<div class="hero-unit">
+  <% connection.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
+<h2><U>Others</U></h1>
+<div class="hero-unit">
+  <% others.each{|a| %>
+       <%= a %><br>
+  <%   } %>
+</div>
+
