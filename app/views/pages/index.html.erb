@@ -2,10 +2,9 @@
 #!/usr/bin/ruby
 require 'socket'
 
-#host = if ARGV[0] then ARGV[0] else 'localhost' end
-#port = if ARGV[1] then ARGV[1] else '10001' end
-host = "10.0.2.15"
-port = 10001
+host = ConfigGui::HOST # "10.0.2.15"
+port = ConfigGui::PORT # 10001
+
 @sock = TCPSocket.open(host, port)
 stats_result=[]
 @sock.write("stats\r\n")
@@ -45,6 +44,8 @@ stats_result.each{|res|
 %>
 
 <h1><U>Cluster</U></h1>
+
+
 
 <div class="hero-unit">
   <h1>Hello, ROMA</h1>
