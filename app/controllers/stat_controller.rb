@@ -1,16 +1,17 @@
 class StatController < ApplicationController
   def index
     roma = Roma.new
-#=begin
-    @version = roma.version
-    @config = roma.config
-    @stats = roma.stats
-    @storages = roma.storages
-    @wb = roma.wb
-    @routing = roma.routing
-    @connection = roma.connection
-    @others = roma.others
-#=end
+=begin
+    @version    = roma.stats_hash["version"]
+    @config     = roma.stats_hash["config"]
+    @stats      = roma.stats_hash["stats"]
+    @storages   = roma.stats_hash["storages[roma]"]
+    @wb         = roma.stats_hash["write-behind"]
+    @routing    = roma.stats_hash["routing"]
+    @connection = roma.stats_hash["connection"]
+    @others     = roma.stats_hash["dns_cashe"]
+=end
+    @stats_hash = roma.stats_hash
   end
 
   def update

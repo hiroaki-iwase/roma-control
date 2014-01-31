@@ -2,56 +2,54 @@
 
 <div class="hero-unit">
   <h1>Hello, ROMA</h1>
-  <%= @version %><br>
-  <%= @test %>
 </div>
+
 
 <h2><U>Config</U></h1>
 <div class="hero-unit">
-  <% @config.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["config"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
 <h2><U>stats</U></h1>
 <div class="hero-unit">
-  <% @stats.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["stats"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
-<h2><U>storages</U></h1>
+<h2><U>storage</U></h1>
 <div class="hero-unit">
-  <% @storages.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["storages[roma]"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
 <h2><U>write-behind</U></h1>
 <div class="hero-unit">
-  <% @wb.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["write-behind"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
 <h2><U>routing</U></h1>
 <div class="hero-unit">
-  <% @routing.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["routing"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
 <h2><U>connection</U></h1>
 <div class="hero-unit">
-  <% @connection.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["connection"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
 
 <h2><U>Others</U></h1>
 <div class="hero-unit">
-  <% @others.each{|a| %>
-       <%= a %><br>
+  <% @stats_hash["dns_caching"].each{|k,v| %>
+       <%= k %> <%= v %><br>
   <%   } %>
 </div>
-
