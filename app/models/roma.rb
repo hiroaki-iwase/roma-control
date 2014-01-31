@@ -1,6 +1,5 @@
 class Roma
-  #attr_reader :version, :config, :stats, :storages, :wb, :routing, :connection, :others, :stats_result
-  attr_reader :stats_result
+  attr_reader :version, :config, :stats, :storages, :wb, :routing, :connection, :others, :stats_result
 
   def initialize
     require 'socket'
@@ -17,7 +16,8 @@ class Roma
     }
     @sock.close
 
-=begin
+### [ToDO] convert JSON
+#=begin
     @version = stats_result.shift
     @config = []
     @stats = []
@@ -44,6 +44,6 @@ class Roma
           @others << res
       end
     }
-=end
+#=end
   end
 end
