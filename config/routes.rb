@@ -1,4 +1,8 @@
 RomaControl::Application.routes.draw do
+  get "stat/index"
+
+  get "stat/update"
+
   get "pages/index"
 
   root :to => 'pages#index'
