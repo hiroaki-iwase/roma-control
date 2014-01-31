@@ -1,7 +1,24 @@
-class StatController < ApplicationController
-  def index
-    roma = Roma.new
-    @version = roma.stats_result.shift
+class Roma
+  #attr_reader :version, :config, :stats, :storages, :wb, :routing, :connection, :others, :stats_result
+  attr_reader :stats_result
+
+  def initialize
+    require 'socket'
+
+    host = ConfigGui::HOST
+    port = ConfigGui::PORT
+
+    @sock = TCPSocket.open(host, port)
+    @stats_result=[]
+    @sock.write("stats\r\n")
+    @sock.each{|s|
+      break if s == "END\r\n"
+      @stats_result << s
+    }
+    @sock.close
+
+=begin
+    @version = stats_result.shift
     @config = []
     @stats = []
     @storages = []
@@ -9,7 +26,7 @@ class StatController < ApplicationController
     @routing = []
     @connection = []
     @others = []
-    roma.stats_result.each{|res|
+    stats_result.each{|res|
       case res.split(".")[0]
         when "config"
           @config << res
@@ -27,18 +44,6 @@ class StatController < ApplicationController
           @others << res
       end
     }
-=begin
-    @version = roma.version
-    @config = roma.config
-    @stats = roma.stats
-    @storages = roma.storages
-    @wb = roma.wb
-    @routing = roma.routing
-    @connection = roma.connection
-    @others = roma.others
 =end
-  end
-
-  def update
   end
 end
