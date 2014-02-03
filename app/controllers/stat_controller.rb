@@ -11,7 +11,9 @@ class StatController < ApplicationController
     @connection = roma.stats_hash["connection"]
     @others     = roma.stats_hash["dns_cashe"]
 =end
-    @stats_hash = roma.stats_hash
+    #render :json => @stats_hash
+    #@stats_hash = roma.stats_hash
+    @stats_json = roma.stats_json
   end
 
   def update

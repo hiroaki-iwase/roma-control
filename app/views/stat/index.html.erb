@@ -4,7 +4,13 @@
   <h1>Hello, ROMA</h1>
 </div>
 
+<h2><U>====Debug====</U></h1>
+<div class="hero-unit">
+       <%= @stats_json %><br>
+</div>
 
+<!--
+<% if false %>
 <h2><U>Config</U></h1>
 <div class="hero-unit">
   <% @stats_hash["config"].each{|k,v| %>
@@ -47,9 +53,12 @@
   <%   } %>
 </div>
 
+
 <h2><U>Others</U></h1>
 <div class="hero-unit">
   <% @stats_hash["dns_caching"].each{|k,v| %>
        <%= k %> <%= v %><br>
   <%   } %>
+<% end %>
 </div>
+-->
