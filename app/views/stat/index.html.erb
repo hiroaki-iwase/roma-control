@@ -15,7 +15,7 @@ $(function(){
 </script>
 
 
-<h1><U>Cluster</U></h1>
+<h1><U>Status</U></h1>
 <div class="hero-unit">
   <h1>Hello, ROMA</h1>
   version : <%= @stats_hash["version"] %>
@@ -23,87 +23,103 @@ $(function(){
 
 
 <dl>
+
     <dt>Config</dt>
     <dd>
-      <table width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["config"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["config"].each{|k,v| %>
+            <tr class="active">
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
+
     <dt>Stats</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["stats"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["stats"].each{|k,v| %>
+            <tr class="success">
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
     <dt>Storage</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["storages[roma]"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["storages[roma]"].each{|k,v| %>
+            <tr class="warning">
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
     <dt>Write Behind</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["write-behind"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["write-behind"].each{|k,v| %>
+            <tr class="danger">
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
     <dt>Routing</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["routing"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["routing"].each{|k,v| %>
+            <tr>
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
     <dt>Connection</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <% @stats_hash["connection"].each{|k,v| %>
-          <tr>
-            <td valign="top" ><%= k %></td>
-            <td valign="top" ><%= v %></td>
-          </tr>
-        <% } %>
+      <table class="table">
+        <tbody>
+          <% @stats_hash["connection"].each{|k,v| %>
+            <tr class="active">
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
+            </tr>
+          <% } %>
+        </tbody>
       </table> 
     </dd>
 
     <dt>Others</dt>
     <dd>
-      <table border="1" width=100% cellspacing="0" cellpadding="5" bordercolor="#7CADB6">
-        <%# @stats_hash["dns_caching"].each{|k,v| %>
-          <tr>
-            <td valign="top" > dns_caching</td>
-            <td valign="top" ><%= @stats_hash["dns_caching"] %></td>
-          </tr>
-        <%# } %>
+      <table class="table">
+        <tbody>
+          <%# @stats_hash["dns_caching"].each{|k,v| %>
+            <tr class="active">
+              <td valign="top" > dns_caching</td>
+              <td valign="top" ><%= @stats_hash["dns_caching"] %></td>
+            </tr>
+          <%# } %>
+        </tbody>
       </table> 
     </dd>
 
@@ -114,65 +130,20 @@ $(function(){
 
 
 
-
+<!--
 <h2><U>====Debug====</U></h1>
 <div class="hero-unit">
-       <%= @stats_json %><br>
+<script>
+/*
+   var piyo_id = "<%= @stats_hash %>";
+   document.write(piyo_id); 
+*/
+   document.write("<%= @stats_json %>"); 
+   <%#= @stats_json %>
+</script>
 </div>
 
-
-
-
-<!--
-<% if false %>
-<h2><U>Config</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["config"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-<h2><U>stats</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["stats"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-<h2><U>storage</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["storages[roma]"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-<h2><U>write-behind</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["write-behind"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-<h2><U>routing</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["routing"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-<h2><U>connection</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["connection"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-</div>
-
-
-<h2><U>Others</U></h1>
-<div class="hero-unit">
-  <% @stats_hash["dns_caching"].each{|k,v| %>
-       <%= k %> <%= v %><br>
-  <%   } %>
-<% end %>
-</div>
 -->
+
+
+
