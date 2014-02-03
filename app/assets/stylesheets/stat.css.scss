@@ -1,3 +1,35 @@
 // Place all the styles related to the stat controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+*{
+    margin:0;
+    padding:0;
+}
+dl{
+    width: auto;
+    margin:20px auto;
+    background:#f9f3f3;
+}
+dl dt{
+    background:#debdbd;
+    border-bottom:1px solid #FFFFFF;
+    cursor:pointer;
+    height: 30px;
+    font-size: 20px;
+    vertical-align: middle;
+}
+dl dd{
+    background:#eeeeee;
+    border-top:none;
+    height: auto;
+    font-size: 20px;
+}
+dl dd table{
+/*
+    border: 1 #7CADB6 solid;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-padding: 100;
+*/
+}
