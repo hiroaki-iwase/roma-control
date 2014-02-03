@@ -18,7 +18,6 @@ $(function(){
 <h1><U>Status</U></h1>
 <div class="hero-unit">
   <h1>Hello, ROMA</h1>
-  version : <%= @stats_hash["version"] %>
 </div>
 
 
@@ -28,11 +27,7 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["config"].each{|k,v| %>
-            <% if v == "false" %>
-              <tr class="warning">
-            <% else %>
-              <tr class="active">
-            <% end %>
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
                 <td valign="top" ><%= k %></td>
                 <td valign="top" ><%= v %></td>
               </tr>
@@ -47,9 +42,9 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["stats"].each{|k,v| %>
-            <tr class="success">
-              <td valign="top" ><%= k %></td>
-              <td valign="top" ><%= v %></td>
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
+              <td valign="top"><%= k %></td>
+              <td valign="top"><%= v %></td>
             </tr>
           <% } %>
         </tbody>
@@ -61,7 +56,7 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["storages[roma]"].each{|k,v| %>
-            <tr class="warning">
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
               <td valign="top" ><%= k %></td>
               <td valign="top" ><%= v %></td>
             </tr>
@@ -75,7 +70,8 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["write-behind"].each{|k,v| %>
-            <tr class="danger">
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
+              <td valign="top" ><%= k %></td>
               <td valign="top" ><%= k %></td>
               <td valign="top" ><%= v %></td>
             </tr>
@@ -89,7 +85,7 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["routing"].each{|k,v| %>
-            <tr>
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
               <td valign="top" ><%= k %></td>
               <td valign="top" ><%= v %></td>
             </tr>
@@ -103,7 +99,7 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash["connection"].each{|k,v| %>
-            <tr class="active">
+            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
               <td valign="top" ><%= k %></td>
               <td valign="top" ><%= v %></td>
             </tr>
@@ -116,12 +112,12 @@ $(function(){
     <dd>
       <table class="table">
         <tbody>
-          <%# @stats_hash["dns_caching"].each{|k,v| %>
-            <tr class="active">
-              <td valign="top" > dns_caching</td>
-              <td valign="top" ><%= @stats_hash["dns_caching"] %></td>
+          <% @stats_hash["others"].each{|k,v| %>
+          <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>> 
+              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= v %></td>
             </tr>
-          <%# } %>
+          <% } %>
         </tbody>
       </table> 
     </dd>

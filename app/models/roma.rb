@@ -23,7 +23,7 @@ class Roma
       value = a.split(/\s/, 2)[1]
     
       if key.size == 1
-        @stats_hash[key[0]] = value
+        @stats_hash["others"][key[0]] = value
       else key.size == 2
         @stats_hash[key[0]][key[1]] = value
       end
