@@ -23,16 +23,19 @@ $(function(){
 
 
 <dl>
-
     <dt>Config</dt>
     <dd>
       <table class="table">
         <tbody>
           <% @stats_hash["config"].each{|k,v| %>
-            <tr class="active">
-              <td valign="top" ><%= k %></td>
-              <td valign="top" ><%= v %></td>
-            </tr>
+            <% if v == "false" %>
+              <tr class="warning">
+            <% else %>
+              <tr class="active">
+            <% end %>
+                <td valign="top" ><%= k %></td>
+                <td valign="top" ><%= v %></td>
+              </tr>
           <% } %>
         </tbody>
       </table> 

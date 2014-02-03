@@ -19,8 +19,8 @@ class Roma
 
     @stats_hash = Hash.new { |hash,key| hash[key] = Hash.new {} }
     stats_array.each{|a|
-      key = a.split(/\s/)[0].split(".", 2)
-      value = a.split(/\s/)[1]
+      key   = a.split(/\s/)[0].split(".", 2)
+      value = a.split(/\s/, 2)[1]
     
       if key.size == 1
         @stats_hash[key[0]] = value
