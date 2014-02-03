@@ -51,19 +51,43 @@ $(function(){
       </table> 
     </dd>
 
+
     <dt>Storage</dt>
     <dd>
       <table class="table">
         <tbody>
           <% @stats_hash["storages[roma]"].each{|k,v| %>
+            <% next if /^storage\./ !~ k %>
+
+            <% if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
+              <tr>
+                <td><%= k %></td>
+                <td></td>
+              <tr>
+                <td>　　　　bnum</td>
+                <td><%= $1 %></td>
+              <tr>
+                <td>　　　　xmsiz</td>
+                <td><%= $2 %></td>
+              <tr>
+                <td>　　　　opts</td>
+                <td><%= $3 %></td>
+              <tr>
+                <td>　　　　dfunit</td>
+                <td><%= $4 %></td>
+              </tr>
+            <% next; end %>
+
             <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top" ><%= k %></td>
+              <td valign="top" ><%= k %><br></td>
               <td valign="top" ><%= v %></td>
             </tr>
+
           <% } %>
         </tbody>
       </table> 
     </dd>
+
 
     <dt>Write Behind</dt>
     <dd>
@@ -71,7 +95,6 @@ $(function(){
         <tbody>
           <% @stats_hash["write-behind"].each{|k,v| %>
             <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top" ><%= k %></td>
               <td valign="top" ><%= k %></td>
               <td valign="top" ><%= v %></td>
             </tr>
