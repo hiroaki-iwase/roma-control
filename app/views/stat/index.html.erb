@@ -11,161 +11,60 @@ $(function(){
         }
     });
 
+    $(window).load(function(){
+    	$('#popoverData_1').popover({trigger: "hover"});
+    });
+
 });
+
 </script>
 
-
 <h1><U>Status</U></h1>
-<div class="hero-unit">
-  <h1>Hello, ROMA</h1>
-</div>
-
-
 <dl>
-    <dt>Config</dt>
+<% column_name = ["config","stats","storages[roma]","write-behind","routing","connection","others"] %>
+<% column_name.each{|name| %>
+    <dt><%= name.capitalize %></dt>
     <dd>
       <table class="table">
         <tbody>
-          <% @stats_hash["config"].each{|k,v| %>
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-                <td valign="top" ><%= k %></td>
-                <td valign="top" ><%= v %></td>
-              </tr>
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
+          <% @stats_hash[name].each{|k,v| %>
+          <%# @stats_hash["config"].each_with_index{|(k,v), i| %>
+            <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
+              
+              <% next if /^storage\[\d*\]/ =~ k %> <!-- skip storage path-->
+              <% if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %> <!-- for storage option -->
+                <tr>
+                  <td><%= k %></td>
+                  <td></td>
+                <tr><td>　　　　bnum</td><td><%= $1 %></td>
+                <tr><td>　　　　xmsiz</td><td><%= $2 %></td>
+                <tr><td>　　　　opts</td><td><%= $3 %></td>
+                <tr><td>　　　　dfunit</td><td><%= $4 %></td>
+                </tr>
+              <% next; end %>
 
-
-    <dt>Stats</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["stats"].each{|k,v| %>
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top"><%= k %></td>
-              <td valign="top"><%= v %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
-
-
-    <dt>Storage</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["storages[roma]"].each{|k,v| %>
-            <% next if /^storage\./ !~ k %>
-
-            <% if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
-              <tr>
-                <td><%= k %></td>
-                <td></td>
-              <tr>
-                <td>　　　　bnum</td>
-                <td><%= $1 %></td>
-              <tr>
-                <td>　　　　xmsiz</td>
-                <td><%= $2 %></td>
-              <tr>
-                <td>　　　　opts</td>
-                <td><%= $3 %></td>
-              <tr>
-                <td>　　　　dfunit</td>
-                <td><%= $4 %></td>
-              </tr>
-            <% next; end %>
-
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top" ><%= k %><br></td>
-              <td valign="top" ><%= v %></td>
-            </tr>
-
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
-
-
-    <dt>Write Behind</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["write-behind"].each{|k,v| %>
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
               <td valign="top" ><%= k %></td>
+              <!-- <td valign="top" ><h2 id="popoverData_<%#= i%>" data-content="testtest" data-original-title="popover" data-placement="bottom"><%#= k %></h2></td> -->
               <td valign="top" ><%= v %></td>
             </tr>
           <% } %>
         </tbody>
       </table> 
     </dd>
-
-    <dt>Routing</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["routing"].each{|k,v| %>
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top" ><%= k %></td>
-              <td valign="top" ><%= v %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
-
-    <dt>Connection</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["connection"].each{|k,v| %>
-            <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>>
-              <td valign="top" ><%= k %></td>
-              <td valign="top" ><%= v %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
-
-    <dt>Others</dt>
-    <dd>
-      <table class="table">
-        <tbody>
-          <% @stats_hash["others"].each{|k,v| %>
-          <tr <% if v == "false\r\n" %> style="background-color: grey;" <% end %>> 
-              <td valign="top" ><%= k %></td>
-              <td valign="top" ><%= v %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table> 
-    </dd>
+<% } %>
 
 </dl>
-
-
-
-
 
 
 <!--
 <h2><U>====Debug====</U></h1>
 <div class="hero-unit">
+
 <script>
-/*
-   var piyo_id = "<%= @stats_hash %>";
+   var piyo_id = "<%#= @stats_hash %>";
    document.write(piyo_id); 
-*/
-   document.write("<%= @stats_json %>"); 
-   <%#= @stats_json %>
+ /*  document.write("<%#= @stats_json %>");  */
 </script>
+
 </div>
-
 -->
-
-
-
