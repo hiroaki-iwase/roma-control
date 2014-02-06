@@ -1,5 +1,3 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-
 <script>
 $(function(){
 
@@ -11,13 +9,21 @@ $(function(){
         }
     });
 
-    $(window).load(function(){
-    	$('#popoverData_1').popover({trigger: "hover"});
+    $("[data-toggle=tooltip]").tooltip({
+      placement: 'left',
+      html: true
     });
-
 });
-
 </script>
+
+<% 
+explanation =
+"specifies the default action when ROMA loses data by server trouble.<br>
+<br>
+<U>no_action</U>:<br>ROMA denies access to lost data.<br>
+<U>auto_assign</U>:<br>ROMA can access the data as if the lost data never existed.<br>
+<U>shutdown</U>:<br>ROMA will shutdown if the data is lost."
+%>
 
 <h1><U>Status</U></h1>
 <dl>
@@ -28,7 +34,6 @@ $(function(){
       <table class="table">
         <tbody>
           <% @stats_hash[name].each{|k,v| %>
-          <%# @stats_hash["config"].each_with_index{|(k,v), i| %>
             <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
               
               <% next if /^storage\[\d*\]/ =~ k %> <!-- skip storage path-->
@@ -43,8 +48,11 @@ $(function(){
                 </tr>
               <% next; end %>
 
-              <td valign="top" ><%= k %></td>
-              <!-- <td valign="top" ><h2 id="popoverData_<%#= i%>" data-content="testtest" data-original-title="popover" data-placement="bottom"><%#= k %></h2></td> -->
+              <td valign="top" >
+                <a href="#" data-toggle="tooltip" title="<%= explanation %>" style="color:#6f3737;text-decoration:none">
+                  <%= k %>
+                </a>
+              </td>
               <td valign="top" ><%= v %></td>
             </tr>
           <% } %>
