@@ -16,14 +16,6 @@ $(function(){
 });
 </script>
 
-<% 
-explanation =
-"specifies the default action when ROMA loses data by server trouble.<br>
-<br>
-<U>no_action</U>:<br>ROMA denies access to lost data.<br>
-<U>auto_assign</U>:<br>ROMA can access the data as if the lost data never existed.<br>
-<U>shutdown</U>:<br>ROMA will shutdown if the data is lost."
-%>
 
 <h1><U>Status</U></h1>
 <dl>
@@ -33,23 +25,20 @@ explanation =
     <dd>
       <table class="table">
         <tbody>
-          <% @stats_hash[name].each{|k,v| %>
-            <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
-              
-              <% next if /^storage\[\d*\]/ =~ k %> <!-- skip storage path-->
-              <% if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %> <!-- for storage option -->
-                <tr>
-                  <td><%= k %></td>
-                  <td></td>
-                <tr><td>　　　　bnum</td><td><%= $1 %></td>
-                <tr><td>　　　　xmsiz</td><td><%= $2 %></td>
-                <tr><td>　　　　opts</td><td><%= $3 %></td>
-                <tr><td>　　　　dfunit</td><td><%= $4 %></td>
-                </tr>
-              <% next; end %>
+          <% @stats_hash[name].each{|k,v| 
+               next if check_skip_columns(k)
 
+               if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v # for storage option %>
+                 <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none"><%= k %></a></td><td></td></tr>
+                 <tr><td>　　　　bnum  </td><td><%= $1 %></td></tr>
+                 <tr><td>　　　　xmsiz </td><td><%= $2 %></td></tr>
+                 <tr><td>　　　　opts  </td><td><%= $3 %></td></tr>
+                 <tr><td>　　　　dfunit</td><td><%= $4 %></td></tr>
+               <% next; end %>
+
+             <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
               <td valign="top" >
-                <a href="#" data-toggle="tooltip" title="<%= explanation %>" style="color:#6f3737;text-decoration:none">
+                <a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none">
                   <%= k %>
                 </a>
               </td>
