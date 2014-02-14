@@ -1,29 +1,30 @@
 <h1><U>Status</U></h1>
 <dl>
-<% column_name = ["config","stats","storages[roma]","write-behind","routing","connection","others"] %>
+<% column_name = ["config","stats","storages[roma]","write-behind","routing","connection","others", "debugggg"] %>
 <% column_name.each{|name| %>
     <dt><%= name.capitalize %></dt>
     <dd>
       <table class="table">
         <tbody>
-          <% @stats_hash[name].each{|k,v| 
-               next if check_skip_columns(k)
-               
-               # for storage option
-               if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
-                 <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none"><%= k %></a></td><td></td></tr>
-                 <tr><td>　　　　bnum  </td><td><%= $1 %></td></tr>
-                 <tr><td>　　　　xmsiz </td><td><%= $2 %></td></tr>
-                 <tr><td>　　　　opts  </td><td><%= $3 %></td></tr>
-                 <tr><td>　　　　dfunit</td><td><%= $4 %></td></tr>
-               <% next; end %>
+          <% if @stats_hash[name].size == 0 %>
+            <tr style="background-color: #408080;"><td colspan="2">No Data</td></tr>
+          <% end
 
-             <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
+          @stats_hash[name].each{|k,v|
+            next if check_skip_columns(k)
+          
+          # for storage option
+            if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
+              <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none"><%= k %></a></td><td></td></tr>
+              <tr><td>　　　　bnum  </td><td><%= $1 %></td></tr>
+              <tr><td>　　　　xmsiz </td><td><%= $2 %></td></tr>
+              <tr><td>　　　　opts  </td><td><%= $3 %></td></tr>
+              <tr><td>　　　　dfunit</td><td><%= $4 %></td></tr>
+            <% next; end %>
+
+            <tr <% if v.chomp == "false" %> style="background-color: grey;" <% end %>>
               <td valign="top" >
-                <a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none">
-                  <%= k %>
-                </a>
-              </td>
+                <a href="#" data-toggle="tooltip" title="<%= explanation k %>" style="color:#6f3737;text-decoration:none"><%= k %></a></td>
               <td valign="top" ><%= v %></td>
             </tr>
           <% } %>
