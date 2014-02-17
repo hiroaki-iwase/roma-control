@@ -1,4 +1,4 @@
-<h1>500 Error</h1>
+<h1>500 - Internal Server Error</h1>
 
 <h3><%= @ex %></h3>
 
@@ -8,10 +8,10 @@ case @ex
   when Errno::ECONNREFUSED
     %>
     <ul>
-      <li><%= "Gladiator can't access ROMA" %></li>
+      <li><%= "Gladiator can't access to ROMA" %></li>
         <ul>
-          <li><%= "Please check your ROMA status" %></li>
-          <li><%= "Please check server & port No. of config/config_gui.rb" %></li>
+          <li><%= "Please check your ROMA is booting or not" %></li>
+          <li><%= "Please check server & port No. of lib/config_gui.rb" %></li>
         </ul>
     </ul>
     <%

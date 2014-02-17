@@ -45,3 +45,7 @@ gem 'libv8', '~> 3.11.8.13'
 gem "twitter-bootstrap-rails"
 gem "less-rails"
 gem "less-rails-bootstrap"
+
+# To test
+gem "rspec"
+gem "rspec-rails"
