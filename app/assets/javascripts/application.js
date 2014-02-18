@@ -13,3 +13,18 @@
 //= require turbolinks
 //= require jquery-2.1.0
 //= require_tree .
+$(function(){
+
+    $("dd:not(:first)").css("display","none");
+    $("dl dt").click(function(){
+        if($("+dd",this).css("display")=="none"){
+            $("dd").slideUp("slow");
+            $("+dd",this).slideDown("slow");
+        }
+    });
+
+    $("[data-toggle=tooltip]").tooltip({
+      placement: 'left',
+      html: true
+    });
+});
