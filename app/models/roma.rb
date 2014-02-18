@@ -1,5 +1,4 @@
 class Roma
-  #attr_reader :version, :config, :stats, :storages, :wb, :routing, :connection, :others, :stats_result, :stats_hash
   attr_reader :stats_hash, :stats_json
 
   def initialize

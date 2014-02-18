@@ -1,8 +1,8 @@
-# Load the rails application
+# Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
-# Initialize the rails application
-RomaControl::Application.initialize!
+# Initialize the Rails application.
+Gladiator::Application.initialize!
 
 # Include your application configuration below
 require 'config_gui'

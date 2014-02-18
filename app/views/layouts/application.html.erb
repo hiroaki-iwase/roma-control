@@ -1,85 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "RomaControl" %></title>
-    <%= csrf_meta_tags %>
+<html>
+<head>
+  <title>Gladiator</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
 
-    <%= stylesheet_link_tag "application", :media => "all" %>
-
-    <!-- For third-generation iPad with high-resolution Retina display: -->
-    <!-- Size should be 144 x 144 pixels -->
-    <%= favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144' %>
-
-    <!-- For iPhone with high-resolution Retina display: -->
-    <!-- Size should be 114 x 114 pixels -->
-    <%= favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114' %>
-
-    <!-- For first- and second-generation iPad: -->
-    <!-- Size should be 72 x 72 pixels -->
-    <%= favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72' %>
-
-    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-    <!-- Size should be 57 x 57 pixels -->
-    <%= favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
-
-    <!-- For all other devices -->
-    <!-- Size should be 32 x 32 pixels -->
-    <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
-
-    <%= javascript_include_tag "application" %>
-  </head>
-  <body>
-
-    <div class="navbar navbar-fluid-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#"><%= image_tag "ROMA5.png", :size => '40x40' %> GLADIATOR(仮)<FONT size="4"> -roma control-</FONT></a>
-          <div class="container-fluid nav-collapse">
-            <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Logout", "/path3"  %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
+  <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header"></li>
-              <li><%= link_to "Cluster", "/path1"  %></li>
-              <li><%= link_to "Status", "/path2"  %></li>
-              <li><%= link_to "(Configuration)", "/path3"  %></li>
-              <li><%= link_to "Snapshop", "/path4"  %></li>
-              <li><%= link_to "key/value", "/path5"  %></li>
-              <li><%= link_to "logs", "/path6"  %></li>
-              <li><%= link_to "history", "/path7"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-          <%= bootstrap_flash %>
-          <%= yield %>
-        </div>
-      </div><!--/row-->
-
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
-
-    </div> <!-- /container -->
-
-  </body>
+      <div class="navbar-header">
+	<a class="brand" href="#"><%= image_tag "Gladiator_logo.png", :size => '40x40' %> GLADIATOR(仮)<FONT size="4"> -roma control-</FONT></a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><%= link_to "Link1", "/path1"  %></li>
+          <li><%= link_to "Link2", "/path2"  %></li>
+          <li><%= link_to "Logout", "/path3"  %></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+  
+  <div class="row-fluid">
+    <div class="col-md-3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header"></li>
+          <li><%= link_to "Cluster", "/path1"  %></li>
+          <li><%= link_to "Status", "/path2"  %></li>
+          <li><%= link_to "(Configuration)", "/path3"  %></li>
+          <li><%= link_to "Snapshop", "/path4"  %></li>
+          <li><%= link_to "key/value", "/path5"  %></li>
+          <li><%= link_to "logs", "/path6"  %></li>
+          <li><%= link_to "history", "/path7"  %></li>
+        </ul>
+      </div><!--/.well -->
+    </div><!--/span-->
+    <div class="col-md-9">
+      <%#= bootstrap_flash %>
+      <%= yield %>
+    </div>
+  </div><!--/row-->
+  
+    <%#= yield %>
+    
+</body>
 </html>
