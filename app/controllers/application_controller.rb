@@ -1,13 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-
-  rescue_from Exception, :with => :render_500
-  def render_500(exception = nil)
-    if exception
-      logger.info "Rendering 500 with exception: #{exception.message}"
-    end
-
-    render :template => "errors/error_500", :status => 500, :layout => 'application'
-  end
-
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
 end
