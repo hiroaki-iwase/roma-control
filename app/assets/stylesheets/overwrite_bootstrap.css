@@ -1,3 +1,8 @@
+/*backgrouund*/
+body {
+  background-color: #f9f3f3;
+}
+
 /*navbar*/
 .navbar-default {
   background-color: #a62316;
@@ -31,4 +36,22 @@
 .navbar-default .navbar-nav > li > a:focus {
   color: #ffffff;
   background-color: red;
+}
+
+/*list-group item*/
+.list-group {
+  padding-top: 20px;
+}
+.list-group-item {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  margin-bottom: 0;
+}
+a.list-group-item {
+  color: #0088cc;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  text-decoration: none;
+  background-color: #e3e3e3;
 }

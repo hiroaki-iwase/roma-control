@@ -53,3 +53,6 @@ gem 'therubyracer', platforms: :ruby
 # To use rspec(Unit test)
 gem "rspec"
 gem "rspec-rails"
+
+# To use less(css)
+#gem 'less-rails'
