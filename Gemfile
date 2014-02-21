@@ -51,8 +51,7 @@ gem 'therubyracer', platforms: :ruby
 #gem 'libv8', '~> 3.11.8.13'
  
 # To use rspec(Unit test)
-gem "rspec"
-gem "rspec-rails"
-
-# To use less(css)
-#gem 'less-rails'
+#group :test do
+  gem "rspec"
+  gem "rspec-rails"
+#end

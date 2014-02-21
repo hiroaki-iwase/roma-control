@@ -96,7 +96,8 @@ module StatHelper
         EOS
       when "verbose"
         return <<-EOS
-       	  ToDO
+       	  Detail log mode.<br>
+          which output many infomation than the debug log mode.
         EOS
       when "enabled_repetition_host_in_routing"
         return <<-EOS
@@ -105,109 +106,121 @@ module StatHelper
         EOS
       when "run_recover"
         return <<-EOS
-       	  true means recovering process going
+       	  Recovering process going or not.
         EOS
       when "run_sync_routing"
         return <<-EOS
-       	  true means sync_routing process going
+       	  Sync_routing process going or not.
         EOS
       when "run_iterate_storage"
         return <<-EOS
-       	  true means iterate_storage process going
+       	  Iterate_storage process going or not.
         EOS
       when "run_storage_clean_up"
         return <<-EOS
-       	  true means storage_clean_up process going
+       	  Storage_clean_up process going or not.
         EOS
       when "run_receive_a_vnode"
         return <<-EOS
-       	  true means this instance is getting vnodes
+       	  Instance is getting vnodes or not.
         EOS
       when "run_release"
         return <<-EOS
-       	  true means release process is going
+       	  Release process is going or not.
         EOS
       when "run_join"
         return <<-EOS
-       	  true means join process is going
+       	  Join process is going or not.
         EOS
       when "run_balance"
         return <<-EOS
-       	  true means balance process is going
+       	  Balance process is going or not.
         EOS
       when "last_clean_up"
         return <<-EOS
-       	  Data of last clean up storage
+       	  Date of last executing of clean up storage.
+        EOS
+      when "last_clean_up"
+        return <<-EOS
+       	  Date of last executing of clean up storage.
         EOS
       when "spushv_protection"
         return <<-EOS
-       	  ToDO
+       	  In case of true, this instance deny the spushv command.
+        EOS
+      when "stream_copy_wait_param"
+        return <<-EOS
+       	  Specify waiting time (in seconds) to copy the data slowly between nodes.
         EOS
       when "dcnice"
         return <<-EOS
-       	  when n ==1 # highest priority   <br>   
-          stream_copy_wait_param = 0.001  <br>
-          each_vn_dump_sleep = 0.001      <br>
-          each_vn_dump_sleep_count = 1000 <br>
+          This number decide belows value setting.<br>
+       	  <U>when n ==1</U> # highest priority   <br>
+            &emsp; stream_copy_wait_param = 0.001  <br>
+            &emsp; each_vn_dump_sleep = 0.001      <br>
+            &emsp; each_vn_dump_sleep_count = 1000 <br>
                                           <br>
-          when n == 2                     <br>
-          stream_copy_wait_param = 0.005  <br>
-          each_vn_dump_sleep = 0.005      <br>
-          each_vn_dump_sleep_count = 100  <br>
+          <U>when n == 2</U>                     <br>
+            &emsp; stream_copy_wait_param = 0.005  <br>
+            &emsp; each_vn_dump_sleep = 0.005      <br>
+            &emsp; each_vn_dump_sleep_count = 100  <br>
                                           <br>
-          when n == 3 # default priority  <br>
-          stream_copy_wait_param = 0.01   <br>
-          each_vn_dump_sleep = 0.001      <br>
-          each_vn_dump_sleep_count = 10   <br>
+          <U>when n == 3</U> # default priority  <br>
+            &emsp; stream_copy_wait_param = 0.01   <br>
+            &emsp; each_vn_dump_sleep = 0.001      <br>
+            &emsp; each_vn_dump_sleep_count = 10   <br>
                                           <br>
-          when n == 4                     <br>
-          stream_copy_wait_param = 0.01   <br>
-          each_vn_dump_sleep = 0.005      <br>
-          each_vn_dump_sleep_count = 10   <br>
+          <U>when n == 4</U>                     <br>
+            &emsp; stream_copy_wait_param = 0.01   <br>
+            &emsp; each_vn_dump_sleep = 0.005      <br>
+            &emsp; each_vn_dump_sleep_count = 10   <br>
                                           <br>
-          when n == 5 # lowest priority   <br> 
-          stream_copy_wait_param = 0.01   <br>
-          each_vn_dump_sleep = 0.01       <br>
-          each_vn_dump_sleep_count = 10
+          <U>when n == 5</U> # lowest priority   <br> 
+            &emsp; stream_copy_wait_param = 0.01   <br>
+            &emsp; each_vn_dump_sleep = 0.01       <br>
+            &emsp; each_vn_dump_sleep_count = 10
         EOS
       when "clean_up_interval"
         return <<-EOS
-       	  ToDO
+          Specify interval to delete data which have del flg.
         EOS
       when "size_of_zredundant"
         return <<-EOS
           Specify the maximum size (in bytes) of data.<br>
           While data is forwarded to other nodes for redundancy, data that exceed this size will be compressed before forwarding.<br>
-          Default data size is 0. If the value is 0 then the data will not be compressed. 
+          Default data size is 0.<br>
+          If the value is 0 then the data will not be compressed. 
         EOS
       when "write_count"
         return <<-EOS
-       	  count of writing
+       	  Count of writing.
         EOS
       when "read_count"
         return <<-EOS
-       	  count of reading
+       	  Count of reading.
         EOS
       when "delete_count"
         return <<-EOS
-       	  count of deleting
+       	  Count of deleting.
         EOS
       when "out_count"
         return <<-EOS
-       	  count of out
+       	  Count of deleting record (as a primary node).
         EOS
       when "out_message_count"
         return <<-EOS
-       	  ToDO
+       	  Count of deleting record (as a secondary node).
         EOS
       when "redundant_count"
         return <<-EOS
-       	  ToDO
+       	  Count of getting [rset|rzset] command.<br>
+          These command send from primary node's instance to secondary node's instance.         
         EOS
       when "hilatency_warn_time"
         return <<-EOS
+          Specify time (in seconds) to which decide the normal limit of executing time of command.<br>
        	  if some operation take time over this setting second,<br>
-          Error log will be displaied.
+          Error log will be output.
         EOS
       when "wb_command_map"
         return <<-EOS
@@ -215,7 +228,7 @@ module StatHelper
         EOS
       when "latency_log"
         return <<-EOS
-       	  In case of true, latency checking is working.
+       	  Latency checking is working or not.
         EOS
       when "latency_check_cmd"
         return <<-EOS
@@ -223,27 +236,37 @@ module StatHelper
         EOS
       when "latency_check_time_count"
         return <<-EOS
-       	  calculates the average every several seconds of this setting
+          Specify the interval to calculate the latency average.
         EOS
       when "spushv_klength_warn"
         return <<-EOS
-       	  ToDO
+          Specify the limit size of key length.<br>
+       	  When target key size over the this setting, warning log will be output.<br>
+          During the vnode copy.(ex.recover, join)
         EOS
       when "spushv_vlength_warn"
         return <<-EOS
-       	  ToDO
+          Specify the limit size of value length.<br>
+       	  When target value size over the this setting, warning log will be output.<br>
+          During the vnode copy.(ex.recover, join)
         EOS
       when "spushv_read_timeout"
         return <<-EOS
-       	  ToDO
+       	  Specify the coefficient of Timeout time by using spushv command.<br>
+          Timeout time = (handler.timeout * spushv_read_timeout)<br>
+          Defalut timeout time is 1000(sec).<br>
+          10 * 100 = 1000
         EOS
       when "reqpushv_timeout_count"
         return <<-EOS
-       	  ToDO
+       	  Specify the coefficient of Timeout time of getting vnode.<br>
+          Next request send when last request is finished or this timeout time is elasped.<br>
+          Timeout time is (0.1 * reqpushv_timeout_count).
         EOS
       when "routing_trans_timeout"
         return <<-EOS
-       	  ToDO
+       	  Specify the transaction time of routing change.<br>
+          When over the this setting time, routing will be rollback.
         EOS
       when "storage.storage_path"
         return <<-EOS
@@ -257,39 +280,38 @@ module StatHelper
         EOS
       when "storage.option"
         return <<-EOS
-       	  bnum   : <br>
-                   count of keys which locate in first line of tc file.<br>
-                   Basically not change.<br>
-                   <br>
-          xmsiz  : <br> 
-                   rate of memory using in each tc files.<br>
-                   If data size over this value, disk access will occure.<br>
-                   <br>
-          opts   : <br>
-                   l => Support large file(over the 2GB)<br>
-                   d => bz decompression. it decrease tc files amount.<br>
-                   <br>
-          dfunit : Unit of defrag. Basically not change.<br>
-        EOS
-      when "bnum"
-        return <<-EOS
-       	  Specify the number which divides the storage of ROMA process.
+       	  <U>bnum</U>   : <br>
+                          count of keys which locate in first line of tc file.<br>
+                          Basically not change.<br>
+                          <br>
+          <U>xmsiz</U>  : <br> 
+                          rate of memory using in each tc files.<br>
+                          If data size over this value, disk access will occure.<br>
+                          <br>
+          <U>opts</U>   : <br>
+                          l => Support large file(over the 2GB)<br>
+                          d => bz decompression. it decrease tc files amount.<br>
+                          <br>
+          <U>dfunit</U> : <br>
+                          Unit of defrag. Basically not change.
         EOS
       when "storage.each_vn_dump_sleep"
         return <<-EOS
-       	  ToDO
+       	  Specify the time of sleeping during v-nodes dump operations's iterate.
         EOS
       when "storage.each_vn_dump_sleep_count"
         return <<-EOS
-       	  ToDO
+       	  Specify the interval of executing sleeping during v-nodes dump operations's iterate.
         EOS
       when "storage.each_clean_up_sleep"
         return <<-EOS
-       	  ToDO
+       	  Specify the interval of sleep during iteration on cleanup.
         EOS
       when "storage.logic_clock_expire"
         return <<-EOS
-       	  ToDO
+          ROMA's data have date data & logic clock.<br>
+          But sometimes some difference happen between date data & logic clock.<br>
+          This setting specify the time lag to estimate which node's data is correct.
         EOS
       when "path"
         return <<-EOS
@@ -302,51 +324,51 @@ module StatHelper
         EOS
       when "do_write"
         return <<-EOS
-       	  In case of true,<br>
-          Write-Behind func is working
+          Write-Behind func is working or not.
         EOS
       when "redundant"
         return <<-EOS
-       	  count of redundancy
+       	  Count of redundancy.
         EOS
       when "nodes.length"
         return <<-EOS
-       	  counts of nodes
+       	  Counts of nodes.
         EOS
       when "nodes"
         return <<-EOS
-       	  node list of ROMA
+       	  Node list of ROMA.
         EOS
       when "dgst_bits"
         return <<-EOS
-       	  ToDO
+       	  Counts of digest bits.
         EOS
       when "div_bits"
         return <<-EOS
-       	  2**x is the total vnodes count of ROMA
+          Specify the count of vnodes.<br>
+       	  vnodes count = (2**x)
         EOS
       when "vnodes.length"
         return <<-EOS
-       	  count of the vnodes
+       	  Count of the vnodes.
         EOS
       when "primary"
         return <<-EOS
-       	  count of the primary node which this instance have.
+       	  Count of the primary node which this instance have.
         EOS
       when "secondary"
         return <<-EOS
-       	  count of the secondary node which this instance have.
+       	  Count of the secondary node which this instance have.
         EOS
       when "short_vnodes"
         return <<-EOS
        	  Count of short vnodes.<br>
-       	  This node's data can get, but redunduncy is broken, <br>
-          so this value should be 0 in general.
+       	  Short vnodes is the node which break the redundancy.<br>
+          So this value should be 0 in general.
         EOS
       when "lost_vnodes"
         return <<-EOS
        	  Count of lost nodes.<br>
-          This node's data was lost and can't get and access.<br>
+          This node's data was lost and ROMA can't access.<br>
           So this value should be 0 in general.
         EOS
       when "fail_cnt_threshold"
@@ -361,7 +383,7 @@ module StatHelper
         EOS
       when "sub_nid"
         return <<-EOS
-       	  routing conversion fucntion.
+       	  Specify the conversion pattern of routing.
         EOS
       when "lost_action"
         return <<-EOS
@@ -377,31 +399,31 @@ module StatHelper
         EOS
       when "auto_recover_time"
         return <<-EOS
-       	  After this setting(sec) from short vnode rise, recover will be execute.
+       	  Specify the waiting time to execute auto-recover after short vnode rising.
         EOS
       when "auto_recover_status"
         return <<-EOS
-       	  waiting   : Nothing to do (Default) <br>
-          preparing : prepare for execute recover(relate to auto_recover_time)<br>
-          executing : executing recover
+       	  <U>waiting</U>   : Nothing to do (Default) <br>
+          <U>preparing</U> : prepare for execute recover(relate to auto_recover_time)<br>
+          <U>executing</U> : executing recover
         EOS
       when "version_of_nodes"
         return <<-EOS
        	  ROMA version of each nodes.<br>
-          Ex)0.8.13<br>
-          0  << 16(bit_shift) = 0<br>
-          8  << 8(bit shift)  = 2048<br>
-          13.to_i             = 13<br>
-          ---------------------------<br>
-                                2061
+          Ex)version 0.8.13<br>
+          &emsp; 0  << 16(bit_shift) = 0<br>
+          &emsp; 8  << 8(bit shift)  = 2048<br>
+          &emsp; 13.to_i             = 13<br>
+          &emsp; ---------------------------<br>
+          &emsp;                       2061
         EOS
       when "min_version"
         return <<-EOS
-       	  minimum version in ROMA cluster
+       	  Oldest version of instance in ROMA cluster.
         EOS
       when "count"
         return <<-EOS
-       	  ToDO
+       	  Connection counts of Eventmachine.
         EOS
       when "descriptor_table_size"
         return <<-EOS
@@ -411,12 +433,14 @@ module StatHelper
         EOS
       when "continuous_limit"
         return <<-EOS
-       	  Specify the upper limit of connections. Basically it is the same idea as MaxStartups of SSH.<br>
-          Specify the three colon separated values ''start:rate:full'' (e.g., '200:30:300').<br>
-          if used connections reaches "start"(200), ROMA will disconnect unused connection with a probability of ''rate/100'' (30%).<br>
-          If the number of using connections reaches "full"(300), ROMA will disconnect unused connections with a probability of 100%.<br>
-          When ROMA is using epoll, the value of start and end should be smaller than CONNECTION_DESCRIPTOR_TABLE_SIZE settings.<br>
-          When ROMA is using select, the value of start and end should be smaller than 1024. (e.g., '700:10:800').<br>
+       	  Specify the upper limit of connections.<br>
+          Specify the three colon separated values ''start:rate:full''<br>
+          (Ex. '200(connections):30(%):300(connections)).<br>
+          <U>start</U>:<br>
+            &emsp; ROMA will disconnect unused connection with a probability of ''rate/100'',
+                   when connection reach this value.<br>
+          <U>full</U>:<br>
+            &emsp; If the number of using connections reaches "full", ROMA will disconnect unused connections with a probability of 100%.<br>
         EOS
       when "accepted_connection_expire_time"
         return <<-EOS
@@ -426,12 +450,11 @@ module StatHelper
         EOS
       when "handler_instance_count"
         return <<-EOS
-       	  ToDO
+       	  Current connection counts.
         EOS
       when "pool_maxlength"
         return <<-EOS
           Specify the maximum number of connections which the connection pool of asynchronous connection keeps.<br>
-          The recommended value is 5 because the amount of asynchronous connection is relatively small.
         EOS
       when "pool_expire_time"
         return <<-EOS
@@ -459,7 +482,8 @@ module StatHelper
         EOS
       when "dns_caching"
         return <<-EOS
-       	  In case of true, dns info keep in each instance as a cache.
+          dns caching func is going or not.
+       	  dns info keep in each instance as a cache.
         EOS
     end
   end
