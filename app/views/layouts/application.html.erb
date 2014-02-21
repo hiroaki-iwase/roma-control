@@ -19,48 +19,27 @@
           <li><%= link_to "Link2", "/path2"  %></li>
           <li><%= link_to "Logout", "/path3"  %></li>
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
     </div>
   </div>
   
   <div class="row-fluid">
     <div class="col-md-3">
-
-<div class="list-group">
-  <a href="/path1"      class="list-group-item" data-no-turbolink="1">Cluster</a>
-  <a href="/stat/index" class="list-group-item" data-no-turbolink="1">Status</a>
-  <a href="/path3"      class="list-group-item" data-no-turbolink="1">Configuration</a>
-  <a href="/path4"      class="list-group-item" data-no-turbolink="1">Snapshot</a>
-  <a href="/path5"      class="list-group-item" data-no-turbolink="1">Key/Value</a>
-  <a href="/path5"      class="list-group-item" data-no-turbolink="1">logs</a>
-  <a href="/path5"      class="list-group-item" data-no-turbolink="1">History</a>
-</div>
-
-<!-- 
-<% if false %>
-      <div class="well sidebar-nav">
-        <ul class="nav nav-list">
-          <li class="nav-header"></li>
-          <li><%= link_to "Cluster", "/path1"  %></li>
-          <li><%= link_to "Status", "/path2"  %></li>
-          <li><%= link_to "(Configuration)", "/path3"  %></li>
-          <li><%= link_to "Snapshop", "/path4"  %></li>
-          <li><%= link_to "key/value", "/path5"  %></li>
-          <li><%= link_to "logs", "/path6"  %></li>
-          <li><%= link_to "history", "/path7"  %></li>
-        </ul>
+      <div class="list-group">
+	<a href="/path1"      class="list-group-item" data-no-turbolink="1">Cluster</a>
+	<a href="/stat/index" class="list-group-item" data-no-turbolink="1">Status</a>
+	<a href="/path3"      class="list-group-item" data-no-turbolink="1">Configuration</a>
+	<a href="/path4"      class="list-group-item" data-no-turbolink="1">Snapshot</a>
+	<a href="/path5"      class="list-group-item" data-no-turbolink="1">Key/Value</a>
+	<a href="/path5"      class="list-group-item" data-no-turbolink="1">logs</a>
+	<a href="/path5"      class="list-group-item" data-no-turbolink="1">History</a>
       </div>
-<% end %>
--->
-
-    </div><!--/span-->
+    </div><!--/col-md-3-->
     <div class="col-md-9">
       <%#= bootstrap_flash %>
       <%= yield %>
-    </div>
+    </div><!--/col-md-9-->
   </div><!--/row-->
   
-    <%#= yield %>
-    
 </body>
 </html>
