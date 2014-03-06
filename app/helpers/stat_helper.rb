@@ -44,8 +44,8 @@ module StatHelper
         return <<-EOS
           Choose the action which ROMA takes if the storage encounters Exception Error.<br>
           <br>
-          <U>no_action</U>: Nothing will occur.<br>
-          <U>shutdown</U>: ROMA will shutdown. 
+          <U>no_action</U>: Error instance keep working.<br>
+          <U>shutdown</U> : Error instance will be shutdown.
         EOS
       when "DATACOPY_STREAM_COPY_WAIT_PARAM"
         return <<-EOS
@@ -68,9 +68,9 @@ module StatHelper
         EOS
       when "CONNECTION_DESCRIPTOR_TABLE_SIZE"
         return <<-EOS
-          Specify the maximum number of FD when ROMA use epoll system-call.<br>
-          When ROMA is using "CONNECTION_USE_EPOLL = true", this parameter is necessary.<br>
-          This value must be smaller than OS settings.
+          Specify the maximum number of FileDescriptor when ROMA use epoll system-call(default setting).<br><br>
+          This value must be smaller than OS settings.<br><br>
+          (You can check FD by use shell command(`ulimit -n`)).
         EOS
       when "config_path"
         return <<-EOS
@@ -118,7 +118,8 @@ module StatHelper
         EOS
       when "run_storage_clean_up"
         return <<-EOS
-       	  Storage_clean_up process going or not.
+       	  Storage_clean_up process going or not.<br>
+          This process execute physical deletion for data which have del flag.
         EOS
       when "run_receive_a_vnode"
         return <<-EOS
@@ -126,7 +127,9 @@ module StatHelper
         EOS
       when "run_release"
         return <<-EOS
-       	  Release process is going or not.
+       	  Release process is going or not.<br><br>
+          This process release the all primary & secondary node.<br><br>
+          So after this process, this instance have no data.
         EOS
       when "run_join"
         return <<-EOS
@@ -146,7 +149,9 @@ module StatHelper
         EOS
       when "spushv_protection"
         return <<-EOS
-       	  In case of true, this instance deny the spushv command.
+       	  In case of true, this instance deny the spushv command.<br>
+          (pushv process exchange the data between the nodes.<br>
+           Ex.) recover, join, release)
         EOS
       when "stream_copy_wait_param"
         return <<-EOS
@@ -154,7 +159,8 @@ module StatHelper
         EOS
       when "dcnice"
         return <<-EOS
-          This number decide belows value setting.<br>
+          "dcnice" command is setting priority for a data-copy thread.<br>
+          A niceness of 1 is the highest priority and 5 is the lowest priority.<br><br>
        	  <U>when n ==1</U> # highest priority   <br>
             &emsp; stream_copy_wait_param = 0.001  <br>
             &emsp; each_vn_dump_sleep = 0.001      <br>
@@ -182,7 +188,8 @@ module StatHelper
         EOS
       when "clean_up_interval"
         return <<-EOS
-          Specify interval to delete data which have del flg.
+          Specify the time(sec) interval to execute cleanup.<br>
+          Cleanup process delete the data which have del flg.
         EOS
       when "size_of_zredundant"
         return <<-EOS
@@ -193,38 +200,39 @@ module StatHelper
         EOS
       when "write_count"
         return <<-EOS
-       	  Count of writing.
+       	  Total write count of this instance.
         EOS
       when "read_count"
         return <<-EOS
-       	  Count of reading.
+       	  Total read count of this instance.
         EOS
       when "delete_count"
         return <<-EOS
-       	  Count of deleting.
+       	  Total delete count(logical delete) of this instance.
         EOS
       when "out_count"
         return <<-EOS
-       	  Count of deleting record (as a primary node).
+       	  Total delete count(physical delete) of this instance as a primary node.<br>
         EOS
       when "out_message_count"
         return <<-EOS
-       	  Count of deleting record (as a secondary node).
+       	  Total delete count(physical delete) of this instance as a secondary node.<br>
         EOS
       when "redundant_count"
         return <<-EOS
-       	  Count of getting [rset|rzset] command.<br>
+       	  Count of getting [rset|rzset] command.<br><br>
           These command send from primary node's instance to secondary node's instance.         
         EOS
       when "hilatency_warn_time"
         return <<-EOS
-          Specify time (in seconds) to which decide the normal limit of executing time of command.<br>
-       	  if some operation take time over this setting second,<br>
-          Error log will be output.
+          Specify time (in seconds) to which decide the normal limit of executing time of command.<br><br>
+       	  if some operation take time over this setting second, error log will be output.
         EOS
       when "wb_command_map"
         return <<-EOS
-       	  Target command list of write-behind func
+       	  Target command list of write-behind func.<br>
+          Ex.)<br>
+          &emsp; {:get=>1, :set=>2}
         EOS
       when "latency_log"
         return <<-EOS
@@ -259,9 +267,11 @@ module StatHelper
         EOS
       when "reqpushv_timeout_count"
         return <<-EOS
-       	  Specify the coefficient of Timeout time of getting vnode.<br>
-          Next request send when last request is finished or this timeout time is elasped.<br>
-          Timeout time is (0.1 * reqpushv_timeout_count).
+       	  Specify the coefficient of Timeout time of getting vnode.<br><br>
+          Next request send when last request is finished or this timeout time is elasped.<br><br>
+          Timeout time is (0.1 * reqpushv_timeout_count).<br><br>
+          (pushv process exchange the data between the nodes.<br>
+           Ex.) recover, join, release)
         EOS
       when "routing_trans_timeout"
         return <<-EOS
@@ -270,7 +280,7 @@ module StatHelper
         EOS
       when "storage.storage_path"
         return <<-EOS
-       	  Specify directory that ROMA should create storage files in.<br>
+       	  Specify directory that ROMA should create storage files in.<br><br>
           This is required when ROMA select file-based storage implementation.<br>
           Default directory is current directory.
         EOS
@@ -290,27 +300,34 @@ module StatHelper
                           <br>
           <U>opts</U>   : <br>
                           l => Support large file(over the 2GB)<br>
-                          d => bz decompression. it decrease tc files amount.<br>
+                          d => bzip compression. it decrease tc files amount.<br>
                           <br>
           <U>dfunit</U> : <br>
                           Unit of defrag. Basically not change.
         EOS
       when "storage.each_vn_dump_sleep"
         return <<-EOS
-       	  Specify the time of sleeping during v-nodes dump operations's iterate.
+          When vnode_dump operation, non-target vnodes were skipped.<br>
+          But at this time, skipping with no-sleep time triggers increasing stress of storage access.<br>
+          On the other hand, skipping with sleep each time triggers increasing stress of process.<br><br>
+       	  So ROMA specify the time of sleeping during v-nodes dump operations by use this setting.
         EOS
       when "storage.each_vn_dump_sleep_count"
         return <<-EOS
-       	  Specify the interval of executing sleeping during v-nodes dump operations's iterate.
+          When vnode_dump operation, non-target vnodes were skipped.<br>
+          But at this time, skipping with no-sleep time triggers increasing stress of storage access.<br>
+          On the other hand, skipping with sleep each time triggers increasing stress of process.<br><br>
+       	  So ROMA specify the interval of executing sleeping during v-nodes dump operation by use this setting.
         EOS
       when "storage.each_clean_up_sleep"
         return <<-EOS
-       	  Specify the interval of sleep during iteration on cleanup.
+       	  Specify the time of sleeping in each keys when clean up executing.<br><br>
+       	  So at least, clean_up process take time over ([storage.each_clean_up_sleep] * Key count)sec
         EOS
       when "storage.logic_clock_expire"
         return <<-EOS
-          ROMA's data have date data & logic clock.<br>
-          But sometimes some difference happen between date data & logic clock.<br>
+          ROMA's data have date data & logic clock.<br><br>
+          But sometimes some difference happen between date data & logic clock.<br><br>
           This setting specify the time lag to estimate which node's data is correct.
         EOS
       when "path"
@@ -324,7 +341,9 @@ module StatHelper
         EOS
       when "do_write"
         return <<-EOS
-          Write-Behind func is working or not.
+          Write-Behind func is working or not.<br><br>
+          Write-behind function keep history of target command.<br>
+          Ex.) Excecuting time, value, etc...
         EOS
       when "redundant"
         return <<-EOS
@@ -340,7 +359,12 @@ module StatHelper
         EOS
       when "dgst_bits"
         return <<-EOS
-       	  Counts of digest bits.
+       	  Counts of digest bits.<br><br>
+          Each node have unique hash value(SHA1).<br>
+          Basically SHA1 generate 160bit digest.<br><br>
+          But it is difficult to use it by client soft which were developed by C or Java.<br><br>
+          So ROMA can decrease digest bit count by use this setting.<br>
+          Default is 32bits.
         EOS
       when "div_bits"
         return <<-EOS
@@ -373,17 +397,18 @@ module StatHelper
         EOS
       when "fail_cnt_threshold"
         return <<-EOS
-       	  Threshold value for fail-over to occur.<br>
-          When ROMA fails to get routing information the number of times which is specified in this parameter, ROMA will failover.
+       	  Counts for judge fail-over.<br><br>
+          When ROMA fails to health check continuously of this setting count, ROMA will execute failover.
         EOS
       when "fail_cnt_gap"
         return <<-EOS
-       	  Specify time (in seconds).<br> 
+       	  Specify time (in seconds).<br><br>
           When ROMA can't get the routing information while ROUTING_FAIL_CNT_GAP time elapse, ROMA counts up a counter for fail-over.
         EOS
       when "sub_nid"
         return <<-EOS
-       	  Specify the conversion pattern of routing.
+       	  ROMA can convert own routing temporarily.<br>
+          This value is the conversion pattern of routing.<br>
         EOS
       when "lost_action"
         return <<-EOS
@@ -409,13 +434,9 @@ module StatHelper
         EOS
       when "version_of_nodes"
         return <<-EOS
-       	  ROMA version of each nodes.<br>
-          Ex)version 0.8.13<br>
-          &emsp; 0  << 16(bit_shift) = 0<br>
-          &emsp; 8  << 8(bit shift)  = 2048<br>
-          &emsp; 13.to_i             = 13<br>
-          &emsp; ---------------------------<br>
-          &emsp;                       2061
+       	  ROMA version of each nodes.<br><br>
+          In case of all number are same, all instance use same version of ROMA.<br><br>
+          Otherwise some instance use wrong version.<br>
         EOS
       when "min_version"
         return <<-EOS
@@ -427,25 +448,32 @@ module StatHelper
         EOS
       when "descriptor_table_size"
         return <<-EOS
-       	  Specify the maximum number of FD when ROMA use epoll system-call.<br>
-          When ROMA is using "CONNECTION_USE_EPOLL = true", this parameter is necessary.<br>
+       	  Specify the maximum number of FD(File descriptor).<br>
+          <br>
+          This param is required when ROMA use epoll system-call.<br>
+          (You can check ROMA use epoll system or not by the "CONNECTION_USE_EPOLL")<br>
+          <br>
           This value must be smaller than OS settings.
         EOS
       when "continuous_limit"
         return <<-EOS
        	  Specify the upper limit of connections.<br>
           Specify the three colon separated values ''start:rate:full''<br>
-          (Ex. '200(connections):30(%):300(connections)).<br>
+          (Ex. '200(conns):30(%):300(conns)).<br>
+          <br>
           <U>start</U>:<br>
-            &emsp; ROMA will disconnect unused connection with a probability of ''rate/100'',
+            ROMA will disconnect unused connection with a probability of ''rate/100'',
                    when connection reach this value.<br>
+          <br>
           <U>full</U>:<br>
-            &emsp; If the number of using connections reaches "full", ROMA will disconnect unused connections with a probability of 100%.<br>
+            If the number of using connections reaches "full", ROMA will disconnect unused connections with a probability of 100%.<br>
         EOS
       when "accepted_connection_expire_time"
         return <<-EOS
        	  Specify time(in seconds).<br>
+          <br>
           When a connection which ROMA received isn't used while CONNECTION_EXPTIME seconds, ROMA will disconnect this connection.<br>
+          <br>
           If the value is 0, then ROMA will not disconnect.<br>
         EOS
       when "handler_instance_count"
@@ -460,21 +488,29 @@ module StatHelper
         return <<-EOS
           Specify time(in seconds).<br>
           When ROMA uses a connection pool of asynchronous connection,<br> 
+          <br>
           ROMA will disconnect the connection which isn't used while CONNECTION_POOL_EXPTIME seconds after the connection is returned to the pool.<br>
+          <br>
           This parameter should be smaller than CONNECTION_EXPTIME parameter.
         EOS
       when "EMpool_maxlength"
         return <<-EOS
-          Specify the maximum number of connections which the connection pool of synchronous connection keeps.<br>
+          Specify the maximum number of EventMachine's connections which the connection pool of synchronous connection keeps.<br>
+          <br>
           The amount of synchronous connection depends on the traffic of client accesses.<br>
-          The recommended value is approximately-same as the number of ROMA client pool settings, as a rough guide 10 to 15.
+          <br>
+          The recommended value is approximately-same as the number of ROMA client pool settings, as a rough guide 10 to 15.<br>
+          (EM is EventMachine)       
         EOS
       when "EMpool_expire_time"
         return <<-EOS
           Specify time(in seconds).<br>
           When ROMA uses a connection pool of synchronous connection,<br>
+          <br>
           ROMA will disconnect the connection which isn't used while CONNECTION_EMPOOL_EXPTIME seconds after the connection is returned to the pool.<br>
-          The parameter should be smaller than CONNECTION_EXPTIME parameter.
+          <br>
+          The parameter should be smaller than CONNECTION_EXPTIME parameter.<br>
+          (EM is EventMachine)       
         EOS
       when "version"
         return <<-EOS
