@@ -2,25 +2,26 @@ html, body {
   height: 100%;
 }
 
-.main .container  {
+.wrap-main .container  {
   width: auto;
 }
 
-#wrap {
+.wrap-main {
   min-height: 100%;
   height: auto;
   height: 100%;
   margin: 0 auto -50px;
-  padding: 0 0 50px;
 }
 
 #param-detail-list {
-	margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 #footer {
   height: 50px;
+  clear: both;
   background-color: #a62316;
+  color: #ffffff;
 }
 
 #footer .container p {
