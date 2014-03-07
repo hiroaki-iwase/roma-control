@@ -51,7 +51,7 @@ gem 'therubyracer', platforms: :ruby
 #gem 'libv8', '~> 3.11.8.13'
  
 # To use rspec(Unit test)
-group :test do
+#group :test do
   gem "rspec"
   gem "rspec-rails"
-end
+#end

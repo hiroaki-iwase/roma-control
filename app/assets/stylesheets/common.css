@@ -1,0 +1,30 @@
+html, body {
+  height: 100%;
+}
+
+.wrap-main .container  {
+  width: auto;
+}
+
+.wrap-main {
+  min-height: 100%;
+  height: auto;
+  height: 100%;
+  margin: 0 auto -50px;
+}
+
+#param-detail-list {
+  margin-bottom: 100px;
+}
+
+#footer {
+  height: 50px;
+  clear: both;
+  background-color: #a62316;
+  color: #ffffff;
+}
+
+#footer .container p {
+  text-align: center;
+  padding-top: 15px;
+}
