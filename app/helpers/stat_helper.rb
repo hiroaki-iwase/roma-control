@@ -409,6 +409,17 @@ module StatHelper
         return <<-EOS
        	  ROMA can convert own routing temporarily.<br>
           This value is the conversion pattern of routing.<br>
+          <U>Pattern is below</U><br>
+          &emsp;&emsp;        {"Target Net Mask"=>{<br>
+          &emsp;&emsp;&emsp;    :regexp=>"substitution target IP",<br>
+          &emsp;&emsp;&emsp;    :replace=>"substitution pattern"<br>
+          &emsp;&emsp;        }}<br><br>
+
+          Ex.)<br>
+          &emsp;&emsp;        {"127.0.0.0/24"=>{<br>
+          &emsp;&emsp;&emsp;    :regexp=>"127.0.0.1",<br>
+          &emsp;&emsp;&emsp;    :replace=>"127.0.0.2"<br>
+          &emsp;&emsp;        }}
         EOS
       when "lost_action"
         return <<-EOS
