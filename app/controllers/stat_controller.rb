@@ -9,9 +9,11 @@ class StatController < ApplicationController
     end
   end
 
+  def edit
+    @key = params[:key]
+  end
+
   def update
   end
 
-  def edit
-  end
 end

@@ -1,2 +1,14 @@
-<h1>Stat#edit</h1>
-<p>Find me in app/views/stat/edit.html.erb</p>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+<h1><U>Status</U></h1>
+<h2><U>Dynamic Change Setting</U></h2>
+<h3><U>Select</U>: <%= @key %></h3>
+
+<h4><U>Explanation</U>:</h4>
+<%= explanation(@key).html_safe %>
+
+<br>
+<h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
+
+<h4><U>CHANGE VALUE</U>:</h4>
+[ToDO]
