@@ -29,7 +29,7 @@
             <td valign="top" >
               <!-- <a href="edit" data-toggle="tooltip" title="<%#= explanation k %>" class="stats-str"><%#= k %></a> -->
               <%#= link_to(k, :controller => "stat", :action => "edit", :"data-toggle" => "tooltip", :title => explanation(k), :class => "stats-str") %>
-              <%= link_to(k, {:controller => "stat", :action => "edit", :key => k}, :"data-toggle" => "tooltip", :title => explanation(k), :class => "stats-str") %>
+              <%= link_to(k, {:controller => "stat", :action => "edit", :key => k, :value => v}, :"data-toggle" => "tooltip", :title => explanation(k), :class => "stats-str") %>
             </td>
             <td valign="top" ><%= v %></td>
           </tr>

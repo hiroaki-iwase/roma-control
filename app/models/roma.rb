@@ -1,13 +1,15 @@
+require 'socket'
+
 class Roma
   attr_reader :stats_hash, :stats_json
 
   def initialize
-    require 'socket'
+    @host = ConfigGui::HOST
+    @port = ConfigGui::PORT
+  end
 
-    host = ConfigGui::HOST
-    port = ConfigGui::PORT
-
-    @sock = TCPSocket.open(host, port)
+  def stats
+    @sock = TCPSocket.open(@host, @port)
     stats_array = []
     @sock.write("stats\r\n")
     @sock.each{|s|
@@ -27,7 +29,26 @@ class Roma
         @stats_hash[key[0]][key[1]] = value
       end
     }
-
-    @stats_json = ActiveSupport::JSON.encode(@stats_hash)
+    
+    #@stats_json = ActiveSupport::JSON.encode(@stats_hash)
+    @stats_hash
   end
+
+  def change_param(k, v)
+    @sock = TCPSocket.open(@host, @port)
+    @sock.write("#{ApplicationController.helpers.change_cmd(k)} #{v}\r\n")
+
+    @sock.each{|s|
+      @res = s
+      break
+    }
+
+    @sock.close
+
+    res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
+    res_hash = Hash[Hash[*res_ary].sort]
+
+    return res_hash
+  end
+
 end

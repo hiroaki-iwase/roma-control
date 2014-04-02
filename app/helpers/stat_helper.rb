@@ -537,52 +537,12 @@ module StatHelper
 
   def default_value(column)
     case column
-      when "DEFAULT_LOST_ACTION"
-        ":auto_assign"
-      when "LOG_SHIFT_SIZE"
-      when "LOG_PATH"
-      when "RTTABLE_PATH"
-      when "STORAGE_DELMARK_EXPTIME"
-      when "STORAGE_EXCEPTION_ACTION"
-      when "DATACOPY_STREAM_COPY_WAIT_PARAM"
-        0.001
-      when "PLUGIN_FILES"
-      when "WRITEBEHIND_PATH"
-      when "WRITEBEHIND_SHIFT_SIZE"
-        1024 * 1024 * 10
-      when "CONNECTION_DESCRIPTOR_TABLE_SIZE"
-        4096
-      when "config_path"
-      when "address"
-      when "port"
-      when "daemon"
-      when "name"
-      when "verbose"
-      when "enabled_repetition_host_in_routing"
-      when "run_recover"
-      when "run_sync_routing"
-      when "run_iterate_storage"
-      when "run_storage_clean_up"
-      when "run_receive_a_vnode"
-      when "run_release"
-      when "run_join"
-      when "run_balance"
-      when "last_clean_up"
-      when "last_clean_up"
-      when "spushv_protection"
       when "stream_copy_wait_param"
         0.001
       when "dcnice"
-        10
-      when "clean_up_interval"
+        3
       when "size_of_zredundant"
         0
-      when "write_count"
-      when "read_count"
-      when "delete_count"
-      when "out_count"
-      when "out_message_count"
-      when "redundant_count"
       when "hilatency_warn_time"
         5 
       when "wb_command_map"
@@ -597,31 +557,12 @@ module StatHelper
         1024
       when "spushv_vlength_warn"
         1048576
-      when "spushv_read_timeout"
-      when "reqpushv_timeout_count"
       when "routing_trans_timeout"
         10080
-      when "storage.storage_path"
-      when "storage.divnum"
-      when "storage.option"
-      when "storage.each_vn_dump_sleep"
-      when "storage.each_vn_dump_sleep_count"
-      when "storage.each_clean_up_sleep"
-      when "storage.logic_clock_expire"
       when "shift_size"
         1024 * 1024 * 10
       when "do_write"
         false
-      when "redundant"
-      when "nodes.length"
-      when "nodes"
-      when "dgst_bits"
-      when "div_bits"
-      when "vnodes.length"
-      when "primary"
-      when "secondary"
-      when "short_vnodes"
-      when "lost_vnodes"
       when "fail_cnt_threshold"
         15
       when "fail_cnt_gap"
@@ -634,16 +575,10 @@ module StatHelper
         false
       when "auto_recover_time"
         1800
-      when "auto_recover_status"
-      when "version_of_nodes"
-      when "min_version"
-      when "count"
-      when "descriptor_table_size"
       when "continuous_limit"
         "200:30:300"
       when "accepted_connection_expire_time"
         0
-      when "handler_instance_count"
       when "pool_maxlength"
         5
       when "pool_expire_time"
@@ -652,9 +587,74 @@ module StatHelper
         15
       when "EMpool_expire_time"
         30
-      when "version"
+      when "descriptor_table_size"
+        4096
       when "dns_caching"
         false
+    end
+  end
+
+  def change_list(key)
+    case key
+      when "lost_action"
+        ["auto_assign", "shutdown"]
+      when "dcnice"
+        [1,2,3,4,5]
+      when "auto_recover"
+        [true, false]
+      when "dns_caching"
+        [true, false]
+      when "continuous_limit"
+        "200:30:300"
+      when "sub_nid"
+        {}
+
+      when "latency_log"
+        false
+      when "latency_check_cmd"
+        ["get", "set", "delete"]
+      when "latency_check_time_count"
+        false
+
+      when "do_write"
+        false
+      when "wb_command_map"
+        {}
+
+
+
+    end
+  end
+
+  def change_cmd(key)
+    case key
+      when "lost_action"
+        "set_lost_action"
+      when "dcnice"
+        "dcnice"
+      when "auto_recover"
+        "set_auto_recover"
+      when "dns_caching"
+        "switch_dns_caching"
+      when "continuous_limit"
+        "set_continuous_limit"
+      when "sub_nid"
+        "add_rttable_sub_nid"
+
+
+      when "latency_log"
+        false
+      when "latency_check_cmd"
+        ["get", "set", "delete"]
+      when "latency_check_time_count"
+        false
+
+      when "do_write"
+        false
+      when "wb_command_map"
+        {}
+
+
     end
   end
 

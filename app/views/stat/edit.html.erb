@@ -11,4 +11,60 @@
 <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
 
 <h4><U>CHANGE VALUE</U>:</h4>
-[ToDO]
+<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put }) do %>
+
+
+
+  <% if @key == "continuous_limit" %>
+    <% limit = @value.split(/:/) %>
+    <%= text_field_tag :start, limit[0].chomp, { :size => 1 } %> : 
+    <%= text_field_tag :rate,  limit[1].chomp, { :size => 1 } %> : 
+    <%= text_field_tag :full,  limit[2].chomp, { :size => 1 } %>
+
+  <% elsif @key == "sub_nid" %>
+    <% nid = @value.delete("\"|{|}|\s").split(/:\w+|,|=>/).delete_if{|x| x == "" } %>
+    <table>
+      <tr><td>Target NetMast     </td><td> : <%= text_field_tag :netmask, nid[0] %></td><tr>
+      <tr><td>Substitution Target</td><td> : <%= text_field_tag :target,  nid[1] %></td><tr>
+      <tr><td>Substitution String</td><td> : <%= text_field_tag :string,  nid[2] %></td><tr>
+    </table>
+
+    DELETE SETTING
+    [ToDO]
+
+
+  <% elsif ary = change_list(@key) %> 
+    <%= select_tag :change_value, options_for_select(ary, :selected => @value.chomp) %>
+  <% else %>
+    <%= text_field_tag :change_value, @value, { :size => 25 } %>
+  <% end %>
+
+
+
+
+
+
+  <%= hidden_field_tag :key,          @key %>
+  <%= submit_tag " store "%>
+  <input type="reset" value=" reset ">
+<% end %>
+
+
+
+<%# if Rails.application.routes.recognize_path(request.referrer)[:action] == "edit" %>
+<% if @res %>
+  <div class="col-md-5" id="param-detail-list">
+    <table class = "table" border="1" >
+      <% @res.each{|k, v| %>
+        <tr>
+          <td><%= k %></td>
+          <% if v.index("STORED") || v.index("ENABLED") || v.index("ADDED") %> 
+            <td class="success"><%= v %></td>
+          <% else %> 
+            <td class="danger"><%= v %></td>
+          <% end %>
+        </tr>  
+      <% } %>  
+    </table>
+  </div>
+<% end %>
