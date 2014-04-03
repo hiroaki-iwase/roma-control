@@ -1,7 +1,11 @@
 Gladiator::Application.routes.draw do
   get "stat/index"
-  get "stat/update"
   get "stat/edit"
+  put "stat/update"
+ 
+  #resources :stat
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

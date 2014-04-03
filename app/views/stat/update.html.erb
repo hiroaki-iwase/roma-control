@@ -1,2 +1,21 @@
 <h1>Stat#update</h1>
 <p>Find me in app/views/stat/update.html.erb</p>
+
+<%= @key %>
+<%= @change_value %>
+<br>============<br>
+
+<div class="col-md-5" id="param-detail-list">
+  <table class = "table" border="1" >
+    <% @res.each{|k, v| %>
+      <tr>
+        <td><%= k %></td>
+        <% if v.index("STORED") %> 
+          <td class="success"><%= v %></td>
+        <% else %> 
+          <td class="danger"><%= v %></td>
+        <% end %>
+      </tr>  
+    <% } %>  
+  </table>
+</div>
