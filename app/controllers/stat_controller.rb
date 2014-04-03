@@ -22,15 +22,18 @@ class StatController < ApplicationController
       @value = "#{params[:start]}:#{params[:rate]}:#{params[:full]}"
     elsif @key == "sub_nid"
       @value = "#{params[:netmask]} #{params[:target]} #{params[:string]}"
+    #elsif @key == "auto_recover_time"
+    #  @value = "#{Roma.new.stats["routing"]["auto_recover"]} #{params[change_value]}"
     else
-      @value = params[:change_value]
+      @value = params["change_value"]
     end
-    #render :text => @value #debug
     
     @res = Roma.new.change_param(@key, @value)
     
-    # zenbu taiou saseru
+    #render :text => @res #debug
+     
     @value = Roma.new.stats["routing"]["sub_nid"] if @key == "sub_nid"
+    @value = Roma.new.stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
  
     render :action => "edit"
   end

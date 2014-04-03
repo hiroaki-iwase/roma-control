@@ -11,9 +11,7 @@
 <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
 
 <h4><U>CHANGE VALUE</U>:</h4>
-<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put }) do %>
-
-
+<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic' }) do %>
 
   <% if @key == "continuous_limit" %>
     <% limit = @value.split(/:/) %>
@@ -22,31 +20,26 @@
     <%= text_field_tag :full,  limit[2].chomp, { :size => 1 } %>
 
   <% elsif @key == "sub_nid" %>
-    <% nid = @value.delete("\"|{|}|\s").split(/:\w+|,|=>/).delete_if{|x| x == "" } %>
     <table>
-      <tr><td>Target NetMast     </td><td> : <%= text_field_tag :netmask, nid[0] %></td><tr>
-      <tr><td>Substitution Target</td><td> : <%= text_field_tag :target,  nid[1] %></td><tr>
-      <tr><td>Substitution String</td><td> : <%= text_field_tag :string,  nid[2] %></td><tr>
+      <tr><td>Target NetMast     </td><td> : <%= text_field_tag :netmask %></td><tr>
+      <tr><td>Substitution Target</td><td> : <%= text_field_tag :target  %></td><tr>
+      <tr><td>Substitution String</td><td> : <%= text_field_tag :string  %></td><tr>
     </table>
 
-    DELETE SETTING
-    [ToDO]
-
-
   <% elsif ary = change_list(@key) %> 
-    <%= select_tag :change_value, options_for_select(ary, :selected => @value.chomp) %>
+    <%= select_tag "change_value", options_for_select(ary, :selected => @value.chomp) %>
+
   <% else %>
-    <%= text_field_tag :change_value, @value, { :size => 25 } %>
+    <%= text_field_tag "change_value", @value, { :size => 25, :id => 'dynamic'} %>
+
   <% end %>
 
+  <%= hidden_field_tag :key, @key %>
 
-
-
-
-
-  <%= hidden_field_tag :key,          @key %>
+  <br>
   <%= submit_tag " store "%>
   <input type="reset" value=" reset ">
+
 <% end %>
 
 

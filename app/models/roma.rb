@@ -44,7 +44,7 @@ class Roma
     }
 
     @sock.close
-
+    
     res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
     res_hash = Hash[Hash[*res_ary].sort]
 

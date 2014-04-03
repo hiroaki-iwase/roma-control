@@ -545,14 +545,14 @@ module StatHelper
         0
       when "hilatency_warn_time"
         5 
-      when "wb_command_map"
-        {}
-      when "latency_log"
-        false
-      when "latency_check_cmd"
-        ["get", "set", "delete"]
-      when "latency_check_time_count"
-        false
+      #when "wb_command_map"
+      #  {}
+      #when "latency_log"
+      #  false
+      #when "latency_check_cmd"
+      #  ["get", "set", "delete"]
+      #when "latency_check_time_count"
+      #  false
       when "spushv_klength_warn"
         1024
       when "spushv_vlength_warn"
@@ -561,8 +561,8 @@ module StatHelper
         10080
       when "shift_size"
         1024 * 1024 * 10
-      when "do_write"
-        false
+      #when "do_write"
+      #  false
       when "fail_cnt_threshold"
         15
       when "fail_cnt_gap"
@@ -573,8 +573,8 @@ module StatHelper
         ":auto_assign"
       when "auto_recover"
         false
-      when "auto_recover_time"
-        1800
+      #when "auto_recover_time"
+      #  1800
       when "continuous_limit"
         "200:30:300"
       when "accepted_connection_expire_time"
@@ -608,53 +608,75 @@ module StatHelper
         "200:30:300"
       when "sub_nid"
         {}
-
-      when "latency_log"
-        false
-      when "latency_check_cmd"
-        ["get", "set", "delete"]
-      when "latency_check_time_count"
-        false
-
-      when "do_write"
-        false
-      when "wb_command_map"
-        {}
-
-
-
+      #when "latency_log"
+      #  false
+      #when "latency_check_cmd"
+      #  ["get", "set", "delete"]
+      #when "latency_check_time_count"
+      #  false
+      #when "do_write"
+      #  false
+      #when "wb_command_map"
+      #  {}
     end
   end
 
   def change_cmd(key)
     case key
-      when "lost_action"
-        "set_lost_action"
+      #when "stream_copy_wait_param"
+      #  ""
       when "dcnice"
         "dcnice"
-      when "auto_recover"
-        "set_auto_recover"
-      when "dns_caching"
-        "switch_dns_caching"
-      when "continuous_limit"
-        "set_continuous_limit"
+      when "size_of_zredundant"
+        "set_size_of_zredundant"
+      when "hilatency_warn_time"
+        "set_hilatency_warn_time"
+      #when "wb_command_map"
+      #  {}
+      #when "latency_log"
+      #  false
+      #when "latency_check_cmd"
+      #  ["get", "set", "delete"]
+      #when "latency_check_time_count"
+      #  false
+      when "spushv_klength_warn"
+        "set_spushv_klength_warn"
+      when "spushv_vlength_warn"
+        "set_spushv_vlength_warn"
+      when "routing_trans_timeout"
+        "set_routing_trans_timeout"
+      when "shift_size"
+        "set_wb_shift_size"
+      #when "do_write"
+      #  false
+      when "fail_cnt_threshold"
+        "set_threshold_for_failover"
+      when "fail_cnt_gap"
+        "set_gap_for_failover"
       when "sub_nid"
         "add_rttable_sub_nid"
-
-
-      when "latency_log"
-        false
-      when "latency_check_cmd"
-        ["get", "set", "delete"]
-      when "latency_check_time_count"
-        false
-
-      when "do_write"
-        false
-      when "wb_command_map"
-        {}
-
-
+      when "lost_action"
+        "set_lost_action"
+      when "auto_recover"
+        "set_auto_recover"
+      #when "auto_recover_time"
+      #  "set_auto_recover"
+      when "continuous_limit"
+        "set_continuous_limit"
+      when "accepted_connection_expire_time"
+        "set_accepted_connection_expire_time "
+      when "pool_maxlength"
+        "set_connection_pool_maxlength "
+      when "pool_expire_time"
+        "set_connection_pool_expire_time "
+      when "EMpool_maxlength"
+        "set_emconnection_pool_maxlength "
+      when "EMpool_expire_time"
+        "set_emconnection_pool_expire_time "
+      when "descriptor_table_size"
+        "set_descriptor_table_size"
+      when "dns_caching"
+        "switch_dns_caching"
     end
   end
 
