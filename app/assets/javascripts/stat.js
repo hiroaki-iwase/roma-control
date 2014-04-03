@@ -17,7 +17,7 @@ $(function(){
       html: true
     });
 
-    var maxlength = 3;
+    var maxlength = 10;
     $("#dynamic").validate({
       rules: {
         "change_value": {

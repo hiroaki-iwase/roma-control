@@ -537,8 +537,8 @@ module StatHelper
 
   def default_value(column)
     case column
-      when "stream_copy_wait_param"
-        0.001
+      #when "stream_copy_wait_param"
+      #  0.001
       when "dcnice"
         3
       when "size_of_zredundant"
