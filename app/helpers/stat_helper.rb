@@ -540,9 +540,9 @@ module StatHelper
       #when "stream_copy_wait_param"
       #  0.001
       when "dcnice"
-        3
+        Constants::DEFAULT_DCNICE_VALUE
       when "size_of_zredundant"
-        0
+        Constants::DEFAULT_ZREDUNDANT_VALUE
       when "hilatency_warn_time"
         5 
       #when "wb_command_map"
