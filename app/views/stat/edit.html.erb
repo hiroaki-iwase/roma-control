@@ -32,8 +32,8 @@
   <% else %>
     <%= text_field_tag "#{@key}", @value, { :size => 25 } %>
   <% end %>
-  <% if @roma_stats.errors.any? %>
-    <% @roma_stats.errors.full_messages.each do |msg| %>       
+  <% if @roma.errors.any? %>
+    <% @roma.errors.full_messages.each do |msg| %>       
       <span class="form-error-msg"><%= msg %></span>
     <% end %>
   <% end %>

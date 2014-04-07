@@ -27,11 +27,10 @@ class StatController < ApplicationController
     #  @value = "#{Roma.new.stats["routing"]["auto_recover"]} #{params[change_value]}"
     else
       @value = params[@key]
-      @roma_stats = Roma_stats.new(@key => @value)
+      @roma = Roma.new(@key => @value)
     end
-    logger.debug(@roma_stats.hilatency_warn_time)
-    if @roma_stats.valid?
-      @res = Roma.new.change_param(@key, @value)
+    if @roma.valid?
+      @res = @roma.change_param(@key, @value)
     end
     #render :text => @res #debug
      
@@ -39,13 +38,5 @@ class StatController < ApplicationController
     @value = Roma.new.stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
  
     render :action => "edit"
-  end
-  
-  private
-  def setParam(params)
-    case params()
-    when prams[""] == ""
-      params.valid?
-    end
   end
 end
