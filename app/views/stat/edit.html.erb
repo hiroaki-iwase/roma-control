@@ -11,7 +11,7 @@
 <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
 
 <h4><U>CHANGE VALUE</U>:</h4>
-<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic' }) do %>
+<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_chage_valude' }) do %>
 
   <% if @key == "continuous_limit" %>
     <% limit = @value.split(/:/) %>
@@ -27,23 +27,23 @@
     </table>
 
   <% elsif ary = change_list(@key) %> 
-    <%= select_tag "change_value", options_for_select(ary, :selected => @value.chomp) %>
+    <%= select_tag "#{@key}", options_for_select(ary, :selected => @value.chomp) %>
 
   <% else %>
-    <%= text_field_tag "change_value", @value, { :size => 25, :id => 'dynamic'} %>
-
+    <%= text_field_tag "#{@key}", @value, { :size => 25 } %>
   <% end %>
-
+  <% if @roma.errors.any? %>
+    <% @roma.errors.full_messages.each do |msg| %>       
+      <span class="form-error-msg"><%= msg %></span>
+    <% end %>
+  <% end %>
   <%= hidden_field_tag :key, @key %>
-
   <br>
   <%= submit_tag " store "%>
   <input type="reset" value=" reset ">
-
 <% end %>
 
-
-
+  
 <%# if Rails.application.routes.recognize_path(request.referrer)[:action] == "edit" %>
 <% if @res %>
   <div class="col-md-5" id="param-detail-list">

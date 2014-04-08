@@ -13,6 +13,7 @@ class StatController < ApplicationController
   def edit
     @key   = params[:key]
     @value = params[:value]
+    @roma_stats = Roma_stats.new(@key => @value)
     #render :text => @value
   end
 
@@ -25,11 +26,12 @@ class StatController < ApplicationController
     #elsif @key == "auto_recover_time"
     #  @value = "#{Roma.new.stats["routing"]["auto_recover"]} #{params[change_value]}"
     else
-      @value = params["change_value"]
+      @value = params[@key]
+      @roma = Roma.new(@key => @value)
     end
-    
-    @res = Roma.new.change_param(@key, @value)
-    
+    if @roma.valid?
+      @res = @roma.change_param(@key, @value)
+    end
     #render :text => @res #debug
      
     @value = Roma.new.stats["routing"]["sub_nid"] if @key == "sub_nid"
@@ -37,5 +39,4 @@ class StatController < ApplicationController
  
     render :action => "edit"
   end
-
 end
