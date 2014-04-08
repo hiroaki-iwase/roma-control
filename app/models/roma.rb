@@ -33,22 +33,63 @@ class Roma
       :only_integer => true,
       :greater_than_or_equal_to => 1,
       :less_than_or_equal_to => 5,
-      :message =>' : You sholud input a priority from 1 to 5' }
-  validates :size_of_zredundant, :hilatency_warn_time, :spushv_klength_warn, :spushv_vlength_warn, :routing_trans_timeout,
-    :shift_size,
+      :message =>' : You sholud input a priority from 1 to 5.' }
+  validates :size_of_zredundant, :spushv_klength_warn, :spushv_vlength_warn, :shift_size,
       allow_blank: true,
       presence: true,
       :numericality => { 
         :only_integer => true,
         :greater_than_or_equal_to => 1,
-        :message =>' : length must be greater than zero' }
+        :less_than_or_equal_to => 2147483647,
+        :message =>' : nubmer must be from 1 to 2147483647.' }
+  validates :hilatency_warn_time,
+      allow_blank: true,
+      presence: true,
+      :numericality => { 
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :less_than_or_equal_to => 60,
+        :message =>' : nubmer must be from 1 to 60.' }
+  validates :routing_trans_timeout, :accepted_connection_expire_time, :pool_expire_time, :EMpool_expire_time,
+      allow_blank: true,
+      presence: true,
+      :numericality => { 
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :less_than_or_equal_to => 86400,
+        :message =>' : nubmer must be from 1 to 86400.' }
+  validates :fail_cnt_threshold,
+      allow_blank: true,
+      presence: true,
+      :numericality => { 
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :less_than_or_equal_to => 100,
+        :message =>' : nubmer must be from 1 to 100.' }
   validates :fail_cnt_gap,
     allow_blank: true,
     presence: true,
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 0,
-      :message =>' : hogehoge' }
+      :less_than_or_equal_to => 60,
+      :message =>' : nubmer must be from 1 to 60.'  }
+  validates :pool_maxlength, :EMpool_maxlength,
+    allow_blank: true,
+    presence: true,
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 1,
+      :less_than_or_equal_to => 1000,
+      :message =>' : nubmer must be from 1 to 1000.'  }
+  validates :descriptor_table_size,
+    allow_blank: true,
+    presence: true,
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 1024,
+      :less_than_or_equal_to => 65535,
+      :message =>' : nubmer must be from 1024 to 65535.'  }
 
   def initialize(params = nil)
     super(params)
@@ -96,7 +137,7 @@ class Roma
       res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
       res_hash = Hash[Hash[*res_ary].sort]
     rescue
-      errors.add(k, "was not updated. #{@res}.")
+      errors.add(k, "was not updated. Unexpection Error( #{@res} ).")
     end
 
     return res_hash
