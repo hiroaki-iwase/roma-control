@@ -538,86 +538,86 @@ module StatHelper
   def default_value(column)
     case column
       #when "stream_copy_wait_param"
-      #  0.001
+      #  Constants::DEFAULT_STREAM_COPY_WAIT_PARAM
       when "dcnice"
-        Constants::DEFAULT_DCNICE_VALUE
+        Constants::DEFAULT_DCNICE
       when "size_of_zredundant"
-        Constants::DEFAULT_ZREDUNDANT_VALUE
+        Constants::DEFAULT_ZREDUNDANT
       when "hilatency_warn_time"
-        5 
+        Constants::DEFAULT_HILATENCY_WARN_TIME
       #when "wb_command_map"
-      #  {}
+      #  Constants::DEFAULT_WB_COMMAND_MAP
       #when "latency_log"
-      #  false
+      #  Constants::DEFAULT_LATENCY_LOG
       #when "latency_check_cmd"
-      #  ["get", "set", "delete"]
+      #  Constants::DEFAULT_LATENCY_CHECK_CMD
       #when "latency_check_time_count"
-      #  false
+      #  Constants::DEFAULT_LATENCY_CHECK_TIME_COUNT
       when "spushv_klength_warn"
-        1024
+        Constants::DEFAULT_SPUSHV_KLENGTH_WARN
       when "spushv_vlength_warn"
-        1048576
+        Constants::DEFAULT_SPUSHV_VLENGTH_WARN
       when "routing_trans_timeout"
-        10080
+        Constants::DEFAULT_ROUTING_TRNAS_TIMEOUT
       when "shift_size"
-        1024 * 1024 * 10
+        Constants::DEFAULT_SHIFT_SIZE
       #when "do_write"
-      #  false
+      #  Constants::DEFAULT_DO_WRITE
       when "fail_cnt_threshold"
-        15
+        Constants::DEFAULT_FAIL_CNT_THRESHOLD 
       when "fail_cnt_gap"
-        0
+        Constants::DEFAULT_FAIL_CNT_GAP
       when "sub_nid"
-        {}
+        Constants::DEFAULT_SUB_NID
       when "lost_action"
-        ":auto_assign"
+        Constants::DEFAULT_LOST_ACTION
       when "auto_recover"
-        false
+        Constants::DEFAULT_AUTO_RECOVER
       #when "auto_recover_time"
-      #  1800
+      #  Constants::DEFAULT_AUTO_RECOVER_TIME
       when "continuous_limit"
-        "200:30:300"
+        Constants::DEFAULT_CONTINUOUS_LIMIT
       when "accepted_connection_expire_time"
-        0
+        Constants::DEFAULT_ACCEPTED_CONNECTION_EXPIRE_TIME
       when "pool_maxlength"
-        5
+        Constants::DEFAULT_POOL_MAXLENGTH
       when "pool_expire_time"
-        30
+        Constants::DEFAULT_POOL_EXPIRE_TIME
       when "EMpool_maxlength"
-        15
+        Constants::DEFAULT_EMPOOL_MAXLENGTH
       when "EMpool_expire_time"
-        30
+        Constants::DEFAULT_EMPOOL_EXPIRE_TIME
       when "descriptor_table_size"
-        4096
+        Constants::DEFAULT_DESCRIPTOR_TABLE_SIZE
       when "dns_caching"
-        false
+        Constants::DEFAULT_DNS_CACHING
     end
   end
 
   def change_list(key)
     case key
       when "lost_action"
-        ["auto_assign", "shutdown"]
+        Constants::LIST_LOST_ACTION
       when "dcnice"
-        [1,2,3,4,5]
+        Constants::LIST_DCNICE_VALUE
       when "auto_recover"
-        [true, false]
+        Constants::LIST_AUTO_RECOVER
       when "dns_caching"
-        [true, false]
+        Constants::LIST_DNS_CACHING
       when "continuous_limit"
-        "200:30:300"
+        Constants::LIST_CONTINUOUS_LIMIT
       when "sub_nid"
-        {}
+        Constants::LIST_SUB_NID
       #when "latency_log"
-      #  false
+      #  Constants::LIST_LATENCY_LOG
       #when "latency_check_cmd"
-      #  ["get", "set", "delete"]
+      #  Constants::LIST_LATENCY_CHECK_CMD
       #when "latency_check_time_count"
-      #  false
+      #  Constants::LIST_LATENCY_CHECK_TIME_COUNT
       #when "do_write"
-      #  false
+      #  Constants::LIST_DO_WRITE
       #when "wb_command_map"
-      #  {}
+      #  Constants::LIST_WB_COMMAND_MAP
     end
   end
 
