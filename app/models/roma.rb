@@ -27,19 +27,28 @@ class Roma
   
   validates :dcnice,
     allow_blank: true,
-    :length => { :is => 1, :message =>'only integer' }
-  validates :size_of_zredundant,
-    allow_blank: true,
-    :length => { :is => 1, :message =>'only integer' }
-  validates :hilatency_warn_time,
+    presence: true,
+    :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5' },
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 1,
+      :less_than_or_equal_to => 5,
+      :message =>' : You sholud input a priority from 1 to 5' }
+  validates :size_of_zredundant, :hilatency_warn_time, :spushv_klength_warn, :spushv_vlength_warn, :routing_trans_timeout,
+    :shift_size,
       allow_blank: true,
-      :length => { :is => 1, :message =>'only integer' }
-  validates :spushv_klength_warn, :spushv_vlength_warn,
+      presence: true,
+      :numericality => { 
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :message =>' : length must be greater than zero' }
+  validates :fail_cnt_gap,
     allow_blank: true,
-    :length => { :is => 1, :message =>'only integer' }
-  validates :routing_trans_timeout,
-    allow_blank: true,
-    :length => { :is => 1, :message =>'only integer' }
+    presence: true,
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 0,
+      :message =>' : hogehoge' }
 
   def initialize(params = nil)
     super(params)
@@ -83,9 +92,12 @@ class Roma
     }
 
     @sock.close
-    
-    res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
-    res_hash = Hash[Hash[*res_ary].sort]
+    begin
+      res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
+      res_hash = Hash[Hash[*res_ary].sort]
+    rescue
+      errors.add(k, "was not updated. #{@res}.")
+    end
 
     return res_hash
   end
