@@ -11,19 +11,19 @@
 <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
 
 <h4><U>CHANGE VALUE</U>:</h4>
-<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_chage_valude' }) do %>
+<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_change_value' }) do %>
 
   <% if @key == "continuous_limit" %>
     <% limit = @value.split(/:/) %>
-    <%= text_field_tag :start, limit[0].chomp, { :size => 1 } %> : 
-    <%= text_field_tag :rate,  limit[1].chomp, { :size => 1 } %> : 
-    <%= text_field_tag :full,  limit[2].chomp, { :size => 1 } %>
+    <%= text_field_tag :continuous_start, limit[0].chomp, { :size => 1 } %> : 
+    <%= text_field_tag :continuous_rate,  limit[1].chomp, { :size => 1 } %> : 
+    <%= text_field_tag :continuous_full,  limit[2].chomp, { :size => 1 } %>
 
   <% elsif @key == "sub_nid" %>
     <table>
-      <tr><td>Target NetMast     </td><td> : <%= text_field_tag :netmask %></td><tr>
-      <tr><td>Substitution Target</td><td> : <%= text_field_tag :target  %></td><tr>
-      <tr><td>Substitution String</td><td> : <%= text_field_tag :string  %></td><tr>
+      <tr><td>Target NetMask     </td><td> : <%= text_field_tag :sub_nid_netmask %></td><tr>
+      <tr><td>Substitution Target</td><td> : <%= text_field_tag :sub_nid_target  %></td><tr>
+      <tr><td>Substitution String</td><td> : <%= text_field_tag :sub_nid_string  %></td><tr>
     </table>
 
   <% elsif ary = change_list(@key) %> 
