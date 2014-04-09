@@ -23,7 +23,7 @@ $(document).ready(function() {
           required: true,
           digits: true,
           min: 1,
-          maxlength: 2147483647
+          max: 2147483647
         },
         "routing_trans_timeout": {
           required: true,
@@ -45,7 +45,6 @@ $(document).ready(function() {
         },
         "fail_cnt_gap": {
           required: true,
-          digits: true,
           min: 0,
           max: 60
         },

@@ -70,10 +70,9 @@ class Roma
     allow_blank: true,
     presence: true,
     :numericality => { 
-      :only_integer => true,
       :greater_than_or_equal_to => 0,
       :less_than_or_equal_to => 60,
-      :message =>' : nubmer must be from 1 to 60.'  }
+      :message =>' : nubmer must be from 0 to 60.'  }
   validates :pool_maxlength, :EMpool_maxlength,
     allow_blank: true,
     presence: true,
