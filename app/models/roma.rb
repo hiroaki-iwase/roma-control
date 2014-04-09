@@ -89,6 +89,14 @@ class Roma
       :greater_than_or_equal_to => 1024,
       :less_than_or_equal_to => 65535,
       :message =>' : nubmer must be from 1024 to 65535.'  }
+  validates :continuous_limit,
+    allow_blank: true,
+    :continuous_limit => true,
+    presence: true
+  validates :sub_nid,
+    allow_blank: true,
+    :sub_nid => true,
+    presence: true
 
   def initialize(params = nil)
     super(params)
