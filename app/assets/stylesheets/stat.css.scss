@@ -43,6 +43,46 @@ dl dd{
     color:#6f3737;
     text-decoration:none;
 }
+/** edit page **/
+.edit-title h2{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-config-name h3{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-explanation{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-explanation-detail{
+  margin-left: 10px;
+}
+.edit-default-value h4{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px; 
+}
+.edit-form{
+  margin:10px;
+}
+.send-button{
+  margin-top:10px;
+}
+.edit-change-value{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px; 
+}
+.edit-result{
+  background-color: #ffffff;
+  width: 500px;
+  margin:10px;
+}
 .form-error-msg{
   color:red;
 }
