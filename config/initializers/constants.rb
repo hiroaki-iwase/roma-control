@@ -35,7 +35,7 @@ module Constants
   DEFAULT_DNS_CACHING                     = false
   
   # change value list
-  LIST_LOST_ACTION                     = ["no_action", "auto_assign", "shutdown"]
+  LIST_LOST_ACTION                     = ["auto_assign", "shutdown"]
   LIST_DCNICE_VALUE                    = [1,2,3,4,5]
   LIST_AUTO_RECOVER                    = [true, false]
   LIST_DNS_CACHING                     = [true, false]

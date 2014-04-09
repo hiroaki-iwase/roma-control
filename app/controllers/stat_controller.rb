@@ -27,8 +27,8 @@ class StatController < ApplicationController
     #  @value = "#{Roma.new.stats["routing"]["auto_recover"]} #{params[change_value]}"
     else
       @value = params[@key]
-      @roma = Roma.new(@key => @value)
     end
+    @roma = Roma.new(@key => @value)
     if @roma.valid?
       @res = @roma.change_param(@key, @value)
     end
