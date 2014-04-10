@@ -17,6 +17,23 @@ describe Roma do
     }
   end
 
+
+  share_examples_for 'dynamic cmd check' do |key, value, pattern|
+    let(:roma) { Roma.new(key => value) }
+    case pattern
+    when "normal"
+      it "normal test" do
+        expect(roma.valid?).to be_true
+      end
+    when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
+      it "#{pattern} check" do
+        expect(roma.valid?).to be_false
+      end
+    else
+      raise
+    end
+  end
+
   context "dynamic_command(normal)" do
     roma = Roma.new
     res_normal = roma.change_param("pool_expire_time", 777)
@@ -47,11 +64,11 @@ describe Roma do
     let(:roma) { Roma.new(key => value) }
     case pattern
     when "normal"
-      it "normal test" do
+      it "[normal test] key=>#{key} / test pattern=>#{pattern} check" do
         expect(roma.valid?).to be_true
       end
     when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
-      it "#{pattern} check" do
+      it "[error test] key=>#{key} / test pattern=>#{pattern} check" do
         expect(roma.valid?).to be_false
       end
     else
