@@ -41,7 +41,7 @@ class Roma
         :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 2147483647,
-        :message =>' : nubmer must be from 1 to 2147483647.' }
+        :message =>' : number must be from 1 to 2147483647.' }
   validates :hilatency_warn_time,
       allow_blank: true,
       presence: true,
@@ -49,7 +49,7 @@ class Roma
         :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 60,
-        :message =>' : nubmer must be from 1 to 60.' }
+        :message =>' : number must be from 1 to 60.' }
   validates :routing_trans_timeout, :accepted_connection_expire_time, :pool_expire_time, :EMpool_expire_time,
       allow_blank: true,
       presence: true,
@@ -57,7 +57,7 @@ class Roma
         :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 86400,
-        :message =>' : nubmer must be from 1 to 86400.' }
+        :message =>' : number must be from 1 to 86400.' }
   validates :fail_cnt_threshold,
       allow_blank: true,
       presence: true,
@@ -65,15 +65,14 @@ class Roma
         :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 100,
-        :message =>' : nubmer must be from 1 to 100.' }
+        :message =>' : number must be from 1 to 100.' }
   validates :fail_cnt_gap,
     allow_blank: true,
     presence: true,
     :numericality => { 
-      :only_integer => true,
       :greater_than_or_equal_to => 0,
       :less_than_or_equal_to => 60,
-      :message =>' : nubmer must be from 1 to 60.'  }
+      :message =>' : number must be from 0 to 60.'  }
   validates :pool_maxlength, :EMpool_maxlength,
     allow_blank: true,
     presence: true,
@@ -81,7 +80,7 @@ class Roma
       :only_integer => true,
       :greater_than_or_equal_to => 1,
       :less_than_or_equal_to => 1000,
-      :message =>' : nubmer must be from 1 to 1000.'  }
+      :message =>' : number must be from 1 to 1000.'  }
   validates :descriptor_table_size,
     allow_blank: true,
     presence: true,
@@ -89,7 +88,15 @@ class Roma
       :only_integer => true,
       :greater_than_or_equal_to => 1024,
       :less_than_or_equal_to => 65535,
-      :message =>' : nubmer must be from 1024 to 65535.'  }
+      :message =>' : number must be from 1024 to 65535.'  }
+  validates :continuous_limit,
+    allow_blank: true,
+    :continuous_limit => true,
+    presence: true
+  validates :sub_nid,
+    allow_blank: true,
+    :sub_nid => true,
+    presence: true
 
   def initialize(params = nil)
     super(params)
