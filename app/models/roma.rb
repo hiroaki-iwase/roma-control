@@ -88,7 +88,7 @@ class Roma
   validates :sub_nid,
     allow_blank: true,
     :sub_nid => true,
-    presence: true    
+    presence: true
 
   def initialize(params = nil)
     super(params)
