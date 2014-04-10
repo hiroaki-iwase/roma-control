@@ -27,7 +27,6 @@ class Roma
   
   validates :dcnice,
     allow_blank: true,
-    presence: true,
     :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5' },
     :numericality => { 
       :only_integer => true,
@@ -36,7 +35,6 @@ class Roma
       :message =>' : You sholud input a priority from 1 to 5.' }
   validates :size_of_zredundant, :spushv_klength_warn, :spushv_vlength_warn, :shift_size,
       allow_blank: true,
-      presence: true,
       :numericality => { 
         :only_integer => true,
         :greater_than_or_equal_to => 1,
@@ -44,7 +42,6 @@ class Roma
         :message =>' : number must be from 1 to 2147483647.' }
   validates :hilatency_warn_time,
       allow_blank: true,
-      presence: true,
       :numericality => { 
         :only_integer => true,
         :greater_than_or_equal_to => 1,
@@ -52,7 +49,6 @@ class Roma
         :message =>' : number must be from 1 to 60.' }
   validates :routing_trans_timeout, :accepted_connection_expire_time, :pool_expire_time, :EMpool_expire_time,
       allow_blank: true,
-      presence: true,
       :numericality => { 
         :only_integer => true,
         :greater_than_or_equal_to => 1,
@@ -60,7 +56,6 @@ class Roma
         :message =>' : number must be from 1 to 86400.' }
   validates :fail_cnt_threshold,
       allow_blank: true,
-      presence: true,
       :numericality => { 
         :only_integer => true,
         :greater_than_or_equal_to => 1,
@@ -68,14 +63,12 @@ class Roma
         :message =>' : number must be from 1 to 100.' }
   validates :fail_cnt_gap,
     allow_blank: true,
-    presence: true,
     :numericality => { 
       :greater_than_or_equal_to => 0,
       :less_than_or_equal_to => 60,
       :message =>' : number must be from 0 to 60.'  }
   validates :pool_maxlength, :EMpool_maxlength,
     allow_blank: true,
-    presence: true,
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 1,
@@ -83,7 +76,6 @@ class Roma
       :message =>' : number must be from 1 to 1000.'  }
   validates :descriptor_table_size,
     allow_blank: true,
-    presence: true,
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 1024,
@@ -96,7 +88,7 @@ class Roma
   validates :sub_nid,
     allow_blank: true,
     :sub_nid => true,
-    presence: true
+    presence: true    
 
   def initialize(params = nil)
     super(params)
@@ -128,6 +120,21 @@ class Roma
     
     #@stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
+  end
+  
+  def check_param(k, v)
+    if v.nil?
+      errors.add(k, " : This value is required.")
+      return false
+    elsif ["auto_recover", "dns_caching"].include?(k) && !["false", "true"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
+    elsif k == "lost_action" && !["auto_assign", "shutdown"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
+    else
+      true
+    end
   end
 
   def change_param(k, v)

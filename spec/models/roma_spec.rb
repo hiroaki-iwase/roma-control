@@ -64,12 +64,28 @@ describe Roma do
     let(:roma) { Roma.new(key => value) }
     case pattern
     when "normal"
-      it "[normal test] key=>#{key} / test pattern=>#{pattern} check" do
-        expect(roma.valid?).to be_true
+      if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+        it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.check_param(key, value)).to be_true
+        end
+      else
+        it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.valid?).to be_true
+        end
       end
-    when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
-      it "[error test] key=>#{key} / test pattern=>#{pattern} check" do
-        expect(roma.valid?).to be_false
+    when "under0", "Over Limit", "Character", "Over Length", "Unexpected"
+      if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+        it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.check_param(key, value)).to be_false
+        end
+      else
+        it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.valid?).to be_false
+        end
+      end
+    when "nil"
+      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.check_param(key, value)).to be_false
       end
     else
       raise
