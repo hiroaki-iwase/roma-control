@@ -45,25 +45,48 @@ share_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   end
 end # end of example "dynamic cmd check"
 
-share_examples_for 'validation check' do |key, value, pattern|
+
+share_examples_for 'validation check' do |key, value, pattern, continous_limit_pattern|
   let(:roma) { Roma.new(key => value) }
   case pattern
   when "normal"
-    it "[normal test] key=>#{key} / test pattern=>#{pattern} check" do
-      expect(roma.valid?).to be_true
+    if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+      it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.check_param(key, value)).to be_true
+      end
+    else
+      it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.valid?).to be_true
+      end
     end
-  when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
-    it "[error test] key=>#{key} / test pattern=>#{pattern} check" do
-      expect(roma.valid?).to be_false
-      err = error_msg(key)
-      expect(roma.errors.full_messages[0]).to eq(err)
+
+  when "under0", "Over Limit", "Character", "Over Length", "Unexpected"
+    if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.check_param(key, value)).to be_false
+        err = error_msg(key,  continous_limit_pattern)
+        expect(roma.errors.full_messages[0]).to eq(err)
+      end
+    else
+      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.valid?).to be_false
+        err = error_msg(key,  continous_limit_pattern)
+        expect(roma.errors.full_messages[0]).to eq(err)
+      end
     end
+
+  when "nil"
+    it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+      expect(roma.check_param(key, value)).to be_false
+    end
+
   else
     raise
   end
 end # end of example "validation check"
 
-def error_msg(key)
+
+def error_msg(key, continous_limit_pattern = nil)
   case key
   when "dcnice"
     "#{key.capitalize.gsub(/_/, " ")}  : You sholud input a priority from 1 to 5."
@@ -85,14 +108,19 @@ def error_msg(key)
     "#{key.capitalize.gsub(/_/, " ")}  : Target NetMask is no more than 20 characters."
   when "lost_action"
     "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
-  #when "continuous_limit1"
-  #  "Continuous limit  : All fields must be number and required."
-  #when "continuous_limit2"
-  #  "Continuous limit  : nubmer must be from 1 to 1000."
-  #when "continuous_limit3"
-  #  "Continuous limit  : nubmer must be from 1 to 100."
+  when "dns_caching"
+    "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
+  when "auto_recover"
+    "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
+  when "continuous_limit"
+    if  continous_limit_pattern == "con0"
+      "#{key.capitalize.gsub(/_/, " ")}  : All fields must be number and required."
+    elsif  continous_limit_pattern == "con1" || continous_limit_pattern == "con3"
+      "#{key.capitalize.gsub(/_/, " ")}  : nubmer must be from 1 to 1000."
+    elsif  continous_limit_pattern == "con2"
+      "#{key.capitalize.gsub(/_/, " ")}  : nubmer must be from 1 to 100."
+    end
   else
     raise
   end
 end
-
