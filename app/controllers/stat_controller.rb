@@ -29,7 +29,7 @@ class StatController < ApplicationController
       @value = params[@key]
     end
     @roma = Roma.new(@key => @value)
-    if @roma.valid?
+    if @roma.check_param(@key, @value) && @roma.valid?
       @res = @roma.change_param(@key, @value)
     end
     #render :text => @res #debug

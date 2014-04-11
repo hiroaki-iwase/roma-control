@@ -74,14 +74,31 @@ describe Roma do
     let(:roma) { Roma.new(key => value) }
     case pattern
     when "normal"
-      it "[normal test] key=>#{key} / test pattern=>#{pattern} check" do
-        expect(roma.valid?).to be_true
+      if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+        it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.check_param(key, value)).to be_true
+        end
+      else
+        it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.valid?).to be_true
+        end
       end
-    when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
-      it "[error test] key=>#{key} / test pattern=>#{pattern} check" do
-        expect(roma.valid?).to be_false
-        err = error_msg(key)
-        expect(roma.errors.full_messages[0]).to eq(err)
+
+    when "under0", "Over Limit", "Character", "Over Length", "Unexpected"
+      if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+        it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.check_param(key, value)).to be_false
+        end
+      else
+        it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+          expect(roma.valid?).to be_false
+          err = error_msg(key)
+          expect(roma.errors.full_messages[0]).to eq(err)
+        end
+      end
+    when "nil"
+      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+        expect(roma.check_param(key, value)).to be_false
       end
     else
       raise
@@ -167,7 +184,7 @@ describe Roma do
           else
             it_should_behave_like 'dynamic cmd check', column, "40", group, "string"
           end
-          it_should_behave_like 'dynamic cmd check(error msg)', column, -500 if column == "EMpool_maxlength"
+          #it_should_behave_like 'dynamic cmd check(error msg)', column, -500 if column == "EMpool_maxlength"
           it_should_behave_like 'validation check', column, 50, "normal"
           it_should_behave_like 'validation check', column, -50,        "under0"
           it_should_behave_like 'validation check', column, 9999999999, "Over Limit"

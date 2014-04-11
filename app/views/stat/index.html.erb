@@ -27,30 +27,28 @@
           <% next; end %>
           <tr <% if v.chomp == "false" %>class="not-change-col"<% end %>>
             <td valign="top" >
-
               <% if default_value(k) != nil; %>
                 <U><%= link_to(
-                         k, 
+                         k,
                          {
-                           :controller => "stat", 
-                           :action => "edit", 
+                           :controller => "stat",
+                           :action => "edit",
                            :key => k, :value => v
                          }, 
-                         :"data-toggle" => "tooltip", 
-                         :title => explanation(k), 
+                         :"data-toggle" => "tooltip",
+                         :title => explanation(k),
                          :class => "stats-str"
                        ) 
                  %></U>
                 <%= link_to(
-                      sanitize('<i class="icon-pencil" style="font-size:20px; color: red;"></i>'), 
+                      sanitize('<i class="icon-pencil" style="font-size:20px; color: red;"></i>'),
                       {
-                        :controller => "stat", 
-                        :action => "edit", 
+                        :controller => "stat",
+                        :action => "edit",
                         :key => k, :value => v
                       }
-                    ) 
+                    )
                  %>
-
               <% else %>
                 <a href="#" data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></a>
               <% end %>  
