@@ -45,19 +45,6 @@ share_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   end
 end # end of example "dynamic cmd check"
 
-#share_examples_for 'dynamic cmd check(error msg)' do |key, value|
-#  roma =  Roma.new
-#  roma.change_param(key, value)
-#
-#  # TODO
-#  err = error_msg(key)
-#
-#  it "Return param check[key=>#{key} / value = #{value} / check pattern => error message]" do
-#    expect(roma.errors.full_messages[0]).to eq(err)
-#  end
-#end # end of example "dynamic cmd check(error msg)"
-
-
 share_examples_for 'validation check' do |key, value, pattern|
   let(:roma) { Roma.new(key => value) }
   case pattern
@@ -68,22 +55,7 @@ share_examples_for 'validation check' do |key, value, pattern|
   when "under0", "Over Limit", "Character", "nil", "Over Length", "Unexpected"
     it "[error test] key=>#{key} / test pattern=>#{pattern} check" do
       expect(roma.valid?).to be_false
-
-      #if key == "continuous_limit" 
-      #  continuous_limit_ary = value.split(':')
-
-      #  if continuous_limit_ary[0].to_o
-      #    err = error_msg("continuous_limit1")
-      #  elsif continuous_limit_ary[0].to_i  < 1 || 1000 < continuous_limit_ary[0].to_i
-      #    err = error_msg("continuous_limit2")
-      #  elsif continuous_limit_ary[1].to_i  < 1 || 100 < continuous_limit_ary[1].to_i
-      #    err = error_msg("continuous_limit3")
-      #  elsif continuous_limit_ary[2].to_i  < 1 || 1000 < continuous_limit_ary[2].to_i
-      #    err = error_msg("continuous_limit2")
-      #  end
-      #else
-        err = error_msg(key)
-      #end
+      err = error_msg(key)
       expect(roma.errors.full_messages[0]).to eq(err)
     end
   else
