@@ -28,7 +28,7 @@ class Roma
   validates :dcnice,
     allow_blank: true,
     presence: true,
-    :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5' },
+    :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5.' },
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 1,
