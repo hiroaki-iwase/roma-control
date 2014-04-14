@@ -3,7 +3,7 @@ require 'spec_helper'
 shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   let(:roma) { Roma.new }
   let(:dynamic) { roma.change_param(key, value) }
-  let!(:actual_stats_normal) { roma.stats }
+  let(:actual_stats_normal) { roma.stats }
 
   # return message check
   it "Return param check[key=>#{key} / value = #{value} / check pattern=> Hash or not]" do
