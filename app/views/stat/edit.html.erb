@@ -1,63 +1,72 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
 <h1><U>Status</U></h1>
-<h2><U>Dynamic Change Setting</U></h2>
-<h3><U>Select</U>: <%= @key %></h3>
-
-<h4><U>Explanation</U>:</h4>
-<%= explanation(@key).html_safe %>
-
-<br>
-<h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
-
-<h4><U>CHANGE VALUE</U>:</h4>
-<%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic' }) do %>
-
-  <% if @key == "continuous_limit" %>
-    <% limit = @value.split(/:/) %>
-    <%= text_field_tag :start, limit[0].chomp, { :size => 1 } %> : 
-    <%= text_field_tag :rate,  limit[1].chomp, { :size => 1 } %> : 
-    <%= text_field_tag :full,  limit[2].chomp, { :size => 1 } %>
-
-  <% elsif @key == "sub_nid" %>
-    <table>
-      <tr><td>Target NetMast     </td><td> : <%= text_field_tag :netmask %></td><tr>
-      <tr><td>Substitution Target</td><td> : <%= text_field_tag :target  %></td><tr>
-      <tr><td>Substitution String</td><td> : <%= text_field_tag :string  %></td><tr>
-    </table>
-
-  <% elsif ary = change_list(@key) %> 
-    <%= select_tag "change_value", options_for_select(ary, :selected => @value.chomp) %>
-
-  <% else %>
-    <%= text_field_tag "change_value", @value, { :size => 25, :id => 'dynamic'} %>
-
-  <% end %>
-
-  <%= hidden_field_tag :key, @key %>
-
-  <br>
-  <%= submit_tag " store "%>
-  <input type="reset" value=" reset ">
-
-<% end %>
-
-
-
-<%# if Rails.application.routes.recognize_path(request.referrer)[:action] == "edit" %>
-<% if @res %>
-  <div class="col-md-5" id="param-detail-list">
-    <table class = "table" border="1" >
-      <% @res.each{|k, v| %>
-        <tr>
-          <td><%= k %></td>
-          <% if v.index("STORED") || v.index("ENABLED") || v.index("ADDED") %> 
-            <td class="success"><%= v %></td>
-          <% else %> 
-            <td class="danger"><%= v %></td>
-          <% end %>
-        </tr>  
-      <% } %>  
-    </table>
+<div class="edit-title">
+  <h2><U>Dynamic Change Setting</U></h2>
+</div>
+<div class="edit-config-name">
+  <h3><U>Select</U>: <%= @key %></h3>
+</div>
+<div class="edit-explanation">
+  <h4><U>Explanation</U>:</h4>
+  <div class="edit-explanation-detail">
+    <%= explanation(@key).html_safe %>
   </div>
-<% end %>
+</div>
+<div class="edit-default-value">
+  <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
+</div>
+<div class="edit-change-value">
+  <h4><U>CHANGE VALUE</U>:</h4>
+  <%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_change_value', :class => 'edit-form' }) do %>
+    <% if @key == "continuous_limit" %>
+      <% limit = @value.split(/:/) %>
+      <%= text_field_tag :continuous_start, limit[0].chomp, { :size => 1 } %> : 
+   	  <%= text_field_tag :continuous_rate,  limit[1].chomp, { :size => 1 } %> : 
+      <%= text_field_tag :continuous_full,  limit[2].chomp, { :size => 1 } %>
+    <% elsif @key == "sub_nid" %>
+      <table>
+        <tr><td>Target NetMask     </td><td> : <%= text_field_tag :sub_nid_netmask %></td><tr>
+        <tr><td>Substitution Target</td><td> : <%= text_field_tag :sub_nid_target  %></td><tr>
+        <tr><td>Substitution String</td><td> : <%= text_field_tag :sub_nid_string  %></td><tr>
+      </table>
+    <% elsif ary = change_list(@key) %> 
+      <%= select_tag "#{@key}", options_for_select(ary, :selected => @value.chomp) %>
+    <% else %>
+      <%= text_field_tag "#{@key}", @value, { :size => 25 } %>
+    <% end %>
+    <% if @roma.errors.any? %>
+      <% @roma.errors.full_messages.each do |msg| %>       
+        <span class="form-error-msg"><%= msg %></span>
+      <% end %>
+    <% end %>
+    <%= hidden_field_tag :key, @key %>
+    <div class="send-button">
+      <%= submit_tag " store ", { :class => "btn" }%>
+      <input type="reset" value=" reset " class="btn">
+    </div>
+  <% end %>
+  
+  <%# if Rails.application.routes.recognize_path(request.referrer)[:action] == "edit" %>
+  <% if @res %>
+    <h4><U>RESULT</U>:</h4>
+    <div class="edit-result">
+      <table class="table table-bordered result-table">
+      	<tr>
+      		<th>Host_Port</th>
+      		<th>Result</th>
+      	</tr>
+        <% @res.each{|k, v| %>
+          <tr>
+          	<td><%= k %></td>
+          	<% if v.index("STORED") || v.index("ENABLED") || v.index("ADDED") %> 
+            	<td class="success"><%= v %></td>
+          	<% else %> 
+            	<td class="danger"><%= v %></td>
+          	<% end %>
+          </tr>  
+        <% } %>  
+      </table>
+    </div>
+  <% end %>
+</div>

@@ -2,8 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 *{
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     /*background-color: red;*/
 }
 dl{
@@ -13,9 +13,9 @@ dl{
     color: #6f3737;
 }
 dl dt{
-    background:#debdbd;
-    border-bottom:1px solid #FFFFFF;
-    cursor:pointer;
+    background: #debdbd;
+    border-bottom: 1px solid #FFFFFF;
+    cursor: pointer;
     height: 30px;
     font-size: 20px;
     vertical-align: middle;
@@ -23,15 +23,15 @@ dl dt{
 }
 dl dd{
     /*background:#eeeeee;*/
-    background:#fce9e7;
-    border-top:none;
+    background: #fce9e7;
+    border-top: none;
     height: auto;
     font-size: 20px;
 }
 .tooltip-inner{
-    max-width:300px;
-    font-size:16px;
-    text-align:left;
+    max-width: 300px;
+    font-size: 16px;
+    text-align: left;
 }
 .table .no-data-col{
     background-color: #408080;
@@ -40,6 +40,56 @@ dl dd{
     background-color: grey;
 }
 .table .stats-str{
-    color:#6f3737;
-    text-decoration:none;
+    color: #6f3737;
+    text-decoration: none;
+}
+/** edit page **/
+.edit-title h2{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-config-name h3{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-explanation{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.edit-explanation-detail{
+  margin-left: 10px;
+}
+.edit-default-value h4{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px; 
+}
+.edit-form{
+  margin: 10px;
+}
+.send-button{
+  margin-top: 10px;
+}
+.edit-change-value{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px; 
+}
+.edit-result{
+  background-color: #ffffff;
+  width: 500px;
+  margin: 10px;
+}
+table.table.result-table th{
+  background-color: #BA7878;
+}
+label.error{
+  margin-left: 5px;
+  color: #ff0000;
+}
+.form-error-msg{
+  color: #ff0000;
 }
