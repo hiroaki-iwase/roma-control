@@ -29,16 +29,16 @@ class StatController < ApplicationController
       @value = params[@key]
     end
     @roma = Roma.new(@key => @value)
-    if @roma.check_param(@key, @value) && @roma.valid?
-      @res = @roma.change_param(@key, @value)
+    
+    begin
+      if @roma.check_param(@key, @value) && @roma.valid?
+        @res = @roma.change_param(@key, @value)
+      end
+        @value = Roma.new.stats["routing"]["sub_nid"] if @key == "sub_nid"
+        @value = Roma.new.stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
+        render :action => "edit"
+    rescue => @ex
+      render :template => "errors/error_500", :status => 500
     end
-    #render :text => @res #debug
-    #render :text => @res.values[0].chomp.size #debug
-    #render :text => @roma.errors.full_messages #debug
-     
-    @value = Roma.new.stats["routing"]["sub_nid"] if @key == "sub_nid"
-    @value = Roma.new.stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
- 
-    render :action => "edit"
   end
 end
