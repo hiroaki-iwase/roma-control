@@ -1,4 +1,8 @@
 Gladiator::Application.routes.draw do
+  get "cluster/index"
+  get "cluster/create"
+  get "cluster/destroy"
+  get "cluster/update"
   get "stat/index"
   get "stat/edit"
   put "stat/update"

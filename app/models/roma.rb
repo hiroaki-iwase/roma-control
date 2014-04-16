@@ -157,4 +157,14 @@ class Roma
     return res_hash
   end
 
+  def get_instances_info
+    Net::SSH.start("192.168.223.3", 'root', :password => '*****') do |ssh|
+      @res = ssh.exec! "cat /usr/local/roma/apps/act/routing/* | awk '/^- |join/'"
+    end
+
+    @res = @res.scan(/[\d\.]+_[\d]+/).uniq
+
+    return @res
+  end
+
 end
