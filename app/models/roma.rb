@@ -90,10 +90,15 @@ class Roma
     :sub_nid => true,
     presence: true
 
-  def initialize(params = nil)
+  def initialize(params = nil, host = nil, port = nil)
     super(params)
-    @host = ConfigGui::HOST
-    @port = ConfigGui::PORT
+    if host && port
+      @host = host
+      @port = port
+    else
+      @host = ConfigGui::HOST
+      @port = ConfigGui::PORT
+    end
   end
 
   def stats
@@ -158,13 +163,16 @@ class Roma
   end
 
   def get_instances_info
-    Net::SSH.start("192.168.223.3", 'root', :password => '*****') do |ssh|
-      @res = ssh.exec! "cat /usr/local/roma/apps/act/routing/* | awk '/^- |join/'"
-    end
+    @sock = TCPSocket.open(@host, @port)
+    routing_list = []
+    @sock.write("get_routing_history\r\n")
+    @sock.each{|s|
+      break if s == "END\r\n"
+      routing_list.push(s.chomp)
+    }
+    @sock.close
 
-    @res = @res.scan(/[\d\.]+_[\d]+/).uniq
-
-    return @res
+    return routing_list
   end
 
 end
