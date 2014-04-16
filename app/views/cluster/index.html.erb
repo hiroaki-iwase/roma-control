@@ -2,10 +2,38 @@
 <p>Find me in app/views/cluster/index.html.erb</p>
 <%#= session[:instance] %>
 <%#= @routing_list.class %>
-<%= @routing_list %>
+<%#= @routing_list %>
 <br>===================<br>
-<%= @stats_hash %>
+<%#= @stats_hash %>
 <br>===================<br>
-<%= @each_instance_status %>
+<%#= @each_instance_status %>
 <br>===================<br>
-<%= @each_instance_size %>
+<%#= @each_instance_size %>
+
+
+Health:<br>
+instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
+server count :<br>
+short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %><br>
+lost vnodes : <%= @stats_hash["routing"]["lost_vnodes"] %><br>
+ROMA version : <%= @stats_hash["others"]["version"] %><br>
+<% 
+main_version = @stats_hash["others"]["version"]
+if /(\d+)\.(\d+)\.(\d+)/ =~ main_version
+  main_version_shift = ($1.to_i << 16) + ($2.to_i << 8) + ($3.to_i)
+  min_version_shift = @stats_hash["routing"]["min_version"].to_i
+
+  #if @stats_hash["routing"]["min_version"].to_i != main_version_shift 
+  if min_version_shift == main_version_shift #debug
+    versions_ary = @stats_hash["routing"]["version_of_nodes"].delete("{").delete("}").chomp.split(",")
+    versions_ary.each{|vs|
+      if /"([_\.\d]+)"=>(\d+)/ =~ vs
+        #if $2 != main_version_shift 
+        if $2 != main_version_shift #debug %>
+          <font color="red"><%= "#{$1} using #{$2}(another version)" %></font><br>
+        <% end 
+      end
+    }
+  end
+end %>
+
