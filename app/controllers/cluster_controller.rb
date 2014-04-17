@@ -31,6 +31,8 @@ class ClusterController < ApplicationController
 
       @each_instance_status.store(instance, status)
       @each_instance_size.store(instance, size)
+
+
     }
   end
 

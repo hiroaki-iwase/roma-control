@@ -1,19 +1,14 @@
 <h1>Cluster#index</h1>
-<p>Find me in app/views/cluster/index.html.erb</p>
-<%#= session[:instance] %>
-<%#= @routing_list.class %>
-<%#= @routing_list %>
-<br>===================<br>
-<%#= @stats_hash %>
-<br>===================<br>
-<%#= @each_instance_status %>
-<br>===================<br>
-<%#= @each_instance_size %>
-
+<%#= @routing_list %><br>
 
 Health:<br>
 instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
-server count :<br>
+<% inactive_instance = @routing_list - @stats_hash["routing"]["nodes"].chomp.delete('"[').delete('"]').split(", ") %>
+<%#= active_instance %>
+
+
+&nbsp;<font color="red"><%= inactive_instance %> was down</font><br>
+server count : [ToDO]<br>
 short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %><br>
 lost vnodes : <%= @stats_hash["routing"]["lost_vnodes"] %><br>
 ROMA version : <%= @stats_hash["others"]["version"] %><br>
@@ -22,18 +17,66 @@ main_version = @stats_hash["others"]["version"]
 if /(\d+)\.(\d+)\.(\d+)/ =~ main_version
   main_version_shift = ($1.to_i << 16) + ($2.to_i << 8) + ($3.to_i)
   min_version_shift = @stats_hash["routing"]["min_version"].to_i
+  versions_ary = @stats_hash["routing"]["version_of_nodes"].delete("{", "}").chomp.split(",")
 
-  #if @stats_hash["routing"]["min_version"].to_i != main_version_shift 
-  if min_version_shift == main_version_shift #debug
-    versions_ary = @stats_hash["routing"]["version_of_nodes"].delete("{").delete("}").chomp.split(",")
-    versions_ary.each{|vs|
-      if /"([_\.\d]+)"=>(\d+)/ =~ vs
-        #if $2 != main_version_shift 
-        if $2 != main_version_shift #debug %>
-          <font color="red"><%= "#{$1} using #{$2}(another version)" %></font><br>
-        <% end 
-      end
-    }
-  end
-end %>
+  versions_ary.each{|vs|
+    if /"([_\.\d]+)"=>(\d+)/ =~ vs
+      if $2.to_i != main_version_shift
+        major = $2.to_i >> 16
+        minor = $2.to_i - (major << 16) >> 8
+        patch = $2.to_i - (major << 16) - (minor << 8)
+        %>&nbsp;<font color="red"><%= "#{$1} using #{major}.#{minor}.#{patch}" %></font><br>
+      <% end 
+    end
+  }
+end
+%>
+Gladiator Version : <%= Constants::VERSION %>
+
+<br>
+<br>
+Filter : [ToDO]
+
+<table border=4 bordercolor="#ff0000">
+  <tr bgcolor="#cccccc">
+    <th>No.</th>
+    <th>Cluster Name</th>
+    <th>Status</th>
+    <th>Data</th>
+    <th>&nbsp;</th>
+  </tr>
+
+  <% @routing_list.each_with_index{|routing, index| %>
+    <tr>
+      <td> <%= index + 1 %></td>
+      <td> <%= routing %></td>
+      <td> <%= @each_instance_status[routing] %></td>
+      <td>
+        <% if @each_instance_status[routing] != "inactive" %>
+          <%= ((@each_instance_size[routing] / @each_instance_size.values.compact.inject(:+).to_f) * 100).round(1) %>%
+          (<%= @each_instance_size[routing] / 1024 / 1024 %> MB)
+        <% end %>
+      </td>
+      <td>
+        <%
+        opt_join = "disabled"
+        opt_recover = "disabled"
+        if @each_instance_status[routing] == "inactive"
+          opt_join = nil
+        elsif @stats_hash["routing"]["short_vnodes"].to_i != 0
+          opt_recover = nil
+        end 
+        %>
+        <BUTTON type="submit" <%= opt_join %>>join</BUTTON>
+        <BUTTON type="submit" <%= opt_recover %>>Recover</BUTTON>
+      </td>
+    <tr>
+  <% } %>
+
+</table>
+
+<br>
+
+<U>Add new instance</U><br>
+[ToDO]
 
