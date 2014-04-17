@@ -90,19 +90,14 @@ class Roma
     :sub_nid => true,
     presence: true
 
-  def initialize(params = nil, host = nil, port = nil)
+  def initialize(params = nil)
     super(params)
-    if host && port
-      @host = host
-      @port = port
-    else
-      @host = ConfigGui::HOST
-      @port = ConfigGui::PORT
-    end
+    @host = ConfigGui::HOST
+    @port = ConfigGui::PORT
   end
 
-  def stats
-    @sock = TCPSocket.open(@host, @port)
+  def stats(host = @host, port = @port)
+    @sock = TCPSocket.open(host, port)
     stats_array = []
     @sock.write("stats\r\n")
     @sock.each{|s|
@@ -162,17 +157,90 @@ class Roma
     return res_hash
   end
 
-  def get_instances_info
+  def get_instances_list
+    active_list = @stats_hash["routing"]["nodes"].chomp.delete('"[').delete('"]').split(", ")
+
     @sock = TCPSocket.open(@host, @port)
-    routing_list = []
     @sock.write("get_routing_history\r\n")
+
+    inactive_list = []
     @sock.each{|s|
       break if s == "END\r\n"
-      routing_list.push(s.chomp)
+      inactive_list.push(s.chomp) if !active_list.index(s.chomp)
     }
     @sock.close
 
-    return routing_list
+    routing_list = {"active"=>active_list, "inactive"=>inactive_list}
+
+    return routing_list 
+    ### format is below
+    #{
+    #  "active" => [
+    #    "192.168.223.2_10001",
+    #    "192.168.223.2_10002",
+    #    "192.168.223.3_10001"
+    #  ],
+    #  "inactive" => [
+    #    "192.168.223.3_10002"
+    #  ]
+    #}
+  end
+
+  def get_instance_info(routing_list, column)
+    each_instance_status = {}
+    each_instance_size = {}
+    each_instance_version = {}
+
+    routing_list.each{|condition, instances|
+      if condition == "inactive"
+        status = "inactive" if column == "status"
+        size = nil if column == "size"
+        version = nil if column == "version"
+
+        instances.each{|instance|
+          each_instance_status.store(instance, status) if column == "status"
+          each_instance_size.store(instance, size) if column == "size"
+          each_instance_size.store(instance, version) if column == "version"
+        }
+      else
+        instances.each{|instance|
+          each_stats = stats(instance.split("_")[0], instance.split("_")[1])
+
+          ### status[active|inactive|recover|join]
+          if column == "status"
+            if each_stats["stats"]["run_recover"].chomp == "true"
+              status = "recover"
+            elsif each_stats["stats"]["run_join"].chomp == "true"
+              status = "join"
+            else
+              status = "active"
+            end
+
+            each_instance_status.store(instance, status) 
+
+          ### sum of tc file size of each instance
+          elsif column == "size"
+            size = 0
+            10.times{|index|
+              size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
+            }
+          
+            each_instance_size.store(instance, size) 
+           
+          ### version
+          elsif column == "version"
+            version = each_stats["others"]["version"].chomp
+            
+            each_instance_version.store(instance, version)
+
+          end
+        }
+      end
+    }
+   
+    return each_instance_status if column == "status"
+    return each_instance_size if column == "size"
+    return each_instance_version if column == "version"
   end
 
 end
