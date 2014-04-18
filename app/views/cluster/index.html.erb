@@ -4,19 +4,20 @@
 Health:<br>
 
 instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
-  <% inactive_instance = @routing_list["inactive"] %>
-  &nbsp;<font color="red"><%= inactive_instance %> was down</font><br>
+  <% @routing_list["inactive"].each{|inactive_instance| %>
+    <font color="red"><%= inactive_instance %> was down</font><br>
+  <% } %>
 
 server count :
-<%
-server_arr = []
-@routing_list["active"].each{|routing|
-  routing =~ /^([-\.a-zA-Z\d]+)_/
-  server_arr.push($1) 
-} 
-%>
-<%= server_arr.uniq.size %>      
-<br>
+  <%
+  server_list = []
+  @routing_list["active"].each{|active_instance|
+    active_instance =~ /^([-\.a-zA-Z\d]+)_/
+    server_list.push($1) 
+  } 
+  %>
+  <%= server_list.uniq.size %>      
+  <br>
 
 short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %><br>
 
@@ -27,12 +28,11 @@ ROMA version : <%= @stats_hash["others"]["version"] %><br>
 <% 
 main_version = @stats_hash["others"]["version"].chomp
 
-@each_instance_version.each{|routing, vs|
-  if main_version != vs %>
-    &nbsp;<font color="red"><%= "#{routing} using #{vs}" %></font><br>
+@each_instance_version.each{|instance, vs|
+  if vs != main_version && vs != nil %>
+    <font color="red"><%= "#{instance} using #{vs}" %></font><br>
   <% end %>
 <% } %>
-
 
 Gladiator Version : <%= Constants::VERSION %>
 
@@ -49,24 +49,26 @@ Filter : [ToDO]
     <th>&nbsp;</th>
   </tr>
 
-  <% index = 0
-  @routing_list.each{|(condition, instances)| %>
-    <% instances.each{|routing| %>
+  <%
+  index = 0
+  @routing_list.each{|(status, instances)|
+    instances.each{|instance| %>
       <tr>
         <td> <%= index += 1 %></td>
-        <td> <%= routing %></td>
-        <td> <%= condition %></td>
+        <td> <%= instance %></td>
+        <td> <%= @each_instance_status[instance] %></td>
         <td>
-          <% if condition != "inactive" %>
-            <%= ((@each_instance_size[routing] / @each_instance_size.values.compact.inject(:+).to_f) * 100).round(1) %>%
-            (<%= @each_instance_size[routing] / 1024 / 1024 %> MB)
+          <% if status != "inactive"
+            total_size = @each_instance_size.values.compact.inject(:+).to_f %>
+            <%= (@each_instance_size[instance] / total_size * 100).round(1) %>%
+            (<%= @each_instance_size[instance] / 1024 / 1024 %> MB)
           <% end %>
         </td>
         <td>
           <%
           opt_join = "disabled"
           opt_recover = "disabled"
-          if condition == "inactive"
+          if status == "inactive"
             opt_join = nil
           elsif @stats_hash["routing"]["short_vnodes"].to_i != 0
             opt_recover = nil

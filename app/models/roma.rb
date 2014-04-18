@@ -158,7 +158,7 @@ class Roma
   end
 
   def get_instances_list
-    active_list = @stats_hash["routing"]["nodes"].chomp.delete('"[').delete('"]').split(", ")
+    active_list = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
 
     @sock = TCPSocket.open(@host, @port)
     @sock.write("get_routing_history\r\n")
@@ -186,61 +186,51 @@ class Roma
     #}
   end
 
-  def get_instance_info(routing_list, column)
-    each_instance_status = {}
-    each_instance_size = {}
-    each_instance_version = {}
+  def get_instances_info(routing_list, target)
+    each_instances_info = {}
 
-    routing_list.each{|condition, instances|
-      if condition == "inactive"
-        status = "inactive" if column == "status"
-        size = nil if column == "size"
-        version = nil if column == "version"
+    #[ToDO] condoiftion wo change
+    routing_list.each{|status, instances|
+      if status == "inactive"
+        info = "inactive" if target == "status"
+        info = nil        if target =~ /size|version/
 
         instances.each{|instance|
-          each_instance_status.store(instance, status) if column == "status"
-          each_instance_size.store(instance, size) if column == "size"
-          each_instance_size.store(instance, version) if column == "version"
+          each_instances_info.store(instance, info)
         }
       else
         instances.each{|instance|
           each_stats = stats(instance.split("_")[0], instance.split("_")[1])
 
           ### status[active|inactive|recover|join]
-          if column == "status"
+          if target == "status"
             if each_stats["stats"]["run_recover"].chomp == "true"
-              status = "recover"
+              info = "recover"
             elsif each_stats["stats"]["run_join"].chomp == "true"
-              status = "join"
+              info = "join"
             else
-              status = "active"
+              info = "active"
             end
 
-            each_instance_status.store(instance, status) 
-
           ### sum of tc file size of each instance
-          elsif column == "size"
-            size = 0
+          elsif target == "size"
+            info = 0
             10.times{|index|
-              size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
+              info += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
             }
-          
-            each_instance_size.store(instance, size) 
            
           ### version
-          elsif column == "version"
-            version = each_stats["others"]["version"].chomp
-            
-            each_instance_version.store(instance, version)
+          elsif target == "version"
+            info = each_stats["others"]["version"].chomp
 
           end
+
+          each_instances_info.store(instance, info)
         }
       end
     }
-   
-    return each_instance_status if column == "status"
-    return each_instance_size if column == "size"
-    return each_instance_version if column == "version"
+
+    return each_instances_info
   end
 
 end
