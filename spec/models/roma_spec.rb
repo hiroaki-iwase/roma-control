@@ -146,5 +146,99 @@ describe Roma do
 
 #[Cluster function check](ph3)=================================================================
 
+  context "cluster_information", :focus => true do
+    roma = Roma.new
+    roma.stats
+
+    #context "normal(all instance's status is active)" do
+
+    #  routing_list = roma.get_instances_list
+
+    #  it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
+    #  it { expect(routing_list.size).to be 2 } # "active" & "inactive"
+    #  it { expect(routing_list["active"]).to be_a_kind_of(Array) }
+    #  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+    #  it { expect(routing_list["active"].size).to be > 0 }
+    #  routing_list["active"].each{|instance|
+    #    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+    #  }
+    #  it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
+    #  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+    #  it { expect(routing_list["inactive"].size).to be 0 }
+
+    #  each_instance_status = roma.get_instances_info(routing_list, "status")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
+
+    #  each_instance_status = roma.get_instances_info(routing_list, "size")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
+
+    #  each_instance_status = roma.get_instances_info(routing_list, "version")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+    #end
+ 
+
+
+
+    context "inactive(one instance's status is inactive)" do
+
+      routing_list = roma.get_instances_list
+
+      # kill 1 instace
+      target_instance = ""
+      routing_list["active"].each{|instance|
+        if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          target_instance = instance 
+          break
+        end
+      }
+
+      sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
+      stats_array = []
+      sock.write("rbalse\r\n")
+
+
+      routing_list = roma.get_instances_list
+
+      it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
+      it { expect(routing_list.size).to be 2 } # "active" & "inactive"
+      it { expect(routing_list["active"]).to be_a_kind_of(Array) }
+      it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+      it { expect(routing_list["active"].size).to be > 0 }
+      routing_list["active"].each{|instance|
+        it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+      }
+      it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
+      it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+      it { expect(routing_list["inactive"].size).to be > 0 }
+      routing_list["inactive"].each{|instance|
+        it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+      }
+
+
+      #each_instance_status = roma.get_instances_info(routing_list, "status")
+      #it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
+
+      #each_instance_status = roma.get_instances_info(routing_list, "size")
+      #it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
+
+      #each_instance_status = roma.get_instances_info(routing_list, "version")
+      #it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+    end
+
+
+    #it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
+    #it "stats_hash have 7 parent column " do
+    #  ## Config, Stats, Storage[roma], Write-behind, Routing, Connection, others
+    #  expect(res.size).to be 7
+    #end
+    #
+    #it "check all param have value(not have nil)" do
+    #  res.each{|k1, v1|
+    #    v1.each{|k2, v2|
+    #      expect(res[k1][k2]).not_to be_nil
+    #    }
+    #  }
+    #end
+  end
 
 end # End of describe

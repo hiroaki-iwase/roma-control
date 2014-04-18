@@ -124,3 +124,30 @@ def error_msg(key, continous_limit_pattern = nil)
     raise
   end
 end
+
+
+
+
+shared_examples_for 'get_instances_info_check' do |data, target|
+
+  it { expect(data).to be_a_kind_of(Hash) } # Hash or Not
+  it { expect(data.size).to be > 0 }
+  it { expect(data.keys.uniq!).to be nil } # duplicate check
+  data.each{|instance, param|
+    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+    case target
+    when "status"
+      it { expect(param).to eq "active" }
+    when "size"
+      it { expect(param).to be_a_kind_of(Fixnum) }
+      it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
+    when "version"
+      it { expect(param).to be_a_kind_of(String) }
+      it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+    else
+      raise
+    end
+  }
+
+end # end of example "get_instances_info_check"
+
