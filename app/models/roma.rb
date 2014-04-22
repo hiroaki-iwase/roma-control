@@ -189,7 +189,6 @@ class Roma
   def get_instances_info(routing_list, target)
     each_instances_info = {}
 
-    #[ToDO] condoiftion wo change
     routing_list.each{|status, instances|
       if status == "inactive"
         info = "inactive" if target == "status"
