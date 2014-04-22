@@ -100,9 +100,9 @@ class Roma
     @sock = TCPSocket.open(host, port)
     stats_array = []
     @sock.write("stats\r\n")
-    @sock.each{|s|
-      break if s == "END\r\n"
-      stats_array << s
+    @sock.each{|res|
+      break if res == "END\r\n"
+      stats_array << res
     }
     @sock.close
 
@@ -222,7 +222,6 @@ class Roma
           ### version
           elsif target == "version"
             info = each_stats["others"]["version"].chomp
-
           end
 
           each_instances_info.store(instance, info)
