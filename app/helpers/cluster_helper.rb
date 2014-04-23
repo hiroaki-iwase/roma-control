@@ -17,8 +17,9 @@ module ClusterHelper
     main_version
     if vs != main_version && vs != nil
       true
+    else
+      false
     end
-    false
   end
 
   def is_active?(status)
@@ -34,19 +35,20 @@ module ClusterHelper
     @each_instance_size[instance] / 1024 / 1024
   end
   
-  def opt_jon(status)
+  def opt_join(status)
     opt_join = "disabled"
     if status == "inactive"
       opt_join = nil
     end
+    opt_join
   end
   
-  def opt_recover
+  def opt_recover(status)
     opt_recover = "disabled"
-   if @stats_hash["routing"]["short_vnodes"].to_i != 0
+    if status != "inactive" && @stats_hash["routing"]["short_vnodes"].to_i != 0
       opt_recover = nil
-   end 
+    end
+    opt_recover
   end
-    
-   
+
 end

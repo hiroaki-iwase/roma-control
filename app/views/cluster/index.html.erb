@@ -2,8 +2,8 @@
 <div>
   <h3>Health</h3>
   <ul>
-  	<li>
-  	  instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
+    <li>
+      instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
       <% @routing_list["inactive"].each{|inactive_instance| %> <font color="red"><%= inactive_instance %> was down</font><% } %>
     </li>
     <li>server count : <%= get_server_list %></li>
@@ -45,8 +45,8 @@
             <% end %>
           </td>
           <td>
-            <button type="submit" <%= opt_jon(status) %>>join</button>
-            <button type="submit" <%= opt_recover %>>Recover</button>
+            <button type="submit" <%= opt_join(status) %>>join</button>
+            <button type="submit" <%= opt_recover(status) %>>Recover</button>
           </td>
         <tr>
       <% end %>
