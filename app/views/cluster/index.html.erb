@@ -13,7 +13,7 @@
       ROMA version : <%= @stats_hash["others"]["version"] %><br>
       <% @each_instance_version.each do |instance, vs| %>
         <% if chk_main_version(vs) %>
-          <font color="red"><%= "#{instance} using #{vs}" %></font>
+          <font color="red"><%= "#{instance} using #{vs}" %></font><br>
         <% end %>
       <% end %>
     </li>

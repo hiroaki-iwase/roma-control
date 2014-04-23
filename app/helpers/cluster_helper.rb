@@ -14,7 +14,6 @@ module ClusterHelper
   end
   
   def chk_main_version(vs)
-    main_version
     if vs != main_version && vs != nil
       true
     else
