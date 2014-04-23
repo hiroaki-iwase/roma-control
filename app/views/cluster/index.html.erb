@@ -1,90 +1,59 @@
 <h1>Cluster#index</h1>
-<%#= @routing_list %><br>
+<div>
+  <h3>Health</h3>
+  <ul>
+    <li>
+      instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
+      <% @routing_list["inactive"].each{|inactive_instance| %> <font color="red"><%= inactive_instance %> was down</font><% } %>
+    </li>
+    <li>server count : <%= get_server_list %></li>
+    <li>short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %></li>
+    <li>lost vnodes : <%= @stats_hash["routing"]["lost_vnodes"] %></li>
+    <li>
+      ROMA version : <%= @stats_hash["others"]["version"] %><br>
+      <% @each_instance_version.each do |instance, vs| %>
+        <% if chk_main_version(vs) %>
+          <font color="red"><%= "#{instance} using #{vs}" %></font>
+        <% end %>
+      <% end %>
+    </li>
+    <li>Gladiator Version : <%= Constants::VERSION %></li>  
+  </ul>
+</div>
+<div>
+  <h3>Filter : [ToDO]</h3>
+  <table border=4 bordercolor="#ff0000">
+    <tr bgcolor="#cccccc">
+      <th>No.</th>
+      <th>Cluster Name</th>
+      <th>Status</th>
+      <th>Data</th>
+      <th>&nbsp;</th>
+    </tr>
 
-Health:<br>
-
-instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
-  <% @routing_list["inactive"].each{|inactive_instance| %>
-    <font color="red"><%= inactive_instance %> was down</font><br>
-  <% } %>
-
-server count :
-  <%
-  server_list = []
-  @routing_list["active"].each{|active_instance|
-    active_instance =~ /^([-\.a-zA-Z\d]+)_/
-    server_list.push($1) 
-  } 
-  %>
-  <%= server_list.uniq.size %>      
-  <br>
-
-short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %><br>
-
-lost vnodes : <%= @stats_hash["routing"]["lost_vnodes"] %><br>
-
-ROMA version : <%= @stats_hash["others"]["version"] %><br>
-
-<% 
-main_version = @stats_hash["others"]["version"].chomp
-
-@each_instance_version.each{|instance, vs|
-  if vs != main_version && vs != nil %>
-    <font color="red"><%= "#{instance} using #{vs}" %></font><br>
-  <% end %>
-<% } %>
-
-Gladiator Version : <%= Constants::VERSION %>
-
-<br>
-<br>
-Filter : [ToDO]
-
-<table border=4 bordercolor="#ff0000">
-  <tr bgcolor="#cccccc">
-    <th>No.</th>
-    <th>Cluster Name</th>
-    <th>Status</th>
-    <th>Data</th>
-    <th>&nbsp;</th>
-  </tr>
-
-  <%
-  index = 0
-  @routing_list.each{|(status, instances)|
-    instances.each{|instance| %>
-      <tr>
-        <td> <%= index += 1 %></td>
-        <td> <%= instance %></td>
-        <td> <%= @each_instance_status[instance] %></td>
-        <td>
-          <% if status != "inactive"
-            total_size = @each_instance_size.values.compact.inject(:+).to_f %>
-            <%= (@each_instance_size[instance] / total_size * 100).round(1) %>%
-            (<%= @each_instance_size[instance] / 1024 / 1024 %> MB)
-          <% end %>
-        </td>
-        <td>
-          <%
-          opt_join = "disabled"
-          opt_recover = "disabled"
-          if status == "inactive"
-            opt_join = nil
-          elsif @stats_hash["routing"]["short_vnodes"].to_i != 0
-            opt_recover = nil
-          end 
-          %>
-          <BUTTON type="submit" <%= opt_join %>>join</BUTTON>
-          <BUTTON type="submit" <%= opt_recover %>>Recover</BUTTON>
-        </td>
-      <tr>
-    <% } %>
-  <% } %>
-
-</table>
-
-<br>
-
-<U>Add new instance</U><br>
-[ToDO]
-
+    <% 
+    index = 0
+    @routing_list.each do |(status, instances)|
+      instances.each do |instance| %>
+        <tr>
+          <td> <%= index += 1 %></td>
+          <td> <%= instance %></td>
+          <td> <%= @each_instance_status[instance] %></td>
+          <td>
+            <% if is_active?(status) %>
+              <span><%= current_size(instance) %> % (<%= instance_size(instance) %> MB)</span>
+            <% end %>
+          </td>
+          <td>
+            <button type="submit" <%= opt_join(status) %>>join</button>
+            <button type="submit" <%= opt_recover(status) %>>Recover</button>
+          </td>
+        <tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
+<div>
+  <h3><u>Add new instance</u></h3>
+  [ToDO]
+</div>
