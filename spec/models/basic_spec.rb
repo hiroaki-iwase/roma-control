@@ -125,25 +125,59 @@ def error_msg(key, continous_limit_pattern = nil)
   end
 end
 
+shared_examples_for 'get_instances_list_check' do |routing_list, rule|
+  it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
+  it { expect(routing_list.size).to be 2 } # "active" & "inactive"
+  it { expect(routing_list["active"]).to be_a_kind_of(Array) }
+  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+  it { expect(routing_list["active"].size).to be > 0 }
+  routing_list["active"].each{|instance|
+    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+  }
+  it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
+  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+
+  if rule == "normal"
+    it { expect(routing_list["inactive"].size).to be 0 }
+  elsif rule  =~ /rbalse|recover/
+    it { expect(routing_list["inactive"].size).to be > 0 }
+    routing_list["inactive"].each{|instance|
+      it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+    }
+  else
+    raise
+  end
+end
 
 
-
-shared_examples_for 'get_instances_info_check' do |data, target|
+shared_examples_for 'get_instances_info_check' do |data, column, removed_instance, expected_status|
 
   it { expect(data).to be_a_kind_of(Hash) } # Hash or Not
   it { expect(data.size).to be > 0 }
   it { expect(data.keys.uniq!).to be nil } # duplicate check
   data.each{|instance, param|
     it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-    case target
+    case column
     when "status"
-      it { expect(param).to eq "active" }
+      if instance == removed_instance
+        it { expect(param).to eq "inactive" } 
+      else
+        it { expect(param).to eq expected_status }
+      end
     when "size"
-      it { expect(param).to be_a_kind_of(Fixnum) }
-      it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
+      if instance == removed_instance
+        it { expect(param).to be nil }
+      else
+        it { expect(param).to be_a_kind_of(Fixnum) }
+        it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
+      end
     when "version"
-      it { expect(param).to be_a_kind_of(String) }
-      it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+      if instance == removed_instance
+        it { expect(param).to be nil }
+      else
+        it { expect(param).to be_a_kind_of(String) }
+        it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+      end
     else
       raise
     end

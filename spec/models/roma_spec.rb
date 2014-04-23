@@ -146,39 +146,26 @@ describe Roma do
 
 #[Cluster function check](ph3)=================================================================
 
-  context "cluster_information", :focus => true do
+  #context "cluster_information", :focus => true do
+  context "cluster_information" do 
     roma = Roma.new
     roma.stats
 
-    #context "normal(all instance's status is active)" do
+    context "normal(all instance's status is active)" do
 
-    #  routing_list = roma.get_instances_list
+      routing_list = roma.get_instances_list
+      it_should_behave_like 'get_instances_list_check', routing_list, "normal"
 
-    #  it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
-    #  it { expect(routing_list.size).to be 2 } # "active" & "inactive"
-    #  it { expect(routing_list["active"]).to be_a_kind_of(Array) }
-    #  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
-    #  it { expect(routing_list["active"].size).to be > 0 }
-    #  routing_list["active"].each{|instance|
-    #    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-    #  }
-    #  it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
-    #  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
-    #  it { expect(routing_list["inactive"].size).to be 0 }
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", nil, "active"
 
-    #  each_instance_status = roma.get_instances_info(routing_list, "status")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
 
-    #  each_instance_status = roma.get_instances_info(routing_list, "size")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "version")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
-    #end
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+    end
  
-
-
-
     context "inactive(one instance's status is inactive)" do
 
       routing_list = roma.get_instances_list
@@ -193,52 +180,45 @@ describe Roma do
       }
 
       sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
-      stats_array = []
       sock.write("rbalse\r\n")
 
+      sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
+      roma.stats # update @stats_hash
 
       routing_list = roma.get_instances_list
+      it_should_behave_like 'get_instances_list_check', routing_list, "rbalse"
 
-      it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
-      it { expect(routing_list.size).to be 2 } # "active" & "inactive"
-      it { expect(routing_list["active"]).to be_a_kind_of(Array) }
-      it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
-      it { expect(routing_list["active"].size).to be > 0 }
-      routing_list["active"].each{|instance|
-        it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-      }
-      it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
-      it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
-      it { expect(routing_list["inactive"].size).to be > 0 }
-      routing_list["inactive"].each{|instance|
-        it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-      }
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", target_instance, "active"
 
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size", target_instance
 
-      #each_instance_status = roma.get_instances_info(routing_list, "status")
-      #it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
-
-      #each_instance_status = roma.get_instances_info(routing_list, "size")
-      #it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
-
-      #each_instance_status = roma.get_instances_info(routing_list, "version")
-      #it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
     end
 
 
-    #it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
-    #it "stats_hash have 7 parent column " do
-    #  ## Config, Stats, Storage[roma], Write-behind, Routing, Connection, others
-    #  expect(res.size).to be 7
-    #end
-    #
-    #it "check all param have value(not have nil)" do
-    #  res.each{|k1, v1|
-    #    v1.each{|k2, v2|
-    #      expect(res[k1][k2]).not_to be_nil
-    #    }
-    #  }
-    #end
+    context "recover(one instance's status is inactive)" do
+
+      sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
+      sock.write("recover\r\n")
+      sock.close
+
+      routing_list = roma.get_instances_list
+      it_should_behave_like 'get_instances_list_check', routing_list, "recover"
+
+      inactive_instance = routing_list["inactive"][0]
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", inactive_instance, "recover" 
+
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size", inactive_instance
+
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version", inactive_instance
+    end
+
   end
 
 end # End of describe
