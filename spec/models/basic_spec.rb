@@ -125,10 +125,10 @@ def error_msg(key, continous_limit_pattern = nil)
   end
 end
 
-shared_examples_for 'get_instances_list_check' do |routing_list, rule|
+shared_examples_for 'get_instances_list_check' do |routing_list, condition|
   it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
-  it { expect(routing_list.size).to be 2 } # "active" & "inactive"
-  it { expect(routing_list["active"]).to be_a_kind_of(Array) }
+  it { expect(routing_list.size).to be 2 } # include 2keys ("active" & "inactive")
+  it { expect(routing_list["active"]).to be_a_kind_of(Array) } #instance list is Array
   it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
   it { expect(routing_list["active"].size).to be > 0 }
   routing_list["active"].each{|instance|
@@ -137,15 +137,16 @@ shared_examples_for 'get_instances_list_check' do |routing_list, rule|
   it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
   it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
 
-  if rule == "normal"
+  case condition
+  when "normal"
     it { expect(routing_list["inactive"].size).to be 0 }
-  elsif rule  =~ /rbalse|recover/
+  when "abnormal"
     it { expect(routing_list["inactive"].size).to be > 0 }
     routing_list["inactive"].each{|instance|
       it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
     }
   else
-    raise
+    raise 
   end
 end
 
