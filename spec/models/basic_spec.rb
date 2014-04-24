@@ -151,36 +151,36 @@ shared_examples_for 'get_instances_list_check' do |routing_list, condition|
 end
 
 
-shared_examples_for 'get_instances_info_check' do |data, column, removed_instance, expected_status|
+shared_examples_for 'get_instances_info_check' do |data, column, removed_instance|
 
   it { expect(data).to be_a_kind_of(Hash) } # Hash or Not
   it { expect(data.size).to be > 0 }
   it { expect(data.keys.uniq!).to be nil } # duplicate check
   data.each{|instance, param|
     it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-    case column
-    when "status"
-      if instance == removed_instance
+
+    if instance == removed_instance
+      case column
+      when "status"
         it { expect(param).to eq "inactive" } 
+      when "size", "version"
+        it { expect(param).to eq nil }
       else
-        it { expect(param).to eq expected_status }
-      end
-    when "size"
-      if instance == removed_instance
-        it { expect(param).to be nil }
-      else
-        it { expect(param).to be_a_kind_of(Fixnum) }
-        it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
-      end
-    when "version"
-      if instance == removed_instance
-        it { expect(param).to be nil }
-      else
-        it { expect(param).to be_a_kind_of(String) }
-        it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+        raise
       end
     else
-      raise
+      case column
+      when "status"
+        it { expect(param).to eq "active" }
+      when "size"
+        it { expect(param).to be_a_kind_of(Fixnum) }
+        it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
+      when "version"
+        it { expect(param).to be_a_kind_of(String) }
+        it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+      else
+        raise
+      end
     end
   }
 

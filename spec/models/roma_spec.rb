@@ -2,7 +2,7 @@
 require_relative 'basic_spec'
 
 describe Roma do
-=begin
+#=begin
 #[Status check](ph1)=================================================================
   #context "stats_result", :focus => true do
   context "stats_result" do
@@ -143,13 +143,11 @@ describe Roma do
       end
     }
   }
-=end
+#=end
 
 
 #[Cluster function check](ph3)=================================================================
 
-  #context "cluster_information", :focus => true do
-  #context "cluster_information" do 
     roma = Roma.new
     roma.stats
 
@@ -158,7 +156,7 @@ describe Roma do
       it_should_behave_like 'get_instances_list_check', routing_list, "normal"
 
       each_instance_status = roma.get_instances_info(routing_list, "status")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", nil, "active"
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
 
       each_instance_status = roma.get_instances_info(routing_list, "size")
       it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
@@ -191,40 +189,33 @@ describe Roma do
       sock.close
     end
 
+    context "inactive(one instance's status is inactive)" do
 
+      routing_list = roma.get_instances_list
+      # kill 1 instace
+      target_instance = ""
+      routing_list["active"].each{|instance|
+        if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          target_instance = instance 
+          break
+        end
+      }
+      sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
+      sock.write("rbalse\r\n")
+      sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
+      roma.stats # update @stats_hash
+      routing_list = roma.get_instances_list
 
-    #context "inactive(one instance's status is inactive)" do
+      it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
 
-    #  routing_list = roma.get_instances_list
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", target_instance
 
-    #  # kill 1 instace
-    #  target_instance = ""
-    #  routing_list["active"].each{|instance|
-    #    if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-    #      target_instance = instance 
-    #      break
-    #    end
-    #  }
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size", target_instance
 
-    #  sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
-    #  sock.write("rbalse\r\n")
-
-    #  sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
-    #  roma.stats # update @stats_hash
-
-    #  routing_list = roma.get_instances_list
-    #  it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "status")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "status", target_instance, "active"
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "size")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "size", target_instance
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "version")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
-    #end
-
-  #end
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
+    end
 
 end # End of describe
