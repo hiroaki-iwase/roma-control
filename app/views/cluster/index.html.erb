@@ -4,7 +4,7 @@
   <ul>
     <li>
       instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
-      <% @routing_list["inactive"].each{|inactive_instance| %> <font color="red"><%= inactive_instance %> was down</font><% } %>
+      <% @routing_list["inactive"].each{|inactive_instance| %> <font color="red"><%= inactive_instance %> is down</font><br><% } %>
     </li>
     <li>server count : <%= get_server_list %></li>
     <li>short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %></li>
