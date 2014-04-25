@@ -36,7 +36,13 @@
           <font color="red"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
         <% end %>
       </li>
-      <li><U>lost vnodes</U> : <%= @stats_hash["routing"]["lost_vnodes"] %></li>
+      <li><U>lost vnodes</U> : 
+        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+          <%= @stats_hash["routing"]["lost_vnodes"] %>
+        <% else %>
+          <font color="red"><%= @stats_hash["routing"]["lost_vnodes"] %></font><br>
+        <% end %>
+      </li>
       <li>
         <U>ROMA version</U> : <%= @stats_hash["others"]["version"] %><br>
         <div class ="error-instance">
