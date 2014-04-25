@@ -2,7 +2,7 @@
 require_relative 'basic_spec'
 
 describe Roma do
-
+#=begin
 #[Status check](ph1)=================================================================
   #context "stats_result", :focus => true do
   context "stats_result" do
@@ -143,8 +143,79 @@ describe Roma do
       end
     }
   }
+#=end
+
 
 #[Cluster function check](ph3)=================================================================
 
+    roma = Roma.new
+    roma.stats
+
+    context "normal(all instance's status is active)" do
+      routing_list = roma.get_instances_list
+      it_should_behave_like 'get_instances_list_check', routing_list, "normal"
+
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
+
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
+
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+    end
+ 
+    context "status change check(recover)" do
+      sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
+      sock.write("eval @stats.run_recover = true\r\n")
+
+      each_instance_status = roma.get_instances_info(roma.get_instances_list, "status")
+      status = each_instance_status["#{ConfigGui::HOST}_#{ConfigGui::PORT}"]
+      it { expect(status).to eq "recover" }
+
+      sock.write("eval @stats.run_recover = false\r\n")
+      sock.close
+    end
+
+    context "status change check(join)" do
+      sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
+      sock.write("eval @stats.run_join = true\r\n")
+
+      each_instance_status = roma.get_instances_info(roma.get_instances_list, "status")
+      status = each_instance_status["#{ConfigGui::HOST}_#{ConfigGui::PORT}"]
+      it { expect(status).to eq "join" }
+
+      sock.write("eval @stats.run_join = false\r\n")
+      sock.close
+    end
+
+    context "inactive(one instance's status is inactive)" do
+
+      routing_list = roma.get_instances_list
+      # kill 1 instace
+      target_instance = ""
+      routing_list["active"].each{|instance|
+        if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          target_instance = instance 
+          break
+        end
+      }
+      sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
+      sock.write("rbalse\r\n")
+      sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
+      roma.stats # update @stats_hash
+      routing_list = roma.get_instances_list
+
+      it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
+
+      each_instance_status = roma.get_instances_info(routing_list, "status")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", target_instance
+
+      each_instance_status = roma.get_instances_info(routing_list, "size")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "size", target_instance
+
+      each_instance_status = roma.get_instances_info(routing_list, "version")
+      it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
+    end
 
 end # End of describe

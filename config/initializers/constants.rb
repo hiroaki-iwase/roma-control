@@ -2,6 +2,8 @@
 
 module Constants
   private
+  # version
+  VERSION = "0.3.2"
   # stats colomn name
   STATS_COL_NAME = ["config","stats","storages[roma]","write-behind","routing","connection","others"]
 
