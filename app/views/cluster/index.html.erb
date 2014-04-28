@@ -4,13 +4,11 @@
 <div class="basic-information">
 
   <h2><U>Health</U>:
-    <%# if @stats_hash["routing"]["lost_vnodes"].chomp != 0 %>
-    <% if false%>
+    <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
       <div class="health-button red" style="display: inline-block;" >
         <span class="glare red"></span>
       </div>
-    <%# elsif @stats_hash["routing"]["short_vnodes"].chomp != 0 %>
-    <% elsif false %>
+    <% elsif @stats_hash["routing"]["short_vnodes"].chomp !="0" %>
       <div class="health-button yellow" style="display: inline-block;" >
         <span class="glare"></span>
       </div>
@@ -69,7 +67,7 @@
 </div>
 
 <div class="instances-information">
-  <h3>Filter : [ToDO]</h3>
+  <button class="reset">Reset Filter</button>
   <div class="instance-table">
     <!-- table class="table table-bordered result-table" id="instance-list" -->
     <table class="table table-bordered result-table tablesorter">
@@ -77,17 +75,20 @@
         <tr>
           <th>No.</th>
           <th>Cluster Name</th>
+
+          <!-- th class="filter-onlyAvail">Status</th -->
           <th class="filter-select" data-placeholder="">Status</th>
           <!-- th>Status</th  -->
-          <th>Data</th>
+
+          <th>Data rate</th>
           <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>
         <% 
         index = 0
-        @routing_list.each do |(status, instances)|
-          instances.each do |instance| %>
+        @routing_list2.each do |(instance, status)|
+          #instances.each do |instance| %>
             <% if @each_instance_status[instance] == "active" %>
               <tr>
             <% elsif @each_instance_status[instance] == "inactive" %>
@@ -113,7 +114,7 @@
                 <button type="submit" <%= opt_recover(status) %>>Recover</button>
               </td>
             <tr>
-          <% end %>
+          <%# end %>
         <% end %>
       </tbody>
     </table>

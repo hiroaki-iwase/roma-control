@@ -2,15 +2,26 @@ $(function(){
 
     //$("#instance-list").tablesorter({
     $('table').tablesorter({
-      sortList: [[1,0]],
+      theme: 'default',
+      //theme: 'blue',
+      //sortList: [[1,0]],
+      sortList: [[0,0]],
+      widthFixed: true,
 
       // initialize zebra striping and filter widgets 
       widgets: ["filter"], 
+      //widgets: ['stickyHeaders', 'filter'],
  
       //headers: { 5: { sorter: false, filter: false } }, 
       headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }},
  
       widgetOptions : { 
+        // Use the $.tablesorter.storage utility to save the most recent filters
+        filter_saveFilters : false,
+
+        // jQuery selector string of an element used to reset the filters
+        filter_reset : 'button.reset',
+
         // css class applied to the table row containing the filters & the inputs within that row 
         filter_cssFilter : 'tablesorter-filter', 
  
@@ -23,13 +34,6 @@ $(function(){
         // So typing in "a" will find "albert" but not "frank", both have a's; default is false 
         filter_startsWith : false,
 
-        // Add select box to 4th column (zero-based index)
-        // each option has an associated function that returns a boolean
-        // function variables:
-        // e = exact text from cell
-        // n = normalized value returned by the column parser
-        // f = search filter input value
-        // i = column index
         filter_functions : {
           // Add select menu to this column
           // set the column value to true, and/or add "filter-select" class name to header

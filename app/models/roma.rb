@@ -186,6 +186,48 @@ class Roma
     #}
   end
 
+
+  def get_instances_list2
+    active_list = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+    ###format is below
+    #[
+    #  "192.168.223.2_10001", 
+    #  "192.168.223.2_10003"
+    #]
+
+    @sock = TCPSocket.open(@host, @port)
+    @sock.write("get_routing_history\r\n")
+
+    inactive_list = []
+    @sock.each{|s|
+      break if s == "END\r\n"
+      inactive_list.push(s.chomp) if !active_list.index(s.chomp)
+    }
+    @sock.close
+    ###format
+    #["192.168.223.2_10002"]
+
+    rlist = {}
+
+    active_list.each{|a|
+      rlist.store(a, "active")
+    }
+
+    inactive_list.each{|i|
+      rlist.store(i, "inactive")
+    }
+
+    rlist2 = rlist.sort
+    h = Hash[*rlist2.flatten]
+
+    return h
+
+
+  end
+
+
+
+
   def get_instances_info(routing_list, target)
     each_instances_info = {}
 
