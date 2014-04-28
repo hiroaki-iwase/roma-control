@@ -121,3 +121,48 @@ td.p-bar{
   width: 300px;
 }
 
+
+
+
+
+/** table sorter **/
+
+.tablesorter {
+    width: auto;
+}
+
+/**
+.tablesorter .tablesorter-filter {
+    width: 50px;
+}
+**/
+/**
+.tablesorter .tablesorter-filter:nth-child(1) {
+    width: 50px;
+}
+**/
+
+.tablesorter .tablesorter-filter.disabled{
+    /** width: 0px; **/
+    /** visibility:hidden; **/
+    /**display:none;**/
+}
+
+.tablesorter .tablesorter-filter td:nth-child(1){
+    width: 50px;
+}
+
+/**
+.tablesorter .tablesorter-filter-row:nth-child(2) {
+    width: 50px;
+}
+
+
+.tablesorter .tablesorter-filter td:nth-child(2) {
+    width: 800px;
+}
+**/
+
+
+
+

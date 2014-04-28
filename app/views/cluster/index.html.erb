@@ -4,11 +4,13 @@
 <div class="basic-information">
 
   <h2><U>Health</U>:
-    <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
+    <%# if @stats_hash["routing"]["lost_vnodes"].chomp != 0 %>
+    <% if false%>
       <div class="health-button red" style="display: inline-block;" >
         <span class="glare red"></span>
       </div>
-    <% elsif @stats_hash["routing"]["short_vnodes"].chomp != 0 %>
+    <%# elsif @stats_hash["routing"]["short_vnodes"].chomp != 0 %>
+    <% elsif false %>
       <div class="health-button yellow" style="display: inline-block;" >
         <span class="glare"></span>
       </div>
@@ -69,46 +71,51 @@
 <div class="instances-information">
   <h3>Filter : [ToDO]</h3>
   <div class="instance-table">
-    <table class="table table-bordered result-table">
-      <tr>
-        <th>No.</th>
-        <th>Cluster Name</th>
-        <th>Status</th>
-        <th>Data</th>
-        <th>&nbsp;</th>
-      </tr>
-
-      <% 
-      index = 0
-      @routing_list.each do |(status, instances)|
-        instances.each do |instance| %>
-          <% if @each_instance_status[instance] == "active" %>
+    <!-- table class="table table-bordered result-table" id="instance-list" -->
+    <table class="table table-bordered result-table tablesorter">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Cluster Name</th>
+<th class="filter-select" data-placeholder="Select a name">First Name</th>
+          <!-- th>Status</th  -->
+          <th>Data</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+        index = 0
+        @routing_list.each do |(status, instances)|
+          instances.each do |instance| %>
+            <% if @each_instance_status[instance] == "active" %>
+              <tr>
+            <% elsif @each_instance_status[instance] == "inactive" %>
+              <tr class="active">
+            <% elsif @each_instance_status[instance] =~ /recover|join/ %>
+              <tr class="warning">
+            <% end %>
+              <td> <%= index += 1 %></td>
+              <td> <%= instance %></td>
+              <td> <%= @each_instance_status[instance] %></td>
+              <td class="p-bar">
+                <% if is_active?(status) %>
+                    <div class="progress progress-striped active">
+                      <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size(instance) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size(instance) %>%">
+                         <span><%= current_size(instance) %> %</span>
+                      </span>
+                    (<%= instance_size(instance) %> MB)
+                    </div>
+                <% end %>
+              </td>
+              <td>
+                <button type="submit" <%= opt_join(status) %>>join</button>
+                <button type="submit" <%= opt_recover(status) %>>Recover</button>
+              </td>
             <tr>
-          <% elsif @each_instance_status[instance] == "inactive" %>
-            <tr class="active">
-          <% elsif @each_instance_status[instance] =~ /recover|join/ %>
-            <tr class="warning">
           <% end %>
-            <td> <%= index += 1 %></td>
-            <td> <%= instance %></td>
-            <td> <%= @each_instance_status[instance] %></td>
-            <td class="p-bar">
-              <% if is_active?(status) %>
-                  <div class="progress progress-striped active">
-                    <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size(instance) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size(instance) %>%">
-                       <span><%= current_size(instance) %> %</span>
-                    </span>
-                  (<%= instance_size(instance) %> MB)
-                  </div>
-              <% end %>
-            </td>
-            <td>
-              <button type="submit" <%= opt_join(status) %>>join</button>
-              <button type="submit" <%= opt_recover(status) %>>Recover</button>
-            </td>
-          <tr>
         <% end %>
-      <% end %>
+      </tbody>
     </table>
   </div>
 </div>
