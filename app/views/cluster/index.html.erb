@@ -2,28 +2,26 @@
 
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
-
   <h2><U>Health</U>:
     <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
-      <div class="health-button red" style="display: inline-block;" >
-        <span class="glare red"></span>
+      <div class="health-button red large_size" style="display: inline-block;">
+        <span class="glare red large"></span>
       </div>
     <% elsif @stats_hash["routing"]["short_vnodes"].chomp !="0" %>
-      <div class="health-button yellow" style="display: inline-block;" >
-        <span class="glare"></span>
+      <div class="health-button yellow large_size" style="display: inline-block;">
+        <span class="glare large"></span>
       </div>
     <% else %>
-      <div class="health-button blue" style="display: inline-block;" >
+      <div class="health-button blue large_size" style="display: inline-block;">
         <!-- span class="text">Good</span -->
-        <span class="glare"></span>
+        <span class="glare large"></span>
       </div>
     <% end %>
   </h2>
 
   <div class="basic-columns"> 
     <ul>
-      <li><U>
-        instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
+      <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
         <div class="error-instance">
           <% @routing_list["inactive"].each{|inactive_instance| %> <%= inactive_instance %> is down<br><% } %>
         </div>
@@ -98,7 +96,28 @@
             <% end %>
               <td> <%= index += 1 %></td>
               <td> <%= instance %></td>
-              <td> <%= @each_instance_status[instance] %></td>
+
+
+              <td>
+    <% if @each_instance_status[instance] == "active" %>
+                <div class="health-button blue small_size" style="display: inline-block;" >
+                  <!-- span class="glare small"></span -->
+                </div>
+                <%= @each_instance_status[instance] %>
+    <% elsif @each_instance_status[instance] == "inactive" %>
+                <div class="health-button grey small_size" style="display: inline-block;" >
+                  <!-- span class="glare small"></span -->
+                </div>
+                <%= @each_instance_status[instance] %>
+    <% else %>
+                <div class="health-button yellow small_size" style="display: inline-block;" >
+                  <!-- span class="glare small"></span -->
+                </div>
+                <%= @each_instance_status[instance] %>
+    <% end %>
+              </td>
+
+
               <td class="p-bar">
                 <% if is_active?(status) %>
                     <div class="progress progress-striped active">
@@ -110,8 +129,8 @@
                 <% end %>
               </td>
               <td>
-                <button type="submit" <%= opt_join(status) %>>join</button>
-                <button type="submit" <%= opt_recover(status) %>>Recover</button>
+                <button type="submit" class="btn btn-info" <%= opt_join(status) %>>join</button>
+                <button type="submit" class="btn btn-warning" <%= opt_recover(status) %>>Recover</button>
               </td>
             <tr>
           <%# end %>
