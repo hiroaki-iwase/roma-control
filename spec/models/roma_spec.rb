@@ -1,8 +1,46 @@
 #require 'spec_helper'
 require_relative 'basic_spec'
 
+begin
+  env = Roma.new.stats
+  raise if env["stats"]["enabled_repetition_host_in_routing"].chomp != "true"
+  raise if env["routing"]["nodes.length"].to_i < 2
+rescue
+  prepare = <<-'EOS'
+  [ROMA condition Error] 
+    This test require the below conditions.
+    If this error message was displayed, please check your ROMA status.
+      1. ROMA is booting
+      2. instance count should be over 2
+      3. enabled_repetition_host_in_routing is true(--enabled_repeathost)
+  EOS
+  puts prepare
+  exit!
+end
+
+
 describe Roma do
-#=begin
+#[Check environment])=================================================================
+  #context "[environment check]" do
+
+  #  res = Roma.new.stats
+ 
+  #  it "ROMA booting" do
+  #    expect{Roma.new.stats}.not_to raise_error, "ROMA is down, please boot ROMA"
+  #  end
+
+  #  env = Roma.new.stats
+
+  #  it "enabled_repetition_host_in_routing is true" do
+  #    expect(env["stats"]["enabled_repetition_host_in_routing"].chomp).to eq("true"), "enabled_repetition_host_in_routing should be true in this test case."
+  #  end
+  #  
+  #  it "nodes.length should over 2" do
+  #    expect(env["routing"]["nodes.length"].to_i).to be >= 4, "instance count should be over 2 in this test case"
+  #  end
+
+  #end
+
 #[Status check](ph1)=================================================================
   #context "stats_result", :focus => true do
   context "stats_result" do
@@ -143,10 +181,10 @@ describe Roma do
       end
     }
   }
-#=end
 
 
 #[Cluster function check](ph3)=================================================================
+#=begin
 
     roma = Roma.new
     roma.stats
@@ -217,5 +255,7 @@ describe Roma do
       each_instance_status = roma.get_instances_info(routing_list, "version")
       it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
     end
+
+#=end
 
 end # End of describe
