@@ -185,7 +185,7 @@ class Roma
       rlist_info[instance]["size"] = nil
       rlist_info[instance]["version"] = nil
     }
-    #{"192.168.223.2_10001"=>{"status"=>nil, "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>nil, "size"=>nil, "version"=>nil}}
+    #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
     active_rlist.each{|instance|
       each_stats = stats(instance.split("_")[0], instance.split("_")[1])

@@ -173,30 +173,26 @@ describe Roma do
 #=begin
 
     roma = Roma.new
-    roma.stats
+    active_rlist = roma.stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
 
     context "normal(all instance's status is active)" do
-      routing_list = roma.get_instances_list
-      it_should_behave_like 'get_instances_list_check', routing_list, "normal"
+      routing_info = roma.get_routing_info(active_rlist)
 
-      each_instance_status = roma.get_instances_info(routing_list, "status")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "status"
-
-      each_instance_status = roma.get_instances_info(routing_list, "size")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "size"
-
-      each_instance_status = roma.get_instances_info(routing_list, "version")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "version"
+      it_should_behave_like 'get_routing_info_check', routing_info
     end
- 
+
     context "status change check(recover)" do
       sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
       sock.write("eval @stats.run_recover = true\r\n")
 
-      each_instance_status = roma.get_instances_info(roma.get_instances_list, "status")
-      status = each_instance_status["#{ConfigGui::HOST}_#{ConfigGui::PORT}"]
-      it { expect(status).to eq "recover" }
-
+      routing_info = roma.get_routing_info(active_rlist)
+      routing_info.each{|instance, info|
+        if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          it { expect(routing_info[instance]["status"]).to eq "recover" }
+        else
+          it { expect(routing_info[instance]["status"]).to eq "active" }
+        end
+      }
       sock.write("eval @stats.run_recover = false\r\n")
       sock.close
     end
@@ -205,47 +201,32 @@ describe Roma do
       sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
       sock.write("eval @stats.run_join = true\r\n")
 
-      each_instance_status = roma.get_instances_info(roma.get_instances_list, "status")
-      status = each_instance_status["#{ConfigGui::HOST}_#{ConfigGui::PORT}"]
-      it { expect(status).to eq "join" }
+      routing_info = roma.get_routing_info(active_rlist)
+      routing_info.each{|instance, info|
+        if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          it { expect(routing_info[instance]["status"]).to eq "join" }
+        else
+          it { expect(routing_info[instance]["status"]).to eq "active" }
+        end
+      }
 
       sock.write("eval @stats.run_join = false\r\n")
       sock.close
     end
 
-    #context "inactive(one instance's status is inactive)" do
-    #  target_instance = ""
+    context "inactive(one instance's status is inactive)" do
+      active_rlist.delete("#{ConfigGui::HOST}_#{ConfigGui::PORT}")
 
-    #  before :all do
-    #    routing_list = roma.get_instances_list
-    #    # kill 1 instace
-    #    routing_list["active"].each{|instance|
-    #      if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-    #        target_instance = instance 
-    #        break
-    #      end
-    #    }
-    #    sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
-    #    sock.write("rbalse\r\n")
-    #    sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
-    #    roma.stats # update @stats_hash
-    #  end
-
-
-    #  routing_list = roma.get_instances_list
-    #  puts "aaa"
-    #  it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "status")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "status", @target_instance
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "size")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "size", @target_instance
-
-    #  each_instance_status = roma.get_instances_info(routing_list, "version")
-    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "version", @target_instance
-    #end
-
-#=end
+      routing_info = roma.get_routing_info(active_rlist)
+      routing_info.each{|instance, info|
+        if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+          it { expect(routing_info[instance]["status"]).to eq "inactive" }
+          it { expect(routing_info[instance]["size"]).to eq nil }
+          it { expect(routing_info[instance]["version"]).to eq nil }
+        else
+          it { expect(routing_info[instance]["status"]).to eq "active" }
+        end
+      }
+    end
 
 end # End of describe

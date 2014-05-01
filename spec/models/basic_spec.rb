@@ -125,64 +125,25 @@ def error_msg(key, continous_limit_pattern = nil)
   end
 end
 
-shared_examples_for 'get_instances_list_check' do |routing_list, condition|
-  it { expect(routing_list).to be_a_kind_of(Hash) } # Hash or Not
-  it { expect(routing_list.size).to be 2 } # include 2keys ("active" & "inactive")
-  it { expect(routing_list["active"]).to be_a_kind_of(Array) } #instance list is Array
-  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
-  it { expect(routing_list["active"].size).to be > 0 }
-  routing_list["active"].each{|instance|
-    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-  }
-  it { expect(routing_list["inactive"]).to be_a_kind_of(Array) }
-  it { expect(routing_list["active"].uniq!).to be nil } # duplicate check
+shared_examples_for 'get_routing_info_check' do |routing_info|
+  it { expect(routing_info).to be_a_kind_of(Hash) } # Hash or Not
+  it { expect(routing_info.size).to be > 1 } # over 2 instances
+  it { expect(routing_info.keys.uniq!).to be nil } # duplicate check
 
-  case condition
-  when "normal"
-    it { expect(routing_list["inactive"].size).to be 0 }
-  when "abnormal"
-    it { expect(routing_list["inactive"].size).to be > 0 }
-    routing_list["inactive"].each{|instance|
-      it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-    }
-  else
-    raise 
-  end
+  routing_info.each{|instance, info|
+    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
+    it { expect(info).to be_a_kind_of(Hash) } # Hash or Not
+    it { expect(info.size).to be 3 } # Status & Size & Version
+
+    # Status check
+    it { expect(info["status"]).to be_a_kind_of(String) }
+    it { expect(info["status"]).to eq("active") } # all instance's status should be active
+    # Size check
+    it { expect(info["size"]).to be_a_kind_of(Fixnum) }
+    it { expect(info["size"]).to be > 209715200 } # 1 tc file is over 20 MB at least
+    # Version check
+    it { expect(info["version"]).to be_a_kind_of(String) }
+    it { expect(info["version"]).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+  }
 end
-
-
-shared_examples_for 'get_instances_info_check' do |rlist, column, removed_instance|
-
-  it { expect(rlist).to be_a_kind_of(Hash) } # Hash or Not
-  it { expect(rlist.size).to be > 0 }
-  it { expect(rlist.keys.uniq!).to be nil } # duplicate check
-  rlist.each{|instance, param|
-    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-
-    if instance == removed_instance
-      case column
-      when "status"
-        it { expect(param).to eq "inactive" } 
-      when "size", "version"
-        it { expect(param).to eq nil }
-      else
-        raise
-      end
-    else
-      case column
-      when "status"
-        it { expect(param).to eq "active" }
-      when "size"
-        it { expect(param).to be_a_kind_of(Fixnum) }
-        it { expect(param).to be > 209715200 } # 1 tc file is over 20 MB at least
-      when "version"
-        it { expect(param).to be_a_kind_of(String) }
-        it { expect(param).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
-      else
-        raise
-      end
-    end
-  }
-
-end # end of example "get_instances_info_check"
 
