@@ -151,12 +151,12 @@ shared_examples_for 'get_instances_list_check' do |routing_list, condition|
 end
 
 
-shared_examples_for 'get_instances_info_check' do |data, column, removed_instance|
+shared_examples_for 'get_instances_info_check' do |rlist, column, removed_instance|
 
-  it { expect(data).to be_a_kind_of(Hash) } # Hash or Not
-  it { expect(data.size).to be > 0 }
-  it { expect(data.keys.uniq!).to be nil } # duplicate check
-  data.each{|instance, param|
+  it { expect(rlist).to be_a_kind_of(Hash) } # Hash or Not
+  it { expect(rlist.size).to be > 0 }
+  it { expect(rlist.keys.uniq!).to be nil } # duplicate check
+  rlist.each{|instance, param|
     it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
 
     if instance == removed_instance

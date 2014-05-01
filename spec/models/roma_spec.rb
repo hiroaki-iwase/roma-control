@@ -1,8 +1,27 @@
 #require 'spec_helper'
 require_relative 'basic_spec'
 
+puts "[Model test(roma_spec.rb)]***************************"
+
+begin
+  env = Roma.new.stats
+  raise if env["stats"]["enabled_repetition_host_in_routing"].chomp != "true"
+  raise if env["routing"]["nodes.length"].to_i < 2
+rescue
+  prepare = <<-'EOS'
+  [ROMA condition Error] 
+    This test require the below conditions.
+    If this error message was displayed, please check your ROMA status.
+      1. ROMA is booting
+      2. instance count should be over 2
+      3. enabled_repetition_host_in_routing is true(--enabled_repeathost)
+  EOS
+  puts prepare
+  exit!
+end
+
+
 describe Roma do
-#=begin
 #[Status check](ph1)=================================================================
   #context "stats_result", :focus => true do
   context "stats_result" do
@@ -64,8 +83,13 @@ describe Roma do
           it_should_behave_like 'validation check', column, "hogehoge", "Character"
           it_should_behave_like 'validation check', column, nil,        "nil"
         else
-          if column == "hilatency_warn_time" || column == "fail_cnt_gap" || column == "routing_trans_timeout"
+          #if column == "hilatency_warn_time" || column == "fail_cnt_gap" || column == "routing_trans_timeout"
+          if column == "hilatency_warn_time" || column == "routing_trans_timeout"
             it_should_behave_like 'dynamic cmd check', column, "40.0", group, "string"
+          elsif column == "fail_cnt_gap"
+            it_should_behave_like 'dynamic cmd check', column, "1.0", group, "string"
+          elsif column == "fail_cnt_threshold"
+            it_should_behave_like 'dynamic cmd check', column, "5", group, "string"
           else
             it_should_behave_like 'dynamic cmd check', column, "40", group, "string"
           end
@@ -143,10 +167,10 @@ describe Roma do
       end
     }
   }
-#=end
 
 
 #[Cluster function check](ph3)=================================================================
+#=begin
 
     roma = Roma.new
     roma.stats
@@ -189,33 +213,39 @@ describe Roma do
       sock.close
     end
 
-    context "inactive(one instance's status is inactive)" do
+    #context "inactive(one instance's status is inactive)" do
+    #  target_instance = ""
 
-      routing_list = roma.get_instances_list
-      # kill 1 instace
-      target_instance = ""
-      routing_list["active"].each{|instance|
-        if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-          target_instance = instance 
-          break
-        end
-      }
-      sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
-      sock.write("rbalse\r\n")
-      sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
-      roma.stats # update @stats_hash
-      routing_list = roma.get_instances_list
+    #  before :all do
+    #    routing_list = roma.get_instances_list
+    #    # kill 1 instace
+    #    routing_list["active"].each{|instance|
+    #      if instance != "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+    #        target_instance = instance 
+    #        break
+    #      end
+    #    }
+    #    sock = TCPSocket.open(target_instance.split("_")[0], target_instance.split("_")[1])
+    #    sock.write("rbalse\r\n")
+    #    sleep 20 # should wait over [routing.fail_cnt_threshold] * [routing.fail_cnt_gap]
+    #    roma.stats # update @stats_hash
+    #  end
 
-      it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
 
-      each_instance_status = roma.get_instances_info(routing_list, "status")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "status", target_instance
+    #  routing_list = roma.get_instances_list
+    #  puts "aaa"
+    #  it_should_behave_like 'get_instances_list_check', routing_list, "abnormal"
 
-      each_instance_status = roma.get_instances_info(routing_list, "size")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "size", target_instance
+    #  each_instance_status = roma.get_instances_info(routing_list, "status")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "status", @target_instance
 
-      each_instance_status = roma.get_instances_info(routing_list, "version")
-      it_should_behave_like 'get_instances_info_check', each_instance_status, "version", target_instance
-    end
+    #  each_instance_status = roma.get_instances_info(routing_list, "size")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "size", @target_instance
+
+    #  each_instance_status = roma.get_instances_info(routing_list, "version")
+    #  it_should_behave_like 'get_instances_info_check', each_instance_status, "version", @target_instance
+    #end
+
+#=end
 
 end # End of describe
