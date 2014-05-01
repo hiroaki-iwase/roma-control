@@ -5,12 +5,24 @@ class ClusterController < ApplicationController
     begin
       @stats_hash = roma.stats
 
-      @routing_list = roma.get_instances_list
-      @routing_list2 = roma.get_instances_list2
-      @each_instance_status  = roma.get_instances_info(@routing_list, "status")
-      @each_instance_size    = roma.get_instances_info(@routing_list, "size")
-      @each_instance_version = roma.get_instances_info(@routing_list, "version")
-      #render :text => @each_instance_status
+      @active_rlist = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+      @inactive_rlist = roma.get_all_rlist - @active_rlist
+
+      @routing_info= roma.get_routing_info(@active_rlist)
+      #{
+      #  "192.168.223.2_10001"=> {
+      #     "status"  => "active", 
+      #     "size"    => 209759360, 
+      #     "version" => "0.8.14"
+      #  },
+      #  "192.168.223.2_10002"=> {
+      #     "status"  => "active", 
+      #     "size"    => 209759360, 
+      #     "version" => "0.8.14"
+      #  }
+      #}
+
+      #render :text => @routing_info
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end

@@ -23,7 +23,7 @@
     <ul>
       <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
         <div class="error-instance">
-          <% @routing_list["inactive"].each{|inactive_instance| %> <%= inactive_instance %> is down<br><% } %>
+          <% @inactive_rlist.each{|instance| %> <%= instance %> is down<br><% } %>
         </div>
       </li>
       <li><U>server count</U> : <%= get_server_list %></li>
@@ -44,9 +44,9 @@
       <li>
         <U>ROMA version</U> : <%= @stats_hash["others"]["version"] %><br>
         <div class ="error-instance">
-          <% @each_instance_version.each do |instance, vs| %>
-            <% if chk_main_version(vs) %>
-              <font color="red"><%= "#{instance} using #{vs}" %></font><br>
+          <% @routing_info.each do |instance, info| %>
+            <% if chk_main_version(info["version"]) %>
+              <font color="red"><%= "#{instance} using #{info["version"]}" %></font><br>
             <% end %>
           <% end %>
         </div>
@@ -54,6 +54,7 @@
       <li><U>Gladiator Version</U> : <%= Constants::VERSION %></li>
     </ul>
   </div>
+
   <div class="extra-process">
     <h3><U>Other process(join or Recover)[ToDO]</U></h3>
     <div class="extra-pbar">
@@ -64,22 +65,19 @@
     </div>
     </div>
   </div>
+
 </div>
+
 
 <div class="instances-information">
   <button class="reset">Reset Filter</button>
   <div class="instance-table">
-    <!-- table class="table table-bordered result-table" id="instance-list" -->
     <table class="table table-bordered result-table tablesorter">
       <thead>
         <tr>
           <th>No.</th>
           <th>Cluster Name</th>
-
-          <!-- th class="filter-onlyAvail">Status</th -->
           <th class="filter-select" data-placeholder="">Status</th>
-          <!-- th>Status</th  -->
-
           <th>Data rate</th>
           <th>Data size</th>
           <th>&nbsp;</th>
@@ -88,52 +86,56 @@
       <tbody>
         <% 
         index = 0
-        @routing_list2.each do |(instance, status)|
-          #instances.each do |instance| %>
-            <% if @each_instance_status[instance] == "active" %>
-              <tr>
-            <% elsif @each_instance_status[instance] == "inactive" %>
-              <tr class="active">
-            <% elsif @each_instance_status[instance] =~ /recover|join/ %>
-              <tr class="warning">
-            <% end %>
-              <td style="display:table-cell; vertical-align:middle; text-align: center"> <%= index += 1 %></td>
-              <td> <%= instance %></td>
-              <td class="status">
-                <% if @each_instance_status[instance] == "active" %>
-                  <div class="health-button green small_size" style="display: inline-block;"></div>
-                  <%= @each_instance_status[instance] %>
-                <% elsif @each_instance_status[instance] == "inactive" %>
-                  <div class="health-button grey small_size" style="display: inline-block;"></div>
-                  <%= @each_instance_status[instance] %>
-                <% else %>
-                  <div class="health-button yellow small_size" style="display: inline-block;"></div>
-                  <%= @each_instance_status[instance] %>
-                <% end %>
-              </td>
-              <td class="p-bar">
-                <% if is_active?(status) %>
-                  <div class="progress progress-striped active" >
-                    <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size(instance) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size(instance) %>%">
-                       <%= current_size(instance) %> %
-                    </span>
-                  </div>
-                <% end %>
-              </td>
-              <td>
-                <%if is_active?(status) %><%= instance_size(instance) %> MB<% end %>
-              </td>
-              <td>
-                <button type="submit" class="btn btn-info" <%= opt_join(status) %>>join</button>
-                <button type="submit" class="btn btn-warning" <%= opt_recover(status) %>>Recover</button>
-              </td>
+        @routing_info.each do |(instance, info)|
+          if info["status"] == "active" %>
             <tr>
-          <%# end %>
+          <% elsif info["status"] == "inactive" %>
+            <tr class="active">
+          <% elsif info["status"] =~ /recover|join/ %>
+            <tr class="warning">
+          <% end %>
+            <td style="display:table-cell; vertical-align:middle; text-align: center"> <%= index += 1 %></td>
+
+            <td> <%= instance %></td>
+
+            <td class="status">
+              <% if info["status"] == "active" %>
+                <div class="health-button green small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% elsif info["status"] == "inactive" %>
+                <div class="health-button grey small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% else %>
+                <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% end %>
+            </td>
+
+            <td class="p-bar">
+              <% if is_active?(info["status"]) %>
+                <div class="progress progress-striped active" >
+                  <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
+                     <%= current_size_rate(info["size"]) %> %
+                  </span>
+                </div>
+              <% end %>
+            </td>
+
+            <td>
+              <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
+            </td>
+
+            <td>
+              <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>join</button>
+              <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"]) %>>Recover</button>
+            </td>
+          <tr>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
+
 <div class="join-function">
   <h3><u>Add new instance</u></h3>
   [ToDO]
