@@ -12,7 +12,7 @@
         <span class="glare large"></span>
       </div>
     <% else %>
-      <div class="health-button blue large_size" style="display: inline-block;">
+      <div class="health-button green large_size" style="display: inline-block;">
         <!-- span class="text">Good</span -->
         <span class="glare large"></span>
       </div>
@@ -56,10 +56,12 @@
   </div>
   <div class="extra-process">
     <h3><U>Other process(join or Recover)[ToDO]</U></h3>
+    <div class="extra-pbar">
     <div class="progress progress-striped active">
       <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
         <span>[ToDO]% Complete</span>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -79,6 +81,7 @@
           <!-- th>Status</th  -->
 
           <th>Data rate</th>
+          <th>Data size</th>
           <th>&nbsp;</th>
         </tr>
       </thead>
@@ -94,39 +97,31 @@
             <% elsif @each_instance_status[instance] =~ /recover|join/ %>
               <tr class="warning">
             <% end %>
-              <td> <%= index += 1 %></td>
+              <td style="display:table-cell; vertical-align:middle; text-align: center"> <%= index += 1 %></td>
               <td> <%= instance %></td>
-
-
-              <td>
-    <% if @each_instance_status[instance] == "active" %>
-                <div class="health-button blue small_size" style="display: inline-block;" >
-                  <!-- span class="glare small"></span -->
-                </div>
-                <%= @each_instance_status[instance] %>
-    <% elsif @each_instance_status[instance] == "inactive" %>
-                <div class="health-button grey small_size" style="display: inline-block;" >
-                  <!-- span class="glare small"></span -->
-                </div>
-                <%= @each_instance_status[instance] %>
-    <% else %>
-                <div class="health-button yellow small_size" style="display: inline-block;" >
-                  <!-- span class="glare small"></span -->
-                </div>
-                <%= @each_instance_status[instance] %>
-    <% end %>
+              <td class="status">
+                <% if @each_instance_status[instance] == "active" %>
+                  <div class="health-button green small_size" style="display: inline-block;"></div>
+                  <%= @each_instance_status[instance] %>
+                <% elsif @each_instance_status[instance] == "inactive" %>
+                  <div class="health-button grey small_size" style="display: inline-block;"></div>
+                  <%= @each_instance_status[instance] %>
+                <% else %>
+                  <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                  <%= @each_instance_status[instance] %>
+                <% end %>
               </td>
-
-
               <td class="p-bar">
                 <% if is_active?(status) %>
-                    <div class="progress progress-striped active">
-                      <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size(instance) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size(instance) %>%">
-                         <span><%= current_size(instance) %> %</span>
-                      </span>
-                    (<%= instance_size(instance) %> MB)
-                    </div>
+                  <div class="progress progress-striped active" >
+                    <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size(instance) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size(instance) %>%">
+                       <%= current_size(instance) %> %
+                    </span>
+                  </div>
                 <% end %>
+              </td>
+              <td>
+                <%if is_active?(status) %><%= instance_size(instance) %> MB<% end %>
               </td>
               <td>
                 <button type="submit" class="btn btn-info" <%= opt_join(status) %>>join</button>

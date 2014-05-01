@@ -13,7 +13,7 @@ $(function(){
       //widgets: ['stickyHeaders', 'filter'],
  
       //headers: { 5: { sorter: false, filter: false } }, 
-      headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }},
+      headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false }},
  
       widgetOptions : { 
         // Use the $.tablesorter.storage utility to save the most recent filters

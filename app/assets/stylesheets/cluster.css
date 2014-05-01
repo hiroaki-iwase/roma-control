@@ -27,6 +27,16 @@ height: 15px; /**size**/
 margin: -3px 0px;
 }
 
+.health-button.green{
+  background: -moz-radial-gradient(50% 80%, circle, #00f206, #01c014);
+  background: -webkit-radial-gradient(50% 80%, circle, #00f206, #01c014);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.5),
+    0 2px 10px rgba(20,254,1, 0.7),
+    inset 0 0 5px rgba(12,151,0,0.6);
+}
+
+/**
 .health-button.blue{
   background: -moz-radial-gradient(50% 80%, circle, #00D1F2, #0055C1);
   background: -webkit-radial-gradient(50% 80%, circle, #00D1F2, #0055C1);
@@ -35,6 +45,7 @@ margin: -3px 0px;
     0 2px 10px rgba(0,100,255, 0.7),
     inset 0 0 5px rgba(0,0,150,0.6);
 }
+**/
 
 .health-button.yellow{
   background: -moz-radial-gradient(50% 80%, circle, #f2f200, #bcc001);
@@ -110,11 +121,9 @@ margin: -3px 0px;
   margin-left: 10px;
 }
 
-.progress.progress-striped.active{
+.extra-pbar {
   margin-left: 30px;
 }
-
-
 
 
 /** Tables **/
@@ -141,12 +150,20 @@ margin: -3px 0px;
   margin: 10px;
 }
 
+td.status{
+  width: 100px;
+}
+
 td.p-bar{
   width: 300px;
 }
 
 button.reset{
   margin-left: 10px;
+}
+
+.tablesorter-default .tablesorter-filter {
+  margin: -5px;
 }
 
 

@@ -56,7 +56,25 @@ a.list-group-item:focus {
   background-color: #e3e3e3;
 }
 
-/* btn-lg */
+/* btn */
 .btn-lg {
   padding: 5px 10px;
 }
+
+.btn {
+  margin-top: -5px;
+  margin-bottom: -5px;
+  padding: 3px 12px;
+}
+
+/** progress bar **/
+.progress {
+  margin-bottom: 5px;
+}
+.progress.progress-striped.active{
+  margin-left: 5px;
+}
+
+
+
+
