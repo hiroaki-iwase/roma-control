@@ -1,6 +1,3 @@
-// Place all the styles related to the stat controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 *{
     margin: 0;
     padding: 0;
@@ -92,4 +89,9 @@ label.error{
 }
 .form-error-msg{
   color: #ff0000;
+}
+
+/* btn */
+.btn-lg {
+  padding: 5px 10px;
 }

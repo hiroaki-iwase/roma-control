@@ -4,7 +4,7 @@ require_relative 'basic_spec'
 puts "[Model test(roma_spec.rb)]***************************"
 
 begin
-  env = Roma.new.stats
+  env = Roma.new.get_stats
   raise if env["stats"]["enabled_repetition_host_in_routing"].chomp != "true"
   raise if env["routing"]["nodes.length"].to_i < 2
 rescue
@@ -25,7 +25,7 @@ describe Roma do
 #[Status check](ph1)=================================================================
   #context "stats_result", :focus => true do
   context "stats_result" do
-    res = Roma.new.stats
+    res = Roma.new.get_stats
 
     it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
     it "stats_hash have 7 parent column " do
@@ -173,7 +173,7 @@ describe Roma do
 #=begin
 
     roma = Roma.new
-    active_rlist = roma.stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+    active_rlist = roma.get_stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
 
     context "normal(all instance's status is active)" do
       routing_info = roma.get_routing_info(active_rlist)

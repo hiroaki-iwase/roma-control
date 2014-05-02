@@ -97,7 +97,7 @@ class Roma
   end
 
   #[ToDO] change to "def get_stats"
-  def stats(host = @host, port = @port)
+  def get_stats(host = @host, port = @port)
     @sock = TCPSocket.open(host, port)
     stats_array = []
     @sock.write("stats\r\n")
@@ -158,7 +158,7 @@ class Roma
     return res_hash
   end
 
-  def get_all_rlist
+  def get_all_routing_list
     @sock = TCPSocket.open(@host, @port)
     @sock.write("get_routing_history\r\n")
 
@@ -173,14 +173,9 @@ class Roma
   end
 
   def get_routing_info(active_rlist)
-    get_all_rlist
-    #["192.168.223.2_10001", "192.168.223.2_10002"]
-    active_rlist
-    #["192.168.223.2_10001"]
     rlist_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
-    #{{}}
 
-    get_all_rlist.each{|instance|
+    get_all_routing_list.each{|instance|
       rlist_info[instance]["status"] = "inactive"
       rlist_info[instance]["size"] = nil
       rlist_info[instance]["version"] = nil
@@ -188,7 +183,7 @@ class Roma
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
     active_rlist.each{|instance|
-      each_stats = stats(instance.split("_")[0], instance.split("_")[1])
+      each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
       ### status[active|inactive|recover|join]
       if each_stats["stats"]["run_recover"].chomp == "true"

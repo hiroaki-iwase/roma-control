@@ -70,7 +70,7 @@
 
 
 <div class="instances-information">
-  <button class="reset">Reset Filter</button>
+  <button class="reset-filter btn btn-primary">Reset Filter</button>
   <div class="instance-table">
     <table class="table table-bordered result-table tablesorter">
       <thead>
@@ -94,11 +94,12 @@
           <% elsif info["status"] =~ /recover|join/ %>
             <tr class="warning">
           <% end %>
-            <td style="display:table-cell; vertical-align:middle; text-align: center"> <%= index += 1 %></td>
 
-            <td> <%= instance %></td>
+            <td><%= index += 1 %></td>
 
-            <td class="status">
+            <td style="text-align: left"><%= instance %></td>
+
+            <td class="instance-status-column">
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
@@ -111,7 +112,7 @@
               <% end %>
             </td>
 
-            <td class="p-bar">
+            <td class="progress-bar-column">
               <% if is_active?(info["status"]) %>
                 <div class="progress progress-striped active" >
                   <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
