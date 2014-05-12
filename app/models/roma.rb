@@ -211,4 +211,24 @@ class Roma
     #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
   end
 
+  def send_command(command, eof = "END", host = @host, port = @port)
+    sock = TCPSocket.open(host, port)
+
+    sock.write("#{command}\r\n")
+    
+    unless eof
+      @res = sock.gets
+    else
+      @res = []
+      sock.each{|s|
+        break if s == "#{eof}\r\n"
+        @res.push(s.chomp)
+      }
+    end
+
+    sock.close
+
+    return @res
+  end
+
 end

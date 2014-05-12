@@ -13,4 +13,28 @@ $(function(){
         }
       } 
     });
+
+    var x = 0;
+    function myFunc() {
+        // get total vnodes
+        var totalVnodes = ;
+
+        // get short vnodes
+        var shortVnodes = ;
+        //x++; 
+
+        // caliculate
+        var barval = ((totalVnodes - shortVnodes)/TotalVnodes)*100;
+        //var barVal = (1-1/(x+1))*100;
+
+        //console.log(barVal);
+        $('#extra-progress-bar').css("width",barVal + "%");
+        $('#extra-bar-rate').text(barVal+ "% Complete");
+        setTimeout(myFunc,300);
+    }
+    
+    $(function(){
+        setTimeout(myFunc,300);
+    });
+
 });

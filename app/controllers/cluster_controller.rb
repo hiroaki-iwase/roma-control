@@ -1,4 +1,7 @@
 class ClusterController < ApplicationController
+
+  skip_before_filter :verify_authenticity_token ,:only=>[:update, :create]
+
   def index
     roma = Roma.new
 
@@ -28,17 +31,25 @@ class ClusterController < ApplicationController
     end
   end
 
-  def create
+  def create #[join]
     @test = session[:instance]
   end
 
-  def destroy
+  def destroy #[rbalse|balse]
     roma = Roma.new
     roma.get_stats
     a = roma.get_instances_list2
     render :text => a
   end
 
-  def update
+  def update #[recover]
+    roma = Roma.new
+
+    begin
+      res = roma.send_command('recover', nil) 
+      redirect_to :action => "index"
+    rescue => @ex
+      render :template => "errors/error_500", :status => 500
+    end
   end
 end

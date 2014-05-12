@@ -59,8 +59,8 @@
     <h3><U>Other process(join or Recover)[ToDO]</U></h3>
     <div class="extra-pbar">
     <div class="progress progress-striped active">
-      <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-        <span>[ToDO]% Complete</span>
+      <div id="extra-progress-bar" class="progress-bar progress-bar-warning"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+        <span id="extra-bar-rate">[ToDO]% Complete</span>
       </div>
     </div>
     </div>
@@ -99,7 +99,7 @@
 
             <td style="text-align: left"><%= instance %></td>
 
-            <td class="instance-status-column">
+            <td style="text-align: left" class="instance-status-column">
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
@@ -127,8 +127,12 @@
             </td>
 
             <td>
-              <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>join</button>
-              <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"]) %>>Recover</button>
+              <form action="create" method="post" style="display:inline">
+                <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>[ToDO]</button>
+              </form>
+              <form action="update" method="post" style="display:inline">
+                <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"]) %>>Recover</button>
+              </form>
             </td>
           <tr>
         <% end %>
