@@ -162,27 +162,27 @@ class Roma
     @sock = TCPSocket.open(@host, @port)
     @sock.write("get_routing_history\r\n")
 
-    all_rlist = []
+    all_routing_list = []
     @sock.each{|s|
       break if s == "END\r\n"
-      all_rlist.push(s.chomp)
+      all_routing_list.push(s.chomp)
     }
     @sock.close
 
-    return all_rlist
+    return all_routing_list
   end
 
-  def get_routing_info(active_rlist)
-    rlist_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
+  def get_routing_info(active_routing_list)
+    routing_list_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
 
     get_all_routing_list.each{|instance|
-      rlist_info[instance]["status"] = "inactive"
-      rlist_info[instance]["size"] = nil
-      rlist_info[instance]["version"] = nil
+      routing_list_info[instance]["status"] = "inactive"
+      routing_list_info[instance]["size"] = nil
+      routing_list_info[instance]["version"] = nil
     }
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
-    active_rlist.each{|instance|
+    active_routing_list.each{|instance|
       each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
       ### status[active|inactive|recover|join]
@@ -193,21 +193,21 @@ class Roma
       else
         status = "active"
       end
-      rlist_info[instance]["status"] = status
+      routing_list_info[instance]["status"] = status
 
       ### sum of tc file size of each instance
       size = 0
       10.times{|index|
         size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
       }
-      rlist_info[instance]["size"] = size
+      routing_list_info[instance]["size"] = size
        
       ### version
       version = each_stats["others"]["version"].chomp
-      rlist_info[instance]["version"] = version
+      routing_list_info[instance]["version"] = version
     }
 
-    return rlist_info
+    return routing_list_info
     #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
   end
 

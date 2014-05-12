@@ -23,7 +23,7 @@
     <ul>
       <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
         <div class="error-instance">
-          <% @inactive_rlist.each{|instance| %> <%= instance %> is down<br><% } %>
+          <% @inactive_routing_list.each{|instance| %> <%= instance %> is down<br><% } %>
         </div>
       </li>
       <li><U>server count</U> : <%= get_server_list %></li>

@@ -2,7 +2,7 @@ module ClusterHelper
 
   def get_server_list
     active_server_list = []
-    @active_rlist.each do |active_instance|
+    @active_routing_list.each do |active_instance|
       active_instance =~ /^([-\.a-zA-Z\d]+)_/
       active_server_list.push($1)
     end

@@ -173,10 +173,10 @@ describe Roma do
 #=begin
 
     roma = Roma.new
-    active_rlist = roma.get_stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+    active_routing_list = roma.get_stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
 
     context "normal(all instance's status is active)" do
-      routing_info = roma.get_routing_info(active_rlist)
+      routing_info = roma.get_routing_info(active_routing_list)
 
       it_should_behave_like 'get_routing_info_check', routing_info
     end
@@ -185,7 +185,7 @@ describe Roma do
       sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
       sock.write("eval @stats.run_recover = true\r\n")
 
-      routing_info = roma.get_routing_info(active_rlist)
+      routing_info = roma.get_routing_info(active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
           it { expect(routing_info[instance]["status"]).to eq "recover" }
@@ -201,7 +201,7 @@ describe Roma do
       sock = TCPSocket.open(ConfigGui::HOST, ConfigGui::PORT)
       sock.write("eval @stats.run_join = true\r\n")
 
-      routing_info = roma.get_routing_info(active_rlist)
+      routing_info = roma.get_routing_info(active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
           it { expect(routing_info[instance]["status"]).to eq "join" }
@@ -215,9 +215,9 @@ describe Roma do
     end
 
     context "inactive(one instance's status is inactive)" do
-      active_rlist.delete("#{ConfigGui::HOST}_#{ConfigGui::PORT}")
+      active_routing_list.delete("#{ConfigGui::HOST}_#{ConfigGui::PORT}")
 
-      routing_info = roma.get_routing_info(active_rlist)
+      routing_info = roma.get_routing_info(active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
           it { expect(routing_info[instance]["status"]).to eq "inactive" }

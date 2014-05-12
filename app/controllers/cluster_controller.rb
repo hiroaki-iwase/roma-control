@@ -5,10 +5,10 @@ class ClusterController < ApplicationController
     begin
       @stats_hash = roma.get_stats
 
-      @active_rlist = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
-      @inactive_rlist = roma.get_all_routing_list - @active_rlist
+      @active_routing_list = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+      @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
 
-      @routing_info= roma.get_routing_info(@active_rlist)
+      @routing_info= roma.get_routing_info(@active_routing_list)
       #{
       #  "192.168.223.2_10001"=> {
       #     "status"  => "active", 
