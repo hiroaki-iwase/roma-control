@@ -16,45 +16,60 @@ $(function(){
     });
 
 
+
+
     function calcProgressRate() {
         var webApiEndPoint
         var totalVnodes
         var shortVnodes
         var barVal
+        var host
+        var protocol
 
-        webApiEndPoint = "http://192.168.223.2:3000/api/get_parameter"
+        protocol = location.protocol;
+        host = location.host;
+        //console.log(host);
+
+        //[ToDO] adjust other env
+        //webApiEndPoint = "http://192.168.223.2:3000/api/get_parameter"
+        webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
+        //console.log(webApiEndPoint);
 
         $.ajax({
-          url: webApiEndPoint,
-          type: 'GET',
-          dataType: 'json',
-          cache: false,
+            url: webApiEndPoint,
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
         }).done(function(data){
-          //console.log(data["routing"]["short_vnodes"]);
-          totalVnodes = data["routing"]["vnodes.length"];
-          shortVnodes = data["routing"]["short_vnodes"];
-          
-          barVal = ((totalVnodes - shortVnodes)/totalVnodes)*100;
-          barVal = Math.round(barVal * 10) / 10
+            totalVnodes = data["routing"]["vnodes.length"];
+            shortVnodes = data["routing"]["short_vnodes"];
+            
+            barVal = Math.round(((totalVnodes - shortVnodes)/totalVnodes)*1000) / 10
 
-          $('#extra-progress-bar').css("width",barVal + "%");
-          $('#extra-bar-rate').text(barVal+ "% Complete");
-          $('#short_vnodes_cnt').text(shortVnodes);
+            $('#extra-progress-bar').css("width",barVal + "%");
+            $('#extra-bar-rate').text(barVal+ "% Complete");
+            $('#short_vnodes_cnt').text(shortVnodes);
 
-          //if (barVal >= 100.1){
-          //  break;
-          //}
+            if (barVal == 100) {
+                $('#extra-bar-rate').text("Finished!");
+                console.log("Progress bar operation END");
 
+                function redirectClusterPage(){
+                  //window.location.assign("http://192.168.223.2:3000/cluster/index");
+                  window.location.assign(protocol+"//"+host+"/cluster/index");
+                }
+                setTimeout(redirectClusterPage, 3000);
+
+            }else{
+                console.log("loop again");
+                setTimeout(calcProgressRate,1000);
+            }
         }).fail(function(){
           alert("fail to access Gladiator Web API");
         });
-
-
-        //console.log(barVal);
-        setTimeout(calcProgressRate,1000);
-    }
+    } //End of calcProgressRate()
  
-    if(document.getElementById('extra-process')){
+    if(document.getElementById('extra-process')) {
         setTimeout(calcProgressRate,100);
     }
 

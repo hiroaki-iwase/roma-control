@@ -47,7 +47,7 @@ module ClusterHelper
   
   def opt_recover(status)
     opt_recover = "disabled"
-    if status == "active" && @stats_hash["routing"]["short_vnodes"].to_i != 0
+    if status == "active" && @stats_hash["routing"]["short_vnodes"].to_i == 0
       opt_recover = nil
     end
     opt_recover
