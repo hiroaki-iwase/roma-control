@@ -1,14 +1,18 @@
 Gladiator::Application.routes.draw do
+  get "api/get_parameter"
   get "cluster/index"
-  get "cluster/create"
+  post "cluster/create"
   get "cluster/destroy"
-  get "cluster/update"
+  post "cluster/update"
   get "stat/index"
   get "stat/edit"
-  put "stat/update"
+
+  get "api/get_parameter"
+  #get "api/get_parameter/:category/:column" => "api#get_parameter", :constraints => {:column=>/[a-zA-Z0-9_-\.]+/}
+  #get "api/get_parameter/:category/:column" => "api#get_parameter", :column => /.*/
+  get "api/get_parameter/:category/:column" => "api#get_parameter", :column => /.*/
  
   #resources :stat
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

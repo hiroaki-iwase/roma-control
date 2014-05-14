@@ -1,4 +1,5 @@
 $(function(){
+
     $('table.tablesorter').tablesorter({
       theme: 'default',
       sortList: [[0,0]],
@@ -13,4 +14,54 @@ $(function(){
         }
       } 
     });
+
+    function calcProgressRate() {
+        var webApiEndPoint
+        var totalVnodes
+        var shortVnodes
+        var barVal
+        var host
+        var protocol
+
+        protocol = location.protocol;
+        host = location.host;
+        webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
+
+        $.ajax({
+            url: webApiEndPoint,
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+        }).done(function(data){
+            totalVnodes = data["routing"]["vnodes.length"];
+            shortVnodes = data["routing"]["short_vnodes"];
+            
+            barVal = Math.round(((totalVnodes - shortVnodes)/totalVnodes)*1000) / 10
+
+            $('#extra-progress-bar').css("width",barVal + "%");
+            $('#extra-bar-rate').text(barVal+ "% Complete");
+            $('#short_vnodes_cnt').text(shortVnodes);
+
+            if (barVal == 100) {
+                $('#extra-bar-rate').text("Finished!");
+                console.log("Progress bar operation END");
+
+                function redirectClusterPage(){
+                  window.location.assign(protocol+"//"+host+"/cluster/index");
+                }
+                setTimeout(redirectClusterPage, 3000);
+
+            }else{
+                //console.log("loop again");
+                setTimeout(calcProgressRate,1000);
+            }
+        }).fail(function(){
+          alert("fail to access Gladiator Web API");
+        });
+    } //End of calcProgressRate()
+ 
+    if(document.getElementById('extra-process')) {
+        setTimeout(calcProgressRate,100);
+    }
+
 });

@@ -39,15 +39,15 @@ module ClusterHelper
   
   def opt_join(status)
     opt_join = "disabled"
-    if status == "inactive"
+    if status == "inactive" 
       opt_join = nil
     end
     opt_join
   end
-  
-  def opt_recover(status)
+
+  def opt_recover(status, roma_process)
     opt_recover = "disabled"
-    if status != "inactive" && @stats_hash["routing"]["short_vnodes"].to_i != 0
+    if !roma_process && status == "active" && @stats_hash["routing"]["short_vnodes"].to_i != 0
       opt_recover = nil
     end
     opt_recover
