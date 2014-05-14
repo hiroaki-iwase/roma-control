@@ -1,4 +1,5 @@
 $(function(){
+
     $('table.tablesorter').tablesorter({
       theme: 'default',
       sortList: [[0,0]],
@@ -14,27 +15,47 @@ $(function(){
       } 
     });
 
-    var x = 0;
-    function myFunc() {
-        // get total vnodes
-        var totalVnodes = ;
 
-        // get short vnodes
-        var shortVnodes = ;
-        //x++; 
+    function calcProgressRate() {
+        var webApiEndPoint
+        var totalVnodes
+        var shortVnodes
+        var barVal
 
-        // caliculate
-        var barval = ((totalVnodes - shortVnodes)/TotalVnodes)*100;
-        //var barVal = (1-1/(x+1))*100;
+        webApiEndPoint = "http://192.168.223.2:3000/api/get_parameter"
+
+        $.ajax({
+          url: webApiEndPoint,
+          type: 'GET',
+          dataType: 'json',
+          cache: false,
+        }).done(function(data){
+          //console.log(data["routing"]["short_vnodes"]);
+          totalVnodes = data["routing"]["vnodes.length"];
+          shortVnodes = data["routing"]["short_vnodes"];
+          
+          barVal = ((totalVnodes - shortVnodes)/totalVnodes)*100;
+          barVal = Math.round(barVal * 10) / 10
+
+          $('#extra-progress-bar').css("width",barVal + "%");
+          $('#extra-bar-rate').text(barVal+ "% Complete");
+          $('#short_vnodes_cnt').text(shortVnodes);
+
+          //if (barVal >= 100.1){
+          //  break;
+          //}
+
+        }).fail(function(){
+          alert("fail to access Gladiator Web API");
+        });
+
 
         //console.log(barVal);
-        $('#extra-progress-bar').css("width",barVal + "%");
-        $('#extra-bar-rate').text(barVal+ "% Complete");
-        setTimeout(myFunc,300);
+        setTimeout(calcProgressRate,1000);
     }
-    
-    $(function(){
-        setTimeout(myFunc,300);
-    });
+ 
+    if(document.getElementById('extra-process')){
+        setTimeout(calcProgressRate,100);
+    }
 
 });

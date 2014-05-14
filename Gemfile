@@ -55,3 +55,6 @@ gem 'therubyracer', platforms: :ruby
   gem "rspec"
   gem "rspec-rails"
 #end
+
+# for API
+gem "grape"

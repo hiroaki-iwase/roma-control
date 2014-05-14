@@ -119,7 +119,7 @@ class Roma
       end
     }
     
-    #@stats_json = ActiveSupport::JSON.encode(@stats_hash)
+    @stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
   end
   

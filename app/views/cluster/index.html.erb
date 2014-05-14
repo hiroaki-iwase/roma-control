@@ -31,7 +31,7 @@
         <% if @stats_hash["routing"]["short_vnodes"].chomp == "0" %>
           <%= @stats_hash["routing"]["short_vnodes"] %>
         <% else %>
-          <font color="red"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
+          <font color="red" id="short_vnodes_cnt"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
         <% end %>
       </li>
       <li><U>lost vnodes</U> : 
@@ -55,16 +55,27 @@
     </ul>
   </div>
 
-  <div class="extra-process">
-    <h3><U>Other process(join or Recover)[ToDO]</U></h3>
-    <div class="extra-pbar">
-    <div class="progress progress-striped active">
-      <div id="extra-progress-bar" class="progress-bar progress-bar-warning"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-        <span id="extra-bar-rate">[ToDO]% Complete</span>
+  <% @routing_info.values.each{|info|
+       if info["status"] =~ /recover|join/ 
+       #if info["status"] =~ /recover|join|inactive/ # debug
+         @extra_process = $&
+         break
+       end
+     }
+
+    if @extra_process %>
+      <div id="extra-process">
+        <h3><U>Executing process</U></h3>
+        <div class="extra-pbar">
+          <li><%= @extra_process %> is being executed</li>
+            <div class="progress progress-striped active">
+              <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span id="extra-bar-rate">[ToDO]% Complete</span>
+              </div>
+            </div>
+        </div>
       </div>
-    </div>
-    </div>
-  </div>
+    <% end %>
 
 </div>
 
