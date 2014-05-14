@@ -1,12 +1,12 @@
 module ClusterHelper
 
   def get_server_list
-    server_list = []
-    @routing_list["active"].each do |active_instance|
+    active_server_list = []
+    @active_routing_list.each do |active_instance|
       active_instance =~ /^([-\.a-zA-Z\d]+)_/
-      server_list.push($1)
+      active_server_list.push($1)
     end
-    server_list.uniq.size
+    active_server_list.uniq.size
   end
 
   def main_version
@@ -25,13 +25,16 @@ module ClusterHelper
     status != "inactive"
   end
   
-  def current_size(instance)
-    total_size = @each_instance_size.values.compact.inject(:+).to_f
-    (@each_instance_size[instance] / total_size * 100).round(1)
+  def current_size_rate(current_size)
+    total_size = 0
+    @routing_info.each{|instance, info|
+      total_size += info["size"].to_f
+    }
+    (current_size / total_size * 100).round(1)
   end
 
-  def instance_size(instance)
-    @each_instance_size[instance] / 1024 / 1024
+  def instance_size(size)
+    size / 1024 / 1024
   end
   
   def opt_join(status)

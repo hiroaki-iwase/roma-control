@@ -1,59 +1,145 @@
-<h1>Cluster#index</h1>
-<div>
-  <h3>Health</h3>
-  <ul>
-    <li>
-      instance count : <%= @stats_hash["routing"]["nodes.length"] %><br>
-      <% @routing_list["inactive"].each{|inactive_instance| %> <font color="red"><%= inactive_instance %> is down</font><br><% } %>
-    </li>
-    <li>server count : <%= get_server_list %></li>
-    <li>short vnodes : <%= @stats_hash["routing"]["short_vnodes"] %></li>
-    <li>lost vnodes : <%= @stats_hash["routing"]["lost_vnodes"] %></li>
-    <li>
-      ROMA version : <%= @stats_hash["others"]["version"] %><br>
-      <% @each_instance_version.each do |instance, vs| %>
-        <% if chk_main_version(vs) %>
-          <font color="red"><%= "#{instance} using #{vs}" %></font><br>
-        <% end %>
-      <% end %>
-    </li>
-    <li>Gladiator Version : <%= Constants::VERSION %></li>  
-  </ul>
-</div>
-<div>
-  <h3>Filter : [ToDO]</h3>
-  <table border=4 bordercolor="#ff0000">
-    <tr bgcolor="#cccccc">
-      <th>No.</th>
-      <th>Cluster Name</th>
-      <th>Status</th>
-      <th>Data</th>
-      <th>&nbsp;</th>
-    </tr>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-    <% 
-    index = 0
-    @routing_list.each do |(status, instances)|
-      instances.each do |instance| %>
-        <tr>
-          <td> <%= index += 1 %></td>
-          <td> <%= instance %></td>
-          <td> <%= @each_instance_status[instance] %></td>
-          <td>
-            <% if is_active?(status) %>
-              <span><%= current_size(instance) %> % (<%= instance_size(instance) %> MB)</span>
-            <% end %>
-          </td>
-          <td>
-            <button type="submit" <%= opt_join(status) %>>join</button>
-            <button type="submit" <%= opt_recover(status) %>>Recover</button>
-          </td>
-        <tr>
-      <% end %>
+<h1><U>Cluster</U></h1>
+<div class="basic-information">
+  <h2><U>Health</U>:
+    <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
+      <div class="health-button red large_size" style="display: inline-block;">
+        <span class="glare red large"></span>
+      </div>
+    <% elsif @stats_hash["routing"]["short_vnodes"].chomp !="0" %>
+      <div class="health-button yellow large_size" style="display: inline-block;">
+        <span class="glare large"></span>
+      </div>
+    <% else %>
+      <div class="health-button green large_size" style="display: inline-block;">
+        <!-- span class="text">Good</span -->
+        <span class="glare large"></span>
+      </div>
     <% end %>
-  </table>
+  </h2>
+
+  <div class="basic-columns"> 
+    <ul>
+      <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
+        <div class="error-instance">
+          <% @inactive_routing_list.each{|instance| %> <%= instance %> is down<br><% } %>
+        </div>
+      </li>
+      <li><U>server count</U> : <%= get_server_list %></li>
+      <li><U>short vnodes</U> : 
+        <% if @stats_hash["routing"]["short_vnodes"].chomp == "0" %>
+          <%= @stats_hash["routing"]["short_vnodes"] %>
+        <% else %>
+          <font color="red"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
+        <% end %>
+      </li>
+      <li><U>lost vnodes</U> : 
+        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+          <%= @stats_hash["routing"]["lost_vnodes"] %>
+        <% else %>
+          <font color="red"><%= @stats_hash["routing"]["lost_vnodes"] %></font><br>
+        <% end %>
+      </li>
+      <li>
+        <U>ROMA version</U> : <%= @stats_hash["others"]["version"] %><br>
+        <div class ="error-instance">
+          <% @routing_info.each do |instance, info| %>
+            <% if chk_main_version(info["version"]) %>
+              <font color="red"><%= "#{instance} using #{info["version"]}" %></font><br>
+            <% end %>
+          <% end %>
+        </div>
+      </li>
+      <li><U>Gladiator Version</U> : <%= Constants::VERSION %></li>
+    </ul>
+  </div>
+
+  <div class="extra-process">
+    <h3><U>Other process(join or Recover)[ToDO]</U></h3>
+    <div class="extra-pbar">
+    <div class="progress progress-striped active">
+      <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+        <span>[ToDO]% Complete</span>
+      </div>
+    </div>
+    </div>
+  </div>
+
 </div>
-<div>
+
+
+<div class="instances-information">
+  <button class="reset-filter btn btn-primary">Reset Filter</button>
+  <div class="instance-table">
+    <table class="table table-bordered result-table tablesorter">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Cluster Name</th>
+          <th class="filter-select" data-placeholder="">Status</th>
+          <th>Data rate</th>
+          <th>Data size</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+        index = 0
+        @routing_info.each do |(instance, info)|
+          if info["status"] == "active" %>
+            <tr>
+          <% elsif info["status"] == "inactive" %>
+            <tr class="active">
+          <% elsif info["status"] =~ /recover|join/ %>
+            <tr class="warning">
+          <% end %>
+
+            <td><%= index += 1 %></td>
+
+            <td style="text-align: left"><%= instance %></td>
+
+            <td class="instance-status-column">
+              <% if info["status"] == "active" %>
+                <div class="health-button green small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% elsif info["status"] == "inactive" %>
+                <div class="health-button grey small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% else %>
+                <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% end %>
+            </td>
+
+            <td class="progress-bar-column">
+              <% if is_active?(info["status"]) %>
+                <div class="progress progress-striped active" >
+                  <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
+                     <%= current_size_rate(info["size"]) %> %
+                  </span>
+                </div>
+              <% end %>
+            </td>
+
+            <td>
+              <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
+            </td>
+
+            <td>
+              <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>join</button>
+              <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"]) %>>Recover</button>
+            </td>
+          <tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="join-function">
   <h3><u>Add new instance</u></h3>
   [ToDO]
 </div>
+
+

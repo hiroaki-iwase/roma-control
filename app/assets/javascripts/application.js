@@ -11,4 +11,6 @@
 // about supported directives.
 //
 //= require jquery-2.1.0
+//= require jquery.tablesorter.js
+//= require jquery.tablesorter.widgets.js
 //= require_tree .

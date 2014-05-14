@@ -1,9 +1,7 @@
 class StatController < ApplicationController
   def index
     begin
-      #roma = Roma.new.stats
-      #@stats_hash = roma.stats_hash
-      @stats_hash = Roma.new.stats
+      @stats_hash = Roma.new.get_stats
       #@stats_json = roma.stats_json
     rescue => @ex
       render :template => "errors/error_500", :status => 500
@@ -23,8 +21,6 @@ class StatController < ApplicationController
       @value = "#{params[:continuous_start]}:#{params[:continuous_rate]}:#{params[:continuous_full]}"
     elsif @key == "sub_nid"
       @value = "#{params[:sub_nid_netmask]} #{params[:sub_nid_target]} #{params[:sub_nid_string]}"
-    #elsif @key == "auto_recover_time"
-    #  @value = "#{Roma.new.stats["routing"]["auto_recover"]} #{params[change_value]}"
     else
       @value = params[@key]
     end
@@ -34,8 +30,8 @@ class StatController < ApplicationController
       if @roma.check_param(@key, @value) && @roma.valid?
         @res = @roma.change_param(@key, @value)
       end
-        @value = Roma.new.stats["routing"]["sub_nid"] if @key == "sub_nid"
-        @value = Roma.new.stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
+        @value = Roma.new.get_stats["routing"]["sub_nid"] if @key == "sub_nid"
+        @value = Roma.new.get_stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
         render :action => "edit"
     rescue => @ex
       render :template => "errors/error_500", :status => 500

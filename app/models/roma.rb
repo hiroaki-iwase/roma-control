@@ -96,7 +96,8 @@ class Roma
     @port = ConfigGui::PORT
   end
 
-  def stats(host = @host, port = @port)
+  #[ToDO] change to "def get_stats"
+  def get_stats(host = @host, port = @port)
     @sock = TCPSocket.open(host, port)
     stats_array = []
     @sock.write("stats\r\n")
@@ -157,78 +158,57 @@ class Roma
     return res_hash
   end
 
-  def get_instances_list
-    active_list = @stats_hash["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
-
+  def get_all_routing_list
     @sock = TCPSocket.open(@host, @port)
     @sock.write("get_routing_history\r\n")
 
-    inactive_list = []
+    all_routing_list = []
     @sock.each{|s|
       break if s == "END\r\n"
-      inactive_list.push(s.chomp) if !active_list.index(s.chomp)
+      all_routing_list.push(s.chomp)
     }
     @sock.close
 
-    routing_list = {"active"=>active_list, "inactive"=>inactive_list}
-
-    return routing_list 
-    ### format is below
-    #{
-    #  "active" => [
-    #    "192.168.223.2_10001",
-    #    "192.168.223.2_10002",
-    #    "192.168.223.3_10001"
-    #  ],
-    #  "inactive" => [
-    #    "192.168.223.3_10002"
-    #  ]
-    #}
+    return all_routing_list
   end
 
-  def get_instances_info(routing_list, target)
-    each_instances_info = {}
+  def get_routing_info(active_routing_list)
+    routing_list_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
 
-    routing_list.each{|status, instances|
-      if status == "inactive"
-        info = "inactive" if target == "status"
-        info = nil        if target =~ /size|version/
+    get_all_routing_list.each{|instance|
+      routing_list_info[instance]["status"] = "inactive"
+      routing_list_info[instance]["size"] = nil
+      routing_list_info[instance]["version"] = nil
+    }
+    #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
-        instances.each{|instance|
-          each_instances_info.store(instance, info)
-        }
+    active_routing_list.each{|instance|
+      each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
+
+      ### status[active|inactive|recover|join]
+      if each_stats["stats"]["run_recover"].chomp == "true"
+        status = "recover"
+      elsif each_stats["stats"]["run_join"].chomp == "true"
+        status = "join"
       else
-        instances.each{|instance|
-          each_stats = stats(instance.split("_")[0], instance.split("_")[1])
-
-          ### status[active|inactive|recover|join]
-          if target == "status"
-            if each_stats["stats"]["run_recover"].chomp == "true"
-              info = "recover"
-            elsif each_stats["stats"]["run_join"].chomp == "true"
-              info = "join"
-            else
-              info = "active"
-            end
-
-          ### sum of tc file size of each instance
-          elsif target == "size"
-            info = 0
-            10.times{|index|
-              info += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
-            }
-           
-          ### version
-          elsif target == "version"
-            info = each_stats["others"]["version"].chomp
-          end
-
-          each_instances_info.store(instance, info)
-        }
+        status = "active"
       end
+      routing_list_info[instance]["status"] = status
+
+      ### sum of tc file size of each instance
+      size = 0
+      10.times{|index|
+        size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
+      }
+      routing_list_info[instance]["size"] = size
+       
+      ### version
+      version = each_stats["others"]["version"].chomp
+      routing_list_info[instance]["version"] = version
     }
 
-    return each_instances_info
+    return routing_list_info
+    #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
   end
 
 end
