@@ -142,7 +142,7 @@
                 <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>[ToDO]</button>
               </form>
               <form action="update" method="post" style="display:inline">
-                <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"]) %>>Recover</button>
+                <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"], @extra_process) %>>Recover</button>
               </form>
             </td>
           <tr>
