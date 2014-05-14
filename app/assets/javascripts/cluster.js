@@ -15,9 +15,6 @@ $(function(){
       } 
     });
 
-
-
-
     function calcProgressRate() {
         var webApiEndPoint
         var totalVnodes
@@ -28,12 +25,7 @@ $(function(){
 
         protocol = location.protocol;
         host = location.host;
-        //console.log(host);
-
-        //[ToDO] adjust other env
-        //webApiEndPoint = "http://192.168.223.2:3000/api/get_parameter"
         webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
-        //console.log(webApiEndPoint);
 
         $.ajax({
             url: webApiEndPoint,
@@ -55,13 +47,12 @@ $(function(){
                 console.log("Progress bar operation END");
 
                 function redirectClusterPage(){
-                  //window.location.assign("http://192.168.223.2:3000/cluster/index");
                   window.location.assign(protocol+"//"+host+"/cluster/index");
                 }
                 setTimeout(redirectClusterPage, 3000);
 
             }else{
-                console.log("loop again");
+                //console.log("loop again");
                 setTimeout(calcProgressRate,1000);
             }
         }).fail(function(){
