@@ -97,7 +97,7 @@ class Roma
   end
 
   def get_stats(host = @host, port = @port)
-    stats_array = send_command('stats')
+    stats_array = send_command('stats', 'END', host, port)
 
     @stats_hash = Hash.new { |hash,key| hash[key] = Hash.new {} }
     stats_array.each{|a|
