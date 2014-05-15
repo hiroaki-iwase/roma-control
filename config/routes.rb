@@ -11,7 +11,6 @@ Gladiator::Application.routes.draw do
   put "stat/update"
 
   get "api/get_parameter"
-  get "api/get_parameter/:category/:column" => "api#get_parameter", :column => /.*/
  
   #resources :stat
 
