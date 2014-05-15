@@ -134,8 +134,7 @@ class Roma
     res = send_command("#{ApplicationController.helpers.change_cmd(k)} #{v}", nil)
 
     begin
-      res_ary = res.delete!("\"|{|}|\s").split(/,|=>/)
-      res_hash = Hash[Hash[*res_ary].sort]
+      res_hash = change_roma_res_style(res)
     rescue
       errors.add(k, "was not updated. Unexpection Error( #{res} ).")
     end
@@ -204,6 +203,20 @@ class Roma
     sock.close
 
     return @res
+  end
+
+  def change_roma_res_style(string)
+    case string[0]
+    when "{"
+      string = string.delete('"|{|}').chomp
+      string = string.split(/,\s*|=>/)
+      string = Hash[*string]
+    when "["
+      string = string.delete("\"[]\s").chomp
+      string = string.split(/,/)
+    end
+
+    string
   end
 
 end

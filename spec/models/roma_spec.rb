@@ -168,11 +168,10 @@ describe Roma do
     }
   }
 
-
 #[Cluster function check](ph3)=================================================================
 
     roma = Roma.new
-    active_routing_list = roma.get_stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
+    active_routing_list = roma.change_roma_res_style(roma.get_stats["routing"]["nodes"])
 
     context "normal(all instance's status is active)" do
       routing_info = roma.get_routing_info(active_routing_list)
@@ -214,9 +213,9 @@ describe Roma do
     end
 
     context "inactive(one instance's status is inactive)" do
-      active_routing_list.delete("#{ConfigGui::HOST}_#{ConfigGui::PORT}")
+      dummy_active_routing_list = active_routing_list - ["#{ConfigGui::HOST}_#{ConfigGui::PORT}"]
 
-      routing_info = roma.get_routing_info(active_routing_list)
+      routing_info = roma.get_routing_info(dummy_active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
           it { expect(routing_info[instance]["status"]).to eq "inactive" }
@@ -226,6 +225,31 @@ describe Roma do
           it { expect(routing_info[instance]["status"]).to eq "active" }
         end
       }
+    end
+
+    context "status change check(recover)" do
+      res = roma.send_command('recover', nil)
+      res = roma.change_roma_res_style(res)
+
+      it "Response is Hash" do
+        expect(res.class).to be Hash
+      end
+
+      it "Hash size is same number of active node" do
+        expect(res.size).to be active_routing_list.size
+      end
+
+      it "All instance send back 'STARTED'" do
+        res.each{|key, value|
+          expect(value).to eq "STARTED"
+        }
+      end
+
+      it "All instance name is same of active node list'" do
+        res.each{|key, value|
+          expect(active_routing_list.include?(key)).to be_true
+        }
+      end
     end
 
 end # End of describe
