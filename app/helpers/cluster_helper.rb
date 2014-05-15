@@ -39,7 +39,7 @@ module ClusterHelper
   
   def opt_join(status)
     opt_join = "disabled"
-    if status == "inactive" 
+    if status == "inactive"
       opt_join = nil
     end
     opt_join
@@ -51,6 +51,14 @@ module ClusterHelper
       opt_recover = nil
     end
     opt_recover
+  end
+
+  def extra_process_chk(routing_info)
+    routing_info.values.each{|info|
+      return $& if info["status"] =~ /recover|join/
+      #return $& if info["status"] =~ /recover|join|inactive/ #debug
+    }
+    return nil
   end
 
 end

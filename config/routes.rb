@@ -3,13 +3,11 @@ Gladiator::Application.routes.draw do
   get "cluster/index"
   post "cluster/create"
   get "cluster/destroy"
-  post "cluster/update"
+  get "cluster/update"
   get "stat/index"
   get "stat/edit"
 
   get "api/get_parameter"
-  #get "api/get_parameter/:category/:column" => "api#get_parameter", :constraints => {:column=>/[a-zA-Z0-9_-\.]+/}
-  #get "api/get_parameter/:category/:column" => "api#get_parameter", :column => /.*/
   get "api/get_parameter/:category/:column" => "api#get_parameter", :column => /.*/
  
   #resources :stat

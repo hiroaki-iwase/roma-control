@@ -96,7 +96,6 @@ class Roma
     @port = ConfigGui::PORT
   end
 
-  #[ToDO] change to "def get_stats"
   def get_stats(host = @host, port = @port)
     @sock = TCPSocket.open(host, port)
     stats_array = []

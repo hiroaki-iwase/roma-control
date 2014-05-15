@@ -1,7 +1,5 @@
 class ClusterController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token ,:only=>[:update, :create]
-
   def index
     roma = Roma.new
 
@@ -32,14 +30,9 @@ class ClusterController < ApplicationController
   end
 
   def create #[join]
-    @test = session[:instance]
   end
 
   def destroy #[rbalse|balse]
-    roma = Roma.new
-    roma.get_stats
-    a = roma.get_instances_list2
-    render :text => a
   end
 
   def update #[recover]

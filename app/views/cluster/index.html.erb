@@ -55,27 +55,21 @@
     </ul>
   </div>
 
-  <% @routing_info.values.each{|info|
-       if info["status"] =~ /recover|join/ 
-       #if info["status"] =~ /recover|join|inactive/ # debug
-         @extra_process = $&
-         break
-       end
-     }
+  <% @extra_process = extra_process_chk(@routing_info)
 
-    if @extra_process %>
-      <div id="extra-process">
-        <h3><U>Executing process</U></h3>
-        <div class="extra-pbar">
-          <li><%= @extra_process %> is being executed</li>
-            <div class="progress progress-striped active">
-              <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                <span id="extra-bar-rate">[ToDO]% Complete</span>
-              </div>
-            </div>
+  if @extra_process %>
+    <div id="extra-process">
+      <h3><U>Executing process</U></h3>
+      <div class="extra-pbar">
+        <li><%= @extra_process %> is being executed</li>
+        <div class="progress progress-striped active">
+          <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            <span id="extra-bar-rate">[ToDO]% Complete</span>
+          </div>
         </div>
       </div>
-    <% end %>
+    </div>
+  <% end %>
 
 </div>
 
@@ -138,10 +132,7 @@
             </td>
 
             <td>
-              <form action="create" method="post" style="display:inline">
-                <button type="submit" class="btn btn-info" <%= opt_join(info["status"]) %>>[ToDO]</button>
-              </form>
-              <form action="update" method="post" style="display:inline">
+              <form action="update" method="get" style="display:inline">
                 <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"], @extra_process) %>>Recover</button>
               </form>
             </td>
