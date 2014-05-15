@@ -96,16 +96,8 @@ class Roma
     @port = ConfigGui::PORT
   end
 
-  #[ToDO] change to "def get_stats"
   def get_stats(host = @host, port = @port)
-    @sock = TCPSocket.open(host, port)
-    stats_array = []
-    @sock.write("stats\r\n")
-    @sock.each{|res|
-      break if res == "END\r\n"
-      stats_array << res
-    }
-    @sock.close
+    stats_array = send_command('stats', 'END', host, port)
 
     @stats_hash = Hash.new { |hash,key| hash[key] = Hash.new {} }
     stats_array.each{|a|
@@ -139,37 +131,20 @@ class Roma
   end
 
   def change_param(k, v)
-    @sock = TCPSocket.open(@host, @port)
-    @sock.write("#{ApplicationController.helpers.change_cmd(k)} #{v}\r\n")
+    res = send_command("#{ApplicationController.helpers.change_cmd(k)} #{v}", nil)
 
-    @sock.each{|s|
-      @res = s
-      break
-    }
-
-    @sock.close
     begin
-      res_ary = @res.delete!("\"|{|}|\s").split(/,|=>/)
+      res_ary = res.delete!("\"|{|}|\s").split(/,|=>/)
       res_hash = Hash[Hash[*res_ary].sort]
     rescue
-      errors.add(k, "was not updated. Unexpection Error( #{@res} ).")
+      errors.add(k, "was not updated. Unexpection Error( #{res} ).")
     end
 
     return res_hash
   end
 
   def get_all_routing_list
-    @sock = TCPSocket.open(@host, @port)
-    @sock.write("get_routing_history\r\n")
-
-    all_routing_list = []
-    @sock.each{|s|
-      break if s == "END\r\n"
-      all_routing_list.push(s.chomp)
-    }
-    @sock.close
-
-    return all_routing_list
+    send_command('get_routing_history')
   end
 
   def get_routing_info(active_routing_list)

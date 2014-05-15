@@ -170,7 +170,6 @@ describe Roma do
 
 
 #[Cluster function check](ph3)=================================================================
-#=begin
 
     roma = Roma.new
     active_routing_list = roma.get_stats["routing"]["nodes"].chomp.delete("\"[]\s").split(",")
