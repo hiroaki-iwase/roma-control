@@ -2,12 +2,19 @@ class ApiController < ApplicationController
   def get_parameter
     stats_hash = Roma.new.get_stats
 
-    res = stats_hash[params[:category]][params[:column]]
+    category = params[:category]
+    column = params[:column]
 
-    if !res
+    target = stats_hash[category][column]
+
+    if !target
       render :json => stats_hash
     else
-      render :text => res
+      render :json => {
+        category => {
+          column => target
+        }
+      }
     end
   end
 end
