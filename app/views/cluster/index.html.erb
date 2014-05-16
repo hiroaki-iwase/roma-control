@@ -1,5 +1,8 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
+
+
+
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -20,6 +23,63 @@
   </h2>
 
   <div class="basic-columns"> 
+
+
+<table class="flat">
+  <tr>
+    <td class="debug1">
+      instance count
+      <br>
+      <%= @stats_hash["routing"]["nodes.length"] %><br>
+<% if false %>
+        <div class="error-instance">
+          <% @inactive_routing_list.each{|instance| %> <%= instance %> is down<br><% } %>
+        </div>
+<% end %>
+    </td>
+    <td class="debug2">
+      server count
+      <br>
+      <%= get_server_list %>
+    </td>
+    <td class="debug3">
+      ROMA version
+      <br>
+      <%= @stats_hash["others"]["version"] %>
+    </td>
+  </tr>
+  <tr>
+    <td class="debug4">
+      short vnodes
+      <br>
+        <% if @stats_hash["routing"]["short_vnodes"].chomp == "0" %>
+          <%= @stats_hash["routing"]["short_vnodes"] %>
+        <% else %>
+          <font color="red" id="short_vnodes_cnt"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
+        <% end %>
+ 
+    </td>
+    <td class="debug5">
+      lost vnodes
+      <br>
+        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+          <%= @stats_hash["routing"]["lost_vnodes"] %>
+        <% else %>
+          <font color="red"><%= @stats_hash["routing"]["lost_vnodes"] %></font><br>
+        <% end %>
+    </td>
+    <td class="debug6">
+      Gladiator version
+      <br>
+      <%= Constants::VERSION %>
+    </td>
+  </tr>
+</table>
+
+
+
+
+<%if false %>
     <ul>
       <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
         <div class="error-instance">
@@ -53,6 +113,10 @@
       </li>
       <li><U>Gladiator Version</U> : <%= Constants::VERSION %></li>
     </ul>
+<% end %>
+
+
+
   </div>
 
   <% if extra_process_chk(@routing_info) %>

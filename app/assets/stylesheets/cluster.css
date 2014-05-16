@@ -1,6 +1,6 @@
 .basic-information{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
+  /**background-color: #e8d2d2;**/
+  /**border: 1px solid #ddd;**/
   padding: 5px;
 }
 
@@ -85,7 +85,7 @@
 
 /** Health param **/
 .basic-columns{
-  margin-left: 50px;
+  /**margin-left: 50px;**/
 }
 
 .error-instance{
@@ -169,3 +169,55 @@ button.reset {
 }
 
 
+
+.flat, td.debug1, td.debug2, td.debug3, td.debug4, td.debug5, td.debug6  {
+  border: 3px #f9f3f3 solid;
+  font-size: 22px;
+  color: #ffffff;
+  text-align: center;
+  vertical-align: top;
+ }
+
+td {
+}
+
+td.debug1 {
+  background-color: #5ACBE3;
+  width: 200px;
+  height: 100px;
+}
+
+td.debug2 {
+  background-color: #00EDC2;
+  width: 200px;
+  height: 100px;
+}
+
+td.debug3 {
+  background-color: #FF8C74;
+  width: 200px;
+  height: 100px;
+}
+
+td.debug4 {
+  background-color: #A06C90;
+  width: 200px;
+  height: 100px;
+}
+
+td.debug5 {
+  background-color: #F5D76E;
+  width: 200px;
+  height: 100px;
+}
+
+td.debug6 {
+  background-color: #32B9B1;
+  width: 200px;
+  height: 100px;
+}
+
+
+.flat, td.debug1, td.debug2, td.debug3, td.debug4, td.debug5, td.debug6  {
+  /**background-color: #D15959;**/
+}
