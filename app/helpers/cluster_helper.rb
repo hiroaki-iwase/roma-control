@@ -36,14 +36,6 @@ module ClusterHelper
   def instance_size(size)
     size / 1024 / 1024
   end
-  
-  def opt_join(status)
-    opt_join = "disabled"
-    if status == "inactive"
-      opt_join = nil
-    end
-    opt_join
-  end
 
   def opt_recover(status, roma_process)
     opt_recover = "disabled"
