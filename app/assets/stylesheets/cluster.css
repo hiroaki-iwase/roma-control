@@ -88,9 +88,8 @@
   /**margin-left: 50px;**/
 }
 
-.error-instance{
-  color: red;
-  margin-left: 10px;
+.error-instance-small {
+  font-size: 12px;
 }
 
 .extra-pbar {
@@ -170,54 +169,40 @@ button.reset {
 
 
 
-.flat, td.debug1, td.debug2, td.debug3, td.debug4, td.debug5, td.debug6  {
-  border: 3px #f9f3f3 solid;
+/**.flat, td.debug1, td.debug2, td.debug3, td.debug4, td.debug5, td.debug6  {**/
+.flat-panel {
   font-size: 22px;
   color: #ffffff;
   text-align: center;
-  vertical-align: top;
+  /**vertical-align: top;**/
  }
 
-td {
-}
-
-td.debug1 {
-  background-color: #5ACBE3;
-  width: 200px;
+.flat-panel td {
+  border: 3px #f9f3f3 solid;
+  /**width: 200px;**/
+  width: 220px;
   height: 100px;
+  vertical-align: top;
+  text-align: middle;
 }
 
-td.debug2 {
-  background-color: #00EDC2;
-  width: 200px;
-  height: 100px;
+.flat-panel .panel-instance, .panel-roma-version, .panel-lost-vnodes {
+  background-color: #D15959;
 }
 
-td.debug3 {
-  background-color: #FF8C74;
-  width: 200px;
-  height: 100px;
+.flat-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
+  background-color: #dc8383;
 }
 
-td.debug4 {
-  background-color: #A06C90;
-  width: 200px;
-  height: 100px;
+.flat-panel .panel-short-vnodes-error {
+  background-color: #FFD464;
 }
 
-td.debug5 {
-  background-color: #F5D76E;
-  width: 200px;
-  height: 100px;
+.flat-panel .panel-value {
+  display: table-cell;
+  vertical-align: middle;
+  width: 220px;
+  height: 60px;
+  font-size: 26px;
 }
 
-td.debug6 {
-  background-color: #32B9B1;
-  width: 200px;
-  height: 100px;
-}
-
-
-.flat, td.debug1, td.debug2, td.debug3, td.debug4, td.debug5, td.debug6  {
-  /**background-color: #D15959;**/
-}

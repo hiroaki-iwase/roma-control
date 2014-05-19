@@ -24,6 +24,14 @@ module ClusterHelper
   def is_active?(status)
     status != "inactive"
   end
+
+  def short_vnodes?(stats_hash)
+    if stats_hash["routing"]["short_vnodes"].chomp == "0"
+      return false
+    else
+      return true
+    end
+  end
   
   def current_size_rate(current_size)
     total_size = 0
@@ -37,20 +45,21 @@ module ClusterHelper
     size / 1024 / 1024
   end
 
-  def opt_recover(status, roma_process)
-    opt_recover = "disabled"
-    if !roma_process && status == "active" && @stats_hash["routing"]["short_vnodes"].to_i != 0
-      opt_recover = nil
-    end
-    opt_recover
-  end
-
   def extra_process_chk(routing_info)
     routing_info.values.each{|info|
       return $& if info["status"] =~ /recover|join/
       #return $& if info["status"] =~ /recover|join|inactive/ #debug
     }
     return nil
+  end
+
+  def can_i_recover?(stats_hash, routing_info)
+    if stats_hash["routing"]["short_vnodes"].to_i == 0 || extra_process_chk(routing_info) || 
+       stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
+      return "disabled"
+    else
+      return nil
+    end
   end
 
 end

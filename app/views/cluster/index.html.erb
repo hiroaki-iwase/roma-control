@@ -1,8 +1,5 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-
-
-
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -20,69 +17,93 @@
         <span class="glare large"></span>
       </div>
     <% end %>
+
+    <form action="update" method="get" style="display:inline">
+      <button type="submit" class="btn btn-warning" <%= can_i_recover?(@stats_hash, @routing_info) %>>
+        Recover
+      </button>
+    </form>
   </h2>
 
   <div class="basic-columns"> 
-
-
-<table class="flat">
-  <tr>
-    <td class="debug1">
-      instance count
-      <br>
-      <%= @stats_hash["routing"]["nodes.length"] %><br>
-<% if false %>
-        <div class="error-instance">
-          <% @inactive_routing_list.each{|instance| %> <%= instance %> is down<br><% } %>
-        </div>
-<% end %>
-    </td>
-    <td class="debug2">
-      server count
-      <br>
-      <%= get_server_list %>
-    </td>
-    <td class="debug3">
-      ROMA version
-      <br>
-      <%= @stats_hash["others"]["version"] %>
-    </td>
-  </tr>
-  <tr>
-    <td class="debug4">
-      short vnodes
-      <br>
-        <% if @stats_hash["routing"]["short_vnodes"].chomp == "0" %>
-          <%= @stats_hash["routing"]["short_vnodes"] %>
-        <% else %>
-          <font color="red" id="short_vnodes_cnt"><%= @stats_hash["routing"]["short_vnodes"] %></font><br>
-        <% end %>
+    <table class="flat-panel">
+      <tr>
+        <td class="panel-instance">
+          instance count
+          <div class="panel-value">
+            <%= @stats_hash["routing"]["nodes.length"] %><br>
+              <div class="error-instance-small">
+                <% @inactive_routing_list.each{|instance| %><li> <%= instance %> is down</li><% } %>
+              </div>
+          </div>
+        </td>
+    
+        <td class="panel-server">
+          server count
+          <div class="panel-value">
+            <%= get_server_list %>
+          </div>
+        </td>
+    
+        <td class="panel-roma-version">
+          ROMA version
+          <div class="panel-value">
+            <%= @stats_hash["others"]["version"] %>
+            <div class ="error-instance-small">
+              <% @routing_info.each do |instance, info| %>
+                <% if chk_main_version(info["version"]) %>
+                  <li><%= "#{instance} using #{info["version"]}" %></li><br>
+                <% end %>
+              <% end %>
+            </div>
  
-    </td>
-    <td class="debug5">
-      lost vnodes
-      <br>
-        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
-          <%= @stats_hash["routing"]["lost_vnodes"] %>
+          </div>
+        </td>
+      </tr>
+    
+      <tr>
+        <% if short_vnodes?(@stats_hash) %>
+          <td class="panel-short-vnodes-error">
+            short vnodes
+            <div class="panel-value" style="color :red;" id ="short_vnodes_cnt">
+                <%= @stats_hash["routing"]["short_vnodes"] %>
+            </div>
+          </td>
+
         <% else %>
-          <font color="red"><%= @stats_hash["routing"]["lost_vnodes"] %></font><br>
+          <td class="panel-short-vnodes">
+            short vnodes
+            <div class="panel-value">
+              <%= @stats_hash["routing"]["short_vnodes"] %>
+            </div>
+          </td>
         <% end %>
-    </td>
-    <td class="debug6">
-      Gladiator version
-      <br>
-      <%= Constants::VERSION %>
-    </td>
-  </tr>
-</table>
 
-
-
+    
+        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+          <td class="panel-lost-vnodes">
+        <% else %>
+          <td class="panel-lost-vnodes" style="background-color: #c13500">
+        <% end %>
+          lost vnodes
+          <div class="panel-value">
+            <%= @stats_hash["routing"]["lost_vnodes"] %>
+          </div>
+        </td>
+    
+        <td class="panel-gladiator-version">
+          Gladiator version
+          <div class="panel-value">
+            <%= Constants::VERSION %>
+          </div>
+        </td>
+      </tr>
+    </table>
 
 <%if false %>
     <ul>
       <li><U>instance count</U> : <%= @stats_hash["routing"]["nodes.length"] %><br>
-        <div class="error-instance">
+        <div class="error-instance-small">
           <% @inactive_routing_list.each{|instance| %> <%= instance %> is down<br><% } %>
         </div>
       </li>
@@ -103,7 +124,7 @@
       </li>
       <li>
         <U>ROMA version</U> : <%= @stats_hash["others"]["version"] %><br>
-        <div class ="error-instance">
+        <div class ="error-instance-small">
           <% @routing_info.each do |instance, info| %>
             <% if chk_main_version(info["version"]) %>
               <font color="red"><%= "#{instance} using #{info["version"]}" %></font><br>
@@ -114,8 +135,6 @@
       <li><U>Gladiator Version</U> : <%= Constants::VERSION %></li>
     </ul>
 <% end %>
-
-
 
   </div>
 
@@ -147,7 +166,7 @@
           <th class="filter-select" data-placeholder="">Status</th>
           <th>Data rate</th>
           <th>Data size</th>
-          <th>&nbsp;</th>
+          <!--th>&nbsp;</th-->
         </tr>
       </thead>
       <tbody>
@@ -193,11 +212,13 @@
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
 
+<% if false %>
             <td>
               <form action="update" method="get" style="display:inline">
                 <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"], extra_process_chk(@routing_info)) %>>Recover</button>
               </form>
             </td>
+<% end %>
           <tr>
         <% end %>
       </tbody>
@@ -205,9 +226,11 @@
   </div>
 </div>
 
+<% if false %>
 <div class="join-function">
   <h3><u>Add new instance</u></h3>
   [ToDO]
 </div>
+<% end %>
 
 
