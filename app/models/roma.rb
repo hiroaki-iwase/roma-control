@@ -205,18 +205,23 @@ class Roma
     return @res
   end
 
-  def change_roma_res_style(string)
-    case string[0]
+  def change_roma_res_style(roma_res)
+    case roma_res[0]
     when "{"
-      string = string.delete('"|{|}').chomp
-      string = string.split(/,\s*|=>/)
-      string = Hash[*string]
+      roma_res = roma_res.delete('"|{|}').chomp
+      roma_res = roma_res.split(/,\s*|=>/)
+      roma_res.each_with_index{|column, idx|
+        roma_res[idx] = column.to_i if column =~ /^\d+$/
+      }
+      new_style_res = Hash[*roma_res]
     when "["
-      string = string.delete("\"[]\s").chomp
-      string = string.split(/,/)
+      roma_res = roma_res.delete("\"[]\s").chomp
+      new_style_res = roma_res.split(/,/)
+    else
+      raise "Unexpected style"
     end
 
-    string
+    new_style_res
   end
 
 end
