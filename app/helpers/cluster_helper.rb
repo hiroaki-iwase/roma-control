@@ -54,7 +54,7 @@ module ClusterHelper
   end
 
   def can_i_recover?(stats_hash, routing_info)
-    if stats_hash["routing"]["short_vnodes"].to_i == 0 || extra_process_chk(routing_info) || 
+    if !short_vnodes?(stats_hash) || extra_process_chk(routing_info) || 
        stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
       return "disabled"
     else
