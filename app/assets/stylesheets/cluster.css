@@ -226,3 +226,21 @@ button.reset {
 .modal-recover-body .modal-explanation-detail {
     margin-left: 30px;
 }
+
+.well-sm {
+  font-size: 16px;
+  background-color: lightgreen;
+  color: white;
+  margin-bottom: 5px;
+  margin-left: 30px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.aaa {
+  color: red;
+  padding-left: 20px;
+}
+
+
+

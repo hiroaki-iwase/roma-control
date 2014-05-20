@@ -31,10 +31,10 @@
           </div>
           <div class="modal-recover-body">
             <ul>
-              <li>This function updates routing file with surviving instance.
+              <li>This function updates routing file with surviving instances.
                 <ul class="modal-explanation-detail">
-                  <li>inactice instance will be removed from routing file. </li>
-                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directory.</li>
+                  <li>Inactive instance will be removed from routing file. </li>
+                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
                 </ul>
               </li>
             </ul>
@@ -47,9 +47,39 @@
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- End of Modal -->
   </h2>
 
+ 
+<div class="row">
+  <!--div class="col-md-9" style="background:lightgreen; height:300px;"-->
+  <div class="col-md-5" >
+    <div class="well well-sm">instance count : 2</div>
+    <div class="well well-sm">server count : 2</div>
+    <div class="well well-sm" style="background-color: yellow; color: black;">
+      short vnodes : 219
+      <div class="aaa">-192.121.42.43_10001 is down</div>
+      <div class="aaa">-192.121.42.44_10001 is down</div>
+    </div>
+    <div class="well well-sm" style="background-color: red;">
+      lost vnodes : 0
+      <div class="aaa" style="color:white;">-192.121.42.43_10001 is down</div>
+    </div>
+    <div class="well well-sm">
+      ROMA version : 0.8.13
+      <div class="aaa" style="color:white;">-192.121.42.43_10001 using 0.8.13</div>
+      <div class="aaa" style="color:white;">-192.121.42.43_10001 using 0.8.12</div>
+    </div>
+    <div class="well well-sm">Gladiator version : 0.4.0</div>
+  </div>
+
+  <div class="col-md-7" >
+  </div>
+</div>
+
+
+
+<% if false %>
   <div class="basic-columns"> 
     <table class="flat-panel">
       <tr>
@@ -125,6 +155,9 @@
       </tr>
     </table>
   </div>
+
+<% end %>
+
 
   <% if extra_process_chk(@routing_info) %>
     <div class="extra-process" id="extra-process">
