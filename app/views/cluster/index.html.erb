@@ -31,10 +31,10 @@
           </div>
           <div class="modal-recover-body">
             <ul>
-              <li>This function updates routing file with surviving instance.
+              <li>This function updates routing file with surviving instances.
                 <ul class="modal-explanation-detail">
-                  <li>inactice instance will be removed from routing file. </li>
-                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directory.</li>
+                  <li>Inactive instance will be removed from routing file. </li>
+                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
                 </ul>
               </li>
             </ul>
@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- End of Modal -->
   </h2>
 
   <div class="basic-columns"> 
@@ -199,14 +199,6 @@
             <td>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
-
-<% if false %>
-            <td>
-              <form action="update" method="get" style="display:inline">
-                <button type="submit" class="btn btn-warning" <%= opt_recover(info["status"], extra_process_chk(@routing_info)) %>>Recover</button>
-              </form>
-            </td>
-<% end %>
           <tr>
         <% end %>
       </tbody>
