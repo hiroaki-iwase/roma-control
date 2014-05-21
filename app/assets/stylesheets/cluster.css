@@ -177,41 +177,62 @@ button.reset {
 
 .instance-table td {
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
-.flat-panel {
+.status-panel {
     font-size: 22px;
     color: #ffffff;
     text-align: center;
 }
 
-.flat-panel td {
+.status-panel td {
     border: 3px #f9f3f3 solid;
     width: 220px;
     height: 100px;
     vertical-align: top;
-    text-align: middle;
 }
 
-.flat-panel .panel-instance, .panel-roma-version, .panel-lost-vnodes {
-    background-color: #D15959;
-}
-
-.flat-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
+.status-panel .panel-instance, .panel-roma-version, .panel-lost-vnodes {
     background-color: #dc8383;
 }
 
-.flat-panel .panel-short-vnodes-error {
-    background-color: #FFD464;
+.status-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
+    background-color: #D15959;
 }
 
-.flat-panel .panel-value {
+.status-panel .panel-short-vnodes-error {
+    background-color: #D15959;
+}
+
+.status-panel .panel-value {
     display: table-cell;
     vertical-align: middle;
     width: 220px;
     height: 60px;
     font-size: 26px;
+}
+
+#short-vnodes-cnt {
+	font-size: 40px;
+}
+
+#short-vnodes-alert {
+	 color: yellow;
+	 font-size: 30px;"
+}
+
+#lost-vnodes-char {
+	font-size: 40px;
+}
+
+#lost-vnodes-alert {
+	 color: red;
+	 font-size: 30px;"
+}
+
+.reset-filter {
+	margin: 5px 10px 3px;
 }
 
 /**---------------------------------------------

@@ -40,7 +40,7 @@ $(function(){
 
             $('#extra-progress-bar').css("width",progressRate + "%");
             $('#extra-bar-rate').text(progressRate+ "% Complete");
-            $('#short_vnodes_cnt').text(shortVnodes);
+            $('#short-vnodes-cnt').text(shortVnodes);
 
             if (progressRate == 100) {
                 $('#extra-bar-rate').text("Finished!");
