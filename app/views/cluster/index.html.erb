@@ -51,7 +51,7 @@
   </h2>
 
   <div class="basic-columns"> 
-    <table class="flat-panel">
+    <table class="status-panel">
       <tr>
         <td class="panel-instance">
           instance count
@@ -62,14 +62,12 @@
               </div>
           </div>
         </td>
-    
         <td class="panel-server">
           server count
           <div class="panel-value">
             <%= get_server_list %>
           </div>
         </td>
-    
         <td class="panel-roma-version">
           ROMA version
           <div class="panel-value">
@@ -81,7 +79,6 @@
                 <% end %>
               <% end %>
             </div>
- 
           </div>
         </td>
       </tr>
@@ -90,11 +87,10 @@
         <% if short_vnodes?(@stats_hash) %>
           <td class="panel-short-vnodes-error">
             short vnodes
-            <div class="panel-value" style="color :red;" id ="short_vnodes_cnt">
-                <%= @stats_hash["routing"]["short_vnodes"] %>
+            <div class="panel-value" id="short-vnodes-cnt">
+                <%= @stats_hash["routing"]["short_vnodes"] %><span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
             </div>
           </td>
-
         <% else %>
           <td class="panel-short-vnodes">
             short vnodes
@@ -103,16 +99,15 @@
             </div>
           </td>
         <% end %>
-
     
         <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
           <td class="panel-lost-vnodes">
         <% else %>
-          <td class="panel-lost-vnodes" style="background-color: #c13500">
+          <td class="panel-lost-vnodes" id="lost-vnodes-exist">
         <% end %>
           lost vnodes
           <div class="panel-value">
-            <%= @stats_hash["routing"]["lost_vnodes"] %>
+            <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span><span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
           </div>
         </td>
     
@@ -139,9 +134,7 @@
       </div>
     </div>
   <% end %>
-
 </div>
-
 
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
@@ -168,11 +161,8 @@
           <% elsif info["status"] =~ /recover|join/ %>
             <tr class="warning">
           <% end %>
-
             <td><%= index += 1 %></td>
-
             <td style="text-align: left"><%= instance %></td>
-
             <td style="text-align: left" class="instance-status-column">
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
@@ -185,7 +175,6 @@
                 <%= info["status"] %>
               <% end %>
             </td>
-
             <td class="progress-bar-column">
               <% if is_active?(info["status"]) %>
                 <div class="progress progress-striped active" >
@@ -195,11 +184,9 @@
                 </div>
               <% end %>
             </td>
-
             <td>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
-
 <% if false %>
             <td>
               <form action="update" method="get" style="display:inline">
