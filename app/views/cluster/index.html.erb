@@ -50,6 +50,21 @@
     </div><!-- End of Modal -->
   </h2>
 
+  <% if short_vnodes?(@stats_hash) %>
+    <div class="status-caution">
+      <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      ROMA have short vnodes. You can solve by executing "Recover" button.
+    </div>
+  <% end %>
+
+  <% if lost_vnodes?(@stats_hash) %>
+    <div class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      ROMA have lost vnodes. If you want to repair this, you should rollback routing file directly.
+    </div>
+  <% end %>
+
+
   <div class="basic-columns"> 
     <table class="status-panel">
       <tr>
@@ -87,8 +102,11 @@
         <% if short_vnodes?(@stats_hash) %>
           <td class="panel-short-vnodes-error">
             short vnodes
-            <div class="panel-value" id="short-vnodes-cnt">
-                <%= @stats_hash["routing"]["short_vnodes"] %><span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+            <div class="panel-value">
+              <span id="short-vnodes-cnt">
+                <%= @stats_hash["routing"]["short_vnodes"] %>
+              </span>
+              <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
             </div>
           </td>
         <% else %>
@@ -104,14 +122,15 @@
           <td class="panel-lost-vnodes">
             lost vnodes
             <div class="panel-value">
-              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
+              <span class="panel-value"><%= @stats_hash["routing"]["lost_vnodes"] %></span>
             </div>
           </td>
         <% else %>
           <td class="panel-lost-vnodes" id="lost-vnodes-exist">
             lost vnodes
             <div class="panel-value">
-              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span><span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
+              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
+              <span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
             </div>
           </td>
         <% end %>

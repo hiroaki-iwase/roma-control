@@ -32,6 +32,14 @@ module ClusterHelper
       return true
     end
   end
+
+  def lost_vnodes?(stats_hash)
+    if stats_hash["routing"]["lost_vnodes"].chomp == "0"
+      return false
+    else
+      return true
+    end
+  end
   
   def current_size_rate(current_size)
     total_size = 0

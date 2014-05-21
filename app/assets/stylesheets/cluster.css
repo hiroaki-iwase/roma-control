@@ -105,6 +105,11 @@
     background-color: #e8d2d2;
 }
 
+.status-caution {
+    color: red;
+    padding-left: 20px;
+}
+
 /**-----------------------------
   Tables 
 -------------------------------- **/
@@ -219,7 +224,12 @@ button.reset {
 
 #short-vnodes-alert {
 	 color: yellow;
-	 font-size: 30px;"
+	 font-size: 30px;
+}
+
+#short-vnodes-caution {
+	 color: yellow;
+	 font-size: 15px;
 }
 
 #lost-vnodes-char {
@@ -228,7 +238,12 @@ button.reset {
 
 #lost-vnodes-alert {
 	 color: red;
-	 font-size: 30px;"
+	 font-size: 30px;
+}
+
+#lost-vnodes-caution {
+	 color: red;
+	 font-size: 15px;
 }
 
 .reset-filter {
