@@ -102,15 +102,20 @@
     
         <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
           <td class="panel-lost-vnodes">
+            lost vnodes
+            <div class="panel-value">
+              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
+            </div>
+          </td>
         <% else %>
           <td class="panel-lost-vnodes" id="lost-vnodes-exist">
+            lost vnodes
+            <div class="panel-value">
+              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span><span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
+            </div>
+          </td>
         <% end %>
-          lost vnodes
-          <div class="panel-value">
-            <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span><span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
-          </div>
-        </td>
-    
+            
         <td class="panel-gladiator-version">
           Gladiator version
           <div class="panel-value">
