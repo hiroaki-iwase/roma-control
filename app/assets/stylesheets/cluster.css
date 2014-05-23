@@ -223,12 +223,12 @@ button.reset {
 }
 
 #short-vnodes-alert {
-	 color: yellow;
+	 color: #FFFF00;
 	 font-size: 30px;
 }
 
 #short-vnodes-caution {
-	 color: yellow;
+	 color: #FFFF00;
 	 font-size: 15px;
 }
 
@@ -237,12 +237,12 @@ button.reset {
 }
 
 #lost-vnodes-alert {
-	 color: red;
+	 color: #FF0000;
 	 font-size: 30px;
 }
 
 #lost-vnodes-caution {
-	 color: red;
+	 color: #FF0000;
 	 font-size: 15px;
 }
 
