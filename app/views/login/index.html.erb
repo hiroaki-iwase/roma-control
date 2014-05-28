@@ -1,0 +1,17 @@
+<h1>Login#index</h1>
+
+<p style="color: Red"><%= @error %></p>
+<%= form_tag :action => 'auth' do %>
+  <div class="field">
+    <label> username : <br />
+    <%= text_field_tag(:username, '', { :size => 20 }) %></label>
+    toDo : hoka no site kara hokan sasenaiyouni
+  </div>
+  <div class="field">
+    <label> password : <br />
+    <%= password_field_tag(:password, '', { :size => 20 }) %></label>
+  </div>
+
+  <%= hidden_field_tag :referer, flash[:referer] %>
+  <%= submit_tag 'login' %>
+<% end %>

@@ -1,10 +1,13 @@
 Gladiator::Application.routes.draw do
+  get  "login/index"
+  post "login/auth"
+
   get "api/get_parameter"
 
-  get "cluster/index"
+  get  "cluster/index"
   post "cluster/create"
-  get "cluster/destroy"
-  get "cluster/update"
+  get  "cluster/destroy"
+  get  "cluster/update"
 
   get "stat/index"
   get "stat/edit"
