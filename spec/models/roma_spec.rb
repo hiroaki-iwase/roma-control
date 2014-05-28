@@ -227,6 +227,54 @@ describe Roma do
       }
     end
 
+    context "change_roma_res_style(array)" do
+      roma_res_example_array = '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'
+      res_array = roma.change_roma_res_style(roma_res_example_array)
+
+      it "Response is Array" do
+        expect(res_array.class).to be Array
+      end
+
+      it "Size is same number" do
+        expect(res_array.size).to be 3
+      end
+
+      it "confirm detail" do
+        expect(res_array).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
+      end
+    end
+
+    context "change_roma_res_style(hash)" do
+      roma_res_example_hash = '{"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062}'
+      res_hash = roma.change_roma_res_style(roma_res_example_hash)
+
+      it "Response is Hash" do
+        expect(res_hash.class).to be Hash
+      end
+
+      it "Size is same number" do
+        expect(res_hash.size).to be 3
+      end
+
+      it "value's class is fixnum" do
+        res_hash.values.each{|value|
+          expect(value).to be_a_kind_of(Fixnum)
+        }
+      end
+
+      it "confirm detail" do
+        expect(res_hash).to eq({"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062})
+      end
+    end
+
+    context "change_roma_res_style(Unexpected)" do
+      roma_res_example_unexpected = 'hogehoge'
+
+      it "in case of unexpected value was send" do
+        expect { roma.change_roma_res_style(roma_res_example_unexpected) }.to raise_error
+      end
+    end
+
     context "status change check(recover)" do
       res = roma.send_command('recover', nil)
       res = roma.change_roma_res_style(res)
@@ -250,6 +298,32 @@ describe Roma do
           expect(active_routing_list.include?(key)).to be_true
         }
       end
+    end
+
+    context "status change check(recover) in case of failed" do
+      roma.send_command('eval @stats.run_recover = true', nil)
+      res = roma.send_command('recover', nil)
+      res = roma.change_roma_res_style(res)
+
+      it "Response is Hash" do
+        expect(res.class).to be Hash
+      end
+
+      it "Hash size is same number of active node" do
+        expect(res.size).to be active_routing_list.size
+      end
+
+      it "1 instance send back 'SERVER_ERROR'" do
+        expect(res.values.include?("SERVER_ERROR Recover process is already running.")).to be_true
+      end
+
+      it "All instance name is same of active node list'" do
+        res.each{|key, value|
+          expect(active_routing_list.include?(key)).to be_true
+        }
+      end
+
+      roma.send_command('eval @stats.run_recover = false', nil)
     end
 
 end # End of describe

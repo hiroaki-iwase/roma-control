@@ -11,6 +11,7 @@ Gladiator::Application.routes.draw do
   put "stat/update"
 
   get "api/get_parameter"
+  get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
  
   #resources :stat
 
