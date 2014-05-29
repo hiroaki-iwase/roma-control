@@ -6,16 +6,19 @@ module ConfigGui
   #PORT = 10006 #debug
 
   # user list
-  ROOT_USER = {
+  ROOT_USER = [
     ###'username' => 'password',
-    'hiroaki.iwase' => 'rakuten',
+    #'hiroaki.iwase' => 'rakuten',
 
     ### ['username', 'password', 'gravatar's email address']
-    #['hiroaki', 'pass', 'hiroaki.iwase.r@gmail.com'],
+    ['hiroaki.iwase', 'rakuten', 'hiroaki.iwase.r@gmail.com'],
+    ['roma', 'pass', 'dev-act-roma@mail.rakuten.com'],
+    ['root', 'passwd',''],
+    ['root2', 'passwd2'],
 
-    ### 'username' => { 'password' => 'password', 'gravatar's email address']
+    ### 'your username' => { 'password' => 'your password', 'email' => '[optional]gravatar's email address']
     #'hiroaki.iwase' => { 'password' => 'rakuten', 'email' => 'hiroaki.iwase.r@gmail.com'}      
-  }
+  ]
 
   NORMAL_USER = []
 

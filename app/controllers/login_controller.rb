@@ -6,8 +6,13 @@ class LoginController < ApplicationController
 
     if usr
       #session[:usr] = Digest::SHA1.hexdigest(usr.to_s)
-      session[:username] = params[:username]
-      session[:password] = Digest::SHA1.hexdigest(params[:password])
+      session[:username] = usr[0]
+      session[:password] = Digest::SHA1.hexdigest(usr[1])
+      if usr[2]
+        session[:email] = usr[2]
+      else
+        session[:email] = ''
+      end
 
       if params[:referer]
         redirect_to params[:referer]
