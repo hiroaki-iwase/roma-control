@@ -15,8 +15,8 @@
         <ul class="nav navbar-nav">
           <% if session[:username] %>
             <li><img class='glavatar' src=<%= get_gravatar_src(session[:email]) %>></li>
-            <li><%= link_to session[:username], "" %></li>
-            <li><%= link_to "Logout", "/login/logout" %></li>
+            <li class='username'><%= session[:username] %></li>
+            <li data-toggle="tooltip_logout" title="Logout" ><%= link_to "Logout", "/login/logout" %></li>
           <% end %>
         </ul>
       </div>

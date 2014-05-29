@@ -8,11 +8,9 @@ class ApplicationController < ActionController::Base
   private
   def check_logined
 
-    #if session[:usr]
     if session[:username] && session[:password]
       begin
-        #raise if !User.authenticate_sha1(session[:usr])
-        raise if !User.authenticate_sha1(session[:username], session[:password])
+        raise if !User.authenticate(session[:username], session[:password])
       rescue
         reset_session
         flash[:filter_msg] = "illegal user data"
