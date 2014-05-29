@@ -7,19 +7,21 @@ class ApplicationController < ActionController::Base
 
   private
   def check_logined
+
     if session[:usr]
       begin
-        #raise if ConfigGui::ROOT_USER.include?(session[:usr])
-        raise if authenticate(session[:usr], session[:pass])
-        @usr = "oge"
+        flash[:filter_msg] = "session[:usr] is exsicted [#{session[:usr]}]"
+        raise if !User.authenticate_sha1(session[:usr])
       rescue
         reset_session
+        flash[:filter_msg] = "illegal user data"
+        flash[:referer] = request.fullpath
+        redirect_to :controller => 'login', :action => 'index'
       end
-    end
-
-    unless @usr
-      flash[:referer] = request.fullpath
-      redirect_to :controller => 'login', :action => 'index'
+    else
+      flash[:filter_msg] = "please login========================"
+        flash[:referer] = request.fullpath
+        redirect_to :controller => 'login', :action => 'index'
     end
   end
 

@@ -1,17 +1,28 @@
 <h1>Login#index</h1>
 
+<p style="color: Red"> flash[:referer] = <%= flash[:referer] %></p>
+<p style="color: Red"> debug_from_auth_controller = <%= @debug_from_auth_controller %></p>
+<p style="color: Red"> referer_from_auth_controller = <%= @referer_from_auth_controller %></p>
+<p style="color: Red"> username_from_auth_controller = <%= @username_from_auth_controller %></p>
+<p style="color: Red"> password_from_auth_controller = <%= @password_from_auth_controller %></p>
+<p style="color: Red"> flash[:filter_msg] = <%= flash[:filter_msg] %></p>
+
 <p style="color: Red"><%= @error %></p>
+
 <%= form_tag :action => 'auth' do %>
   <div class="field">
-    <label> username : <br />
-    <%= text_field_tag(:username, '', { :size => 20 }) %></label>
-    toDo : hoka no site kara hokan sasenaiyouni
-  </div>
-  <div class="field">
-    <label> password : <br />
-    <%= password_field_tag(:password, '', { :size => 20 }) %></label>
+    <label> username : </label>
+    <div><%= text_field_tag(:username, '', { :size => 20 }) %></div>
   </div>
 
-  <%= hidden_field_tag :referer, flash[:referer] %>
-  <%= submit_tag 'login' %>
+  <div class="field">
+    <label> password : </label>
+    <div><%= password_field_tag(:password, '', { :size => 20 }) %></div>
+  </div>
+
+  <% if flash[:referer] %>
+    <%= hidden_field_tag :referer, flash[:referer] %>
+  <% end %>
+
+  <%= submit_tag 'login to Gladiator' %>
 <% end %>

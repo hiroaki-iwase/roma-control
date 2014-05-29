@@ -1,8 +1,10 @@
 Gladiator::Application.routes.draw do
   get  "login/index"
   post "login/auth"
+  get  "login/logout"
 
   get "api/get_parameter"
+  get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
 
   get  "cluster/index"
   post "cluster/create"
@@ -13,8 +15,6 @@ Gladiator::Application.routes.draw do
   get "stat/edit"
   put "stat/update"
 
-  get "api/get_parameter"
-  get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
  
   #resources :stat
 
