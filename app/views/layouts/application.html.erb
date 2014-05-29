@@ -13,9 +13,17 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><%= link_to "Link2", "/path2"  %></li>
-          <li><%= link_to session[:usrname], "#" %></li>
-          <li><%= link_to "Logout", "/login/logout" %></li>
+          <% if session[:username] %>
+<% 
+email_address = "hiroaki.iwase.r@gmail.com"
+hash = Digest::MD5.hexdigest(email_address)
+image_src = "http://www.gravatar.com/avatar/#{hash}"
+%>
+
+            <li><img class='glavatar' src=<%= image_src %>></li>
+            <li><%= link_to session[:username], "#" %></li>
+            <li><%= link_to "Logout", "/login/logout" %></li>
+          <% end %>
         </ul>
       </div>
     </div>

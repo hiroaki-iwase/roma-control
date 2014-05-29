@@ -28,3 +28,9 @@ html, body {
   text-align: center;
   padding-top: 15px;
 }
+
+.glavatar {
+    width:35px;
+    border-radius:100px;    
+    margin: 7px 0px;
+}

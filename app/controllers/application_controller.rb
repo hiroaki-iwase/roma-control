@@ -8,10 +8,11 @@ class ApplicationController < ActionController::Base
   private
   def check_logined
 
-    if session[:usr]
+    #if session[:usr]
+    if session[:username] && session[:password]
       begin
-        flash[:filter_msg] = "session[:usr] is exsicted [#{session[:usr]}]"
-        raise if !User.authenticate_sha1(session[:usr])
+        #raise if !User.authenticate_sha1(session[:usr])
+        raise if !User.authenticate_sha1(session[:username], session[:password])
       rescue
         reset_session
         flash[:filter_msg] = "illegal user data"
@@ -19,7 +20,7 @@ class ApplicationController < ActionController::Base
         redirect_to :controller => 'login', :action => 'index'
       end
     else
-      flash[:filter_msg] = "please login========================"
+      flash[:filter_msg] = "please login"
         flash[:referer] = request.fullpath
         redirect_to :controller => 'login', :action => 'index'
     end

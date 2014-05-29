@@ -12,9 +12,10 @@ class User
     return false
   end
 
-  def self.authenticate_sha1(sha1_hash)
-    #if ConfigGui::ROOT_USER.select{|k, v| sha1_hash == Digest::SHA1.hexdigest(Hash[k,v].to_s)}.size != 0
-    if !ConfigGui::ROOT_USER.select{|k, v| sha1_hash == Digest::SHA1.hexdigest(Hash[k,v].to_s)}.blank?
+  #def self.authenticate_sha1(sha1_hash)
+  #  if ConfigGui::ROOT_USER.select{|k, v| sha1_hash == Digest::SHA1.hexdigest(Hash[k,v].to_s)}.size != 0
+  def self.authenticate_sha1(username, password)
+    if ConfigGui::ROOT_USER.find{|k, v| k == username && Digest::SHA1.hexdigest(v) == password }
       return true
     end
 

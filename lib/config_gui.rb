@@ -7,8 +7,14 @@ module ConfigGui
 
   # user list
   ROOT_USER = {
-    #'username' => 'password',
+    ###'username' => 'password',
     'hiroaki.iwase' => 'rakuten',
+
+    ### ['username', 'password', 'gravatar's email address']
+    #['hiroaki', 'pass', 'hiroaki.iwase.r@gmail.com'],
+
+    ### 'username' => { 'password' => 'password', 'gravatar's email address']
+    #'hiroaki.iwase' => { 'password' => 'rakuten', 'email' => 'hiroaki.iwase.r@gmail.com'}      
   }
 
   NORMAL_USER = []
