@@ -1,6 +1,7 @@
 class LoginController < ApplicationController
   skip_before_filter :check_logined
-
+  before_filter :redirect_top?, :only => 'index'
+  
   def auth
     usr = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
 
@@ -20,14 +21,21 @@ class LoginController < ApplicationController
       end
 
     else
-      flash.now[:referer] = params[:referer]
-      @error = 'username or password is incorrect'
-      render 'index'
+      flash[:referer] = params[:referer]
+      flash[:error] = 'username or password is incorrect'
+      redirect_to :action => 'index'
     end
   end
 
   def logout
     reset_session
     redirect_to '/login/index'
+  end
+
+  private
+  def redirect_top?
+    if session[:username] && session[:password] && User.authenticate(session[:username], session[:password])
+      redirect_to :controller => 'cluster', :action => 'index'
+    end
   end
 end

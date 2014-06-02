@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   private
   def check_logined
+    flash[:referer] = request.fullpath
 
     if session[:username] && session[:password]
       begin
@@ -14,12 +15,10 @@ class ApplicationController < ActionController::Base
       rescue
         reset_session
         flash[:filter_msg] = "illegal user data"
-        flash[:referer] = request.fullpath
         redirect_to :controller => 'login', :action => 'index'
       end
     else
       flash[:filter_msg] = "please login"
-        flash[:referer] = request.fullpath
         redirect_to :controller => 'login', :action => 'index'
     end
   end
