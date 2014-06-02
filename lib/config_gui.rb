@@ -8,6 +8,7 @@ module ConfigGui
   # user list
   ROOT_USER = [
     #{:username => 'input your username', :password => 'input passsword', :email => '[optional]gravatar's email address},
+    #[:username] and [:password] are set a limit by 30 characters.
     {:username => 'hiroaki.iwase', :password => 'rakuten', :email => 'hiroaki.iwase.r@gmail.com' },
     {:username => 'root', :password => '1234', :email => '' },
   ]

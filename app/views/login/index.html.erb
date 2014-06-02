@@ -17,12 +17,12 @@
 <%= form_tag :action => 'auth' do %>
   <div class="field">
     <label> username : </label>
-    <div><%= text_field_tag(:username, '', { :size => 20 }) %></div>
+    <div><%= text_field_tag(:username, '', { :size => 30 }) %></div>
   </div>
 
   <div class="field">
     <label> password : </label>
-    <div><%= password_field_tag(:password, '', { :size => 20 }) %></div>
+    <div><%= password_field_tag(:password, '', { :size => 30 }) %></div>
   </div>
 
   <% if flash[:referer] %>

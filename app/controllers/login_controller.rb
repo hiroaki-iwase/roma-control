@@ -2,7 +2,7 @@ class LoginController < ApplicationController
   skip_before_filter :check_logined
 
   def auth
-    usr = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))  # have to modify
+    usr = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
 
     if usr
       session[:username] = usr[:username]
