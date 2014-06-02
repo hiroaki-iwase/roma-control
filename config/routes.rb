@@ -1,4 +1,6 @@
 Gladiator::Application.routes.draw do
+  root :to => "login#index"
+
   get  "login/index"
   post "login/auth"
   get  "login/logout"
