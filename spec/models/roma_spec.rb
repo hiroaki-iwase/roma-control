@@ -326,4 +326,69 @@ describe Roma do
       roma.send_command('eval @stats.run_recover = false', nil)
     end
 
+#[login & root cmd](ph4)=================================================================
+    ConfigGui::ROOT_USER = [{:username => 'root', :password => 'rakuten', :email => 'dev-act-roma1@mail.rakuten.com'}]
+    #ConfigGui::NORMAL_USER = [{:username => 'roma', :password => 'rit', :email => ''}]
+    ConfigGui::NORMAL_USER = [
+      {:username => 'roma1', :password => 'rit1', :email => ''},
+      {:username => 'roma2', :password => 'rit2'},
+    ]
+
+
+    context "root login check(correct)" do
+      username = 'root'
+      password = 'rakuten'
+      email = 'dev-act-roma1@mail.rakuten.com'
+      expected_res = {:username => username, :password => password, :email => email}
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res }
+    end
+
+    context "root login check(incorrect user)" do
+      username = 'hogehoge'
+      password = 'rakuten'
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
+    end
+
+    context "root login check(incorrect password)" do
+      username = 'root'
+      password = 'fugafuga'
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
+    end
+
+
+    context "normal login check(correct)" do
+      username = 'roma1'
+      password = 'rit1'
+      email = ''
+      expected_res = {:username => username, :password => password, :email => email}
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res }
+    end
+
+    context "normal login check(correct)" do
+      username = 'roma2'
+      password = 'rit2'
+      expected_res = {:username => username, :password => password}
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res }
+    end
+
+    context "normal login check(incorrect user)" do
+      username = 'hogehoge'
+      password = 'rit1'
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
+    end
+
+    context "normal login check(incorrect password)" do
+      username = 'roma1'
+      password = 'fugafuga'
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
+    end
+
+
 end # End of describe
