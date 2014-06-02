@@ -1,3 +1,26 @@
-// Place all the styles related to the login controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.login_container {
+    margin-top: 65px;
+}
+
+.gladiator_message {
+    color: #ffffff;
+    background-color: #545252;
+    padding-left: 65px;
+    
+}
+.gladiator_message ul.aaa li {
+    margin: -1em 0 0 3em;
+    padding: 0;
+}
+
+.login_area {
+    background-color: #545252;
+    padding-left: 300px;
+    padding-right: 100px;
+    text-align: right;
+}
+
+.btn.btn-success.btn-lg.btn-block {
+    margin-top: 30px;
+    padding: 0;
+}

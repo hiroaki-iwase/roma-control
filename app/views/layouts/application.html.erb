@@ -23,25 +23,33 @@
     </div>
   </div>
   <div class="wrap-main">
-    <div class="container">
-      <div class="row-fluid">
-        <div class="col-md-3">
-          <div class="list-group">
-            <a href="/cluster/index"      class="list-group-item">Cluster</a>
-            <a href="/stat/index" class="list-group-item">Status</a>
-            <a href="/path3"      class="list-group-item">Configuration</a>
-            <a href="/path4"      class="list-group-item">Snapshot</a>
-            <a href="/path5"      class="list-group-item">Key/Value</a>
-            <a href="/path5"      class="list-group-item">logs</a>
-            <a href="/path5"      class="list-group-item">History</a>
-          </div>
-        </div><!--/col-md-3-->
-        <div class="col-md-9" id="param-detail-list">
-          <%= yield %>
-        </div><!--/col-md-9-->
-      </div><!--/row-->
-    </div><!--/container-->
+    <% if @authorization %>
+      <div class="container">
+        <div class="row-fluid">
+            <div class="col-md-3">
+              <div class="list-group">
+                <a href="/cluster/index"      class="list-group-item">Cluster</a>
+                <a href="/stat/index" class="list-group-item">Status</a>
+                <a href="/path3"      class="list-group-item">Configuration</a>
+                <a href="/path4"      class="list-group-item">Snapshot</a>
+                <a href="/path5"      class="list-group-item">Key/Value</a>
+                <a href="/path5"      class="list-group-item">logs</a>
+                <a href="/path5"      class="list-group-item">History</a>
+              </div>
+            </div><!--/col-md-3-->
+          <div class="col-md-9" id="param-detail-list">
+            <%= yield %>
+          </div><!--/col-md-9-->
+        </div><!--/row-->
+      </div><!--/container-->
+
+    <% else %>
+      <div class="login_container">
+        <%= yield %>
+      </div>
+    <% end %>
   </div><!--wrap-main-->
+
   <div id="footer">
     <div class="container">
       <p>@ 2014 Roma Project / Sponsored by Rakuten, Inc. and Rakuten Institute of Technology</p>
