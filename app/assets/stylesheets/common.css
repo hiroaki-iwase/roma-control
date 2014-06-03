@@ -17,6 +17,13 @@ html, body {
   margin-bottom: 100px;
 }
 
+#wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -50px;
+    padding: 0 0 50px;
+}
+
 #footer {
   height: 50px;
   clear: both;

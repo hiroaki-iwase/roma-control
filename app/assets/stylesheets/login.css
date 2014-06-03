@@ -1,26 +1,74 @@
-.login_container {
-    margin-top: 65px;
-}
-
-.gladiator_message {
+.gladiator_specification {
     color: #ffffff;
-    background-color: #545252;
-    padding-left: 65px;
+    padding-top: 200px;
     
 }
-.gladiator_message ul.aaa li {
-    margin: -1em 0 0 3em;
-    padding: 0;
+
+.login_title {
+    font-size: 75px;
+    font-style: italic;
+    font-family: serif;
+}
+
+.login_subtitle {
+    font-style: italic;
+    font-size: 40px;
+    padding-left: 65px;
+}
+.login_contents {
+    padding-left: 50px;
+    
+}
+
+.gladiator_specification ul.explanation_list li {
+    padding-left: 50px;
+    font-size: 20px;
 }
 
 .login_area {
-    background-color: #545252;
-    padding-left: 300px;
+/**    padding-left: 300px;
     padding-right: 100px;
+**/
+    padding-left: 120px;
+    padding-top: 240px;
     text-align: right;
+    padding-right: 50px;
+}
+
+.login_area .field {
+    margin-bottom: 35px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.login_area .field input {
+    padding: 5px;
 }
 
 .btn.btn-success.btn-lg.btn-block {
     margin-top: 30px;
     padding: 0;
+    font-size: 25px;
+    background-color: #06bc4a;
+    border-radius: 0;
 }
+
+.login_error {
+    background-color: #d69099;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+
+#login_background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 2048px;
+  max-height: 100%;
+}
+

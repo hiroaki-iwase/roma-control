@@ -1,22 +1,29 @@
+<%= image_tag("login_colloseum.png", :id => "login_background") %>
+
 <div class="row-fluid">
-  <!--div class="col-md-5" style="background-color: red;"-->
-  <div class="col-md-5" style="background-color: red;">
-    <div class="gladiator_message">
-      <h1>Gladiator is hogehoge.</h1>
-      <ul class="aaa" style="list-style:none;">
-      <li><h3>Easy to hogehoge</h3></li>
-      <li><h3>Strongly hogehoge</h3></li>
-      </ul>
-          
+  <div class="col-md-7">
+
+    <div class="gladiator_specification">
+      <div class="login_title">Gladiator</div>
+      <div class="login_subtitle">
+        <div>Intuitive operation.</div>
+        <div>Easy monitoring.</div>
+      </div>
+
+      <div class="login_contents">
+        <ul class="explanation_list" style="list-style:none;">
+          <li>Gladiator is a GUI contorl tool of ROMA.</li>
+          <li>Do you wanna manage ROMA more easily?<br>more viscerally?</li>
+          <li>Gladiator can satisfies it.</li>
+        </ul>
+      </div>
     </div>
   </div>
   
-  <!--div class="col-md-7" style="background-color: yellow;"-->
-  <div class="col-md-7" style="background-color: yellow;">
-    <p style="color: Red"><%= flash[:error] %></p>
-    <p style="color: Red"><%= flash[:filter_msg] %></p>
+  <div class="col-md-5">
     
     <div class="login_area">
+
       <%= form_tag :action => 'auth' do %>
         <div class="field">
           <div><%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %></div>
@@ -33,9 +40,13 @@
         <%#= submit_tag 'login to Gladiator' %>
         <!--button class="btn btn-success"-->
         <button class="btn btn-success btn-lg btn-block">
-          Recover
+          Login to Gladiator
         </button>
       <% end %>
+    <br>
+      <span class="login_error"><%= flash[:error] %></span>
+      <span class="login_error"><%= flash[:filter_msg] %></span>
     </div>
   </div>
 </div>
+

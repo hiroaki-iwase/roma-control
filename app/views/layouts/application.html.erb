@@ -6,10 +6,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+
+  <div id="wrap">
+
   <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-	<a class="navbar-brand" href="/cluster/index" ><%= image_tag "Gladiator_logo.png", :size => '40x40' %> GLADIATOR(仮)<FONT size="4"> -roma control-</FONT></a>
+	<a class="navbar-brand" href="/cluster/index" ><%= image_tag "Gladiator_logo.png", :size => '40x40' %> GLADIATOR<FONT size="4"> -roma control-</FONT></a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -30,11 +33,11 @@
               <div class="list-group">
                 <a href="/cluster/index"      class="list-group-item">Cluster</a>
                 <a href="/stat/index" class="list-group-item">Status</a>
-                <a href="/path3"      class="list-group-item">Configuration</a>
-                <a href="/path4"      class="list-group-item">Snapshot</a>
-                <a href="/path5"      class="list-group-item">Key/Value</a>
-                <a href="/path5"      class="list-group-item">logs</a>
-                <a href="/path5"      class="list-group-item">History</a>
+                <a href="/path3"      class="list-group-item">Configuration[toDO]</a>
+                <a href="/path4"      class="list-group-item">Snapshot[toDO]</a>
+                <a href="/path5"      class="list-group-item">Key/Value[toDO]</a>
+                <a href="/path5"      class="list-group-item">logs[toDO]</a>
+                <a href="/path5"      class="list-group-item">History[toDO]</a>
               </div>
             </div><!--/col-md-3-->
           <div class="col-md-9" id="param-detail-list">
@@ -44,17 +47,24 @@
       </div><!--/container-->
 
     <% else %>
+
       <div class="login_container">
+          <%#= image_tag("login3_2.png") %>
+
         <%= yield %>
+
       </div>
     <% end %>
   </div><!--wrap-main-->
+
+  </div>
 
   <div id="footer">
     <div class="container">
       <p>@ 2014 Roma Project / Sponsored by Rakuten, Inc. and Rakuten Institute of Technology</p>
     </div>
   </div><!-- /footer -->
+
   <%= javascript_include_tag "application" %>
 </body>
 </html>
