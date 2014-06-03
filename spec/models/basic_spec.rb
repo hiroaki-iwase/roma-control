@@ -6,13 +6,13 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   let(:actual_stats_normal) { roma.get_stats }
 
   # return message check
-  it "Return param check[key=>#{key} / value = #{value} / check pattern=> Hash or not]" do
+  it "[2-1]Return param check[key=>#{key} / value = #{value} / check pattern=> Hash or not]" do
     expect(dynamic).to be_true
   end
-  it "Return param check[key=>#{key} / value = #{value} / check pattern=> Size > 1]" do
+  it "[2-2]Return param check[key=>#{key} / value = #{value} / check pattern=> Size > 1]" do
     expect(dynamic.size).to be > 1
   end
-  it "Return param check[key=>#{key} / value = #{value} / check pattern=> msg is 'STORED']" do
+  it "[2-3]Return param check[key=>#{key} / value = #{value} / check pattern=> msg is 'STORED']" do
     dynamic.values.each{|v|
       if key == "dns_caching"
         expect(v.chomp).to eq("ENABLED")
@@ -27,7 +27,7 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   # check reflected or not
   case pattern
   when "string"
-    it "Reflected check[key=>#{key} / value = #{value}]" do
+    it "[2-4]Reflected check[key=>#{key} / value = #{value}]" do
       if key == "sub_nid"
         sub_value = value.split(nil)
         sub_value = "{\"#{sub_value[0]}\"=>{:regexp=>\"#{sub_value[1]}\", :replace=>\"#{sub_value[2]}\"}}"
@@ -37,7 +37,7 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
       end
     end
   when "boolean"
-    it "Reflected check[key=>#{key} / value = #{value}]" do
+    it "[2-5]Reflected check[key=>#{key} / value = #{value}]" do
       expect(actual_stats_normal[group][key].chomp ).to eq(value)
     end
   else
@@ -51,24 +51,24 @@ shared_examples_for 'validation check' do |key, value, pattern, continous_limit_
   case pattern
   when "normal"
     if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
-      it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+      it "[2-6][normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
         expect(roma.check_param(key, value)).to be_true
       end
     else
-      it "[normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+      it "[2-7][normal test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
         expect(roma.valid?).to be_true
       end
     end
 
   when "under0", "Over Limit", "Character", "Over Length", "Unexpected"
     if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
-      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+      it "[2-8][error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
         expect(roma.check_param(key, value)).to be_false
         err = error_msg(key,  continous_limit_pattern)
         expect(roma.errors.full_messages[0]).to eq(err)
       end
     else
-      it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+      it "[2-9][error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
         expect(roma.valid?).to be_false
         err = error_msg(key,  continous_limit_pattern)
         expect(roma.errors.full_messages[0]).to eq(err)
@@ -76,7 +76,7 @@ shared_examples_for 'validation check' do |key, value, pattern, continous_limit_
     end
 
   when "nil"
-    it "[error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
+    it "[2-10][error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
       expect(roma.check_param(key, value)).to be_false
     end
 

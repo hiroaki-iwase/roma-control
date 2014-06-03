@@ -27,13 +27,13 @@ describe Roma do
   context "stats_result" do
     res = Roma.new.get_stats
 
-    it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
-    it "stats_hash have 7 parent column " do
+    it "[1-1]" do expect(res).to be_a_kind_of(Hash) end # Hash or Not
+    it "[1-2]stats_hash have 7 parent column " do
       ## Config, Stats, Storage[roma], Write-behind, Routing, Connection, others
       expect(res.size).to be 7
     end
     
-    it "check all param have value(not have nil)" do
+    it "[1-3]check all param have value(not have nil)" do
       res.each{|k1, v1|
         v1.each{|k2, v2|
           expect(res[k1][k2]).not_to be_nil
