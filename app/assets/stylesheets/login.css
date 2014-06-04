@@ -1,7 +1,18 @@
-.gladiator_specification {
+#grey-area {
+  z-index: 0;
+  background-color: #545252;
+  margin-top: 100px;
+}
+
+.gladiator_explanation {
     color: #ffffff;
-    padding-top: 200px;
-    
+    padding-top: 40px;
+    /**background-color: #545252;**/
+}
+
+.gladiator_explanation ul.explanation_list li {
+    padding-left: 50px;
+    font-size: 20px;
 }
 
 .login_title {
@@ -11,46 +22,41 @@
 }
 
 .login_subtitle {
-    font-style: italic;
     font-size: 40px;
+    font-style: italic;
     padding-left: 65px;
 }
+
 .login_contents {
     padding-left: 50px;
-    
 }
 
-.gladiator_specification ul.explanation_list li {
-    padding-left: 50px;
-    font-size: 20px;
-}
 
-.login_area {
-/**    padding-left: 300px;
-    padding-right: 100px;
-**/
-    padding-left: 120px;
-    padding-top: 240px;
+.login_form_area {
+    padding-top: 90px;
+    /**padding-left: 120px;**/
     text-align: right;
     padding-right: 50px;
 }
 
-.login_area .field {
-    margin-bottom: 35px;
+.login_form_area .field {
+    margin-bottom: 40px;
     font-size: 20px;
+}
+
+.login_form_area .field input {
     padding: 5px;
 }
 
-.login_area .field input {
-    padding: 5px;
-}
-
-.btn.btn-success.btn-lg.btn-block {
-    margin-top: 30px;
+/**.btn.btn-success.btn-lg.btn-block {**/
+.login_form_area .btn.btn-success {
+    /**margin-top: 30px;**/
+    margin-bottom: 15px;
     padding: 0;
     font-size: 25px;
     background-color: #06bc4a;
     border-radius: 0;
+    width: 328px;
 }
 
 .login_error {
@@ -61,19 +67,18 @@
 
 
 #login_background {
+  z-index: -1;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+
   margin: auto;
   width: 100%;
-  max-width: 2048px;
+  height: 100%;
+  max-width: 100%;
   max-height: 100%;
-}
-
-#login-area {
-  background-color: grey;
 }
 
 #login-contents {

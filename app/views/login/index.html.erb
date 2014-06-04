@@ -1,24 +1,57 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12" id="login-area">
+    <div class="col-md-12" id="grey-area">
         <div id="login-contents">
-          <div class="col-md-5" style="background-color: grey;">
 
-
-            colloseum specification
-
-
-
-          </div>  
-          <div class="col-md-7" style="background-color: grey;">
-
-
-            login form
-
-
-
-
+          <div class="col-md-5" >
+            <div class="gladiator_explanation">
+              <div class="login_title">Gladiator</div>
+              <div class="login_subtitle">
+                <div>Intuitive operation.</div>
+                <div>Easy monitoring.</div>
+              </div>
+              <div class="login_contents">
+                <ul class="explanation_list" style="list-style:none;">
+                  <li>Gladiator is a GUI contorl tool of ROMA.</li>
+                  <li>Do you wanna manage ROMA more easily?<br>more viscerally?</li>
+                  <li>Gladiator can satisfies it.</li>
+                  <br>
+                  <a><li>How to make account?[toDO:Documentate]</li></a>
+                </ul>
+              </div>
+            </div>
           </div>
+
+          <div class="col-md-7">
+            <%= image_tag("login6_with_no_bg_small.png", :id => "login_background") %>
+            <div class="login_form_area">
+              <%= form_tag :action => 'auth' do %>
+                <div class="field">
+                  <div><%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %></div>
+                </div>
+                <div class="field">
+                  <div><%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %></div>
+                </div>
+                <% if flash[:referer] %>
+                  <%= hidden_field_tag :referer, flash[:referer] %>
+                <% end %>
+                <button class="btn btn-success">
+                <!--button class="btn btn-success btn-lg btn-block"-->
+                  Login to Gladiator
+                </button>
+              <% end %>
+              <span class="login_error"><%= flash[:error] %></span>
+              <span class="login_error"><%= flash[:filter_msg] %></span>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -119,7 +152,7 @@
 <div class="row-fluid">
   <div class="col-md-7">
 
-    <div class="gladiator_specification">
+    <div class="gladiator_explanation">
       <div class="login_title">Gladiator</div>
       <div class="login_subtitle">
         <div>Intuitive operation.</div>
@@ -140,7 +173,7 @@
   
   <div class="col-md-5">
     
-    <div class="login_area">
+    <div class="login_form_area">
 
       <%= form_tag :action => 'auth' do %>
         <div class="field">
