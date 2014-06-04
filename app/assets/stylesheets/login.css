@@ -57,7 +57,7 @@
     background-color: #d69099;
     color: #ffffff;
     font-size: 18px;
-}
+ }
 
 
 #login_background {
@@ -72,3 +72,23 @@
   max-height: 100%;
 }
 
+#login-area {
+  background-color: grey;
+}
+
+#login-contents {
+  width: 1260px;
+  margin: 0px auto;
+}
+
+/**
+.col-md-5 {
+  background-color: red;
+  max-width: 500px;
+
+}
+
+.col-md-7 {
+  max-width: 700px;
+}
+**/
