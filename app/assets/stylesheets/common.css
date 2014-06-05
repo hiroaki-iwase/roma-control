@@ -13,6 +13,11 @@ html, body {
   margin: 0 auto -50px;
 }
 
+.header-subtitle {
+    font-size: 18px;
+}
+
+
 #param-detail-list {
   margin-bottom: 100px;
 }
@@ -46,4 +51,31 @@ html, body {
     color: #ffffff;
     margin: 14px;
     font-size: 16px;
+}
+
+.nav.navbar-nav .logout-icon{
+   padding: 10px 0;
+   z-index: 2;
+}
+
+.nav.navbar-nav .logout-icon-blue{
+   padding: 10px 0;
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   z-index: 1;
+}
+
+.nav.navbar-nav .logout-icon:hover img{
+-webkit-filter:opacity(0%);
+/**    cursor:pointer; **/
+/**    filter:  **/
+/**    alpha(opacity=60); **/        /* ie lt 8 */
+/**    -ms-filter: "alpha(opacity=60)";**/  /* ie 8 */
+/**    -moz-opacity:0.6;              **/   /* FF lt 1.5, Netscape */
+/**    -khtml-opacity: 0.6;           **/   /* Safari 1.x */
+/**    -webkit-filter:brightness(50%);**/
+/**    -webkit-filter:hue-rotate(100deg); **/
+/**    opacity:0.6; **/
+/**    zoom:1; **/
 }

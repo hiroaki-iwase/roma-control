@@ -13,7 +13,11 @@
       <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/cluster/index" ><%= image_tag "Gladiator_logo.png", :size => '40x40' %> GLADIATOR<FONT size="4"> -roma control-</FONT></a>
+            <a class="navbar-brand" href="/cluster/index" >
+              <%= image_tag "Gladiator_logo.png", :size => '40x40' %>
+              <span class="header-title">GLADIATOR</span>
+              <span class="header-subtitle">-roma control-</span>
+            </a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -21,7 +25,11 @@
                 <!--[ToDO] make link to How to make gravatar account -->
                 <li><img class='glavatar' src=<%= get_gravatar_src(session[:email]) %>></li>
                 <li class='username'><%= session[:username] %></li>
-                <li data-toggle="tooltip_logout" title="Logout" ><%= link_to "Logout", "/login/logout" %></li>
+                <!--li data-toggle="tooltip_logout" title="Logout" ><%#= link_to "Logoutt", "/login/logout" %></li-->
+                <li data-toggle="tooltip_logout" title="Logout">
+                  <%= link_to image_tag('logout_icon.png', :size => "30x30"), "/login/logout", { :class => "logout-icon" } %>
+                  <%= link_to image_tag('logout_icon_blue.png', :size => "30x30"), "/login/logout", { :class => "logout-icon-blue" } %>
+                </li>
               <% end %>
             </ul>
           </div>
