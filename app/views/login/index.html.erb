@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12" id="grey-area">
+    <div class="col-xs-12" id="grey-area">
         <div id="login-contents">
 
-          <div class="col-md-5" >
+          <div class="col-xs-5" >
             <div class="gladiator_explanation">
               <div class="login_title">Gladiator</div>
               <div class="login_subtitle">
@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div class="col-md-7">
+          <div class="col-xs-7">
             <%= image_tag("login6_with_no_bg_small.png", :id => "login_background") %>
             <div class="login_form_area">
               <%= form_tag :action => 'auth' do %>
@@ -42,13 +42,6 @@
               <% end %>
               <span class="login_error"><%= flash[:error] %></span>
               <span class="login_error"><%= flash[:filter_msg] %></span>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
             </div>
           </div>
 
