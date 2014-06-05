@@ -4,6 +4,10 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   let(:roma) { Roma.new }
   let(:dynamic) { roma.change_param(key, value) }
   let(:actual_stats_normal) { roma.get_stats }
+ 
+  if key == 'lost_action' && Roma.new.get_stats['routing']['lost_action'].chomp == 'no_action'
+    next
+  end
 
   # return message check
   it "[2-1]Return param check[key=>#{key} / value = #{value} / check pattern=> Hash or not]" do
