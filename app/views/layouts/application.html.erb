@@ -25,7 +25,6 @@
                 <!--[ToDO] make link to How to make gravatar account -->
                 <li><img class='glavatar' src=<%= get_gravatar_src(session[:email]) %>></li>
                 <li class='username'><%= session[:username] %></li>
-                <!--li data-toggle="tooltip_logout" title="Logout" ><%#= link_to "Logoutt", "/login/logout" %></li-->
                 <li data-toggle="tooltip_logout" title="Logout">
                   <%= link_to image_tag('logout_icon.png', :size => "30x30"), "/login/logout", { :class => "logout-icon" } %>
                   <%= link_to image_tag('logout_icon_blue.png', :size => "30x30"), "/login/logout", { :class => "logout-icon-blue" } %>
