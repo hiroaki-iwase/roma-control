@@ -22,7 +22,7 @@ class LoginController < ApplicationController
 
     else
       flash[:referer] = params[:referer]
-      flash[:error] = 'username or password is incorrect'
+      flash[:error] = 'username or password is incorrect!!'
       redirect_to :action => 'index'
     end
   end
@@ -34,8 +34,6 @@ class LoginController < ApplicationController
 
   private
   def redirect_top?
-    if session[:username] && session[:password] && User.authenticate(session[:username], session[:password])
-      redirect_to :controller => 'cluster', :action => 'index'
-    end
+    redirect_to :controller => 'cluster', :action => 'index' if login_check?
   end
 end

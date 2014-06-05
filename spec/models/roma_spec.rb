@@ -27,13 +27,13 @@ describe Roma do
   context "stats_result" do
     res = Roma.new.get_stats
 
-    it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
-    it "stats_hash have 7 parent column " do
+    it "[1-1]" do expect(res).to be_a_kind_of(Hash) end # Hash or Not
+    it "[1-2]stats_hash have 7 parent column " do
       ## Config, Stats, Storage[roma], Write-behind, Routing, Connection, others
       expect(res.size).to be 7
     end
     
-    it "check all param have value(not have nil)" do
+    it "[1-3]check all param have value(not have nil)" do
       res.each{|k1, v1|
         v1.each{|k2, v2|
           expect(res[k1][k2]).not_to be_nil
@@ -327,17 +327,16 @@ describe Roma do
     end
 
 #[login & root cmd](ph4)=================================================================
-    ConfigGui::ROOT_USER = [{:username => 'root', :password => 'rakuten', :email => 'dev-act-roma1@mail.rakuten.com'}]
-    #ConfigGui::NORMAL_USER = [{:username => 'roma', :password => 'rit', :email => ''}]
+    ConfigGui::ROOT_USER = [{:username => 'test_root_user', :password => 'test_root_password', :email => 'dev-act-roma1@mail.rakuten.com'}]
     ConfigGui::NORMAL_USER = [
-      {:username => 'roma1', :password => 'rit1', :email => ''},
-      {:username => 'roma2', :password => 'rit2'},
+      {:username => 'test_normal_user1', :password => 'test_normal_password1', :email => ''},
+      {:username => 'test_normal_user2', :password => 'test_normal_password2'},
     ]
 
 
     context "root login check(correct)" do
-      username = 'root'
-      password = 'rakuten'
+      username = 'test_root_user'
+      password = 'test_root_password'
       email = 'dev-act-roma1@mail.rakuten.com'
       expected_res = {:username => username, :password => password, :email => email}
 
@@ -346,13 +345,13 @@ describe Roma do
 
     context "root login check(incorrect user)" do
       username = 'hogehoge'
-      password = 'rakuten'
+      password = 'test_root_password'
 
       it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
     end
 
     context "root login check(incorrect password)" do
-      username = 'root'
+      username = 'test_root_user'
       password = 'fugafuga'
 
       it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
@@ -360,8 +359,8 @@ describe Roma do
 
 
     context "normal login check(correct)" do
-      username = 'roma1'
-      password = 'rit1'
+      username = 'test_normal_user1'
+      password = 'test_normal_password1'
       email = ''
       expected_res = {:username => username, :password => password, :email => email}
 
@@ -369,8 +368,8 @@ describe Roma do
     end
 
     context "normal login check(correct)" do
-      username = 'roma2'
-      password = 'rit2'
+      username = 'test_normal_user2'
+      password = 'test_normal_password2'
       expected_res = {:username => username, :password => password}
 
       it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res }
@@ -378,17 +377,23 @@ describe Roma do
 
     context "normal login check(incorrect user)" do
       username = 'hogehoge'
-      password = 'rit1'
+      password = 'test_normal_password1'
 
       it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
     end
 
     context "normal login check(incorrect password)" do
-      username = 'roma1'
+      username = 'test_normal_user1'
       password = 'fugafuga'
 
       it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
     end
 
+    context "normal login check(incorrect pattern)" do
+      username = 'test_normal_user1'
+      password = 'test_normal_password2'
+
+      it { expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false }
+    end
 
 end # End of describe
