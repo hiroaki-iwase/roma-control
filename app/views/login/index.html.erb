@@ -4,33 +4,33 @@
         <div id="login-contents">
 
           <div class="col-xs-5" >
-            <div class="gladiator_explanation">
-              <div class="login_title">Gladiator</div>
-              <div class="login_subtitle">
-                <div>Intuitive operation.</div>
-                <div>Easy monitoring.</div>
+            <div class="gladiator-explanation">
+              <div class="login-title">Gladiator</div>
+              <div class="login-subtitle">
+                <p>Intuitive operation.</p>
+                <p>Easy monitoring.</p>
               </div>
-              <div class="login_contents">
-                <ul class="explanation_list" style="list-style:none;">
-                  <li>Gladiator is a GUI contorl tool of ROMA.</li>
-                  <li>Do you wanna manage ROMA more easily?<br>more viscerally?</li>
-                  <li>Gladiator can satisfies it.</li>
+              <div class="login-contents">
+                <div class="explanation-detail">
+                  <p>Gladiator is a GUI contorl tool of ROMA.</p>
+                  <p>Do you wanna manage ROMA more easily?<br>more viscerally?</p>
+                  <p>Gladiator can satisfies it.</p>
                   <br>
-                  <a><li>How to make account?[toDO:Documentate]</li></a>
-                </ul>
+                  <a><p>How to make account?[toDO:Documentate]</p></a>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="col-xs-7">
-            <%= image_tag("login6_with_no_bg_small.png", :id => "login_background") %>
-            <div class="login_form_area">
+            <%= image_tag("colloseum.png", :id => "login-background") %>
+            <div class="login-form-area">
               <%= form_tag :action => 'auth' do %>
                 <div class="field">
-                  <div><%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %></div>
+                  <%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %>
                 </div>
                 <div class="field">
-                  <div><%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %></div>
+                  <%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %>
                 </div>
                 <% if flash[:referer] %>
                   <%= hidden_field_tag :referer, flash[:referer] %>
@@ -39,8 +39,8 @@
                   Login to Gladiator
                 </button>
               <% end %>
-              <span class="login_error"><%= flash[:error] %></span>
-              <span class="login_error"><%= flash[:filter_msg] %></span>
+              <span class="login-error"><%= flash[:error] %></span>
+              <span class="login-error"><%= flash[:filter_msg] %></span>
             </div>
           </div>
 
