@@ -1,44 +1,44 @@
 *{
-    margin: 0;
-    padding: 0;
-    /*background-color: red;*/
+  margin: 0;
+  padding: 0;
+  /*background-color: red;*/
 }
 dl{
-    width: auto;
-    margin:20px auto;
-    background: #f9f3f3;
-    color: #6f3737;
+  width: auto;
+  margin:20px auto;
+  background: #f9f3f3;
+  color: #6f3737;
 }
 dl dt{
-    background: #debdbd;
-    border-bottom: 1px solid #FFFFFF;
-    cursor: pointer;
-    height: 30px;
-    font-size: 20px;
-    vertical-align: middle;
-    padding: 0 0 0 5px;
+  background: #debdbd;
+  border-bottom: 1px solid #FFFFFF;
+  cursor: pointer;
+  height: 30px;
+  font-size: 20px;
+  vertical-align: middle;
+  padding: 0 0 0 5px;
 }
 dl dd{
-    /*background:#eeeeee;*/
-    background: #fce9e7;
-    border-top: none;
-    height: auto;
-    font-size: 20px;
+  /*background:#eeeeee;*/
+  background: #fce9e7;
+  border-top: none;
+  height: auto;
+  font-size: 20px;
 }
 .tooltip-inner{
-    max-width: 300px;
-    font-size: 16px;
-    text-align: left;
+  max-width: 300px;
+  font-size: 16px;
+  text-align: left;
 }
 .table .no-data-col{
-    background-color: #408080;
+  background-color: #408080;
 }
 .table .not-change-col{
-    background-color: grey;
+  background-color: grey;
 }
 .table .stats-str{
-    color: #6f3737;
-    text-decoration: none;
+  color: #6f3737;
+  text-decoration: none;
 }
 /** edit page **/
 .edit-title h2{
