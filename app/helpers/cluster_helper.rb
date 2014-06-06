@@ -55,7 +55,7 @@ module ClusterHelper
 
   def extra_process_chk(routing_info)
     routing_info.values.each{|info|
-      return $& if info["status"] =~ /recover|join/
+      return $& if info["status"] =~ /recover|join|release/
       #return $& if info["status"] =~ /recover|join|inactive/ #debug
     }
     return nil
@@ -69,5 +69,38 @@ module ClusterHelper
       return nil
     end
   end
+
+  def get_button_option(stats_hash, routing_info, target_instance)
+    if can_i_release?(stats_hash, routing_info, target_instance)
+      return nil
+    else
+      return "disabled"
+    end
+  end
+
+  def can_i_release?(stats_hash, routing_info, target_instance)
+
+    if extra_process_chk(routing_info)
+      return false
+    end
+
+    buf = living_nodes #[TODO] getting living nodes
+    buf.delete(target_instance)
+    receptive_instance = []
+
+    unless rep_host? # [toDO] check enabled_repeasthost (make "def enabled_repeasthost?")
+      buf.each{|instance|
+        host = instance.split(/[:_]/)[0]
+        receptive_instance << host unless receptive_instance.include?(host)
+      }
+    else # in case of --enabled_repeathost
+      receptive_instance = host
+    end
+
+    return false if receptive_instance.size < stats_hash["routing"]["redundant"]
+
+    return true
+  end
+
 
 end

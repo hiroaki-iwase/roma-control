@@ -164,6 +164,8 @@ class Roma
         status = "recover"
       elsif each_stats["stats"]["run_join"].chomp == "true"
         status = "join"
+      elsif each_stats["stats"]["run_release"].chomp == "true"
+        status = "release"
       else
         status = "active"
       end

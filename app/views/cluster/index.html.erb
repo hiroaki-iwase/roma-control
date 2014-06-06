@@ -171,7 +171,9 @@
           <th class="filter-select" data-placeholder="">Status</th>
           <th>Data rate</th>
           <th>Data size</th>
-          <!--th>&nbsp;</th-->
+          <% if session[:user_type] == 'root' %>
+            <th>&nbsp;</th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -182,7 +184,7 @@
             <tr>
           <% elsif info["status"] == "inactive" %>
             <tr class="active">
-          <% elsif info["status"] =~ /recover|join/ %>
+          <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
           <% end %>
             <td><%= index += 1 %></td>
@@ -211,6 +213,21 @@
             <td>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
+           
+            <% if session[:user_type] == 'root' %>
+            <td>
+
+              <form action="update" method="get" style="display:inline">
+
+                <!--button type="submit" class="btn btn-warning" <%#= opt_recover(info["status"], extra_process_chk(@routing_info)) %>>Recover</button-->
+                <button type="submit" class="btn btn-info" <%= get_button_option(@stats_hash, @routing_info, instance)%>>release</button>
+                <button type="submit" class="btn btn-warning">rbalse</button>
+
+              </form>
+
+            </td>
+            <% end %>
+
           <tr>
         <% end %>
       </tbody>

@@ -3,11 +3,12 @@ class LoginController < ApplicationController
   before_filter :redirect_top?, :only => 'index'
   
   def auth
-    usr = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
+    usr, type = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
 
-    if usr
+    if usr && type
       session[:username] = usr[:username]
       session[:password] = Digest::SHA1.hexdigest(usr[:password])
+      session[:user_type] = type
       if usr[:email]
         session[:email] = usr[:email]
       else
