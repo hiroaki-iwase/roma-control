@@ -253,12 +253,16 @@ button.reset {
 /**---------------------------------------------
   Modal
 ------------------------------------------------**/
-.modal-recover-body {
+.modal-body {
   font-size: 16px;
   margin-top: 10px;
   margin-left: 50px;
 }
 
-.modal-recover-body .modal-explanation-detail {
+.modal-body .modal-explanation-detail {
   margin-left: 30px;
+}
+
+#releaseModal {
+  text-align: left;
 }

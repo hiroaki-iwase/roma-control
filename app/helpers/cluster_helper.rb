@@ -1,12 +1,12 @@
 module ClusterHelper
 
-  def get_server_list
+  def get_active_server_list
     active_server_list = []
     @active_routing_list.each do |active_instance|
       active_instance =~ /^([-\.a-zA-Z\d]+)_/
       active_server_list.push($1)
     end
-    active_server_list.uniq.size
+    active_server_list.uniq
   end
 
   def main_version
@@ -56,7 +56,6 @@ module ClusterHelper
   def extra_process_chk(routing_info)
     routing_info.values.each{|info|
       return $& if info["status"] =~ /recover|join|release/
-      #return $& if info["status"] =~ /recover|join|inactive/ #debug
     }
     return nil
   end
@@ -72,11 +71,16 @@ module ClusterHelper
 
   def get_button_option(stats_hash, routing_info, target_instance)
     if can_i_release?(stats_hash, routing_info, target_instance)
-      return nil
+      return nil # no option
     else
       return "disabled"
     end
   end
+
+  def rep_host?(stats_hash)
+    stats_hash["stats"]["enabled_repetition_host_in_routing"].to_b
+  end
+
 
   def can_i_release?(stats_hash, routing_info, target_instance)
 
@@ -84,23 +88,24 @@ module ClusterHelper
       return false
     end
 
-    buf = living_nodes #[TODO] getting living nodes
-    buf.delete(target_instance)
+    buf = @active_routing_list.reject{|instance| instance == target_instance }
     receptive_instance = []
 
-    unless rep_host? # [toDO] check enabled_repeasthost (make "def enabled_repeasthost?")
+    if rep_host?(stats_hash)  # in case of --enabled_repeathost
+      receptive_instance = buf
+    else
       buf.each{|instance|
         host = instance.split(/[:_]/)[0]
         receptive_instance << host unless receptive_instance.include?(host)
       }
-    else # in case of --enabled_repeathost
-      receptive_instance = host
     end
 
-    return false if receptive_instance.size < stats_hash["routing"]["redundant"]
+#logger.debug "#{receptive_instance}======================================="
 
+    return false if receptive_instance.size < stats_hash["routing"]["redundant"].to_i
     return true
   end
 
 
 end
+

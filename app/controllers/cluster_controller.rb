@@ -45,4 +45,16 @@ class ClusterController < ApplicationController
       render :template => "errors/error_500", :status => 500
     end
   end
+
+  def release
+    host, port = params[:target_instance].split(/_/)
+    roma = Roma.new
+
+    begin
+      res = roma.send_command('release', nil, host, port) 
+      redirect_to :action => "index"
+    rescue => @ex
+      render :template => "errors/error_500", :status => 500
+    end
+  end
 end
