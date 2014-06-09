@@ -113,6 +113,10 @@
 /**-----------------------------
   Tables 
 -------------------------------- **/
+.datasize-column {
+  min-width: 75px;
+}
+
 .instances-information{
   background-color: #e8d2d2;
   border: 1px solid #ddd;
@@ -136,9 +140,10 @@
   margin: 10px;
 }
 
-td.instance-status-column {
-  width: 100px;
-}
+
+.instance-status-column {
+  min-width: 100px;
+} 
 
 td.progress-bar-column {
   width: 300px;

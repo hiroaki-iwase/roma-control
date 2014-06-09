@@ -153,6 +153,8 @@ class Roma
       routing_list_info[instance]["status"] = "inactive"
       routing_list_info[instance]["size"] = nil
       routing_list_info[instance]["version"] = nil
+      routing_list_info[instance]["primary_nodes"] = nil
+      routing_list_info[instance]["secondary_nodes"] = nil
     }
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
@@ -179,8 +181,11 @@ class Roma
       routing_list_info[instance]["size"] = size
        
       ### version
-      version = each_stats["others"]["version"].chomp
-      routing_list_info[instance]["version"] = version
+      routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
+
+      ### vnodes count
+      routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
+      routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
     }
 
     return routing_list_info

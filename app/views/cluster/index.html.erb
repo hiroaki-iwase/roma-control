@@ -166,15 +166,21 @@
   <div class="instance-table">
     <table class="table table-bordered result-table tablesorter">
       <thead>
+
         <tr>
-          <th>No.</th>
-          <th>Cluster Name</th>
-          <th class="filter-select" data-placeholder="">Status</th>
-          <th>Data rate</th>
-          <th>Data size</th>
+          <th rowspan="2">No.</th>
+          <th rowspan="2">Cluster Name</th>
+          <th rowspan="2" class="instance-status-column" data-placeholder="">Status</th>
+          <th rowspan="2">Data rate</th>
+          <th rowspan="2" class="datasize-column">Data size</th>
+          <th colspan="2">vnodes count</th>
           <% if session[:user_type] == 'root' %>
-            <th>&nbsp;</th>
+            <th rowspan="2">&nbsp;</th>
           <% end %>
+        </tr>
+        <tr>
+          <th>Primary</th>
+          <th>Secondary</th>
         </tr>
       </thead>
       <tbody>
@@ -190,7 +196,7 @@
           <% end %>
             <td><%= index += 1 %></td>
             <td style="text-align: left"><%= instance %></td>
-            <td style="text-align: left" class="instance-status-column">
+            <td nowrap> 
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
@@ -211,10 +217,15 @@
                 </div>
               <% end %>
             </td>
-            <td>
+            <td nowrap>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
            
+
+            <td><%= info["primary_nodes"] %></td>
+            <td><%= info["secondary_nodes"] %></td>
+
+
             <td>
             <% if session[:user_type] == 'root' && is_active?(info["status"]) %>
               <%= form_tag :action => 'release' do %>
