@@ -159,33 +159,40 @@ class Roma
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
     active_routing_list.each{|instance|
-      each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
-      ### status[active|inactive|recover|join]
-      if each_stats["stats"]["run_recover"].chomp == "true"
-        status = "recover"
-      elsif each_stats["stats"]["run_join"].chomp == "true"
-        status = "join"
-      elsif each_stats["stats"]["run_release"].chomp == "true"
-        status = "release"
-      else
-        status = "active"
+      begin
+        each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
+
+        ### status[active|inactive|recover|join]
+        if each_stats["stats"]["run_recover"].chomp == "true"
+          status = "recover"
+        elsif each_stats["stats"]["run_join"].chomp == "true"
+          status = "join"
+        elsif each_stats["stats"]["run_release"].chomp == "true"
+          status = "release"
+        else
+          status = "active"
+        end
+        routing_list_info[instance]["status"] = status
+
+        ### sum of tc file size of each instance
+        size = 0
+        10.times{|index|
+          size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
+        }
+        routing_list_info[instance]["size"] = size
+         
+        ### version
+        routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
+
+        ### vnodes count
+        routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
+        routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+
+      rescue
+        routing_list_info[instance]["status"] = "unknown"
+        #routing_list_info[instance]["status"] = "inactive"
       end
-      routing_list_info[instance]["status"] = status
-
-      ### sum of tc file size of each instance
-      size = 0
-      10.times{|index|
-        size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
-      }
-      routing_list_info[instance]["size"] = size
-       
-      ### version
-      routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
-
-      ### vnodes count
-      routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
-      routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
     }
 
     return routing_list_info

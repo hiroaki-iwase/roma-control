@@ -36,7 +36,16 @@ class ClusterController < ApplicationController
   def create #[join]
   end
 
-  def destroy #[rbalse|balse]
+  def destroy #[rbalse]
+    host, port = params[:target_instance].split(/_/)
+    roma = Roma.new
+
+    begin
+      res = roma.send_command('rbalse', nil, host, port) 
+      redirect_to :action => "index"
+    rescue => @ex
+      render :template => "errors/error_500", :status => 500
+    end
   end
 
   def update #[recover]
@@ -50,7 +59,7 @@ class ClusterController < ApplicationController
     end
   end
 
-  def release
+  def release #[release]
     host, port = params[:target_instance].split(/_/)
     gon.host = host
     gon.port = port

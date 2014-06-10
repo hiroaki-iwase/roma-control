@@ -179,17 +179,17 @@
         <tr>
           <th rowspan="2">No.</th>
           <th rowspan="2">Cluster Name</th>
-          <th rowspan="2" class="instance-status-column" data-placeholder="">Status</th>
+          <th rowspan="2" data-placeholder="">Status</th>
           <th rowspan="2">Data rate</th>
           <th rowspan="2" class="datasize-column">Data size</th>
           <th colspan="2">vnodes count</th>
           <% if session[:user_type] == 'root' %>
-            <th rowspan="2">&nbsp;</th>
+            <th rowspan="2" class="button-column">&nbsp;</th>
           <% end %>
         </tr>
         <tr>
-          <th>Primary</th>
-          <th>Secondary</th>
+          <th class="vnodes-column">Primary</th>
+          <th class="vnodes-column">Secondary</th>
         </tr>
       </thead>
       <tbody>
@@ -199,7 +199,7 @@
         @routing_info.each do |(instance, info)|
           if info["status"] == "active" %>
             <tr>
-          <% elsif info["status"] == "inactive" %>
+          <% elsif info["status"] =~ /inactive|unknown/ %>
             <tr class="active">
           <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
@@ -211,12 +211,15 @@
             <td style="text-align: left"><%= instance %></td>
 
             <!-- instance status -->
-            <td nowrap> 
+            <td class="instance-status-column" nowrap> 
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
               <% elsif info["status"] == "inactive" %>
                 <div class="health-button grey small_size" style="display: inline-block;"></div>
+                <%= info["status"] %>
+              <% elsif info["status"] == "unknown" %>
+                <span class="unknown-icon"><i class="icon-question-sign"></i></span>
                 <%= info["status"] %>
               <% else %>
                 <div class="health-button yellow small_size" style="display: inline-block;"></div>
@@ -261,52 +264,66 @@
             </td>
 
             <!-- release/rbalse button(for root user) -->
-            <td>
-            <% if session[:user_type] == 'root' && is_active?(info["status"]) %>
-              <%= form_tag :action => 'release' do %>
-                <!--button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
-                <button class="btn btn-info" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
-                  Release
-                </button>
-              <%= hidden_field_tag :target_instance, instance %>
-            <% end %>
+            <% if session[:user_type] == 'root' %>
+              <td class="button-column" nowrap>
+                <% if is_active?(info["status"]) %>
+                  <%#= form_tag :action => 'release' do %>
+                  <%= form_tag("release", class: "form-inline") do %>
+                    <!--button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
+                    <button class="btn btn-info" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                      Release
+                    </button>
+                    <%= hidden_field_tag :target_instance, instance %>
+                  <% end %>
 
-              <!-- Modal -->
-              <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-                      <h4 class="modal-title" id="releaseModalLabel">Do you want to run Release?</h4>
-                    </div>
-                    <div class="modal-body">
-                      <ul>
-                        <li>This function release the vnodes to other surviving instances without kill instance.
-                          <ul class="modal-explanation-detail">
-                            <li>Target instance will be removed from routing file. </li>
-                            <li>Target instance will not be automatically down. </li>
-                            <li>So after releasing, you have to rbalse if you want to remove this instance from ROMA cluster.</li>
+<% if false %>  
+                  <!-- Modal -->
+                  <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                          <h4 class="modal-title" id="releaseModalLabel">Do you want to run Release?</h4>
+                        </div>
+                        <div class="modal-body">
+                          <ul>
+                            <li>This function release the vnodes to other surviving instances without kill instance.
+                              <ul class="modal-explanation-detail">
+                                <li>Target instance will be removed from routing file. </li>
+                                <li>Target instance will not be automatically down. </li>
+                                <li>So after releasing, you have to rbalse if you want to remove this instance from ROMA cluster.</li>
+                              </ul>
+                            </li>
                           </ul>
-                        </li>
-                      </ul>
-                    </div>
+                        </div>
 
-                    <div class="modal-footer">
-                      <%= form_tag :action => 'release' do %>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Run Release</button>
-                        <%#= hidden_field_tag :target_instance, instance %>
-                      <% end %>
-                      
+                        <div class="modal-footer">
+                          <%= form_tag :action => 'release' do %>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Run Release</button>
+                            <%#= hidden_field_tag :target_instance, instance %>
+                          <% end %>
+                          
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div><!-- End of Modal -->
+                  </div><!-- End of Modal -->
+<% end %>
 
-              <!--button type="submit" class="btn btn-warning">[ToDO]</button-->
+                  <%#= form_tag :action => 'destroy' do %>
+                  <%= form_tag("destroy", class: "form-inline") do %>
+                    <!--button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
+                    <button class="btn btn-danger">
+                      rbalse
+                    </button>
+                    <%= hidden_field_tag :target_instance, instance %>
+                  <% end %>
+
+                <% end %>
+              </td>
             <% end %>
-            </td>
           <tr>
         <% end %>
       </tbody>

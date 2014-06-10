@@ -117,6 +117,10 @@
   min-width: 75px;
 }
 
+.form-inline {
+  display: inline;
+}
+
 .instances-information{
   background-color: #e8d2d2;
   border: 1px solid #ddd;
@@ -140,9 +144,14 @@
   margin: 10px;
 }
 
+.instance-table td {
+  text-align: center;
+  vertical-align: middle;
+}
 
-.instance-status-column {
+td.instance-status-column {
   min-width: 100px;
+  text-align: left;
 } 
 
 td.progress-bar-column {
@@ -183,11 +192,6 @@ button.reset {
   margin-top: -5px;
   margin-bottom: -5px;
   padding: 3px 12px;
-}
-
-.instance-table td {
-  text-align: center;
-  vertical-align: middle;
 }
 
 .status-panel {
@@ -253,6 +257,11 @@ button.reset {
 
 .reset-filter {
 	margin: 5px 10px 3px;
+}
+
+.unknown-icon {
+  color: grey;
+  font-size: 17px;
 }
 
 /**---------------------------------------------

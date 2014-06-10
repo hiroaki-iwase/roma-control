@@ -22,7 +22,8 @@ module ClusterHelper
   end
 
   def is_active?(status)
-    status != "inactive"
+    #status != "inactive"
+    status !~ /inactive|unknown/
   end
 
   def short_vnodes?(stats_hash)
