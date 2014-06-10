@@ -194,6 +194,7 @@
       </thead>
       <tbody>
         <% 
+        #[ToDO] why not use with_idx?
         index = 0
         @routing_info.each do |(instance, info)|
           if info["status"] == "active" %>
@@ -203,8 +204,13 @@
           <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
           <% end %>
+            <!-- instance No. -->
             <td><%= index += 1 %></td>
+
+            <!-- instance name -->
             <td style="text-align: left"><%= instance %></td>
+
+            <!-- instance status -->
             <td nowrap> 
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
@@ -217,6 +223,8 @@
                 <%= info["status"] %>
               <% end %>
             </td>
+
+            <!-- Data rate -->
             <td class="progress-bar-column">
               <% if is_active?(info["status"]) %>
                 <div class="progress progress-striped active" >
@@ -226,15 +234,33 @@
                 </div>
               <% end %>
             </td>
+
+            <!-- Data size -->
             <td nowrap>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
-           
 
-            <td><%= info["primary_nodes"] %></td>
-            <td><%= info["secondary_nodes"] %></td>
+            <!-- Primary nodes -->
+            <td>
+            <% if info["status"] == "release" %>
+              <span id="primary-nodes-cnt"></span>
+            <% else %>
+              <span id="primary-nodes-cnt-receptive-<%= instance %>">
+                <%= info["primary_nodes"] %>
+              <span>
+            <% end %>
+            </td>
 
+            <!-- Secondary nodes-->
+            <td>
+            <% if info["status"] == "release" %>
+              <span id="secondary-nodes-cnt"></span>
+            <% else %>
+              <%= info["secondary_nodes"] %>
+            <% end %>
+            </td>
 
+            <!-- release/rbalse button(for root user) -->
             <td>
             <% if session[:user_type] == 'root' && is_active?(info["status"]) %>
               <%= form_tag :action => 'release' do %>

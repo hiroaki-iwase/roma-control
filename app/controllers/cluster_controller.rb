@@ -14,12 +14,16 @@ class ClusterController < ApplicationController
       #  "192.168.223.2_10001"=> {
       #     "status"  => "active", 
       #     "size"    => 209759360, 
-      #     "version" => "0.8.14"
+      #     "version" => "0.8.14",
+      #     "primary_nodes" => "171",
+      #     "secondary_nodes" => "170"
       #  },
       #  "192.168.223.2_10002"=> {
       #     "status"  => "active", 
       #     "size"    => 209759360, 
-      #     "version" => "0.8.14"
+      #     "version" => "0.8.14",
+      #     "primary_nodes" => "170",
+      #     "secondary_nodes" => "169"
       #  }
       #}
 

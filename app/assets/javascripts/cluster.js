@@ -81,8 +81,6 @@ $(function(){
 
         protocol = location.protocol;
         host = location.host;
-        target_host = "192.168.223.2";
-        target_port = "10002";
         webApiEndPoint = protocol+"//"+host+"/api/get_parameter/"+gon.host+"/"+gon.port
 
         $.ajax({
@@ -99,10 +97,16 @@ $(function(){
             
             progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
             console.log("denominator is"+denominator);
-  
+
+            //set parogress bar setting  
             $('#extra-progress-bar').css("width",progressRate + "%");
             $('#extra-bar-rate').text(progressRate+ "% Complete");
-            //$('#short-vnodes-cnt').text(shortVnodes);
+
+
+
+            //set nodes count
+            $('#primary-nodes-cnt').text(primaryVnodes);
+            $('#secondary-nodes-cnt').text(secondaryVnodes);
 
             if (progressRate == 100) {
                 $('#extra-bar-rate').text("Finished!");

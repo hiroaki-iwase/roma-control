@@ -8,6 +8,7 @@ Gladiator::Application.routes.draw do
 
   get "api/get_parameter"
   get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
+  get "api/get_routing_info"
 
   get  "cluster/index"
   post "cluster/create"
