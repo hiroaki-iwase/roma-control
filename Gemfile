@@ -55,3 +55,6 @@ gem 'therubyracer', platforms: :ruby
   gem "rspec"
   gem "rspec-rails"
 #end
+
+# send variables to JS from contorller
+gem 'gon'

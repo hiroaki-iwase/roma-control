@@ -48,11 +48,22 @@ class ClusterController < ApplicationController
 
   def release
     host, port = params[:target_instance].split(/_/)
+    gon.host = host
+    gon.port = port
     roma = Roma.new
 
     begin
       res = roma.send_command('release', nil, host, port) 
-      redirect_to :action => "index"
+      #redirect_to :action => "index"
+      #render :template => "cluster/index", :locals => {:post => @post}
+
+      @stats_hash = roma.get_stats
+      @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
+      @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
+      @routing_info = roma.get_routing_info(@active_routing_list)
+
+      render :action => "index"
+
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end

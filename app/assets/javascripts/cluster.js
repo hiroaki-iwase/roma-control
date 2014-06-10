@@ -1,5 +1,6 @@
 $(function(){
 
+    //Table sorter
     $('table.tablesorter').tablesorter({
       theme: 'default',
       sortList: [[0,0]],
@@ -15,61 +16,61 @@ $(function(){
       } 
     });
 
-//    function calcProgressRate() {
-//        var webApiEndPoint
-//        var totalVnodes
-//        var shortVnodes
-//        var progressRate
-//        var host
-//        var protocol
-//
-//        protocol = location.protocol;
-//        host = location.host;
-//        webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
-//
-//        $.ajax({
-//            url: webApiEndPoint,
-//            type: 'GET',
-//            dataType: 'json',
-//            cache: false,
-//        }).done(function(data){
-//            totalVnodes = data["routing"]["vnodes.length"];
-//            shortVnodes = data["routing"]["short_vnodes"];
-//            
-//            progressRate = Math.round(((totalVnodes - shortVnodes)/totalVnodes)*1000) / 10
-//
-//            $('#extra-progress-bar').css("width",progressRate + "%");
-//            $('#extra-bar-rate').text(progressRate+ "% Complete");
-//            $('#short-vnodes-cnt').text(shortVnodes);
-//
-//            if (progressRate == 100) {
-//                $('#extra-bar-rate').text("Finished!");
-//                //console.log("Progress bar operation END");
-//
-//                function redirectClusterPage(){
-//                  window.location.assign(protocol+"//"+host+"/cluster/index");
-//                }
-//                setTimeout(redirectClusterPage, 3000);
-//
-//            }else{
-//                //console.log("loop again");
-//                setTimeout(calcProgressRate,1000);
-//            }
-//        }).fail(function(){
-//          alert("fail to access Gladiator Web API");
-//        });
-//    } //End of calcProgressRate()
-// 
-//    if(document.getElementById('extra-process')) {
-//        setTimeout(calcProgressRate,100);
-//    }
-
-
-
-    function calcProgressRate2() {
+    // Progress Bar(Recover )
+    function calcProgressRate() {
         var webApiEndPoint
         var totalVnodes
-        var rd
+        var shortVnodes
+        var progressRate
+        var host
+        var protocol
+
+        protocol = location.protocol;
+        host = location.host;
+        webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
+
+        $.ajax({
+            url: webApiEndPoint,
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+        }).done(function(data){
+            totalVnodes = data["routing"]["vnodes.length"];
+            shortVnodes = data["routing"]["short_vnodes"];
+            
+            progressRate = Math.round(((totalVnodes - shortVnodes)/totalVnodes)*1000) / 10
+
+            $('#extra-progress-bar').css("width",progressRate + "%");
+            $('#extra-bar-rate').text(progressRate+ "% Complete");
+            $('#short-vnodes-cnt').text(shortVnodes);
+
+            if (progressRate == 100) {
+                $('#extra-bar-rate').text("Finished!");
+                //console.log("Progress bar operation END");
+
+                function redirectClusterPage(){
+                  window.location.assign(protocol+"//"+host+"/cluster/index");
+                }
+                setTimeout(redirectClusterPage, 3000);
+
+            }else{
+                //console.log("loop again");
+                setTimeout(calcProgressRate,1000);
+            }
+        }).fail(function(){
+          alert("fail to access Gladiator Web API");
+        });
+    } //End of calcProgressRate()
+ 
+    if(document.getElementById('extra-process')) {
+        setTimeout(calcProgressRate,100);
+    }
+
+
+
+    // Progress Bar(Release)
+    function calcProgressRate2() {
+        var webApiEndPoint
         var primaryVnodes
         var secondaryVnodes
         var progressRate
@@ -82,7 +83,7 @@ $(function(){
         host = location.host;
         target_host = "192.168.223.2";
         target_port = "10002";
-        webApiEndPoint = protocol+"//"+host+"/api/get_parameter/"+target_host+"/"+target_port
+        webApiEndPoint = protocol+"//"+host+"/api/get_parameter/"+gon.host+"/"+gon.port
 
         $.ajax({
             url: webApiEndPoint,
@@ -90,12 +91,14 @@ $(function(){
             dataType: 'json',
             cache: false,
         }).done(function(data){
-            totalVnodes     = parseInt(data["routing"]["vnodes.length"]);
-            rd              = parseInt(data["routing"]["redundant"]);
             primaryVnodes   = parseInt(data["routing"]["primary"]);
             secondaryVnodes = parseInt(data["routing"]["secondary"]);
+            if (typeof denominator === "undefined") {
+              denominator = primaryVnodes + secondaryVnodes;
+            }
             
-            progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/(totalVnodes * rd))) * 1000) /10
+            progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
+            console.log("denominator is"+denominator);
   
             $('#extra-progress-bar').css("width",progressRate + "%");
             $('#extra-bar-rate').text(progressRate+ "% Complete");
@@ -110,14 +113,13 @@ $(function(){
                 }
                 setTimeout(redirectClusterPage, 3000);
             }else{
-                //console.log("loop again");
-                setTimeout(calcProgressRate2,1000);
+                setTimeout(calcProgressRate2, 1000, denominator);
             }
 
         }).fail(function(){
           alert("fail to access Gladiator Web API");
         });
-    } //End of calcProgressRate()
+    } //End of calcProgressRate2()
  
     if(document.getElementById('extra-process-release')) {
         setTimeout(calcProgressRate2,100);
