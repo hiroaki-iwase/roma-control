@@ -1,5 +1,24 @@
 $(function(){
 
+
+$("#button-showmodal").click(function(){
+
+    //$("#testModal").modal('show');
+    $("#testModal").modal();
+
+var target = document.getElementById('button-showmodal').title;
+
+
+
+    $('#debug1').text("aaa");
+    $('#debug2').text(target);
+ 
+});
+
+
+
+
+
     //Table sorter
     $('table.tablesorter').tablesorter({
       theme: 'default',

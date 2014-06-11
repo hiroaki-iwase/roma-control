@@ -1,5 +1,68 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
+
+<span>
+  <button id="button-showmodal" title="123" type="button">
+    boot Modal
+  </button>
+</span>
+
+
+
+    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="testModalLabel">Do you want to run Recover?</h4>
+          </div>
+          <div class="modal-body">
+            <ul>
+<div id="debug1"></div>
+<div id="debug2"></div>
+              <li>This function updates routing file with surviving instances.
+                <ul class="modal-explanation-detail">
+                  <li>Inactive instance will be removed from routing file. </li>
+                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <form action="update" method="get" style="display:inline">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Run Recover</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!-- End of Modal -->
+
+
+
+
+
+
+<% if false %>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="testModal" role="dialog" tabindex="-1">
+  <div class="modal-header">
+    <span>header contents</span>
+  </div>
+
+  <div class="modal-body">
+    <span>body contents</span>
+  </div>
+
+  <div class="modal-footer">
+    <span>footer contetns</span>
+  </div>
+</div>
+<% end %>
+
+
+
+
+
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -267,12 +330,11 @@
             <% if session[:user_type] == 'root' %>
               <td class="button-column" nowrap>
                 <% if is_active?(info["status"]) %>
-                  <%#= form_tag :action => 'release' do %>
                   <%= form_tag("release", class: "form-inline") do %>
-                    <!--button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
-                    <button class="btn btn-info" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                    <!--button class="btn btn-info" <%#= get_button_option(@stats_hash, @routing_info, instance)%>>
                       Release
-                    </button>
+                    </button-->
                     <%= hidden_field_tag :target_instance, instance %>
                   <% end %>
 
@@ -320,6 +382,46 @@
                     </button>
                     <%= hidden_field_tag :target_instance, instance %>
                   <% end %>
+
+
+<% if false %>  
+                  <!-- Modal -->
+                  <div class="modal fade" id="rbalseModal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                          <h4 class="modal-title" id="rbalseModalLabel">Do you want to run Release?</h4>
+                        </div>
+                        <div class="modal-body">
+                          <ul>
+                            <li>This function release the vnodes to other surviving instances without kill instance.
+                              <ul class="modal-explanation-detail">
+                                <li>Target instance will be removed from routing file. </li>
+                                <li>Target instance will not be automatically down. </li>
+                                <li>So after releasing, you have to rbalse if you want to remove this instance from ROMA cluster.</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div class="modal-footer">
+                          <%= form_tag :action => 'destroy' do %>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Run Release</button>
+                            <%#= hidden_field_tag :target_instance, instance %>
+                          <% end %>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- End of Modal -->
+<% end %>
+
+
+
+
 
                 <% end %>
               </td>
