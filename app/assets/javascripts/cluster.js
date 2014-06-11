@@ -1,54 +1,13 @@
 $(function(){
 
-
-
-$('#rbalseModal').on('show.bs.modal', function (e) {
-  $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
-})
-
-$('#releaseModal').on('show.bs.modal', function (e) {
-  $("#release-hidden-value").attr("value", e.relatedTarget.name);
-})
-
-
-
-
-
-
-
-
-$("#button-showmodal").click(function(){
-    $("#testModal").modal();
-    var target = document.getElementById('button-showmodal').title;
-    //$("#send-command").attr("action","indexx");
-    //$("#hidden-value").attr("value","192.168.223.2_10002");
-
-});
-
-
-
-
-//$('#releaseModal').on('show.bs.modal', function (e) {
-  //alert("aaa");
-  //alert(e.relatedTarget);
-  //alert(e.relatedTarget.type);
-//  alert(e.relatedTarget.name);
-  // do something...
-//})
-
-
-
-
-
-$("#rbalse-button").click(function(){
-alert("aaa");
-//    $("#rbalseModal").modal();
-//    var target = document.getElementById('rbalse-button').title;
-//    //$("#send-command").attr("action","indexx");
-//    $("#rbalse-hidden-value").attr("value",target);
-});
-
-
+    //Modal
+    $('#rbalseModal').on('show.bs.modal', function (e) {
+      $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
+    })
+    
+    $('#releaseModal').on('show.bs.modal', function (e) {
+      $("#release-hidden-value").attr("value", e.relatedTarget.name);
+    })
 
     //Table sorter
     $('table.tablesorter').tablesorter({
@@ -66,7 +25,7 @@ alert("aaa");
       } 
     });
 
-    // Progress Bar(Recover )
+    // Progress Bar(Recover)
     function calcProgressRate() {
         var webApiEndPoint
         var totalVnodes
@@ -115,8 +74,6 @@ alert("aaa");
     if(document.getElementById('extra-process')) {
         setTimeout(calcProgressRate,100);
     }
-
-
 
     // Progress Bar(Release)
     function calcProgressRate2() {

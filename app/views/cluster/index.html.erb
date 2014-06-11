@@ -1,6 +1,5 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-
 <!-- rbalse Modal -->
 <div class="modal fade" id="rbalseModal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -22,7 +21,6 @@
         </ul>
       </div>
       <div class="modal-footer">
-
         <%= form_tag :action => 'destroy' do %>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Run rbalse</button>
@@ -66,7 +64,6 @@
   </div>
 </div><!-- End of Release Modal -->
 
-
 <!-- Recover Modal -->
 <div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="recoverModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -96,91 +93,6 @@
 </div><!-- End of Recover Modal -->
 
 
-
-
-
-
-
-<% if false %>
-<span>
-  <!--button id="button-showmodal" title="123" type="button"-->
-  <button title="123" type="button">
-    boot Modal
-  </button>
-</span>
-
-
-
-    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="testModalLabel">Do you want to run Recover?</h4>
-          </div>
-          <div class="modal-body">
-            <ul>
-<div id="debug1"></div>
-<div id="debug2"></div>
-<%= session[:debug] %>
-
-              <li>This function updates routing file with surviving instances.
-                <ul class="modal-explanation-detail">
-                  <li>Inactive instance will be removed from routing file. </li>
-                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <!--form action="update" method="get" style="display:inline"-->
-<% end %>
-
-<% if false %>
-                          <%= form_tag("index", class: "send-command") do %>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Run Release</button>
-                            <%#= hidden_field_tag :target_instance, instance %>
-                          <% end %>
-<% end %>
-
-
-<% if false %>
-            <form id="send-command" action="destroy" method="post" style="display:inline">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary">Run Release</button>
-              <input id="hidden-value" type="hidden" name="target_instance" value="192.168.223.2_10003">
-            </form>
-
-          </div>
-        </div>
-      </div>
-    </div><!-- End of Modal -->
-<% end %>
-
-
-
-
-<% if false %>
-     <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="testModal" role="dialog" tabindex="-1">
-       <div class="modal-header">
-         <span>header contents</span>
-       </div>
-     
-       <div class="modal-body">
-         <span>body contents</span>
-       </div>
-     
-       <div class="modal-footer">
-         <span>footer contetns</span>
-       </div>
-     </div>
-<% end %>
-
-
-
-
-
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -201,7 +113,6 @@
     <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= can_i_recover?(@stats_hash, @routing_info) %>>
       Recover
     </button>
-
   </h2>
 
   <% if short_vnodes?(@stats_hash) %>
@@ -218,7 +129,6 @@
     </div>
   <% end %>
 
-
   <div class="basic-columns"> 
     <table class="status-panel">
       <tr>
@@ -234,7 +144,6 @@
         <td class="panel-server">
           server count
           <div class="panel-value">
-            <%#= get_server_list %>
             <%= get_active_server_list.size %>
           </div>
         </td>
@@ -421,42 +330,15 @@
             <% if session[:user_type] == 'root' %>
               <td class="button-column" nowrap>
                 <% if is_active?(info["status"]) %>
-
                   <!-- Release button -->
-                    <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
-                      Release
-                    </button>
-
-                  <% if false %>
-                    <%#= form_tag("release", class: "form-inline") do %>
-                      <!--button class="btn btn-info" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
-                         <!-- Release -->
-                      <%#= hidden_field_tag :target_instance, instance %>
-                      <!--/button-->
-                    <%# end %>
-                  <% end %>
-
-
-
+                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                    Release
+                  </button>
 
                   <!-- rbalse button -->
-                    <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal">
-                      rbalse
-                    </button>
-
-                    <% if false %>
-                      <%= form_tag("destroy", class: "form-inline") do %>
-                        <button class="rbalse-button" title=<%= instance %> type="button">
-                          rbalsee
-                        </button>
-
-                        <button class="btn btn-danger">
-                          rbalse
-                        </button>
-                        <%= hidden_field_tag :target_instance, instance %>]
-                      <% end %>
-                    <% end %>
-
+                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal">
+                    rbalse
+                  </button>
                 <% end %>
               </td>
             <% end %>
