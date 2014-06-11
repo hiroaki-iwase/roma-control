@@ -2,23 +2,35 @@ $(function(){
 
 
 $("#button-showmodal").click(function(){
-
-    //$("#testModal").modal('show');
     $("#testModal").modal();
-
     var target = document.getElementById('button-showmodal').title;
-
-
-
-    $('#debug1').text("aaa");
-    $('#debug2').text(target);
- 
-    //document.formName.action('debug');
     //$("#send-command").attr("action","indexx");
+    //$("#hidden-value").attr("value","192.168.223.2_10002");
 
 });
 
 
+
+
+$('#releaseModal').on('show.bs.modal', function (e) {
+  //alert("aaa");
+  //alert(e.relatedTarget);
+  //alert(e.relatedTarget.type);
+  alert(e.relatedTarget.name);
+  // do something...
+})
+
+
+
+
+
+$("#rbalse-button").click(function(){
+alert("aaa");
+//    $("#rbalseModal").modal();
+//    var target = document.getElementById('rbalse-button').title;
+//    //$("#send-command").attr("action","indexx");
+//    $("#rbalse-hidden-value").attr("value",target);
+});
 
 
 

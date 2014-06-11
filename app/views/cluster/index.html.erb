@@ -2,7 +2,8 @@
 
 
 <span>
-  <button id="button-showmodal" title="123" type="button">
+  <!--button id="button-showmodal" title="123" type="button"-->
+  <button title="123" type="button">
     boot Modal
   </button>
 </span>
@@ -20,6 +21,8 @@
             <ul>
 <div id="debug1"></div>
 <div id="debug2"></div>
+<%= session[:debug] %>
+
               <li>This function updates routing file with surviving instances.
                 <ul class="modal-explanation-detail">
                   <li>Inactive instance will be removed from routing file. </li>
@@ -44,7 +47,7 @@
             <form id="send-command" action="destroy" method="post" style="display:inline">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary">Run Release</button>
-              <input type="hidden" name="target_instance" value="192.168.223.2_10003">
+              <input id="hidden-value" type="hidden" name="target_instance" value="192.168.223.2_10003">
             </form>
 
           </div>
@@ -340,20 +343,25 @@
             <% end %>
             </td>
 
+
+<% session[:re] = instance %>
+
             <!-- release/rbalse button(for root user) -->
             <% if session[:user_type] == 'root' %>
+
               <td class="button-column" nowrap>
+
                 <% if is_active?(info["status"]) %>
-                  <%= form_tag("release", class: "form-inline") do %>
-                    <button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
-                    <!--button class="btn btn-info" <%#= get_button_option(@stats_hash, @routing_info, instance)%>>
+
+                  <%#= form_tag("release", class: "form-inline") do %>
+                    <button name=<%= instance %> class="btn btn-info" data-toggle="modal" test="111" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                    <!--button class="btn btn-info" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
                       Release
-                    </button-->
-                    <%= hidden_field_tag :target_instance, instance %>
-                  <% end %>
+                    </button>
+                    <%#= hidden_field_tag :target_instance, instance %>
+                  <%# end %>
 
 
-<% if false %>  
                   <!-- Modal -->
                   <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -364,6 +372,7 @@
                           <h4 class="modal-title" id="releaseModalLabel">Do you want to run Release?</h4>
                         </div>
                         <div class="modal-body">
+<%= session[:re] %>
                           <ul>
                             <li>This function release the vnodes to other surviving instances without kill instance.
                               <ul class="modal-explanation-detail">
@@ -386,19 +395,31 @@
                       </div>
                     </div>
                   </div><!-- End of Modal -->
-<% end %>
 
-                  <%#= form_tag :action => 'destroy' do %>
+
+
+
+
+                  <!-- rbalse button -->
                   <%= form_tag("destroy", class: "form-inline") do %>
-                    <!--button class="btn btn-info" data-toggle="modal" data-target="#releaseModal" <%#= get_button_option(@stats_hash, @routing_info, instance)%>-->
-                    <button class="btn btn-danger">
-                      rbalse
+                    <button class="btn btn-info" data-toggle="modal" data-target="#rbalseModal">
+                      rbalseee
                     </button>
-                    <%= hidden_field_tag :target_instance, instance %>
+
+                    <button class="rbalse-button" title=<%= instance %> type="button">
+                      rbalsee
+                    </button>
+
+                    <% if false %>
+                      <button class="btn btn-danger">
+                        rbalse
+                      </button>
+                      <%= hidden_field_tag :target_instance, instance %>]
+                    <% end %>
+
                   <% end %>
 
 
-<% if false %>  
                   <!-- Modal -->
                   <div class="modal fade" id="rbalseModal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -425,13 +446,13 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Run Release</button>
                             <%#= hidden_field_tag :target_instance, instance %>
+<input id="rbalse-hidden-value" type="hidden" name="target_instance" value='192.168.223.2_77777'>
                           <% end %>
                           
                         </div>
                       </div>
                     </div>
                   </div><!-- End of Modal -->
-<% end %>
 
 
 
