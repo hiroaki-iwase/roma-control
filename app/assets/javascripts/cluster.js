@@ -1,6 +1,22 @@
 $(function(){
 
 
+
+$('#rbalseModal').on('show.bs.modal', function (e) {
+  $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
+})
+
+$('#releaseModal').on('show.bs.modal', function (e) {
+  $("#release-hidden-value").attr("value", e.relatedTarget.name);
+})
+
+
+
+
+
+
+
+
 $("#button-showmodal").click(function(){
     $("#testModal").modal();
     var target = document.getElementById('button-showmodal').title;
@@ -12,13 +28,13 @@ $("#button-showmodal").click(function(){
 
 
 
-$('#releaseModal').on('show.bs.modal', function (e) {
+//$('#releaseModal').on('show.bs.modal', function (e) {
   //alert("aaa");
   //alert(e.relatedTarget);
   //alert(e.relatedTarget.type);
-  alert(e.relatedTarget.name);
+//  alert(e.relatedTarget.name);
   // do something...
-})
+//})
 
 
 

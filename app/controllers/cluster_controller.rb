@@ -1,6 +1,6 @@
 class ClusterController < ApplicationController
 
-skip_before_filter :verify_authenticity_token ,:only=>[:destroy] # debug
+#skip_before_filter :verify_authenticity_token ,:only=>[:destroy] # debug
 
 
   def index
