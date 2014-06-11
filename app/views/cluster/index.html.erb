@@ -29,10 +29,24 @@
             </ul>
           </div>
           <div class="modal-footer">
-            <form action="update" method="get" style="display:inline">
+            <!--form action="update" method="get" style="display:inline"-->
+
+
+<% if false %>
+                          <%= form_tag("index", class: "send-command") do %>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Run Release</button>
+                            <%#= hidden_field_tag :target_instance, instance %>
+                          <% end %>
+<% end %>
+
+
+            <form id="send-command" action="destroy" method="post" style="display:inline">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary">Run Recover</button>
+              <button type="submit" class="btn btn-primary">Run Release</button>
+              <input type="hidden" name="target_instance" value="192.168.223.2_10003">
             </form>
+
           </div>
         </div>
       </div>

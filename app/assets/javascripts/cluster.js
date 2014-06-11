@@ -6,13 +6,16 @@ $("#button-showmodal").click(function(){
     //$("#testModal").modal('show');
     $("#testModal").modal();
 
-var target = document.getElementById('button-showmodal').title;
+    var target = document.getElementById('button-showmodal').title;
 
 
 
     $('#debug1').text("aaa");
     $('#debug2').text(target);
  
+    //document.formName.action('debug');
+    //$("#send-command").attr("action","indexx");
+
 });
 
 
