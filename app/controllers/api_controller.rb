@@ -17,9 +17,6 @@ class ApiController < ApplicationController
   end
 
   def get_routing_info
-    #host = params[:host]
-    #port = params[:port]
-
     roma = Roma.new
 
     begin

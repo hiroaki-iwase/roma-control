@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="rbalseModalLabel">Do you want to run Release?</h4>
+        <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
       </div>
       <div class="modal-body">
         <ul>
@@ -15,7 +15,7 @@
               <li>Target instance will be removed from routing file. </li>
               <li>Vnodes in charge of target instance will not be automatically released. </li>
               <li>This process generate short vnodes. </li>
-              <li>If you want to release vnodes before killing process, you can use Release button before rbalse.</li>
+              <li>If you wanna release vnodes before killing process, please use Release button.</li>
             </ul>
           </li>
         </ul>
@@ -47,7 +47,7 @@
             <ul class="modal-explanation-detail">
               <li>Target instance will be removed from routing file. </li>
               <li>Target instance will not be automatically down. </li>
-              <li>So after releasing, you have to rbalse if you want to remove this instance from ROMA cluster.</li>
+              <li>So after releasing, you have to execute rbalse.</li>
             </ul>
           </li>
         </ul>
@@ -308,22 +308,45 @@
 
             <!-- Primary nodes -->
             <td>
+
+<% if false %>
+              <span id="primary-nodes-<%= instance %>">
+                <%= info["primary_nodes"] %>
+              </span>
+<% end %>
+
+
+<% if true %>
             <% if info["status"] == "release" %>
-              <span id="primary-nodes-cnt"></span>
+              <!--span id="primary-nodes-cnt"></span-->
+              <% instance_name = instance.gsub(/[^0-9]/,"") %>
+              <%# instance_name = "192168223210001" %>
+              <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">debug</span>
             <% else %>
-              <span id="primary-nodes-cnt-receptive-<%= instance %>">
+              <span id="primary-nodes-cnt">
                 <%= info["primary_nodes"] %>
               <span>
             <% end %>
+<% end %>
+
             </td>
 
             <!-- Secondary nodes-->
             <td>
+<% if false %>
+              <span id="secondary-nodes-1">
+                <%= info["secondary_nodes"] %>
+              </span>
+<% end %>
+
+<% if true %>
             <% if info["status"] == "release" %>
               <span id="secondary-nodes-cnt"></span>
             <% else %>
               <%= info["secondary_nodes"] %>
             <% end %>
+<% end %>
+
             </td>
 
             <!-- release/rbalse button(for root user) -->

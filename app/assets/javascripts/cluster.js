@@ -78,6 +78,7 @@ $(function(){
     // Progress Bar(Release)
     function calcProgressRate2() {
         var webApiEndPoint
+        var instanceName
         var primaryVnodes
         var secondaryVnodes
         var progressRate
@@ -88,7 +89,8 @@ $(function(){
 
         protocol = location.protocol;
         host = location.host;
-        webApiEndPoint = protocol+"//"+host+"/api/get_parameter/"+gon.host+"/"+gon.port
+        //[ToDO] change access API(get_routing_info)
+        webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
 
         $.ajax({
             url: webApiEndPoint,
@@ -96,12 +98,30 @@ $(function(){
             dataType: 'json',
             cache: false,
         }).done(function(data){
-            primaryVnodes   = parseInt(data["routing"]["primary"]);
-            secondaryVnodes = parseInt(data["routing"]["secondary"]);
+
+            for(i in data){
+                instanceName = i;
+                primaryVnodes   = parseInt(data[i]["primary_nodes"]);
+                secondaryVnodes = parseInt(data[i]["secondary_nodes"]);        
+
+                //set nodes count
+                $('#primary-nodes-' + instanceName).text(primaryVnodes);
+                //$('#secondary-nodes-' + instanceName).text(secondaryVnodes);
+                $('#secondary-nodes-1').text(secondaryVnodes);
+
+            }
+
+            instanceName    = "192.168.223.2_10002"
+            //primaryVnodes   = parseInt(data["routing"]["primary"]);
+            primaryVnodes   = parseInt(data["192.168.223.2_10002"]["primary_nodes"]);
+            //secondaryVnodes = parseInt(data["routing"]["secondary"]);
+            secondaryVnodes = parseInt(data["192.168.223.2_10002"]["secondary_nodes"]);
+
+
             if (typeof denominator === "undefined") {
               denominator = primaryVnodes + secondaryVnodes;
             }
-            
+
             progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
             console.log("denominator is"+denominator);
 
@@ -112,7 +132,11 @@ $(function(){
 
 
             //set nodes count
-            $('#primary-nodes-cnt').text(primaryVnodes);
+            //$('#primary-nodes-cnt').text(primaryVnodes);
+            instance = instanceName.match(/\d/g).join("");
+
+            //$('#primary-nodes-192168223210002').text(primaryVnodes);
+            $('#primary-nodes-'+instance).text(primaryVnodes);
             $('#secondary-nodes-cnt').text(secondaryVnodes);
 
             if (progressRate == 100) {
