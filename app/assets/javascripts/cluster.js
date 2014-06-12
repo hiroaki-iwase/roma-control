@@ -84,12 +84,9 @@ $(function(){
         var progressRate
         var host
         var protocol
-        var target_host
-        var target_port
 
         protocol = location.protocol;
         host = location.host;
-        //[ToDO] change access API(get_routing_info)
         webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
 
         $.ajax({
@@ -106,13 +103,9 @@ $(function(){
                 secondaryVnodes = parseInt(data[i]["secondary_nodes"]);        
 
                 //set nodes count
-                //$('#primary-nodes-cnt').text(primaryVnodes);
                 instance = instanceName.match(/\d/g).join("");
-                //$('#primary-nodes-192168223210002').text(primaryVnodes);
                 $('#primary-nodes-'+instance).text(primaryVnodes);
-                //$('#secondary-nodes-cnt').text(secondaryVnodes);
                 $('#secondary-nodes-'+instance).text(secondaryVnodes);
-
 
                 //progress bar setting
                 if (i == gon.host+"_"+gon.port) {
@@ -122,7 +115,6 @@ $(function(){
                     progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
                     $('#extra-progress-bar').css("width",progressRate + "%");
                     $('#extra-bar-rate').text(progressRate+ "% Complete");
-
 
                     //Finish Release
                     if (progressRate == 100) {
@@ -134,27 +126,8 @@ $(function(){
                     }else{
                         setTimeout(calcProgressRate2, 1000, denominator);
                     }
-
-
                }
-
-
-
-            //    //set nodes count
-            //    //$('#primary-nodes-' + instanceName).text(primaryVnodes);
-            //    //$('#secondary-nodes-' + instanceName).text(secondaryVnodes);
-            //    //$('#secondary-nodes-1').text(secondaryVnodes);
-            //       
             }
-
-            //instanceName    = "192.168.223.2_10002"
-            ////primaryVnodes   = parseInt(data["routing"]["primary"]);
-            //primaryVnodes   = parseInt(data["192.168.223.2_10002"]["primary_nodes"]);
-            ////secondaryVnodes = parseInt(data["routing"]["secondary"]);
-            //secondaryVnodes = parseInt(data["192.168.223.2_10002"]["secondary_nodes"]);
-
-
-
 
         }).fail(function(){
           alert("fail to access Gladiator Web API");

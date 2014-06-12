@@ -306,47 +306,19 @@
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
 
+            <!-- vnodes count -->
+            <% instance_name = instance.gsub(/[^0-9]/,"") %>
             <!-- Primary nodes -->
             <td>
-<% if false %>
-              <span id="primary-nodes-<%= instance %>">
-                <%= info["primary_nodes"] %>
-              </span>
-<% end %>
-
-
-<% if true %>
-            <%# if info["status"] == "release" %>
-              <% instance_name = instance.gsub(/[^0-9]/,"") %>
               <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
                 <%= info["primary_nodes"] %>
               </span>
-            <%# else %>
-                <%#= info["primary_nodes"] %>
-            <%# end %>
-<% end %>
-
             </td>
-
             <!-- Secondary nodes-->
             <td>
-<% if false %>
-              <span id="secondary-nodes-1">
-                <%= info["secondary_nodes"] %>
-              </span>
-<% end %>
-
-<% if true %>
-            <%# if info["status"] == "release" %>
-              <% instance_name = instance.gsub(/[^0-9]/,"") %>
               <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
                 <%= info["secondary_nodes"] %>
               </span>
-            <%# else %>
-              <%#= info["secondary_nodes"] %>
-            <%# end %>
-<% end %>
-
             </td>
 
             <!-- release/rbalse button(for root user) -->
