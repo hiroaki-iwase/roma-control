@@ -308,7 +308,6 @@
 
             <!-- Primary nodes -->
             <td>
-
 <% if false %>
               <span id="primary-nodes-<%= instance %>">
                 <%= info["primary_nodes"] %>
@@ -317,16 +316,14 @@
 
 
 <% if true %>
-            <% if info["status"] == "release" %>
-              <!--span id="primary-nodes-cnt"></span-->
+            <%# if info["status"] == "release" %>
               <% instance_name = instance.gsub(/[^0-9]/,"") %>
-              <%# instance_name = "192168223210001" %>
-              <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">debug</span>
-            <% else %>
-              <span id="primary-nodes-cnt">
+              <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
                 <%= info["primary_nodes"] %>
-              <span>
-            <% end %>
+              </span>
+            <%# else %>
+                <%#= info["primary_nodes"] %>
+            <%# end %>
 <% end %>
 
             </td>
@@ -340,11 +337,14 @@
 <% end %>
 
 <% if true %>
-            <% if info["status"] == "release" %>
-              <span id="secondary-nodes-cnt"></span>
-            <% else %>
-              <%= info["secondary_nodes"] %>
-            <% end %>
+            <%# if info["status"] == "release" %>
+              <% instance_name = instance.gsub(/[^0-9]/,"") %>
+              <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["secondary_nodes"] %>
+              </span>
+            <%# else %>
+              <%#= info["secondary_nodes"] %>
+            <%# end %>
 <% end %>
 
             </td>

@@ -100,56 +100,61 @@ $(function(){
         }).done(function(data){
 
             for(i in data){
+
                 instanceName = i;
                 primaryVnodes   = parseInt(data[i]["primary_nodes"]);
                 secondaryVnodes = parseInt(data[i]["secondary_nodes"]);        
 
                 //set nodes count
-                $('#primary-nodes-' + instanceName).text(primaryVnodes);
-                //$('#secondary-nodes-' + instanceName).text(secondaryVnodes);
-                $('#secondary-nodes-1').text(secondaryVnodes);
+                //$('#primary-nodes-cnt').text(primaryVnodes);
+                instance = instanceName.match(/\d/g).join("");
+                //$('#primary-nodes-192168223210002').text(primaryVnodes);
+                $('#primary-nodes-'+instance).text(primaryVnodes);
+                //$('#secondary-nodes-cnt').text(secondaryVnodes);
+                $('#secondary-nodes-'+instance).text(secondaryVnodes);
 
+
+                //progress bar setting
+                if (i == gon.host+"_"+gon.port) {
+                    if (typeof denominator === "undefined") {
+                      denominator = primaryVnodes + secondaryVnodes;
+                    }
+                    progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
+                    $('#extra-progress-bar').css("width",progressRate + "%");
+                    $('#extra-bar-rate').text(progressRate+ "% Complete");
+
+
+                    //Finish Release
+                    if (progressRate == 100) {
+                        $('#extra-bar-rate').text("Finished!");
+                        function redirectClusterPage(){
+                            window.location.assign(protocol+"//"+host+"/cluster/index");
+                        }
+                        setTimeout(redirectClusterPage, 3000);
+                    }else{
+                        setTimeout(calcProgressRate2, 1000, denominator);
+                    }
+
+
+               }
+
+
+
+            //    //set nodes count
+            //    //$('#primary-nodes-' + instanceName).text(primaryVnodes);
+            //    //$('#secondary-nodes-' + instanceName).text(secondaryVnodes);
+            //    //$('#secondary-nodes-1').text(secondaryVnodes);
+            //       
             }
 
-            instanceName    = "192.168.223.2_10002"
-            //primaryVnodes   = parseInt(data["routing"]["primary"]);
-            primaryVnodes   = parseInt(data["192.168.223.2_10002"]["primary_nodes"]);
-            //secondaryVnodes = parseInt(data["routing"]["secondary"]);
-            secondaryVnodes = parseInt(data["192.168.223.2_10002"]["secondary_nodes"]);
-
-
-            if (typeof denominator === "undefined") {
-              denominator = primaryVnodes + secondaryVnodes;
-            }
-
-            progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
-            console.log("denominator is"+denominator);
-
-            //set parogress bar setting  
-            $('#extra-progress-bar').css("width",progressRate + "%");
-            $('#extra-bar-rate').text(progressRate+ "% Complete");
+            //instanceName    = "192.168.223.2_10002"
+            ////primaryVnodes   = parseInt(data["routing"]["primary"]);
+            //primaryVnodes   = parseInt(data["192.168.223.2_10002"]["primary_nodes"]);
+            ////secondaryVnodes = parseInt(data["routing"]["secondary"]);
+            //secondaryVnodes = parseInt(data["192.168.223.2_10002"]["secondary_nodes"]);
 
 
 
-            //set nodes count
-            //$('#primary-nodes-cnt').text(primaryVnodes);
-            instance = instanceName.match(/\d/g).join("");
-
-            //$('#primary-nodes-192168223210002').text(primaryVnodes);
-            $('#primary-nodes-'+instance).text(primaryVnodes);
-            $('#secondary-nodes-cnt').text(secondaryVnodes);
-
-            if (progressRate == 100) {
-                $('#extra-bar-rate').text("Finished!");
-                //console.log("Progress bar operation END");
-
-                function redirectClusterPage(){
-                  window.location.assign(protocol+"//"+host+"/cluster/index");
-                }
-                setTimeout(redirectClusterPage, 3000);
-            }else{
-                setTimeout(calcProgressRate2, 1000, denominator);
-            }
 
         }).fail(function(){
           alert("fail to access Gladiator Web API");
