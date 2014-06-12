@@ -22,7 +22,6 @@ module ClusterHelper
   end
 
   def is_active?(status)
-    #status != "inactive"
     status !~ /inactive|unknown/
   end
 
@@ -101,12 +100,8 @@ module ClusterHelper
       }
     end
 
-#logger.debug "#{receptive_instance}======================================="
-
     return false if receptive_instance.size < stats_hash["routing"]["redundant"].to_i
     return true
   end
 
-
 end
-

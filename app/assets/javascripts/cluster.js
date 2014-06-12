@@ -26,7 +26,7 @@ $(function(){
     });
 
     // Progress Bar(Recover)
-    function calcProgressRate() {
+    function calcRecoverProgressRate() {
         var webApiEndPoint
         var totalVnodes
         var shortVnodes
@@ -64,19 +64,19 @@ $(function(){
 
             }else{
                 //console.log("loop again");
-                setTimeout(calcProgressRate,1000);
+                setTimeout(calcRecoverProgressRate,1000);
             }
         }).fail(function(){
           alert("fail to access Gladiator Web API");
         });
-    } //End of calcProgressRate()
+    } //End of calcRecoverProgressRate()
  
     if(document.getElementById('extra-process')) {
-        setTimeout(calcProgressRate,100);
+        setTimeout(calcRecoverProgressRate,100);
     }
 
     // Progress Bar(Release)
-    function calcProgressRate2() {
+    function calcReleaseProgressRate() {
         var webApiEndPoint
         var instanceName
         var primaryVnodes
@@ -124,7 +124,7 @@ $(function(){
                         }
                         setTimeout(redirectClusterPage, 3000);
                     }else{
-                        setTimeout(calcProgressRate2, 1000, denominator);
+                        setTimeout(calcReleaseProgressRate, 1000, denominator);
                     }
                }
             }
@@ -132,11 +132,10 @@ $(function(){
         }).fail(function(){
           alert("fail to access Gladiator Web API");
         });
-    } //End of calcProgressRate2()
+    } //End of calcReleaseProgressRate()
  
     if(document.getElementById('extra-process-release')) {
-        setTimeout(calcProgressRate2,100);
+        setTimeout(calcReleaseProgressRate,100);
     }
-
 
 });
