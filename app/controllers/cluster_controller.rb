@@ -42,6 +42,7 @@ class ClusterController < ApplicationController
 
     begin
       res = roma.send_command('rbalse', nil, host, port) 
+      session[:released] = nil if session[:released] == "#{host}_#{port}"
       redirect_to :action => "index"
     rescue => @ex
       render :template => "errors/error_500", :status => 500
@@ -67,8 +68,7 @@ class ClusterController < ApplicationController
 
     begin
       res = roma.send_command('release', nil, host, port) 
-      #redirect_to :action => "index"
-      #render :template => "cluster/index", :locals => {:post => @post}
+      session[:released] = params[:target_instance]
 
       @stats_hash = roma.get_stats
       @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
