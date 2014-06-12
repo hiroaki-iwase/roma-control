@@ -1,5 +1,95 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
+<!-- rbalse Modal -->
+<div class="modal fade" id="rbalseModal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>This function kill the instance without release vnodes.</li>
+            <ul class="modal-explanation-detail">
+              <li>Target instance will be removed from routing file. </li>
+              <li>Vnodes in charge of target instance will not be automatically released. </li>
+              <li>This process generate short vnodes. </li>
+              <li>If you wanna release vnodes before killing process, please use Release button.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <%= form_tag :action => 'destroy' do %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Run rbalse</button>
+          <input id="rbalse-hidden-value" type="hidden" name="target_instance" value=''>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div><!-- End of rbalse Modal -->
+
+<!-- Release Modal -->
+<div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="releaseModalLabel">Do you want to run Release?</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>This function release the vnodes to other surviving instances without kill instance.
+            <ul class="modal-explanation-detail">
+              <li>Target instance will be removed from routing file. </li>
+              <li>Target instance will not be automatically down. </li>
+              <li>So after releasing, you have to execute rbalse.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <%= form_tag :action => 'release' do %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Run Release</button>
+          <input id="release-hidden-value" type="hidden" name="target_instance" value=''>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div><!-- End of Release Modal -->
+
+<!-- Recover Modal -->
+<div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="recoverModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="recoverModalLabel">Do you want to run Recover?</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>This function updates routing file with surviving instances.
+            <ul class="modal-explanation-detail">
+              <li>Inactive instance will be removed from routing file. </li>
+              <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <form action="update" method="get" style="display:inline">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Run Recover</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End of Recover Modal -->
+
+
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -17,37 +107,9 @@
       </div>
     <% end %>
 
-    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" <%= can_i_recover?(@stats_hash, @routing_info) %>>
+    <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= can_i_recover?(@stats_hash, @routing_info) %>>
       Recover
     </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Do you want to run Recover?</h4>
-          </div>
-          <div class="modal-recover-body">
-            <ul>
-              <li>This function updates routing file with surviving instances.
-                <ul class="modal-explanation-detail">
-                  <li>Inactive instance will be removed from routing file. </li>
-                  <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <form action="update" method="get" style="display:inline">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary">Run Recover</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div><!-- End of Modal -->
   </h2>
 
   <% if short_vnodes?(@stats_hash) %>
@@ -64,7 +126,6 @@
     </div>
   <% end %>
 
-
   <div class="basic-columns"> 
     <table class="status-panel">
       <tr>
@@ -80,7 +141,7 @@
         <td class="panel-server">
           server count
           <div class="panel-value">
-            <%= get_server_list %>
+            <%= get_active_server_list.size %>
           </div>
         </td>
         <td class="panel-roma-version">
@@ -145,19 +206,28 @@
     </table>
   </div>
 
-  <% if extra_process_chk(@routing_info) %>
-    <div class="extra-process" id="extra-process">
+  <% if ex_process = extra_process_chk(@routing_info)
+    case ex_process %>
+    <% when "recover" %>
+      <div class="extra-process" id="extra-process">
+    <% when "release" %>
+      <div class="extra-process" id="extra-process-release">
+    <% end %>
+
       <h3><U>Executing process</U></h3>
       <div class="extra-pbar">
-        <li><%= extra_process_chk(@routing_info) %> is being executed</li>
+        <p><%= ex_process %> is being executed</p>
+
         <div class="progress progress-striped active">
           <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
             <span id="extra-bar-rate">[ToDO]% Complete</span>
           </div>
         </div>
+
       </div>
     </div>
   <% end %>
+
 </div>
 
 <div class="instances-information">
@@ -165,40 +235,59 @@
   <div class="instance-table">
     <table class="table table-bordered result-table tablesorter">
       <thead>
+
         <tr>
-          <th>No.</th>
-          <th>Cluster Name</th>
-          <th class="filter-select" data-placeholder="">Status</th>
-          <th>Data rate</th>
-          <th>Data size</th>
-          <!--th>&nbsp;</th-->
+          <th rowspan="2">No.</th>
+          <th rowspan="2">Cluster Name</th>
+          <th rowspan="2" data-placeholder="">Status</th>
+          <th rowspan="2">Data rate</th>
+          <th rowspan="2" class="datasize-column">Data size</th>
+          <th colspan="2">vnodes count</th>
+          <% if session[:user_type] == 'root' %>
+            <th rowspan="2" class="button-column">&nbsp;</th>
+          <% end %>
+        </tr>
+        <tr>
+          <th class="vnodes-column">Primary</th>
+          <th class="vnodes-column">Secondary</th>
         </tr>
       </thead>
       <tbody>
         <% 
+        #[ToDO] why not use with_idx?
         index = 0
         @routing_info.each do |(instance, info)|
           if info["status"] == "active" %>
             <tr>
-          <% elsif info["status"] == "inactive" %>
+          <% elsif info["status"] =~ /inactive|unknown/ %>
             <tr class="active">
-          <% elsif info["status"] =~ /recover|join/ %>
+          <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
           <% end %>
+            <!-- instance No. -->
             <td><%= index += 1 %></td>
+
+            <!-- instance name -->
             <td style="text-align: left"><%= instance %></td>
-            <td style="text-align: left" class="instance-status-column">
+
+            <!-- instance status -->
+            <td class="instance-status-column" nowrap> 
               <% if info["status"] == "active" %>
                 <div class="health-button green small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
               <% elsif info["status"] == "inactive" %>
                 <div class="health-button grey small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
+              <% elsif info["status"] == "unknown" %>
+                <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                <%= info["status"] %>
               <% else %>
                 <div class="health-button yellow small_size" style="display: inline-block;"></div>
                 <%= info["status"] %>
               <% end %>
             </td>
+
+            <!-- Data rate -->
             <td class="progress-bar-column">
               <% if is_active?(info["status"]) %>
                 <div class="progress progress-striped active" >
@@ -208,9 +297,43 @@
                 </div>
               <% end %>
             </td>
-            <td>
+
+            <!-- Data size -->
+            <td nowrap>
               <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
             </td>
+
+            <!-- vnodes count -->
+            <% instance_name = instance.gsub(/[^0-9]/,"") %>
+            <!-- Primary nodes -->
+            <td>
+              <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["primary_nodes"] %>
+              </span>
+            </td>
+            <!-- Secondary nodes-->
+            <td>
+              <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["secondary_nodes"] %>
+              </span>
+            </td>
+
+            <!-- release/rbalse button(for root user) -->
+            <% if session[:user_type] == 'root' %>
+              <td class="button-column" nowrap>
+                <% if is_active?(info["status"]) %>
+                  <!-- Release button -->
+                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                    Release
+                  </button>
+
+                  <!-- rbalse button -->
+                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal">
+                    rbalse
+                  </button>
+                <% end %>
+              </td>
+            <% end %>
           <tr>
         <% end %>
       </tbody>

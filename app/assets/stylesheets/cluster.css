@@ -113,6 +113,14 @@
 /**-----------------------------
   Tables 
 -------------------------------- **/
+.datasize-column {
+  min-width: 75px;
+}
+
+.form-inline {
+  display: inline;
+}
+
 .instances-information{
   background-color: #e8d2d2;
   border: 1px solid #ddd;
@@ -136,9 +144,15 @@
   margin: 10px;
 }
 
-td.instance-status-column {
-  width: 100px;
+.instance-table td {
+  text-align: center;
+  vertical-align: middle;
 }
+
+td.instance-status-column {
+  min-width: 100px;
+  text-align: left;
+} 
 
 td.progress-bar-column {
   width: 300px;
@@ -178,11 +192,6 @@ button.reset {
   margin-top: -5px;
   margin-bottom: -5px;
   padding: 3px 12px;
-}
-
-.instance-table td {
-  text-align: center;
-  vertical-align: middle;
 }
 
 .status-panel {
@@ -250,15 +259,24 @@ button.reset {
 	margin: 5px 10px 3px;
 }
 
+.unknown-icon {
+  color: grey;
+  font-size: 17px;
+}
+
 /**---------------------------------------------
   Modal
 ------------------------------------------------**/
-.modal-recover-body {
+.modal-body {
   font-size: 16px;
   margin-top: 10px;
   margin-left: 50px;
 }
 
-.modal-recover-body .modal-explanation-detail {
+.modal-body .modal-explanation-detail {
   margin-left: 30px;
+}
+
+#releaseModal {
+  text-align: left;
 }

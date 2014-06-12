@@ -5,14 +5,21 @@ class User
   end
 
   def self.authenticate(username, password)
-    proc = Proc.new{|user_list|
+    proc = lambda{|user_list|
       if user_info = user_list.find{|user| user[:username] == username && Digest::SHA1.hexdigest(user[:password]) == password }
         return user_info
       end
+
+      return false
     }
 
-    proc.call(ConfigGui::ROOT_USER)
-    proc.call(ConfigGui::NORMAL_USER)
+    if res = proc.call(ConfigGui::ROOT_USER)
+      return [res, 'root']
+    end
+
+    if res = proc.call(ConfigGui::NORMAL_USER)
+      return [res, 'normal']
+    end
 
     false
   end
