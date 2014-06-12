@@ -53,36 +53,32 @@ module ClusterHelper
     size / 1024 / 1024
   end
 
-  def extra_process_chk(routing_info)
-    routing_info.values.each{|info|
-      return $& if info["status"] =~ /recover|join|release/
-    }
-    return nil
+  def get_button_option(command, stats_hash, routing_info, target_instance=nil)
+    case command
+    when "recover"
+      return nil if can_i_recover?(stats_hash, routing_info)
+    when "release"
+      return nil if can_i_release?(stats_hash, routing_info, target_instance)
+    when "rbalse"
+      return nil if can_i_rbalse?(stats_hash, routing_info, target_instance)
+    end
+
+    return "disabled"
   end
 
   def can_i_recover?(stats_hash, routing_info)
+    return false if released_flg?(routing_info)
+
     if !short_vnodes?(stats_hash) || extra_process_chk(routing_info) || 
        stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
-      return "disabled"
+      return false
     else
-      return nil
+      return true
     end
   end
-
-  def get_button_option(stats_hash, routing_info, target_instance)
-    if can_i_release?(stats_hash, routing_info, target_instance)
-      return nil # no option
-    else
-      return "disabled"
-    end
-  end
-
-  def rep_host?(stats_hash)
-    stats_hash["stats"]["enabled_repetition_host_in_routing"].to_b
-  end
-
 
   def can_i_release?(stats_hash, routing_info, target_instance)
+    return false if released_flg?(routing_info)
 
     if extra_process_chk(routing_info)
       return false
@@ -102,6 +98,43 @@ module ClusterHelper
 
     return false if receptive_instance.size < stats_hash["routing"]["redundant"].to_i
     return true
+  end
+
+  def can_i_rbalse?(stats_hash, routing_info, target_instance)
+    if extra_process_chk(routing_info)
+      return false
+    end
+
+    if released_flg?(routing_info)
+      if target_instance != session[:released] 
+        return false
+      end
+    end
+
+    true
+  end
+
+  def rep_host?(stats_hash)
+    stats_hash["stats"]["enabled_repetition_host_in_routing"].to_b
+  end
+
+  def extra_process_chk(routing_info)
+    routing_info.values.each{|info|
+      return $& if info["status"] =~ /recover|join|release/
+    }
+    return nil
+  end
+
+  def released_flg?(routing_info)
+    return true if session[:released]
+    routing_info.each{|instance, info|
+      if info["primary_nodes"] == 0 && info["secondary_nodes"] == 0
+        session[:released] = instance if session[:released] == nil
+        return true
+      end
+    }
+
+    false
   end
 
 end

@@ -107,7 +107,7 @@
       </div>
     <% end %>
 
-    <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= can_i_recover?(@stats_hash, @routing_info) %>>
+    <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
   </h2>
@@ -125,6 +125,14 @@
       ROMA have lost vnodes. If you want to repair this, you should rollback routing file directly.
     </div>
   <% end %>
+
+  <% if released_flg?(@routing_info) %>
+    <div class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      You have to rbalse after finising release process.
+    </div>
+  <% end %>
+  
 
   <div class="basic-columns"> 
     <table class="status-panel">
@@ -323,12 +331,12 @@
               <td class="button-column" nowrap>
                 <% if is_active?(info["status"]) %>
                   <!-- Release button -->
-                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option(@stats_hash, @routing_info, instance)%>>
+                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option("release", @stats_hash, @routing_info, instance)%>>
                     Release
                   </button>
 
                   <!-- rbalse button -->
-                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal">
+                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal" <%= get_button_option("rbalse", nil, @routing_info, instance)%>>
                     rbalse
                   </button>
                 <% end %>
