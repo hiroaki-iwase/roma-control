@@ -130,24 +130,24 @@ def error_msg(key, continous_limit_pattern = nil)
 end
 
 shared_examples_for 'get_routing_info_check' do |routing_info|
-  it { expect(routing_info).to be_a_kind_of(Hash) } # Hash or Not
-  it { expect(routing_info.size).to be > 1 } # over 2 instances
-  it { expect(routing_info.keys.uniq!).to be nil } # duplicate check
+  it "[3-1]" do expect(routing_info).to be_a_kind_of(Hash) end # Hash or Not
+  it "[3-2]" do expect(routing_info.size).to be > 1 end # over 2 instances
+  it "[3-3]" do expect(routing_info.keys.uniq!).to be nil end # duplicate check
 
   routing_info.each{|instance, info|
-    it { expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) }
-    it { expect(info).to be_a_kind_of(Hash) } # Hash or Not
-    it { expect(info.size).to be 3 } # Status & Size & Version
+    it "[3-4]" do expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) end
+    it "[3-5]" do expect(info).to be_a_kind_of(Hash) end # Hash or Not
+    it "[3-6]" do expect(info.size).to be 5 end # Status & Size & Version
 
     # Status check
-    it { expect(info["status"]).to be_a_kind_of(String) }
-    it { expect(info["status"]).to eq("active") } # all instance's status should be active
+    it "[3-7]" do expect(info["status"]).to be_a_kind_of(String) end
+    it "[3-8]" do expect(info["status"]).to eq("active") end # all instance's status should be active
     # Size check
-    it { expect(info["size"]).to be_a_kind_of(Fixnum) }
-    it { expect(info["size"]).to be > 209715200 } # 1 tc file is over 20 MB at least
+    it "[3-9]" do expect(info["size"]).to be_a_kind_of(Fixnum) end
+    it "[3-10]" do expect(info["size"]).to be > 209715200 end # 1 tc file is over 20 MB at least
     # Version check
-    it { expect(info["version"]).to be_a_kind_of(String) }
-    it { expect(info["version"]).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) } #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+    it "[3-11]" do expect(info["version"]).to be_a_kind_of(String) end
+    it "[3-12]" do expect(info["version"]).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) end #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
   }
 end
 
