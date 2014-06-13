@@ -148,6 +148,13 @@ shared_examples_for 'get_routing_info_check' do |routing_info|
     # Version check
     it "[3-11]" do expect(info["version"]).to be_a_kind_of(String) end
     it "[3-12]" do expect(info["version"]).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) end #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+
+    # primary nodes count check
+    it "[4-1]" do expect(info["primary_nodes"]).to be_a_kind_of(Fixnum) end
+    it "[4-2]" do expect(info["primary_nodes"]).to be > 0 end
+    # secondary nodes count check
+    it "[4-3]" do expect(info["secondary_nodes"]).to be_a_kind_of(Fixnum) end
+    it "[4-4]" do expect(info["secondary_nodes"]).to be > 0 end
   }
 end
 
