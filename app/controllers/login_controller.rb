@@ -1,5 +1,5 @@
 class LoginController < ApplicationController
-  skip_before_filter :check_logined
+  skip_before_filter :check_logined_filter
   before_filter :redirect_top?, :only => 'index'
   
   def auth
