@@ -4,7 +4,11 @@ $(function(){
     $('#rbalseModal').on('show.bs.modal', function (e) {
       $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
     })
-    
+
+    $('#rbalseModalAfterRelease').on('show.bs.modal', function (e) {
+      $("#rbalse-hidden-value-after-release").attr("value", gon.host+"_"+gon.port);
+    })
+
     $('#releaseModal').on('show.bs.modal', function (e) {
       $("#release-hidden-value").attr("value", e.relatedTarget.name);
     })
@@ -119,10 +123,10 @@ $(function(){
                     //Finish Release
                     if (progressRate == 100) {
                         $('#extra-bar-rate').text("Finished!");
-                        function redirectClusterPage(){
-                            window.location.assign(protocol+"//"+host+"/cluster/index");
+                        function confirmRbalse(){
+                          $('#rbalseModalAfterRelease').modal('show')
                         }
-                        setTimeout(redirectClusterPage, 3000);
+                        setTimeout(confirmRbalse, 1000);
                     }else{
                         setTimeout(calcReleaseProgressRate, 1000, denominator);
                     }

@@ -31,6 +31,35 @@
   </div>
 </div><!-- End of rbalse Modal -->
 
+<!-- rbalse Modal(after release) -->
+<div class="modal fade" id="rbalseModalAfterRelease" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>You should rbalse(kill) instance after releasing.</li>
+            <ul class="modal-explanation-detail">
+              <li>If you don't wanna rbalse now, do not forget to execute rbalse later. </li>
+              <li>(Until executing rbalse, you can't do other operations.)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <%= form_tag :action => 'destroy' do %>
+          <a href="index" type="button" class="btn btn-default">Cancel</a>
+          <button type="submit" class="btn btn-primary">Run rbalse</button>
+          <input id="rbalse-hidden-value-after-release" type="hidden" name="target_instance" value=''>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div><!-- End of rbalse Modal(after release) -->
+
 <!-- Release Modal -->
 <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
