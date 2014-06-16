@@ -4,17 +4,27 @@ require_relative 'basic_spec'
 puts "[Model test(roma_spec.rb)]***************************"
 
 begin
-  env = Roma.new.get_stats
+  roma = Roma.new
+  env = roma.get_stats
   raise if env["stats"]["enabled_repetition_host_in_routing"].chomp != "true"
   raise if env["routing"]["nodes.length"].to_i < 2
+
+  active_routing_list_env = roma.change_roma_res_style(env["routing"]["nodes"])
+  routing_info_env  = roma.get_routing_info(active_routing_list_env)
+  routing_info_env.each{|instance, info|
+    raise if info["status"] != "active"
+  }
+
+  
 rescue
   prepare = <<-'EOS'
   [ROMA condition Error] 
     This test require the below conditions.
     If this error message was displayed, please check your ROMA status.
       1. ROMA is booting
-      2. instance count should be over 2
-      3. enabled_repetition_host_in_routing is true(--enabled_repeathost)
+      2. No instance is down
+      3. instance count should be over 2
+      4. enabled_repetition_host_in_routing is true(--enabled_repeathost)
   EOS
   puts prepare
   exit!
