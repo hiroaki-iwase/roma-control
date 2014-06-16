@@ -219,6 +219,7 @@ class Roma
     return @res
   end
 
+  # roma_res is response messages from ROMA when some command is executed
   def change_roma_res_style(roma_res)
     case roma_res[0]
     when "{"
