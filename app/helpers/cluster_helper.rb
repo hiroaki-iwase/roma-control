@@ -87,7 +87,7 @@ module ClusterHelper
     buf = @active_routing_list.reject{|instance| instance == target_instance }
     receptive_instance = []
 
-    if rep_host?(stats_hash)  # in case of --enabled_repeathost
+    if repetition_host?(stats_hash)  # in case of --enabled_repeathost
       receptive_instance = buf
     else
       buf.each{|instance|
@@ -114,8 +114,9 @@ module ClusterHelper
     true
   end
 
-  def rep_host?(stats_hash)
-    stats_hash["stats"]["enabled_repetition_host_in_routing"].to_b
+  # check "--enabled_repeathost" option is on or off.
+  def repetition_host?(stats_hash)
+    stats_hash["stats"]["enabled_repetition_host_in_routing"].to_boolean
   end
 
   def extra_process_chk(routing_info)
@@ -136,5 +137,53 @@ module ClusterHelper
 
     false
   end
+
+  def rbalse_modal
+
+<<"EOS"
+<div class="modal fade" id="rbalse-modal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>This function kill the instance without release vnodes.</li>
+            <ul class="modal-explanation-detail">
+              <li>Target instance will be removed from routing file. </li>
+              <li>Vnodes in charge of target instance will not be automatically released. </li>
+              <li>This process generate short vnodes. </li>
+              <li>If you wanna release vnodes before killing process, please use Release button.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <form action="destroy" method="post">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Run rbalse</button>
+          <input id="rbalse-hidden-value" type="hidden" name="target_instance" value=''>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End of rbalse Modal -->
+EOS
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end

@@ -1,5 +1,5 @@
 class String
-  def to_b
+  def to_boolean
     case self
       when "true"
         true

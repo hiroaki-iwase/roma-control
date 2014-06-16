@@ -1,7 +1,11 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
+
+<%= rbalse_modal.html_safe %>
+
+<% if false %>
 <!-- rbalse Modal -->
-<div class="modal fade" id="rbalseModal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+<div class="modal fade" id="rbalse-modal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -30,9 +34,10 @@
     </div>
   </div>
 </div><!-- End of rbalse Modal -->
+<% end %>
 
 <!-- rbalse Modal(after release) -->
-<div class="modal fade" id="rbalseModalAfterRelease" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
+<div class="modal fade" id="rbalse-modal-after-release" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -61,7 +66,7 @@
 </div><!-- End of rbalse Modal(after release) -->
 
 <!-- Release Modal -->
-<div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
+<div class="modal fade" id="release-modal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -118,7 +123,6 @@
   </div>
 </div><!-- End of Recover Modal -->
 
-
 <h1><U>Cluster</U></h1>
 <div class="basic-information">
   <h2><U>Health</U>:
@@ -161,7 +165,13 @@
       You have to rbalse after finising release process.
     </div>
   <% end %>
-  
+
+  <% if flash[:error_message] %>
+    <div class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      <%= flash[:error_message] %>
+    </div>
+  <% end %>
 
   <div class="basic-columns"> 
     <table class="status-panel">
@@ -360,12 +370,12 @@
               <td class="button-column" nowrap>
                 <% if is_active?(info["status"]) %>
                   <!-- Release button -->
-                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#releaseModal" <%= get_button_option("release", @stats_hash, @routing_info, instance)%>>
+                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#release-modal" <%= get_button_option("release", @stats_hash, @routing_info, instance)%>>
                     Release
                   </button>
 
                   <!-- rbalse button -->
-                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalseModal" <%= get_button_option("rbalse", nil, @routing_info, instance)%>>
+                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalse-modal" <%= get_button_option("rbalse", nil, @routing_info, instance)%>>
                     rbalse
                   </button>
                 <% end %>
