@@ -3,15 +3,26 @@ require 'spec_helper'
 puts "[Controller test(api_controller_spec.rb)]***************************"
 
 begin
-  routing_history = Roma.new.get_all_routing_list
+  roma = Roma.new
+  env = roma.get_stats
+
+  routing_history = roma.get_all_routing_list
   raise if routing_history.include?('77777')
+
+  active_routing_list_env = roma.change_roma_res_style(env["routing"]["nodes"])
+  routing_info_env  = roma.get_routing_info(active_routing_list_env)
+  routing_info_env.each{|instance, info|
+    raise if info["status"] != "active"
+  }
+
 rescue
   prepare = <<-'EOS'
   [ROMA condition Error]
     This test require the below conditions.
     If this error message was displayed, please check your ROMA status.
       1. ROMA is booting
-      2. ROMA's port No. do NOT include '77777'
+      2. No node is down.
+      3. ROMA's port No. do NOT include '77777'
          (Rspec test use this port No.)
   EOS
   puts prepare
@@ -83,7 +94,7 @@ describe ApiController do
         expect(hash_exception['status']).not_to be_nil
       end
     end
-  end # End of "get_parameter cunc check"
+  end # End of "get_parameter func check"
 
   describe "[get_routing_info] func check" do
     describe "GET get_routing_info" do
