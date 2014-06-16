@@ -26,7 +26,7 @@
                 <li data-toggle="tooltip_navbar" title="Go to gravatar.com">
                   <a href="https://gravatar.com/"><img class='glavatar' src=<%= get_gravatar_src(session[:email]) %>></a>
                 </li>
-                <li class='username'><%= session[:username] %>(<%= session[:user_type] %>_user)</li>
+                <li class='username'><%= session[:username] %> (<%= session[:user_type] %>_user) </li>
                 <li data-toggle="tooltip_navbar" title="Logout">
                   <%= link_to image_tag('logout_icon.png', :size => "20x20"), "/login/logout", { :class => "logout-icon" } %>
                   <%= link_to image_tag('logout_icon_pink.png', :size => "20x20"), "/login/logout", { :class => "logout-icon-pink" } %>

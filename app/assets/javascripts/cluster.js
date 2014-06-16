@@ -1,15 +1,15 @@
 $(function(){
 
     //Modal
-    $('#rbalseModal').on('show.bs.modal', function (e) {
+    $('#rbalse-modal').on('show.bs.modal', function (e) {
       $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
     })
 
-    $('#rbalseModalAfterRelease').on('show.bs.modal', function (e) {
+    $('#rbalse-modal-after-release').on('show.bs.modal', function (e) {
       $("#rbalse-hidden-value-after-release").attr("value", gon.host+"_"+gon.port);
     })
 
-    $('#releaseModal').on('show.bs.modal', function (e) {
+    $('#release-modal').on('show.bs.modal', function (e) {
       $("#release-hidden-value").attr("value", e.relatedTarget.name);
     })
 
@@ -100,11 +100,10 @@ $(function(){
             cache: false,
         }).done(function(data){
 
-            for(i in data){
+            for(instanceName in data){
 
-                instanceName = i;
-                primaryVnodes   = parseInt(data[i]["primary_nodes"]);
-                secondaryVnodes = parseInt(data[i]["secondary_nodes"]);        
+                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);        
 
                 //set nodes count
                 instance = instanceName.match(/\d/g).join("");
@@ -112,7 +111,7 @@ $(function(){
                 $('#secondary-nodes-'+instance).text(secondaryVnodes);
 
                 //progress bar setting
-                if (i == gon.host+"_"+gon.port) {
+                if (instanceName == gon.host+"_"+gon.port) {
                     if (typeof denominator === "undefined") {
                       denominator = primaryVnodes + secondaryVnodes;
                     }
@@ -120,16 +119,7 @@ $(function(){
                     $('#extra-progress-bar').css("width",progressRate + "%");
                     $('#extra-bar-rate').text(progressRate+ "% Complete");
 
-                    //Finish Release
-                    if (progressRate == 100) {
-                        $('#extra-bar-rate').text("Finished!");
-                        function confirmRbalse(){
-                          $('#rbalseModalAfterRelease').modal('show')
-                        }
-                        setTimeout(confirmRbalse, 1000);
-                    }else{
-                        setTimeout(calcReleaseProgressRate, 1000, denominator);
-                    }
+                    checkFinish(progressRate, denominator);
                }
             }
 
@@ -137,7 +127,19 @@ $(function(){
           alert("fail to access Gladiator Web API");
         });
     } //End of calcReleaseProgressRate()
- 
+
+    function checkFinish(progressRate, denominator) {
+        if (progressRate == 100) {
+            $('#extra-bar-rate').text("Finished!");
+            function confirmRbalse(){
+              $('#rbalse-modal-after-release').modal('show')
+            }
+            setTimeout(confirmRbalse, 1000);
+        }else{
+            setTimeout(calcReleaseProgressRate, 1000, denominator);
+        }
+    }
+
     if(document.getElementById('extra-process-release')) {
         setTimeout(calcReleaseProgressRate,100);
     }

@@ -1,4 +1,5 @@
 class ClusterController < ApplicationController
+  skip_before_filter :verify_authenticity_token ,:only=>[:destroy]
 
   def index
     roma = Roma.new
@@ -41,8 +42,17 @@ class ClusterController < ApplicationController
     roma = Roma.new
 
     begin
-      res = roma.send_command('rbalse', nil, host, port) 
-      session[:released] = nil if session[:released] == "#{host}_#{port}"
+      if session[:released]
+        if session[:released] == "#{host}_#{port}"
+          session[:released] = nil
+          res = roma.send_command('rbalse', nil, host, port) 
+        else
+          flash[:error_message] = "Please rbalse #{session[:released]} before that"
+        end
+      else
+        res = roma.send_command('rbalse', nil, host, port) 
+      end
+
       redirect_to :action => "index"
     rescue => @ex
       render :template => "errors/error_500", :status => 500
