@@ -94,6 +94,7 @@ $(function(){
         var instanceName
         var primaryVnodes
         var secondaryVnodes
+        var repetitionHost
         var progressRate
         var host
         var protocol
@@ -112,10 +113,11 @@ $(function(){
             for(instanceName in data){
 
                 primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);        
-
+                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+                repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
+             
                 //set nodes count
-                if (!data["enabled_repetition_host_in_routing"] && instanceName.split("_")[0] == gon.host) {
+                if (repetitionHost || instanceName.split("_")[0] != gon.host) {
                     instance = instanceName.match(/\d/g).join("");
 
                     if (instanceName == gon.host+"_"+gon.port) {
@@ -136,18 +138,18 @@ $(function(){
                     document.getElementById('secondary-nodes-'+instance).innerHTML = 
                         secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
                     //$('#secondary-nodes-'+instance).text(secondaryVnodes);
-                }
 
-                //progress bar setting
-                if (instanceName == gon.host+"_"+gon.port) {
-                    if (typeof denominator === "undefined") {
-                      denominator = primaryVnodes + secondaryVnodes;
+                    //progress bar setting
+                    if (instanceName == gon.host+"_"+gon.port) {
+                        if (typeof denominator === "undefined") {
+                          denominator = primaryVnodes + secondaryVnodes;
+                        }
+                        progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
+                        $('#extra-progress-bar').css("width",progressRate + "%");
+                        $('#extra-bar-rate').text(progressRate+ "% Complete");
+
+                        checkFinish(progressRate, denominator);
                     }
-                    progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
-                    $('#extra-progress-bar').css("width",progressRate + "%");
-                    $('#extra-bar-rate').text(progressRate+ "% Complete");
-
-                    checkFinish(progressRate, denominator);
                 }
             }
 

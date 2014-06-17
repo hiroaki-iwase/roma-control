@@ -191,7 +191,7 @@ class Roma
         routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
 
         ### enabled_repetition_host_in_routing
-        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"]
+        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"].to_boolean
         
       rescue
         routing_list_info[instance]["status"] = "unknown"
