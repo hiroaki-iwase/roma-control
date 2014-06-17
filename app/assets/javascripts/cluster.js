@@ -114,10 +114,11 @@ $(function(){
 
                 primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
                 secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-                repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
+                //repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
              
                 //set nodes count
-                if (repetitionHost || instanceName.split("_")[0] != gon.host) {
+                //if (repetitionHost || instanceName.split("_")[0] != gon.host || instanceName.split("_")[1] == gon.port) {
+                if (receptiveNodes(instanceName, data)) {
                     instance = instanceName.match(/\d/g).join("");
 
                     if (instanceName == gon.host+"_"+gon.port) {
@@ -126,7 +127,6 @@ $(function(){
                     }else{
                       color = "blue"
                       icon  = 'arrow-up'
-                      //[toDO] should consider same host 
                     }
 
                     document.getElementById('primary-nodes-'+instance).style.color = color;
@@ -157,6 +157,15 @@ $(function(){
           alert("fail to access Gladiator Web API");
         });
     } //End of calcReleaseProgressRate()
+
+    function receptiveNodes(instanceName, data) {
+        repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
+        if (repetitionHost || instanceName.split("_")[0] != gon.host || instanceName.split("_")[1] == gon.port) {
+            return true
+        }
+
+        return false
+    }
 
     function checkFinish(progressRate, denominator) {
         if (progressRate == 100) {
