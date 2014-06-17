@@ -114,13 +114,11 @@ $(function(){
 
                 primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
                 secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-                //repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
              
-                //set nodes count
-                //if (repetitionHost || instanceName.split("_")[0] != gon.host || instanceName.split("_")[1] == gon.port) {
                 if (receptiveNodes(instanceName, data)) {
-                    instance = instanceName.match(/\d/g).join("");
 
+                    //set nodes count
+                    instance = instanceName.match(/\d/g).join("");
                     if (instanceName == gon.host+"_"+gon.port) {
                       color = "red"
                       icon  = 'arrow-down'
@@ -128,16 +126,13 @@ $(function(){
                       color = "blue"
                       icon  = 'arrow-up'
                     }
-
                     document.getElementById('primary-nodes-'+instance).style.color = color;
                     document.getElementById('primary-nodes-'+instance).innerHTML = 
                         primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
-                    //$('#primary-nodes-'+instance).text(primaryVnodes);
 
                     document.getElementById('secondary-nodes-'+instance).style.color = color;
                     document.getElementById('secondary-nodes-'+instance).innerHTML = 
                         secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
-                    //$('#secondary-nodes-'+instance).text(secondaryVnodes);
 
                     //progress bar setting
                     if (instanceName == gon.host+"_"+gon.port) {
@@ -163,7 +158,6 @@ $(function(){
         if (!repetitionHost && instanceName.split("_")[0] != gon.host) {
             return false
         }
-
         return true
     }
 
