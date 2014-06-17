@@ -1,5 +1,14 @@
 $(function(){
 
+    //Debug
+    //$('#primary-nodes-192168223210002').innerHTML('<span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>');
+    //aaa = "999999"
+    //document.getElementById('primary-nodes-192168223210002').innerHTML =
+    //    '<span id="short-vnodes-caution">\
+    //     <i class="icon-warning-sign"></i>\
+    //     '+aaa+'\
+    //     </span>';
+
     //Modal
     $('#rbalse-modal').on('show.bs.modal', function (e) {
       $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
@@ -106,9 +115,28 @@ $(function(){
                 secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);        
 
                 //set nodes count
-                instance = instanceName.match(/\d/g).join("");
-                $('#primary-nodes-'+instance).text(primaryVnodes);
-                $('#secondary-nodes-'+instance).text(secondaryVnodes);
+                if (!data["enabled_repetition_host_in_routing"] && instanceName.split("_")[0] == gon.host) {
+                    instance = instanceName.match(/\d/g).join("");
+
+                    if (instanceName == gon.host+"_"+gon.port) {
+                      color = "red"
+                      icon  = 'arrow-down'
+                    }else{
+                      color = "blue"
+                      icon  = 'arrow-up'
+                      //[toDO] should consider same host 
+                    }
+
+                    document.getElementById('primary-nodes-'+instance).style.color = color;
+                    document.getElementById('primary-nodes-'+instance).innerHTML = 
+                        primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+                    //$('#primary-nodes-'+instance).text(primaryVnodes);
+
+                    document.getElementById('secondary-nodes-'+instance).style.color = color;
+                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
+                        secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+                    //$('#secondary-nodes-'+instance).text(secondaryVnodes);
+                }
 
                 //progress bar setting
                 if (instanceName == gon.host+"_"+gon.port) {
@@ -120,7 +148,7 @@ $(function(){
                     $('#extra-bar-rate').text(progressRate+ "% Complete");
 
                     checkFinish(progressRate, denominator);
-               }
+                }
             }
 
         }).fail(function(){
