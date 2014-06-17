@@ -160,11 +160,11 @@ $(function(){
 
     function receptiveNodes(instanceName, data) {
         repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
-        if (repetitionHost || instanceName.split("_")[0] != gon.host || instanceName.split("_")[1] == gon.port) {
-            return true
+        if (!repetitionHost && instanceName.split("_")[0] != gon.host) {
+            return false
         }
 
-        return false
+        return true
     }
 
     function checkFinish(progressRate, denominator) {
