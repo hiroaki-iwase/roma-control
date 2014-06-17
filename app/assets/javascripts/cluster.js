@@ -1,42 +1,38 @@
 $(function(){
 
-    //Debug
-    //$('#primary-nodes-192168223210002').innerHTML('<span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>');
-    //aaa = "999999"
-    //document.getElementById('primary-nodes-192168223210002').innerHTML =
-    //    '<span id="short-vnodes-caution">\
-    //     <i class="icon-warning-sign"></i>\
-    //     '+aaa+'\
-    //     </span>';
-
     //Modal
     $('#rbalse-modal').on('show.bs.modal', function (e) {
-      $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
+        $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);
     })
 
     $('#rbalse-modal-after-release').on('show.bs.modal', function (e) {
-      $("#rbalse-hidden-value-after-release").attr("value", gon.host+"_"+gon.port);
+        $("#rbalse-hidden-value-after-release").attr("value", gon.host+"_"+gon.port);
     })
 
     $('#release-modal').on('show.bs.modal', function (e) {
-      $("#release-hidden-value").attr("value", e.relatedTarget.name);
+        $("#release-hidden-value").attr("value", e.relatedTarget.name);
     })
 
     //Table sorter
     $('table.tablesorter').tablesorter({
-      theme: 'default',
-      sortList: [[0,0]],
-      widthFixed: true,
-      widgets: ["filter"], 
-      headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }},
-      widgetOptions : { 
-        filter_reset : 'button.reset-filter',
-        filter_cssFilter : 'tablesorter-filter', 
-        filter_functions : {
-          2 : true
-        }
-      } 
+        theme: 'default',
+        sortList: [[0,0]],
+        widthFixed: true,
+        widgets: ["filter"], 
+        headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }},
+        widgetOptions : { 
+          filter_reset : 'button.reset-filter',
+          filter_cssFilter : 'tablesorter-filter', 
+          filter_functions : {
+            2 : true
+          }
+        } 
     });
+
+    //start to check extra process(recover)
+    if(document.getElementById('extra-process-recover')) {
+        setTimeout(calcRecoverProgressRate,100);
+    }
 
     // Progress Bar(Recover)
     function calcRecoverProgressRate() {
@@ -68,15 +64,8 @@ $(function(){
 
             if (progressRate == 100) {
                 $('#extra-bar-rate').text("Finished!");
-                //console.log("Progress bar operation END");
-
-                function redirectClusterPage(){
-                  window.location.assign(protocol+"//"+host+"/cluster/index");
-                }
-                setTimeout(redirectClusterPage, 3000);
-
+                setTimeout(redirectClusterPage(protocol, host), 3000);
             }else{
-                //console.log("loop again");
                 setTimeout(calcRecoverProgressRate,1000);
             }
         }).fail(function(){
@@ -84,8 +73,14 @@ $(function(){
         });
     } //End of calcRecoverProgressRate()
  
-    if(document.getElementById('extra-process')) {
-        setTimeout(calcRecoverProgressRate,100);
+    function redirectClusterPage(protocol, host){
+      window.location.assign(protocol+"//"+host+"/cluster/index");
+    }
+
+
+    //start to check extra process(release)
+    if(document.getElementById('extra-process-release')) {
+        setTimeout(calcReleaseProgressRate,100);
     }
 
     // Progress Bar(Release)
@@ -164,17 +159,14 @@ $(function(){
     function checkFinish(progressRate, denominator) {
         if (progressRate == 100) {
             $('#extra-bar-rate').text("Finished!");
-            function confirmRbalse(){
-              $('#rbalse-modal-after-release').modal('show')
-            }
             setTimeout(confirmRbalse, 1000);
         }else{
             setTimeout(calcReleaseProgressRate, 1000, denominator);
         }
     }
 
-    if(document.getElementById('extra-process-release')) {
-        setTimeout(calcReleaseProgressRate,100);
+    function confirmRbalse(){
+      $('#rbalse-modal-after-release').modal('show')
     }
 
 });

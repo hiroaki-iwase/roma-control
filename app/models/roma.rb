@@ -203,6 +203,10 @@ class Roma
     #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
   end
 
+  def get_active_routing_list(stats_hash)
+    change_roma_res_style(stats_hash["routing"]["nodes"])
+  end
+
   def send_command(command, eof = "END", host = @host, port = @port)
     sock = TCPSocket.open(host, port)
 
