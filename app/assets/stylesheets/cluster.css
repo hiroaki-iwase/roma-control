@@ -101,6 +101,10 @@
   padding-left: 20px;
 }
 
+.unknown-message {
+  padding-left: 20px;
+}
+
 #short-vnodes-cnt {
   font-size: 40px;
 }
