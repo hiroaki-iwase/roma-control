@@ -21,7 +21,7 @@ class ApiController < ApplicationController
 
     begin
       stats_hash = roma.get_stats
-      active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      active_routing_list = roma.get_active_routing_list(stats_hash)
       response = roma.get_routing_info(active_routing_list)
 
     rescue => @ex

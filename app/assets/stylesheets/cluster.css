@@ -1,8 +1,3 @@
-.basic-information{
-  /**background-color: #e8d2d2;**/
-  /**padding: 5px;**/
-}
-
 /**-----------------------------
   Health button
 ------------------------------- **/
@@ -87,10 +82,6 @@
 /**-----------------------------
   Health param
 -------------------------------- **/
-.basic-columns{
-  /**margin-left: 50px;**/
-}
-
 .error-instance-small {
   font-size: 12px;
 }
@@ -110,90 +101,36 @@
   padding-left: 20px;
 }
 
+#short-vnodes-cnt {
+  font-size: 40px;
+}
+
+#short-vnodes-alert {
+  color: #FFFF00;
+  font-size: 30px;
+}
+
+#short-vnodes-caution {
+  color: #FFFF00;
+  font-size: 15px;
+}
+
+#lost-vnodes-char {
+  font-size: 40px;
+}
+
+#lost-vnodes-alert {
+  color: #FF0000;
+  font-size: 30px;
+}
+
+#lost-vnodes-caution {
+  color: #FF0000;
+  font-size: 15px;
+}
 /**-----------------------------
-  Tables 
+  Status Panel
 -------------------------------- **/
-.datasize-column {
-  min-width: 75px;
-}
-
-.form-inline {
-  display: inline;
-}
-
-.instances-information{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
-  padding: 5px;
-  margin-top: 20px;
-}
-
-.join-function{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
-  padding: 5px;
-  margin-top: 20px
-}
-
-.table.table-bordered.result-table th{
-   background-color: #cccccc;
-}
-
-.instance-table {
-  background-color: #ffffff;
-  margin: 10px;
-}
-
-.instance-table td {
-  text-align: center;
-  vertical-align: middle;
-}
-
-td.instance-status-column {
-  min-width: 100px;
-  text-align: left;
-} 
-
-td.progress-bar-column {
-  width: 300px;
-}
-
-button.reset {
-  margin-left: 10px;
-}
-
-.tablesorter-default .tablesorter-filter {
-  margin: -5px;
-}
-
-/**-----------------------------------------
-  table sorter
--------------------------------------------- **/
-.tablesorter-default {
-  font: 15px/18px Arial, Sans-serif;
-}
-
-.tablesorter-default thead .tablesorter-headerAsc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter-default thead .tablesorter-headerDesc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter .tablesorter-filter.disabled {
-  display:none;
-}
-
-/**----------------------------------------
-  btn
-------------------------------------------- **/
-.btn {
-  margin-top: -5px;
-  margin-bottom: -5px;
-  padding: 3px 12px;
-}
-
 .status-panel {
   font-size: 22px;
   color: #ffffff;
@@ -227,41 +164,107 @@ button.reset {
   font-size: 26px;
 }
 
-#short-vnodes-cnt {
-	font-size: 40px;
+/**-----------------------------
+  Tables 
+-------------------------------- **/
+
+.vnodes-column {
+  min-width: 90px;
 }
 
-#short-vnodes-alert {
-	 color: #FFFF00;
-	 font-size: 30px;
+.datasize-column {
+  min-width: 75px;
 }
 
-#short-vnodes-caution {
-	 color: #FFFF00;
-	 font-size: 15px;
+.form-inline {
+  display: inline;
 }
 
-#lost-vnodes-char {
-	font-size: 40px;
+.instances-information{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-top: 20px;
 }
 
-#lost-vnodes-alert {
-	 color: #FF0000;
-	 font-size: 30px;
+/**
+.join-function{
+  background-color: #e8d2d2;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-top: 20px
+}
+**/
+
+.table.table-bordered.result-table th{
+   background-color: #cccccc;
 }
 
-#lost-vnodes-caution {
-	 color: #FF0000;
-	 font-size: 15px;
+.instance-table {
+  background-color: #ffffff;
+  margin: 10px;
+}
+
+.instance-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.instance-status-column {
+  min-width: 100px;
+  text-align: left;
+} 
+
+td.progress-bar-column {
+  width: 300px;
+  text-align: left;
+  min-width: 125px;
+}
+
+button.reset {
+  margin-left: 10px;
 }
 
 .reset-filter {
-	margin: 5px 10px 3px;
+  margin: 5px 10px 3px;
 }
 
 .unknown-icon {
   color: grey;
   font-size: 17px;
+}
+
+/**-----------------------------------------
+  table sorter
+-------------------------------------------- **/
+
+.tablesorter-default .tablesorter-filter {
+  margin: -5px;
+}
+
+.tablesorter-default {
+  font: 15px/18px Arial, Sans-serif;
+}
+
+.tablesorter-default thead .tablesorter-headerAsc {
+  border-bottom: #428bca 2px solid;
+}
+
+.tablesorter-default thead .tablesorter-headerDesc {
+  border-bottom: #428bca 2px solid;
+}
+
+.tablesorter .tablesorter-filter.disabled {
+  display:none;
+}
+
+/**----------------------------------------
+  btn
+------------------------------------------- **/
+.btn {
+  margin-top: -5px;
+  margin-bottom: -5px;
+  padding: 3px 12px;
 }
 
 /**---------------------------------------------

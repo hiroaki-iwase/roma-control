@@ -155,6 +155,7 @@ class Roma
       routing_list_info[instance]["version"] = nil
       routing_list_info[instance]["primary_nodes"] = nil
       routing_list_info[instance]["secondary_nodes"] = nil
+      routing_list_info[instance]["enabled_repetition_host_in_routing"] = nil
     }
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
@@ -189,6 +190,9 @@ class Roma
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
         routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
 
+        ### enabled_repetition_host_in_routing
+        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"].to_boolean
+        
       rescue
         routing_list_info[instance]["status"] = "unknown"
         #routing_list_info[instance]["status"] = "inactive"
@@ -197,6 +201,10 @@ class Roma
 
     return routing_list_info
     #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
+  end
+
+  def get_active_routing_list(stats_hash)
+    change_roma_res_style(stats_hash["routing"]["nodes"])
   end
 
   def send_command(command, eof = "END", host = @host, port = @port)

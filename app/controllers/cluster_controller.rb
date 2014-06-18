@@ -1,5 +1,4 @@
 class ClusterController < ApplicationController
-  skip_before_filter :verify_authenticity_token ,:only=>[:destroy]
 
   def index
     roma = Roma.new
@@ -17,16 +16,22 @@ class ClusterController < ApplicationController
       #     "size"    => 209759360, 
       #     "version" => "0.8.14",
       #     "primary_nodes" => "171",
-      #     "secondary_nodes" => "170"
+      #     "secondary_nodes" => "170",
+      #     "enabled_repetition_host_in_routing" => false
       #  },
       #  "192.168.223.2_10002"=> {
       #     "status"  => "active", 
       #     "size"    => 209759360, 
       #     "version" => "0.8.14",
       #     "primary_nodes" => "170",
-      #     "secondary_nodes" => "169"
+      #     "secondary_nodes" => "169",
+      #     "enabled_repetition_host_in_routing" => false
       #  }
       #}
+      @routing_info.each{|instance, info|
+        flash.now[:unknown] = instance if info.has_value?("unknown")
+      }
+
 
       #render :text => @routing_info
     rescue => @ex
