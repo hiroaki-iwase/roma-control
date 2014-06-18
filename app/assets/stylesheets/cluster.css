@@ -110,12 +110,12 @@
 }
 
 #short-vnodes-alert {
-  color: #FFFF00;
+  color: #ffff00;
   font-size: 30px;
 }
 
 #short-vnodes-caution {
-  color: #FFFF00;
+  color: #ffff00;
   font-size: 15px;
 }
 
@@ -124,12 +124,12 @@
 }
 
 #lost-vnodes-alert {
-  color: #FF0000;
+  color: #ff0000;
   font-size: 30px;
 }
 
 #lost-vnodes-caution {
-  color: #FF0000;
+  color: #ff0000;
   font-size: 15px;
 }
 /**-----------------------------
@@ -171,7 +171,6 @@
 /**-----------------------------
   Tables 
 -------------------------------- **/
-
 .vnodes-column {
   min-width: 90px;
 }
@@ -190,15 +189,6 @@
   padding: 5px;
   margin-top: 20px;
 }
-
-/**
-.join-function{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
-  padding: 5px;
-  margin-top: 20px
-}
-**/
 
 .table.table-bordered.result-table th{
    background-color: #cccccc;
@@ -225,14 +215,6 @@ td.progress-bar-column {
   min-width: 125px;
 }
 
-button.reset {
-  margin-left: 10px;
-}
-
-.reset-filter {
-  margin: 5px 10px 3px;
-}
-
 .unknown-icon {
   color: grey;
   font-size: 17px;
@@ -241,7 +223,6 @@ button.reset {
 /**-----------------------------------------
   table sorter
 -------------------------------------------- **/
-
 .tablesorter-default .tablesorter-filter {
   margin: -5px;
 }
@@ -269,6 +250,14 @@ button.reset {
   margin-top: -5px;
   margin-bottom: -5px;
   padding: 3px 12px;
+}
+
+button.reset {
+  margin-left: 10px;
+}
+
+.reset-filter {
+  margin: 5px 10px 3px;
 }
 
 /**---------------------------------------------
