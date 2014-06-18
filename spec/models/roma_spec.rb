@@ -406,4 +406,27 @@ describe Roma do
       it "[4-8]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
     end
 
+    context "get_active_routing_list" do
+      stats_example = {"routing"=>{"nodes" => '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'}}
+      res_active_routing_list = Roma.new.get_active_routing_list(stats_example)
+
+      it "[4-9] Response is Array" do
+        expect(res_active_routing_list.class).to be Array
+      end
+
+      it "[4-10] each data is string" do
+        res_active_routing_list.each{|instance|
+          expect(instance.class).to be String
+        }
+      end
+
+      it "[4-11] Size is same number" do
+        expect(res_active_routing_list.size).to be 3
+      end
+
+      it "[4-12] confirm detail" do
+        expect(res_active_routing_list).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
+      end
+    end
+
 end # End of describe

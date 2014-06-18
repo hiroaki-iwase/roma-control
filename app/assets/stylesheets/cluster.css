@@ -149,11 +149,11 @@
 }
 
 .status-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
-  background-color: #D15959;
+  background-color: #d15959;
 }
 
 .status-panel .panel-short-vnodes-error {
-  background-color: #D15959;
+  background-color: #d15959;
 }
 
 .status-panel .panel-value {
