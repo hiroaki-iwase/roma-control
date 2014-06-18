@@ -13,8 +13,19 @@ html, body {
   margin: 0 auto -50px;
 }
 
+.header-subtitle {
+  font-size: 18px;
+}
+
 #param-detail-list {
   margin-bottom: 100px;
+}
+
+#wrap-without-footer {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -50px;
+  padding: 0 0 50px;
 }
 
 #footer {
@@ -27,4 +38,41 @@ html, body {
 #footer .container p {
   text-align: center;
   padding-top: 15px;
+}
+
+.glavatar {
+  width:35px;
+  border-radius:100px;  
+  margin: 7px 0px;
+}
+
+.username {
+  color: #ffffff;
+  margin: 14px;
+  font-size: 16px;
+}
+
+.nav.navbar-nav .logout-icon{
+  padding: 15px 0;
+  z-index: 2;
+}
+
+.nav.navbar-nav .logout-icon-pink{
+  padding: 15px 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+.nav.navbar-nav a {
+  padding: 0;
+}
+
+.nav.navbar-nav .logout-icon:hover img{
+  filter: alpha(opacity=0);
+  -webkit-filter:opacity(0%); /** Chrome**/
+  -moz-opacity:0;  /** FF **/
+  -khtml-opacity: 0; /* Safari 1.x */
+  opacity:0;
 }

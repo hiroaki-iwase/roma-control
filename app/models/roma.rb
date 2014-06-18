@@ -153,36 +153,58 @@ class Roma
       routing_list_info[instance]["status"] = "inactive"
       routing_list_info[instance]["size"] = nil
       routing_list_info[instance]["version"] = nil
+      routing_list_info[instance]["primary_nodes"] = nil
+      routing_list_info[instance]["secondary_nodes"] = nil
+      routing_list_info[instance]["enabled_repetition_host_in_routing"] = nil
     }
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
     active_routing_list.each{|instance|
-      each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
-      ### status[active|inactive|recover|join]
-      if each_stats["stats"]["run_recover"].chomp == "true"
-        status = "recover"
-      elsif each_stats["stats"]["run_join"].chomp == "true"
-        status = "join"
-      else
-        status = "active"
+      begin
+        each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
+
+        ### status[active|inactive|recover|join]
+        if each_stats["stats"]["run_recover"].chomp == "true"
+          status = "recover"
+        elsif each_stats["stats"]["run_join"].chomp == "true"
+          status = "join"
+        elsif each_stats["stats"]["run_release"].chomp == "true"
+          status = "release"
+        else
+          status = "active"
+        end
+        routing_list_info[instance]["status"] = status
+
+        ### sum of tc file size of each instance
+        size = 0
+        10.times{|index|
+          size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
+        }
+        routing_list_info[instance]["size"] = size
+         
+        ### version
+        routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
+
+        ### vnodes count
+        routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
+        routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+
+        ### enabled_repetition_host_in_routing
+        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"].to_boolean
+        
+      rescue
+        routing_list_info[instance]["status"] = "unknown"
+        #routing_list_info[instance]["status"] = "inactive"
       end
-      routing_list_info[instance]["status"] = status
-
-      ### sum of tc file size of each instance
-      size = 0
-      10.times{|index|
-        size += each_stats["storages[roma]"]["storage[#{index}].fsiz"].to_i
-      }
-      routing_list_info[instance]["size"] = size
-       
-      ### version
-      version = each_stats["others"]["version"].chomp
-      routing_list_info[instance]["version"] = version
     }
 
     return routing_list_info
     #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
+  end
+
+  def get_active_routing_list(stats_hash)
+    change_roma_res_style(stats_hash["routing"]["nodes"])
   end
 
   def send_command(command, eof = "END", host = @host, port = @port)
@@ -205,6 +227,7 @@ class Roma
     return @res
   end
 
+  # roma_res is response messages from ROMA when some command is executed
   def change_roma_res_style(roma_res)
     case roma_res[0]
     when "{"

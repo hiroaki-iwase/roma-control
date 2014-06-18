@@ -1,17 +1,25 @@
 Gladiator::Application.routes.draw do
-  get "api/get_parameter"
+  root :to => "login#index"
 
-  get "cluster/index"
+  get  "login" => "login#index"
+  get  "login/index"
+  post "login/auth"
+  get  "login/logout"
+
+  get "api/get_parameter"
+  get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
+  get "api/get_routing_info"
+
+  get  "cluster/index"
   post "cluster/create"
-  get "cluster/destroy"
-  get "cluster/update"
+  post "cluster/destroy"
+  get  "cluster/update"
+  post "cluster/release"
 
   get "stat/index"
   get "stat/edit"
   put "stat/update"
 
-  get "api/get_parameter"
-  get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
  
   #resources :stat
 

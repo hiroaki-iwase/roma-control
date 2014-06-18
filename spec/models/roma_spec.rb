@@ -4,17 +4,27 @@ require_relative 'basic_spec'
 puts "[Model test(roma_spec.rb)]***************************"
 
 begin
-  env = Roma.new.get_stats
+  roma = Roma.new
+  env = roma.get_stats
   raise if env["stats"]["enabled_repetition_host_in_routing"].chomp != "true"
   raise if env["routing"]["nodes.length"].to_i < 2
+
+  active_routing_list_env = roma.change_roma_res_style(env["routing"]["nodes"])
+  routing_info_env  = roma.get_routing_info(active_routing_list_env)
+  routing_info_env.each{|instance, info|
+    raise if info["status"] != "active"
+  }
+
+  
 rescue
   prepare = <<-'EOS'
   [ROMA condition Error] 
     This test require the below conditions.
     If this error message was displayed, please check your ROMA status.
       1. ROMA is booting
-      2. instance count should be over 2
-      3. enabled_repetition_host_in_routing is true(--enabled_repeathost)
+      2. No instance is down
+      3. instance count should be over 2
+      4. enabled_repetition_host_in_routing is true(--enabled_repeathost)
   EOS
   puts prepare
   exit!
@@ -27,13 +37,13 @@ describe Roma do
   context "stats_result" do
     res = Roma.new.get_stats
 
-    it { expect(res).to be_a_kind_of(Hash) } # Hash or Not
-    it "stats_hash have 7 parent column " do
+    it "[1-1]" do expect(res).to be_a_kind_of(Hash) end # Hash or Not
+    it "[1-2]stats_hash have 7 parent column " do
       ## Config, Stats, Storage[roma], Write-behind, Routing, Connection, others
       expect(res.size).to be 7
     end
     
-    it "check all param have value(not have nil)" do
+    it "[1-3]check all param have value(not have nil)" do
       res.each{|k1, v1|
         v1.each{|k2, v2|
           expect(res[k1][k2]).not_to be_nil
@@ -186,9 +196,9 @@ describe Roma do
       routing_info = roma.get_routing_info(active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-          it { expect(routing_info[instance]["status"]).to eq "recover" }
+          it "[3-13]" do expect(routing_info[instance]["status"]).to eq "recover" end
         else
-          it { expect(routing_info[instance]["status"]).to eq "active" }
+          it "[3-14]" do expect(routing_info[instance]["status"]).to eq "active" end
         end
       }
       sock.write("eval @stats.run_recover = false\r\n")
@@ -202,9 +212,9 @@ describe Roma do
       routing_info = roma.get_routing_info(active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-          it { expect(routing_info[instance]["status"]).to eq "join" }
+          it "[3-15]" do expect(routing_info[instance]["status"]).to eq "join" end
         else
-          it { expect(routing_info[instance]["status"]).to eq "active" }
+          it "[3-16]" do expect(routing_info[instance]["status"]).to eq "active" end
         end
       }
 
@@ -218,11 +228,11 @@ describe Roma do
       routing_info = roma.get_routing_info(dummy_active_routing_list)
       routing_info.each{|instance, info|
         if instance == "#{ConfigGui::HOST}_#{ConfigGui::PORT}"
-          it { expect(routing_info[instance]["status"]).to eq "inactive" }
-          it { expect(routing_info[instance]["size"]).to eq nil }
-          it { expect(routing_info[instance]["version"]).to eq nil }
+          it "[3-17]" do expect(routing_info[instance]["status"]).to eq "inactive" end
+          it "[3-18]" do expect(routing_info[instance]["size"]).to eq nil end
+          it "[3-19]" do expect(routing_info[instance]["version"]).to eq nil end
         else
-          it { expect(routing_info[instance]["status"]).to eq "active" }
+          it "[3-20]" do expect(routing_info[instance]["status"]).to eq "active" end
         end
       }
     end
@@ -231,15 +241,15 @@ describe Roma do
       roma_res_example_array = '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'
       res_array = roma.change_roma_res_style(roma_res_example_array)
 
-      it "Response is Array" do
+      it "[3-21] Response is Array" do
         expect(res_array.class).to be Array
       end
 
-      it "Size is same number" do
+      it "[3-22] Size is same number" do
         expect(res_array.size).to be 3
       end
 
-      it "confirm detail" do
+      it "[3-23] confirm detail" do
         expect(res_array).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
       end
     end
@@ -248,21 +258,21 @@ describe Roma do
       roma_res_example_hash = '{"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062}'
       res_hash = roma.change_roma_res_style(roma_res_example_hash)
 
-      it "Response is Hash" do
+      it "[3-24] Response is Hash" do
         expect(res_hash.class).to be Hash
       end
 
-      it "Size is same number" do
+      it "[3-25] Size is same number" do
         expect(res_hash.size).to be 3
       end
 
-      it "value's class is fixnum" do
+      it "[3-26] value's class is fixnum" do
         res_hash.values.each{|value|
           expect(value).to be_a_kind_of(Fixnum)
         }
       end
 
-      it "confirm detail" do
+      it "[3-27] confirm detail" do
         expect(res_hash).to eq({"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062})
       end
     end
@@ -270,7 +280,7 @@ describe Roma do
     context "change_roma_res_style(Unexpected)" do
       roma_res_example_unexpected = 'hogehoge'
 
-      it "in case of unexpected value was send" do
+      it "[3-28] in case of unexpected value was send" do
         expect { roma.change_roma_res_style(roma_res_example_unexpected) }.to raise_error
       end
     end
@@ -279,21 +289,21 @@ describe Roma do
       res = roma.send_command('recover', nil)
       res = roma.change_roma_res_style(res)
 
-      it "Response is Hash" do
+      it "[3-29] Response is Hash" do
         expect(res.class).to be Hash
       end
 
-      it "Hash size is same number of active node" do
+      it "[3-20] Hash size is same number of active node" do
         expect(res.size).to be active_routing_list.size
       end
 
-      it "All instance send back 'STARTED'" do
+      it "[3-31] All instance send back 'STARTED'" do
         res.each{|key, value|
           expect(value).to eq "STARTED"
         }
       end
 
-      it "All instance name is same of active node list'" do
+      it "[3-32] All instance name is same of active node list'" do
         res.each{|key, value|
           expect(active_routing_list.include?(key)).to be_true
         }
@@ -305,25 +315,118 @@ describe Roma do
       res = roma.send_command('recover', nil)
       res = roma.change_roma_res_style(res)
 
-      it "Response is Hash" do
+      it "[3-33] Response is Hash" do
         expect(res.class).to be Hash
       end
 
-      it "Hash size is same number of active node" do
+      it "[3-34] Hash size is same number of active node" do
         expect(res.size).to be active_routing_list.size
       end
 
-      it "1 instance send back 'SERVER_ERROR'" do
+      it "[3-35] 1 instance send back 'SERVER_ERROR'" do
         expect(res.values.include?("SERVER_ERROR Recover process is already running.")).to be_true
       end
 
-      it "All instance name is same of active node list'" do
+      it "[3-36] All instance name is same of active node list'" do
         res.each{|key, value|
           expect(active_routing_list.include?(key)).to be_true
         }
       end
 
       roma.send_command('eval @stats.run_recover = false', nil)
+    end
+
+#[login & root cmd](ph4)=================================================================
+    ConfigGui::ROOT_USER = [{:username => 'test_root_user', :password => 'test_root_password', :email => 'dev-act-roma1@mail.rakuten.com'}]
+    ConfigGui::NORMAL_USER = [
+      {:username => 'test_normal_user1', :password => 'test_normal_password1', :email => ''},
+      {:username => 'test_normal_user2', :password => 'test_normal_password2'},
+    ]
+
+
+    context "root login check(correct)" do
+      username = 'test_root_user'
+      password = 'test_root_password'
+      email = 'dev-act-roma1@mail.rakuten.com'
+      expected_res = [{:username => username, :password => password, :email => email}, "root"]
+
+      it "[4-1]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+    end
+
+    context "root login check(incorrect user)" do
+      username = 'hogehoge'
+      password = 'test_root_password'
+
+      it "[4-2]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+    end
+
+    context "root login check(incorrect password)" do
+      username = 'test_root_user'
+      password = 'fugafuga'
+
+      it "[4-3]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+    end
+
+
+    context "normal login check(correct) with brank email" do
+      username = 'test_normal_user1'
+      password = 'test_normal_password1'
+      email = ''
+      expected_res = [{:username => username, :password => password, :email => email}, "normal"]
+
+      it "[4-4]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+    end
+
+    context "normal login check(correct) with no email column" do
+      username = 'test_normal_user2'
+      password = 'test_normal_password2'
+      expected_res = [{:username => username, :password => password}, "normal"]
+
+      it "[4-5]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+    end
+
+    context "normal login check(incorrect user)" do
+      username = 'hogehoge'
+      password = 'test_normal_password1'
+
+      it "[4-6]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+    end
+
+    context "normal login check(incorrect password)" do
+      username = 'test_normal_user1'
+      password = 'fugafuga'
+
+      it "[4-7]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+    end
+
+    context "normal login check(incorrect pattern)" do
+      username = 'test_normal_user1'
+      password = 'test_normal_password2'
+
+      it "[4-8]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+    end
+
+    context "get_active_routing_list" do
+      stats_example = {"routing"=>{"nodes" => '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'}}
+      res_active_routing_list = Roma.new.get_active_routing_list(stats_example)
+
+      it "[4-9] Response is Array" do
+        expect(res_active_routing_list.class).to be Array
+      end
+
+      it "[4-10] each data is string" do
+        res_active_routing_list.each{|instance|
+          expect(instance.class).to be String
+        }
+      end
+
+      it "[4-11] Size is same number" do
+        expect(res_active_routing_list.size).to be 3
+      end
+
+      it "[4-12] confirm detail" do
+        expect(res_active_routing_list).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
+      end
     end
 
 end # End of describe
