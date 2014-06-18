@@ -28,6 +28,10 @@ class ClusterController < ApplicationController
       #     "enabled_repetition_host_in_routing" => false
       #  }
       #}
+      @routing_info.each{|instance, info|
+        flash.now[:unknown] = instance if info.has_value?("unknown")
+      }
+
 
       #render :text => @routing_info
     rescue => @ex

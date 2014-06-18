@@ -52,6 +52,13 @@
     </div>
   <% end %>
 
+  <% if flash[:unknown] %>
+    <div class="status-caution">
+      <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+      No response from <%= flash[:unknown] %>. Did you execute rbalse just now?
+    </div>
+  <% end %>
+
   <div class="basic-columns"> 
     <table class="status-panel">
       <tr>
