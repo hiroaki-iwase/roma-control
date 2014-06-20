@@ -64,7 +64,7 @@ $(function(){
 
             if (progressRate == 100) {
                 $('#extra-bar-rate').text("Finished!");
-                setTimeout(redirectClusterPage(protocol, host), 3000);
+                setTimeout(redirectClusterPage(), 3000);
             }else{
                 setTimeout(calcRecoverProgressRate,1000);
             }
@@ -73,10 +73,6 @@ $(function(){
         });
     } //End of calcRecoverProgressRate()
  
-    function redirectClusterPage(protocol, host){
-      window.location.assign(protocol+"//"+host+"/cluster/index");
-    }
-
 
     //start to check extra process(release)
     if(document.getElementById('extra-process-release')) {
@@ -106,39 +102,38 @@ $(function(){
         }).done(function(data){
 
             for(instanceName in data){
+                if (data[instanceName]["status"] != "inactive") {
 
-                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+                    primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+                    secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
              
-                if (receptiveNodes(instanceName, data)) {
+                    if (receptiveNodes(instanceName, data)) {
 
-                    //set nodes count
-                    instance = instanceName.match(/\d/g).join("");
-                    if (instanceName == gon.host+"_"+gon.port) {
-                      color = "red"
-                      icon  = 'arrow-down'
-                    }else{
-                      color = "blue"
-                      icon  = 'arrow-up'
-                    }
-                    document.getElementById('primary-nodes-'+instance).style.color = color;
-                    document.getElementById('primary-nodes-'+instance).innerHTML = 
-                        primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
-
-                    document.getElementById('secondary-nodes-'+instance).style.color = color;
-                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
-                        secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
-
-                    //progress bar setting
-                    if (instanceName == gon.host+"_"+gon.port) {
-                        if (typeof denominator === "undefined") {
-                          denominator = primaryVnodes + secondaryVnodes;
+                        //set nodes count
+                        instance = instanceName.match(/\d/g).join("");
+                        if (instanceName == gon.host+"_"+gon.port) {
+                          color = "red"
+                          icon  = 'arrow-down'
+                        }else{
+                          color = "blue"
+                          icon  = 'arrow-up'
                         }
-                        progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/denominator)) * 1000) /10
-                        $('#extra-progress-bar').css("width",progressRate + "%");
-                        $('#extra-bar-rate').text(progressRate+ "% Complete");
+                        document.getElementById('primary-nodes-'+instance).style.color = color;
+                        document.getElementById('primary-nodes-'+instance).innerHTML = 
+                            primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
 
-                        checkFinish(progressRate, denominator);
+                        document.getElementById('secondary-nodes-'+instance).style.color = color;
+                        document.getElementById('secondary-nodes-'+instance).innerHTML = 
+                            secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+
+                        //progress bar setting
+                        if (instanceName == gon.host+"_"+gon.port) {
+                            progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                            $('#extra-progress-bar').css("width",progressRate + "%");
+                            $('#extra-bar-rate').text(progressRate+ "% Complete");
+
+                            checkFinish(progressRate, "release");
+                        }
                     }
                 }
             }
@@ -148,6 +143,76 @@ $(function(){
         });
     } //End of calcReleaseProgressRate()
 
+
+    //start to check extra process(join)
+    if(document.getElementById('extra-process-join')) {
+        setTimeout(calcJoinProgressRate,100);
+    }
+
+    // Progress Bar(Join)
+    function calcJoinProgressRate() {
+        var webApiEndPoint
+        var instanceName
+        var primaryVnodes
+        var secondaryVnodes
+        var repetitionHost
+        var progressRate
+        var host
+        var protocol
+
+        protocol = location.protocol;
+        host = location.host;
+        webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
+
+        $.ajax({
+            url: webApiEndPoint,
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+        }).done(function(data){
+
+            for(instanceName in data){
+                if (data[instanceName]["status"] != "inactive") {
+                    primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+                    secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+             
+                    if (receptiveNodes(instanceName, data)) {
+
+                        //set nodes count
+                        instance = instanceName.match(/\d/g).join("");
+                        if (instanceName == gon.host+"_"+gon.port) {
+                            color = "blue"
+                            icon  = 'arrow-up'
+                        }else{
+                            color = "red"
+                            icon  = 'arrow-down'
+                        }
+                        document.getElementById('primary-nodes-'+instance).style.color = color;
+                        document.getElementById('primary-nodes-'+instance).innerHTML = 
+                            primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+
+                        document.getElementById('secondary-nodes-'+instance).style.color = color;
+                        document.getElementById('secondary-nodes-'+instance).innerHTML = 
+                            secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+
+                        //progress bar setting
+                        //[toDO] consider condition of join end
+                        $('#extra-progress-bar').css("width",100 + "%");
+                        $('#extra-bar-rate').text("Now executing");
+
+                        if (instanceName == gon.host+"_"+gon.port) {
+                            checkFinish(data[instanceName]["status"], "join");
+                        }
+                    }
+                }
+            }
+
+        }).fail(function(){
+          alert("fail to access Gladiator Web API");
+        });
+    } //End of calcJoinProgressRate()
+
+
     function receptiveNodes(instanceName, data) {
         repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
         if (!repetitionHost && instanceName.split("_")[0] != gon.host) {
@@ -156,17 +221,34 @@ $(function(){
         return true
     }
 
-    function checkFinish(progressRate, denominator) {
-        if (progressRate == 100) {
-            $('#extra-bar-rate').text("Finished!");
-            setTimeout(confirmRbalse, 1000);
-        }else{
-            setTimeout(calcReleaseProgressRate, 1000, denominator);
+    function checkFinish(condition, process) {
+        switch (process) {
+            case "release":
+                if (condition == 100) {
+                    $('#extra-bar-rate').text("Finished!");
+                    setTimeout(confirmRbalse, 1000);
+                }else{
+                    setTimeout(calcReleaseProgressRate, 1000);
+                }
+                break;
+            case "join":
+                if (condition != "join") {
+                    setTimeout(redirectClusterPage(), 3000);
+                }else{
+                    setTimeout(calcJoinProgressRate, 1000);
+                }
+                break;
         }
     }
 
+    function redirectClusterPage(protocol, host){
+        if(typeof protocol === 'undefined') protocol = location.protocol;
+        if(typeof host === 'undefined') host = location.host;
+        window.location.assign(protocol+"//"+host+"/cluster/index");
+    }
+
     function confirmRbalse(){
-      $('#rbalse-modal-after-release').modal('show')
+        $('#rbalse-modal-after-release').modal('show')
     }
 
 });
