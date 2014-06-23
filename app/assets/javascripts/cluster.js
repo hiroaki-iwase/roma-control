@@ -106,34 +106,51 @@ $(function(){
 
                     primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+                    startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
+                    startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
              
-                    if (receptiveNodes(instanceName, data)) {
 
-                        //set nodes count
-                        instance = instanceName.match(/\d/g).join("");
-                        if (instanceName == gon.host+"_"+gon.port) {
-                          color = "red"
-                          icon  = 'arrow-down'
-                        }else{
-                          color = "blue"
-                          icon  = 'arrow-up'
-                        }
-                        document.getElementById('primary-nodes-'+instance).style.color = color;
-                        document.getElementById('primary-nodes-'+instance).innerHTML = 
-                            primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+                    //set vnodes count
+                    //[toDO : use instance variables]
+                    if (primaryVnodes < startPrimaryVnodes) {
+                      color_primary = "red"
+                      icon_primary  = 'arrow-down'
+                    }else if (primaryVnodes > startPrimaryVnodes) {
+                      color_primary = "blue"
+                      icon_primary  = 'arrow-up'
+                    }else{
+                      color_primary = ""
+                      icon_primary  = ''
+                    }
 
-                        document.getElementById('secondary-nodes-'+instance).style.color = color;
-                        document.getElementById('secondary-nodes-'+instance).innerHTML = 
-                            secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+                    if (secondaryVnodes < startPrimaryVnodes) {
+                      color_secondary = "red"
+                      icon_secondary  = 'arrow-down'
+                    }else if (secondaryVnodes > startPrimaryVnodes) {
+                      color_secondary = "blue"
+                      icon_secondary  = 'arrow-up'
+                    }else{
+                      color_secondary = ""
+                      icon_secondary  = ''
+                    }
 
-                        //progress bar setting
-                        if (instanceName == gon.host+"_"+gon.port) {
-                            progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
-                            $('#extra-progress-bar').css("width",progressRate + "%");
-                            $('#extra-bar-rate').text(progressRate+ "% Complete");
+                    instance = instanceName.match(/\d/g).join("");
+                    //for primary nodes
+                    document.getElementById('primary-nodes-'+instance).style.color = color_primary;
+                    document.getElementById('primary-nodes-'+instance).innerHTML = 
+                        primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>';
+                    //for secondary nodes
+                    document.getElementById('secondary-nodes-'+instance).style.color = color_secondary;
+                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
+                        secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>';
 
-                            checkFinish(progressRate, "release");
-                        }
+                    //progress bar setting
+                    if (instanceName == gon.host+"_"+gon.port) {
+                        progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                        $('#extra-progress-bar').css("width",progressRate + "%");
+                        $('#extra-bar-rate').text(progressRate+ "% Complete");
+
+                        checkFinish(progressRate, "release");
                     }
                 }
             }
@@ -142,6 +159,9 @@ $(function(){
           alert("fail to access Gladiator Web API");
         });
     } //End of calcReleaseProgressRate()
+
+
+
 
 
     //start to check extra process(join)
@@ -173,36 +193,55 @@ $(function(){
 
             for(instanceName in data){
                 if (data[instanceName]["status"] != "inactive") {
+
                     primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+                    startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
+                    startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
              
-                    if (receptiveNodes(instanceName, data)) {
+                    //set vnodes count
+                    //[toDO : use instance variables]
+                    if (primaryVnodes < startPrimaryVnodes) {
+                      color_primary = "red"
+                      icon_primary  = 'arrow-down'
+                    }else if (primaryVnodes > startPrimaryVnodes) {
+                      color_primary = "blue"
+                      icon_primary  = 'arrow-up'
+                    }else{
+                      color_primary = ""
+                      icon_primary  = ''
+                    }
 
-                        //set nodes count
-                        instance = instanceName.match(/\d/g).join("");
-                        if (instanceName == gon.host+"_"+gon.port) {
-                            color = "blue"
-                            icon  = 'arrow-up'
-                        }else{
-                            color = "red"
-                            icon  = 'arrow-down'
-                        }
-                        document.getElementById('primary-nodes-'+instance).style.color = color;
-                        document.getElementById('primary-nodes-'+instance).innerHTML = 
-                            primaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
+                    if (secondaryVnodes < startSecondaryVnodes) {
+                      color_secondary = "red"
+                      icon_secondary  = 'arrow-down'
+                    }else if (secondaryVnodes > startSecondaryVnodes) {
+                      color_secondary = "blue"
+                      icon_secondary  = 'arrow-up'
+                    }else{
+                      color_secondary = ""
+                      icon_secondary  = ''
+                    }
 
-                        document.getElementById('secondary-nodes-'+instance).style.color = color;
-                        document.getElementById('secondary-nodes-'+instance).innerHTML = 
-                            secondaryVnodes+'<span><i class="icon-'+icon+'"></i></span>';
 
-                        //progress bar setting
-                        //[toDO] consider condition of join end
-                        $('#extra-progress-bar').css("width",100 + "%");
-                        $('#extra-bar-rate').text("Now executing");
+                    instance = instanceName.match(/\d/g).join("");
+                    //for primary nodes
+                    document.getElementById('primary-nodes-'+instance).style.color = color_primary;
+                    document.getElementById('primary-nodes-'+instance).innerHTML = 
+                        primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>';
+                    //for secondary nodes
+                    document.getElementById('secondary-nodes-'+instance).style.color = color_secondary;
+                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
+                        secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>';
+            
 
-                        if (instanceName == gon.host+"_"+gon.port) {
-                            checkFinish(data[instanceName]["status"], "join");
-                        }
+                    //progress bar setting
+                    //[toDO] consider condition of join end
+                    $('#extra-progress-bar').css("width",100 + "%");
+                    $('#extra-bar-rate').text("Now executing");
+
+                    if (instanceName == gon.host+"_"+gon.port) {
+                        checkFinish(data[instanceName]["status"], "join");
                     }
                 }
             }

@@ -40,11 +40,12 @@ class ClusterController < ApplicationController
           end
           gon.denominator = session[:denominator]
         when "join"
-          gon.host, gon.port = instance.split(/_/) 
+          gon.host, gon.port = instance.split(/_/)
+          gon.routing_info = @routing_info
         end
       }
 
-      #render :text => @routing_info
+      #render :text => @routing_info["192.168.223.2_10001"]["primary_nodes"].class
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end
@@ -94,6 +95,7 @@ class ClusterController < ApplicationController
 
     begin
       roma = Roma.new
+
       res = roma.send_command('release', nil, host, port) 
       session[:released] = params[:target_instance]
 
@@ -101,6 +103,9 @@ class ClusterController < ApplicationController
       @active_routing_list = roma.get_active_routing_list(@stats_hash)
       @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
       @routing_info = roma.get_routing_info(@active_routing_list)
+
+      gon.routing_info = @routing_info
+
       session[:denominator] = @routing_info[params[:target_instance]]["primary_nodes"] + @routing_info[params[:target_instance]]["secondary_nodes"]
 
       gon.denominator = session[:denominator]
