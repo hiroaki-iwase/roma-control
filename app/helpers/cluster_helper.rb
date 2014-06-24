@@ -130,8 +130,7 @@ module ClusterHelper
     return true if session[:released]
     routing_info.each{|instance, info|
       if info["primary_nodes"] == 0 && info["secondary_nodes"] == 0
-        session[:released] = instance if session[:released] == nil
-        return true
+        flash[:error_message] = "Did you execute release? In this case, you have to execute rbalse."
       end
     }
 
