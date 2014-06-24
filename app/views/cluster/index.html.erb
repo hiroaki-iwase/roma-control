@@ -85,7 +85,7 @@
             <div class ="error-instance-small">
               <% @routing_info.each do |instance, info| %>
                 <% if chk_main_version(info["version"]) %>
-                  <li><%= "#{instance} using #{info["version"]}" %></li><br>
+                  <nobr><li><%= "#{instance} using #{info["version"]}" %></li></nobr>
                 <% end %>
               <% end %>
             </div>
@@ -146,6 +146,8 @@
       <div class="extra-process" id="extra-process-recover">
     <% when "release" %>
       <div class="extra-process" id="extra-process-release">
+    <% when "join" %>
+      <div class="extra-process" id="extra-process-join">
     <% end %>
 
       <h3><U>Executing process</U></h3>
