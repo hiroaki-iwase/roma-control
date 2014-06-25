@@ -76,91 +76,173 @@ $(function(){
 
     //start to check extra process(release)
     if(document.getElementById('extra-process-release')) {
-        setTimeout(calcReleaseProgressRate,100);
+    //if($('#extra-process-release')) {
+        console.log("calc process is start");
+        //setTimeout(calcReleaseProgressRate,1000);
+        //setTimeout(calcProgressRate('release'),1000);
+        calcProgressRate('release');
+        //calcReleaseProgressRate();
+        console.log("calc process is end");
     }
 
     // Progress Bar(Release)
-    function calcReleaseProgressRate() {
-        var webApiEndPoint
-        var instanceName
-        var primaryVnodes
-        var secondaryVnodes
-        var repetitionHost
-        var progressRate
-        var host
-        var protocol
+    //function calcReleaseProgressRate() {
+    //    var webApiEndPoint
+    //    var instanceName
+    //    var primaryVnodes
+    //    var secondaryVnodes
+    //    var repetitionHost
+    //    var progressRate
+    //    var host
+    //    var protocol
 
-        protocol = location.protocol;
-        host = location.host;
-        webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
+    //    protocol = location.protocol;
+    //    host = location.host;
+    //    webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
 
-        $.ajax({
-            url: webApiEndPoint,
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-        }).done(function(data){
+    //    $.ajax({
+    //        url: webApiEndPoint,
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        cache: false,
+    //    }).done(function(data){
 
-            for(instanceName in data){
-                if (data[instanceName]["status"] != "inactive") {
+    //        for(instanceName in data){
+    //            if (data[instanceName]["status"] != "inactive") {
 
-                    primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-                    secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-                    startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
-                    startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
+    //                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+    //                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+    //                startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
+    //                startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
 
-                    //set vnodes count
-                    //[toDO : use instance variables]
-                    if (primaryVnodes < startPrimaryVnodes) {
-                      color_primary = "red"
-                      icon_primary  = 'arrow-down'
-                    }else if (primaryVnodes > startPrimaryVnodes) {
-                      color_primary = "blue"
-                      icon_primary  = 'arrow-up'
-                    }else{
-                      color_primary = ""
-                      icon_primary  = ''
-                    }
+    //                //set vnodes count
+    //                //[toDO : use instance variables]
+    //                if (primaryVnodes < startPrimaryVnodes) {
+    //                  color_primary = "red"
+    //                  icon_primary  = 'arrow-down'
+    //                }else if (primaryVnodes > startPrimaryVnodes) {
+    //                  color_primary = "blue"
+    //                  icon_primary  = 'arrow-up'
+    //                }else{
+    //                  color_primary = ""
+    //                  icon_primary  = ''
+    //                }
 
-                    if (secondaryVnodes < startSecondaryVnodes) {
-                      color_secondary = "red"
-                      icon_secondary  = 'arrow-down'
-                    }else if (secondaryVnodes > startSecondaryVnodes) {
-                      color_secondary = "blue"
-                      icon_secondary  = 'arrow-up'
-                    }else{
-                      color_secondary = ""
-                      icon_secondary  = ''
-                    }
+    //                if (secondaryVnodes < startSecondaryVnodes) {
+    //                  color_secondary = "red"
+    //                  icon_secondary  = 'arrow-down'
+    //                }else if (secondaryVnodes > startSecondaryVnodes) {
+    //                  color_secondary = "blue"
+    //                  icon_secondary  = 'arrow-up'
+    //                }else{
+    //                  color_secondary = ""
+    //                  icon_secondary  = ''
+    //                }
 
-                    instance = instanceName.match(/\d/g).join("");
-                    //for primary nodes
-                    $('#primary-nodes-'+instance).css("color", color_primary)
-                    $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
-                    //for secondary nodes
-                    $('#secondary-nodes-'+instance).css("color", color_secondary)
-                    $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
+    //                instance = instanceName.match(/\d/g).join("");
+    //                //for primary nodes
+    //                $('#primary-nodes-'+instance).css("color", color_primary)
+    //                $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
+    //                //for secondary nodes
+    //                $('#secondary-nodes-'+instance).css("color", color_secondary)
+    //                $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
-                    if (instanceName == gon.host+"_"+gon.port) {
-                        progressBarSet(data[instanceName], "release");
-                        checkFinish(data[instanceName], "release");
-                    }
-                }
-            }
+    //                if (instanceName == gon.host+"_"+gon.port) {
+    //                    progressBarSet(data[instanceName], "release");
+    //                    checkFinish(data[instanceName], "release");
+    //                }
+    //            }
+    //        }
 
-        }).fail(function(){
-          alert("fail to access Gladiator Web API");
-        });
-    } //End of calcReleaseProgressRate()
+    //    }).fail(function(){
+    //      alert("fail to access Gladiator Web API");
+    //    });
+    //} //End of calcReleaseProgressRate()
 
 
     //start to check extra process(join)
     if(document.getElementById('extra-process-join')) {
-        setTimeout(calcJoinProgressRate,100);
+        //setTimeout(calcJoinProgressRate,100);
+        //setTimeout(function() { calcProgressRate('join') },100);
+        calcProgressRate('join');
     }
 
     // Progress Bar(Join)
-    function calcJoinProgressRate() {
+    //function calcJoinProgressRate() {
+    //    var webApiEndPoint
+    //    var instanceName
+    //    var primaryVnodes
+    //    var secondaryVnodes
+    //    var repetitionHost
+    //    var progressRate
+    //    var host
+    //    var protocol
+
+    //    protocol = location.protocol;
+    //    host = location.host;
+    //    webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
+
+    //    $.ajax({
+    //        url: webApiEndPoint,
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        cache: false,
+    //    }).done(function(data){
+
+    //        for(instanceName in data){
+    //            if (data[instanceName]["status"] != "inactive") {
+
+    //                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+    //                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+    //                startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
+    //                startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
+
+    //                //set vnodes count
+    //                //[toDO : use instance variables]
+    //                if (primaryVnodes < startPrimaryVnodes) {
+    //                  color_primary = "red"
+    //                  icon_primary  = 'arrow-down'
+    //                }else if (primaryVnodes > startPrimaryVnodes) {
+    //                  color_primary = "blue"
+    //                  icon_primary  = 'arrow-up'
+    //                }else{
+    //                  color_primary = ""
+    //                  icon_primary  = ''
+    //                }
+
+    //                if (secondaryVnodes < startSecondaryVnodes) {
+    //                  color_secondary = "red"
+    //                  icon_secondary  = 'arrow-down'
+    //                }else if (secondaryVnodes > startSecondaryVnodes) {
+    //                  color_secondary = "blue"
+    //                  icon_secondary  = 'arrow-up'
+    //                }else{
+    //                  color_secondary = ""
+    //                  icon_secondary  = ''
+    //                }
+
+    //                instance = instanceName.match(/\d/g).join("");
+    //                //for primary nodes
+    //                $('#primary-nodes-'+instance).css("color", color_primary)
+    //                $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
+    //                //for secondary nodes
+    //                $('#secondary-nodes-'+instance).css("color", color_secondary)
+    //                $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
+
+    //                if (instanceName == gon.host+"_"+gon.port) {
+    //                    progressBarSet(data[instanceName], "join");
+    //                    checkFinish(data[instanceName], "join");
+    //                }
+    //            }
+    //        }
+
+    //    }).fail(function(){
+    //      alert("fail to access Gladiator Web API");
+    //    });
+    //} //End of calcJoinProgressRate()
+
+
+    function calcProgressRate(process) {
         var webApiEndPoint
         var instanceName
         var primaryVnodes
@@ -169,6 +251,7 @@ $(function(){
         var progressRate
         var host
         var protocol
+        console.log("calcProgressRate(process) is start");
 
         protocol = location.protocol;
         host = location.host;
@@ -222,8 +305,8 @@ $(function(){
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
                     if (instanceName == gon.host+"_"+gon.port) {
-                        progressBarSet(data[instanceName], "join");
-                        checkFinish(data[instanceName], "join");
+                        progressBarSet(data[instanceName], process);
+                        checkFinish(data[instanceName], process);
                     }
                 }
             }
@@ -231,7 +314,9 @@ $(function(){
         }).fail(function(){
           alert("fail to access Gladiator Web API");
         });
-    } //End of calcJoinProgressRate()
+
+        console.log("calcProgressRate(process) is end");
+    } //End of calcProgressRate(process)
 
     function receptiveNodes(instanceName, data) {
         repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
@@ -260,23 +345,25 @@ $(function(){
     }
 
     function checkFinish(condition, process) {
+        console.log("checkFinsish call")
         switch (process) {
             case "release":
+                console.log("in case of release")
                 primaryVnodes   = parseInt(condition["primary_nodes"]);
                 secondaryVnodes = parseInt(condition["secondary_nodes"]);
                 progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
                 if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");
-                    setTimeout(confirmRbalse, 1000);
+                    setTimeout(function() { confirmRbalse() }, 1000);
                 }else{
-                    setTimeout(calcReleaseProgressRate, 1000);
+                    setTimeout(function() { calcProgressRate(process) }, 1000);
                 }
                 break;
             case "join":
                 if (condition["status"] != "join") {
-                    setTimeout(redirectClusterPage(), 3000);
+                    setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
-                    setTimeout(calcJoinProgressRate, 1000);
+                    setTimeout(function() { calcProgressRate(process) }, 1000);
                 }
                 break;
         }
