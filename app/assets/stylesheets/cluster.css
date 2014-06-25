@@ -168,6 +168,12 @@
   font-size: 26px;
 }
 
+li.version-diff-info {
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
 /**-----------------------------
   Tables 
 -------------------------------- **/

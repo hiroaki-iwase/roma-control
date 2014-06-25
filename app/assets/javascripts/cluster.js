@@ -108,7 +108,6 @@ $(function(){
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
                     startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-             
 
                     //set vnodes count
                     //[toDO : use instance variables]
@@ -123,10 +122,10 @@ $(function(){
                       icon_primary  = ''
                     }
 
-                    if (secondaryVnodes < startPrimaryVnodes) {
+                    if (secondaryVnodes < startSecondaryVnodes) {
                       color_secondary = "red"
                       icon_secondary  = 'arrow-down'
-                    }else if (secondaryVnodes > startPrimaryVnodes) {
+                    }else if (secondaryVnodes > startSecondaryVnodes) {
                       color_secondary = "blue"
                       icon_secondary  = 'arrow-up'
                     }else{
@@ -136,13 +135,11 @@ $(function(){
 
                     instance = instanceName.match(/\d/g).join("");
                     //for primary nodes
-                    document.getElementById('primary-nodes-'+instance).style.color = color_primary;
-                    document.getElementById('primary-nodes-'+instance).innerHTML = 
-                        primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>';
+                    $('#primary-nodes-'+instance).css("color", color_primary)
+                    $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
                     //for secondary nodes
-                    document.getElementById('secondary-nodes-'+instance).style.color = color_secondary;
-                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
-                        secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>';
+                    $('#secondary-nodes-'+instance).css("color", color_secondary)
+                    $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
                     //progress bar setting
                     if (instanceName == gon.host+"_"+gon.port) {
@@ -198,7 +195,7 @@ $(function(){
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
                     startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-             
+
                     //set vnodes count
                     //[toDO : use instance variables]
                     if (primaryVnodes < startPrimaryVnodes) {
@@ -223,24 +220,20 @@ $(function(){
                       icon_secondary  = ''
                     }
 
-
                     instance = instanceName.match(/\d/g).join("");
                     //for primary nodes
-                    document.getElementById('primary-nodes-'+instance).style.color = color_primary;
-                    document.getElementById('primary-nodes-'+instance).innerHTML = 
-                        primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>';
+                    $('#primary-nodes-'+instance).css("color", color_primary)
+                    $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
                     //for secondary nodes
-                    document.getElementById('secondary-nodes-'+instance).style.color = color_secondary;
-                    document.getElementById('secondary-nodes-'+instance).innerHTML = 
-                        secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>';
-            
+                    $('#secondary-nodes-'+instance).css("color", color_secondary)
+                    $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
                     //progress bar setting
-                    //[toDO] consider condition of join end
-                    $('#extra-progress-bar').css("width",100 + "%");
-                    $('#extra-bar-rate').text("Now executing");
-
                     if (instanceName == gon.host+"_"+gon.port) {
+                        $('#extra-progress-bar').css("width",100 + "%");
+                        $('#extra-bar-rate').text("Now executing");
+
+                       //[toDO] consider condition of join end
                         checkFinish(data[instanceName]["status"], "join");
                     }
                 }

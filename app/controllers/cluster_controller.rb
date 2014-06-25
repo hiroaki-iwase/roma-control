@@ -45,7 +45,6 @@ class ClusterController < ApplicationController
         end
       }
 
-      #render :text => @routing_info["192.168.223.2_10001"]["primary_nodes"].class
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end
