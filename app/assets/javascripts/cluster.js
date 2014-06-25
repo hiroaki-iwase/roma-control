@@ -141,13 +141,9 @@ $(function(){
                     $('#secondary-nodes-'+instance).css("color", color_secondary)
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
-                    //progress bar setting
                     if (instanceName == gon.host+"_"+gon.port) {
-                        progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
-                        $('#extra-progress-bar').css("width",progressRate + "%");
-                        $('#extra-bar-rate').text(progressRate+ "% Complete");
-
-                        checkFinish(progressRate, "release");
+                        progressBarSet(data[instanceName], "release");
+                        checkFinish(data[instanceName], "release");
                     }
                 }
             }
@@ -156,9 +152,6 @@ $(function(){
           alert("fail to access Gladiator Web API");
         });
     } //End of calcReleaseProgressRate()
-
-
-
 
 
     //start to check extra process(join)
@@ -228,13 +221,9 @@ $(function(){
                     $('#secondary-nodes-'+instance).css("color", color_secondary)
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
-                    //progress bar setting
                     if (instanceName == gon.host+"_"+gon.port) {
-                        $('#extra-progress-bar').css("width",100 + "%");
-                        $('#extra-bar-rate').text("Now executing");
-
-                       //[toDO] consider condition of join end
-                        checkFinish(data[instanceName]["status"], "join");
+                        progressBarSet(data[instanceName], "join");
+                        checkFinish(data[instanceName], "join");
                     }
                 }
             }
@@ -244,7 +233,6 @@ $(function(){
         });
     } //End of calcJoinProgressRate()
 
-
     function receptiveNodes(instanceName, data) {
         repetitionHost = data[instanceName]["enabled_repetition_host_in_routing"];
         if (!repetitionHost && instanceName.split("_")[0] != gon.host) {
@@ -253,10 +241,31 @@ $(function(){
         return true
     }
 
+    function progressBarSet(data, process) {
+        switch (process) {
+            case "release":
+                primaryVnodes   = parseInt(data["primary_nodes"]);
+                secondaryVnodes = parseInt(data["secondary_nodes"]);
+                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                $('#extra-progress-bar').css("width",progressRate + "%");
+                $('#extra-bar-rate').text(progressRate+ "% Complete");
+
+                break;
+            case "join":
+                $('#extra-progress-bar').css("width",100 + "%");
+                $('#extra-bar-rate').text("Now executing");
+
+                break;
+        }
+    }
+
     function checkFinish(condition, process) {
         switch (process) {
             case "release":
-                if (condition == 100) {
+                primaryVnodes   = parseInt(condition["primary_nodes"]);
+                secondaryVnodes = parseInt(condition["secondary_nodes"]);
+                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");
                     setTimeout(confirmRbalse, 1000);
                 }else{
@@ -264,7 +273,7 @@ $(function(){
                 }
                 break;
             case "join":
-                if (condition != "join") {
+                if (condition["status"] != "join") {
                     setTimeout(redirectClusterPage(), 3000);
                 }else{
                     setTimeout(calcJoinProgressRate, 1000);

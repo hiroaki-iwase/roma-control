@@ -39,6 +39,7 @@ class ClusterController < ApplicationController
             session[:denominator] = info["primary_nodes"] + info["secondary_nodes"]
           end
           gon.denominator = session[:denominator]
+          gon.routing_info = @routing_info
         when "join"
           gon.host, gon.port = instance.split(/_/)
           gon.routing_info = @routing_info
