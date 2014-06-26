@@ -43,6 +43,8 @@ class ClusterController < ApplicationController
         when "join"
           gon.host, gon.port = instance.split(/_/)
           gon.routing_info = @routing_info
+        when "recover"
+          # [toDO]
         end
       }
 

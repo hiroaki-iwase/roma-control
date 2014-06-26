@@ -31,7 +31,7 @@ $(function(){
 
     //start to check extra process(recover)
     if(document.getElementById('extra-process-recover')) {
-        setTimeout(calcRecoverProgressRate,100);
+        calcRecoverProgressRate();
     }
 
     // Progress Bar(Recover)
@@ -89,7 +89,7 @@ $(function(){
         var instanceName
         var primaryVnodes
         var secondaryVnodes
-        var repetitionHost
+        var shortVnodes
         var progressRate
         var host
         var protocol
@@ -112,6 +112,7 @@ $(function(){
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
                     startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
+                    shortVnodes = data[instanceName]["short_vnodes"];
 
                     //set vnodes count
                     //[toDO : use instance variables]
@@ -145,7 +146,11 @@ $(function(){
                     $('#secondary-nodes-'+instance).css("color", color_secondary)
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
+
                     if (instanceName == gon.host+"_"+gon.port) {
+                        //short vnodes count
+                        $('#short-vnodes-cnt').text(shortVnodes);
+
                         progressBarSet(data[instanceName], process);
                         checkFinish(data[instanceName], process);
                     }
