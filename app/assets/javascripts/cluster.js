@@ -206,5 +206,4 @@ $(function(){
         window.location.assign(protocol+"//"+host+"/cluster/index");
     }
 
-
 });
