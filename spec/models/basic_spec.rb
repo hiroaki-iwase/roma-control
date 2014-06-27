@@ -137,7 +137,7 @@ shared_examples_for 'get_routing_info_check' do |routing_info|
   routing_info.each{|instance, info|
     it "[3-4]" do expect(instance).to match(/^[-\.a-zA-Z\d]+_[\d]+/) end
     it "[3-5]" do expect(info).to be_a_kind_of(Hash) end # Hash or Not
-    it "[3-6]" do expect(info.size).to be 5 end # Status & Size & Version % primaryVnodes & secxondaryVnodes
+    it "[3-6]" do expect(info.size).to be 5 end # Status & Size & Version % primaryVnodes & secondaryVnodes
 
     # Status check
     it "[3-7]" do expect(info["status"]).to be_a_kind_of(String) end
