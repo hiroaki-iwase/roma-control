@@ -146,7 +146,7 @@ class Roma
     send_command('get_routing_history')
   end
 
-  def get_routing_info(active_routing_list)
+  def get_routing_info(active_routing_list, *option_params)
     routing_list_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
 
     get_all_routing_list.each{|instance|
@@ -155,7 +155,12 @@ class Roma
       routing_list_info[instance]["version"] = nil
       routing_list_info[instance]["primary_nodes"] = nil
       routing_list_info[instance]["secondary_nodes"] = nil
-      routing_list_info[instance]["enabled_repetition_host_in_routing"] = nil
+      if !option_params.empty?
+        option_params.each{|param|
+          routing_list_info[instance][param] = nil
+        }
+      end
+
     }
     #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
@@ -190,12 +195,16 @@ class Roma
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
         routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
 
-        ### enabled_repetition_host_in_routing
-        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"].to_boolean
+        ### option params
+        if !option_params.empty?
+          option_params.each{|param|
+            value = each_stats[ApplicationController.helpers.param_group(param)][param]
+            routing_list_info[instance][param] = ApplicationController.helpers.change_param_type(value)
+          }
+        end
         
       rescue
         routing_list_info[instance]["status"] = "unknown"
-        #routing_list_info[instance]["status"] = "inactive"
       end
     }
 

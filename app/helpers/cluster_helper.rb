@@ -137,4 +137,24 @@ module ClusterHelper
     false
   end
 
+  def param_group(param)
+    case param
+    when "enabled_repetition_host_in_routing"
+      "stats"
+    when "short_vnodes"
+      "routing"
+    end
+  end
+
+  def change_param_type(param)
+    case param
+    when /^(true|false)$/
+      param = param.to_boolean
+    when /^(\d+)$/
+      param = param.to_i
+    end
+    
+    param
+  end
+
 end
