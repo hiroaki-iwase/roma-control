@@ -1,0 +1,31 @@
+.routing-information {
+  background-color: salmon;
+}
+
+.routing-nodes {
+  background-color: aqua;
+  margin-top: 20px;
+}
+
+.routing-options {
+  background-color: greenyellow;
+  margin-top: 20px;
+}
+
+.download-button {
+  background-color: navajowhite;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.routing-history {
+  background-color: mediumslateblue;
+  position: relative;
+  top: 20px;
+}
+
+.routing-history-glaph {
+  background-color: limegreen;
+  margin-bottom: 15px;
+}
