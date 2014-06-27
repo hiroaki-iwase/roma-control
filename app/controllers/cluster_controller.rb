@@ -85,15 +85,11 @@ class ClusterController < ApplicationController
   end
 
   def update #[recover]
-    #host, port = params[:target_instance].split(/_/)
-    #gon.host = host
-    #gon.port = port
-    gon.host = "192.168.223.2"
-    gon.port = "10001"
+    gon.host = ConfigGui::HOST
+    gon.port = ConfigGui::PORT
 
     begin
       roma = Roma.new
-
       res = roma.send_command('recover', nil) 
 
       @stats_hash = roma.get_stats

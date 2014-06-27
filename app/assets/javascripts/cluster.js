@@ -31,90 +31,8 @@ $(function(){
 
     //start to check extra process(recover)
     if(document.getElementById('extra-process-recover')) {
-        //calcRecoverProgressRate();
         calcProgressRate('recover');
     }
-
-    // Progress Bar(Recover)
-    //function calcRecoverProgressRate() {
-    //    var webApiEndPoint
-    //    var instanceName
-    //    var primaryVnodes
-    //    var secondaryVnodes
-    //    var shortVnodes
-    //    var progressRate
-    //    var host
-    //    var protocol
-
-    //    protocol = location.protocol;
-    //    host = location.host;
-    //    webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
-
-    //    $.ajax({
-    //        url: webApiEndPoint,
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        cache: false,
-    //    }).done(function(data){
-
-    //        for(instanceName in data){
-    //            if (data[instanceName]["status"] != "inactive") {
-
-    //                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-    //                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-    //                startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
-    //                startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-    //                shortVnodes = data[instanceName]["short_vnodes"];
-
-    //                //set vnodes count
-    //                //[toDO : use instance variables]
-    //                if (primaryVnodes < startPrimaryVnodes) {
-    //                    color_primary = "red"
-    //                    icon_primary  = 'arrow-down'
-    //                }else if (primaryVnodes > startPrimaryVnodes) {
-    //                    color_primary = "blue"
-    //                    icon_primary  = 'arrow-up'
-    //                }else{
-    //                    color_primary = ""
-    //                    icon_primary  = ''
-    //                }
-
-    //                if (secondaryVnodes < startSecondaryVnodes) {
-    //                    color_secondary = "red"
-    //                    icon_secondary  = 'arrow-down'
-    //                }else if (secondaryVnodes > startSecondaryVnodes) {
-    //                    color_secondary = "blue"
-    //                    icon_secondary  = 'arrow-up'
-    //                }else{
-    //                    color_secondary = ""
-    //                    icon_secondary  = ''
-    //                }
-
-    //                instance = instanceName.match(/\d/g).join("");
-    //                //for primary nodes
-    //                $('#primary-nodes-'+instance).css("color", color_primary)
-    //                $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
-    //                //for secondary nodes
-    //                $('#secondary-nodes-'+instance).css("color", color_secondary)
-    //                $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
-
-    //                if (instanceName == gon.host+"_"+gon.port) {
-    //                    //short vnodes count
-    //                    $('#short-vnodes-cnt').text(shortVnodes);
-
-    //                    //progressBarSet(data[instanceName], process);
-    //                    progressBarSet(data[instanceName], 'recover');
-
-    //                    //checkFinish(data[instanceName], process);
-    //                    checkFinish(data[instanceName], 'recover');
-    //                }
-    //            }
-    //        }
-    //    }).fail(function(){
-    //      alert("fail to access Gladiator Web API");
-    //    });
-    //} //End of calcRecoverProgressRate()
- 
 
     //start to check extra process(release)
     if(document.getElementById('extra-process-release')) {
@@ -131,7 +49,6 @@ $(function(){
         var instanceName
         var primaryVnodes
         var secondaryVnodes
-        var shortVnodes
         var progressRate
         var host
         var protocol
@@ -154,7 +71,6 @@ $(function(){
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
                     startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-                    shortVnodes = data[instanceName]["short_vnodes"]; //[toDO] checnge to location
 
                     //set vnodes count
                     //[toDO : use instance variables]
@@ -189,8 +105,7 @@ $(function(){
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
                     if (instanceName == gon.host+"_"+gon.port) {
-                        //short vnodes count
-                        $('#short-vnodes-cnt').text(shortVnodes);
+                        $('#short-vnodes-cnt').text(data[instanceName]["short_vnodes"]);
 
                         progressBarSet(data[instanceName], process);
                         checkFinish(data[instanceName], process);
@@ -243,6 +158,7 @@ $(function(){
 
             case "join":
                 if (data["status"] != "join") {
+                    //[toDO] sleep
                     setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
                     setTimeout(function() { calcProgressRate(process) }, 1000);
@@ -257,7 +173,6 @@ $(function(){
                     //[toDO] sleep
                     setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
-                    //setTimeout(function() { calcRecoverProgressRate() }, 1000);
                     setTimeout(function() { calcProgressRate(process) }, 1000);
                 }
                 break;
