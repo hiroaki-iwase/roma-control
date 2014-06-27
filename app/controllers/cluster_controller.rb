@@ -44,7 +44,12 @@ class ClusterController < ApplicationController
           gon.host, gon.port = instance.split(/_/)
           gon.routing_info = @routing_info
         when "recover"
-          # [toDO]
+          gon.host, gon.port = instance.split(/_/) 
+          if !session[:denominator]
+            session[:denominator] = @stats_hash["routing"]["short_vnodes"]
+          end
+          gon.denominator = session[:denominator]
+          gon.routing_info = @routing_info
         end
       }
 
@@ -80,11 +85,27 @@ class ClusterController < ApplicationController
   end
 
   def update #[recover]
-    roma = Roma.new
+    #host, port = params[:target_instance].split(/_/)
+    #gon.host = host
+    #gon.port = port
+    gon.host = "192.168.223.2"
+    gon.port = "10001"
 
     begin
+      roma = Roma.new
+
       res = roma.send_command('recover', nil) 
-      redirect_to :action => "index"
+
+      @stats_hash = roma.get_stats
+      @active_routing_list = roma.get_active_routing_list(@stats_hash)
+      @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
+      @routing_info = roma.get_routing_info(@active_routing_list)
+      gon.routing_info = @routing_info
+      
+      gon.denominator = @stats_hash["routing"]["short_vnodes"]
+      session[:denominator] = gon.denominator
+
+      render :action => "index"
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end

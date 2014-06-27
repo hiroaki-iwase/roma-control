@@ -31,47 +31,89 @@ $(function(){
 
     //start to check extra process(recover)
     if(document.getElementById('extra-process-recover')) {
-        calcRecoverProgressRate();
+        //calcRecoverProgressRate();
+        calcProgressRate('recover');
     }
 
     // Progress Bar(Recover)
-    function calcRecoverProgressRate() {
-        var webApiEndPoint
-        var totalVnodes
-        var shortVnodes
-        var progressRate
-        var host
-        var protocol
+    //function calcRecoverProgressRate() {
+    //    var webApiEndPoint
+    //    var instanceName
+    //    var primaryVnodes
+    //    var secondaryVnodes
+    //    var shortVnodes
+    //    var progressRate
+    //    var host
+    //    var protocol
 
-        protocol = location.protocol;
-        host = location.host;
-        webApiEndPoint = protocol+"//"+host+"/api/get_parameter"
+    //    protocol = location.protocol;
+    //    host = location.host;
+    //    webApiEndPoint = protocol+"//"+host+"/api/get_routing_info"
 
-        $.ajax({
-            url: webApiEndPoint,
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-        }).done(function(data){
-            totalVnodes = data["routing"]["vnodes.length"];
-            shortVnodes = data["routing"]["short_vnodes"];
-            
-            progressRate = Math.round(((totalVnodes - shortVnodes)/totalVnodes)*1000) / 10
+    //    $.ajax({
+    //        url: webApiEndPoint,
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        cache: false,
+    //    }).done(function(data){
 
-            $('#extra-progress-bar').css("width",progressRate + "%");
-            $('#extra-bar-rate').text(progressRate+ "% Complete");
-            $('#short-vnodes-cnt').text(shortVnodes);
+    //        for(instanceName in data){
+    //            if (data[instanceName]["status"] != "inactive") {
 
-            if (progressRate == 100) {
-                $('#extra-bar-rate').text("Finished!");
-                setTimeout(redirectClusterPage(), 3000);
-            }else{
-                setTimeout(calcRecoverProgressRate,1000);
-            }
-        }).fail(function(){
-          alert("fail to access Gladiator Web API");
-        });
-    } //End of calcRecoverProgressRate()
+    //                primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
+    //                secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
+    //                startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
+    //                startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
+    //                shortVnodes = data[instanceName]["short_vnodes"];
+
+    //                //set vnodes count
+    //                //[toDO : use instance variables]
+    //                if (primaryVnodes < startPrimaryVnodes) {
+    //                    color_primary = "red"
+    //                    icon_primary  = 'arrow-down'
+    //                }else if (primaryVnodes > startPrimaryVnodes) {
+    //                    color_primary = "blue"
+    //                    icon_primary  = 'arrow-up'
+    //                }else{
+    //                    color_primary = ""
+    //                    icon_primary  = ''
+    //                }
+
+    //                if (secondaryVnodes < startSecondaryVnodes) {
+    //                    color_secondary = "red"
+    //                    icon_secondary  = 'arrow-down'
+    //                }else if (secondaryVnodes > startSecondaryVnodes) {
+    //                    color_secondary = "blue"
+    //                    icon_secondary  = 'arrow-up'
+    //                }else{
+    //                    color_secondary = ""
+    //                    icon_secondary  = ''
+    //                }
+
+    //                instance = instanceName.match(/\d/g).join("");
+    //                //for primary nodes
+    //                $('#primary-nodes-'+instance).css("color", color_primary)
+    //                $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
+    //                //for secondary nodes
+    //                $('#secondary-nodes-'+instance).css("color", color_secondary)
+    //                $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
+
+    //                if (instanceName == gon.host+"_"+gon.port) {
+    //                    //short vnodes count
+    //                    $('#short-vnodes-cnt').text(shortVnodes);
+
+    //                    //progressBarSet(data[instanceName], process);
+    //                    progressBarSet(data[instanceName], 'recover');
+
+    //                    //checkFinish(data[instanceName], process);
+    //                    checkFinish(data[instanceName], 'recover');
+    //                }
+    //            }
+    //        }
+    //    }).fail(function(){
+    //      alert("fail to access Gladiator Web API");
+    //    });
+    //} //End of calcRecoverProgressRate()
  
 
     //start to check extra process(release)
@@ -112,30 +154,30 @@ $(function(){
                     secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
                     startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-                    shortVnodes = data[instanceName]["short_vnodes"];
+                    shortVnodes = data[instanceName]["short_vnodes"]; //[toDO] checnge to location
 
                     //set vnodes count
                     //[toDO : use instance variables]
                     if (primaryVnodes < startPrimaryVnodes) {
-                      color_primary = "red"
-                      icon_primary  = 'arrow-down'
+                        color_primary = "red"
+                        icon_primary  = 'arrow-down'
                     }else if (primaryVnodes > startPrimaryVnodes) {
-                      color_primary = "blue"
-                      icon_primary  = 'arrow-up'
+                        color_primary = "blue"
+                        icon_primary  = 'arrow-up'
                     }else{
-                      color_primary = ""
-                      icon_primary  = ''
+                        color_primary = ""
+                        icon_primary  = ''
                     }
 
                     if (secondaryVnodes < startSecondaryVnodes) {
-                      color_secondary = "red"
-                      icon_secondary  = 'arrow-down'
+                        color_secondary = "red"
+                        icon_secondary  = 'arrow-down'
                     }else if (secondaryVnodes > startSecondaryVnodes) {
-                      color_secondary = "blue"
-                      icon_secondary  = 'arrow-up'
+                        color_secondary = "blue"
+                        icon_secondary  = 'arrow-up'
                     }else{
-                      color_secondary = ""
-                      icon_secondary  = ''
+                        color_secondary = ""
+                        icon_secondary  = ''
                     }
 
                     instance = instanceName.match(/\d/g).join("");
@@ -145,7 +187,6 @@ $(function(){
                     //for secondary nodes
                     $('#secondary-nodes-'+instance).css("color", color_secondary)
                     $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
-
 
                     if (instanceName == gon.host+"_"+gon.port) {
                         //short vnodes count
@@ -171,18 +212,26 @@ $(function(){
                 $('#extra-progress-bar').css("width",progressRate + "%");
                 $('#extra-bar-rate').text(progressRate+ "% Complete");
                 break;
+
             case "join":
                 $('#extra-progress-bar').css("width",100 + "%");
                 $('#extra-bar-rate').text("Now executing");
                 break;
+
+            case "recover":
+                shortVnodes = data["short_vnodes"];
+                progressRate = Math.round(((gon.denominator - shortVnodes)/gon.denominator)*1000) / 10 //[toDO] use rational?
+                $('#extra-progress-bar').css("width",progressRate + "%");
+                $('#extra-bar-rate').text(progressRate+ "% Complete");
+                break;
         }
     }
 
-    function checkFinish(condition, process) {
+    function checkFinish(data, process) {
         switch (process) {
             case "release":
-                primaryVnodes   = parseInt(condition["primary_nodes"]);
-                secondaryVnodes = parseInt(condition["secondary_nodes"]);
+                primaryVnodes   = parseInt(data["primary_nodes"]);
+                secondaryVnodes = parseInt(data["secondary_nodes"]);
                 progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
                 if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");
@@ -191,10 +240,24 @@ $(function(){
                     setTimeout(function() { calcProgressRate(process) }, 1000);
                 }
                 break;
+
             case "join":
-                if (condition["status"] != "join") {
+                if (data["status"] != "join") {
                     setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
+                    setTimeout(function() { calcProgressRate(process) }, 1000);
+                }
+                break;
+
+            case "recover":
+                shortVnodes = data["short_vnodes"];
+                progressRate = Math.round(((gon.denominator - shortVnodes)/gon.denominator)*1000) / 10
+                if (progressRate == 100) {
+                    $('#extra-bar-rate').text("Finished!");
+                    //[toDO] sleep
+                    setTimeout(function() { redirectClusterPage() }, 3000);
+                }else{
+                    //setTimeout(function() { calcRecoverProgressRate() }, 1000);
                     setTimeout(function() { calcProgressRate(process) }, 1000);
                 }
                 break;
