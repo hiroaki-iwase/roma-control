@@ -1,26 +1,28 @@
-<h1>Routing#index</h1>
-<p>Find me in app/views/routing/index.html.erb</p>
+<h1><U>Routing</U></h1>
 
 <div class="col-md-12 routing-information">
   <div class="col-md-6 routing-nodes">
-    routing information<br> 
-    192.168.223.2_10001<br>
-    192.168.223.2_10001<br>
-    192.168.223.2_10001<br>
-    192.168.223.2_10001<br>
-    192.168.223.2_10001<br>
-    192.168.223.2_10001<br>
+    <h4><U>Routing List</U></h4>
+    <ul class="routing-nodes-list">
+      <% @active_routing_list.each{|nodes| %>
+        <li><%= nodes %></li>
+      <% } %>
+    <ul>
   </div>
   
   <div class="col-md-6 routing-options">
-    Options
-    enabled_repetition_host_in_routing: true<br>
-    enabled_repetition_host(booting option): false<br>
-     - rep options is differ!!!!<br>
-    lost_action: auto_assign<br>
-    digst_bits: 32<br>
-    div_bits: 5<br>
-    rn: 2<br>
+    <h4><U>Options</U></h4>
+    <ul class="routing-options-list">
+      <li>enabled_repetition_host_in_routing: <%= @enabled_repetition_in_routingdump %></li>
+      <li>enabled_repetition_host(booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
+      <% if @enabled_repetition_in_routingdump != @stats_hash["stats"]["enabled_repetition_host_in_routing"] %>
+        <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
+      <% end %>
+      <li>lost_action: auto_assign</li>
+      <li>digst_bits: 32</li>
+      <li>div_bits: 5</li>
+      <li>rn: 2</li>
+    </ul>
   </div>
 
   <div class="row">

@@ -7,9 +7,25 @@
   margin-top: 20px;
 }
 
+.routing-nodes-list {
+  background-color: lightblue;
+  margin-left: 30px;
+}
+
 .routing-options {
   background-color: greenyellow;
   margin-top: 20px;
+}
+
+.routing-options-list {
+  background-color: lightblue;
+  margin-left: 30px;
+}
+
+.repetition-error-message {
+  margin-left: 15px;
+  list-style:none;
+  color: red;
 }
 
 .download-button {
