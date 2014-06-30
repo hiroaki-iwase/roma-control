@@ -26,35 +26,29 @@
   </div>
 
   <div class="row">
-    <div class="col-md-offset-9 col-md-2 download-button">offset 3</div>
+    <div class="col-md-offset-9 col-md-2 download-button">
+      <%= link_to "download routingdump",:action=>'download' %>
+    </div>
   </div>
 </div>
 
 
 <div class="col-md-12 routing-history">
-routing history
+  <h4><U>routing history</U></h4>
   <div class="routing-history-glaph">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <table border="1">
+      <tr>
+        <th>date</th>
+        <th>Event</th>
+      </tr>
+      <% @routing_event.each{|event|
+        event =~ /^([-T:\d]+)\.\d+(.+)/ %>
+        <tr>
+          <td><%= $1 %></td>
+          <td><%= $2 %></td>
+        </tr>
+      <% } %>
+    </table>
   </div>
 </div>
 

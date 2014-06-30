@@ -221,6 +221,14 @@ class Roma
     res.chomp!
   end
 
+  def get_routing_event(host = @host, port = @port)
+    res = send_command('get_routing_event', "END", host, port)
+  end
+
+  def get_routing_dump(format, host = @host, port = @port)
+    res = send_command("routingdump #{format}", "END", host, port)
+  end
+
   def send_command(command, eof = "END", host = @host, port = @port)
     sock = TCPSocket.open(host, port)
 
