@@ -20,10 +20,12 @@ class RoutingController < ApplicationController
     roma = Roma.new
 
     begin
-      format = 'json'
+      format = params[:format]
       routing_dump = roma.get_routing_dump(format)
       send_data(routing_dump, :filename => "routingdump.#{format}")
-    rescue
+
+      #redirect_to :action => "index"
+    rescue => @ex
       render :template => "errors/error_500", :status => 500
     end
   end
