@@ -1,21 +1,28 @@
 Gladiator::Application.routes.draw do
-  root :to => "login#index"
+  # routing
+  get "routing/index"
+  get "routing/download"
 
+  # login
+  root :to => "login#index"
   get  "login" => "login#index"
   get  "login/index"
   post "login/auth"
   get  "login/logout"
 
+  # API
   get "api/get_parameter"
   get "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
   get "api/get_routing_info"
 
+  # cluster(Top Page)
   get  "cluster/index"
   post "cluster/create"
   post "cluster/destroy"
   get  "cluster/update"
   post "cluster/release"
 
+  # stats/configurations 
   get "stat/index"
   get "stat/edit"
   put "stat/update"
