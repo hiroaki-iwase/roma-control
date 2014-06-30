@@ -17,7 +17,6 @@ class ClusterController < ApplicationController
       #     "version" => "0.8.14",
       #     "primary_nodes" => "171",
       #     "secondary_nodes" => "170",
-      #     "enabled_repetition_host_in_routing" => false
       #  },
       #  "192.168.223.2_10002"=> {
       #     "status"  => "active", 
@@ -25,7 +24,6 @@ class ClusterController < ApplicationController
       #     "version" => "0.8.14",
       #     "primary_nodes" => "170",
       #     "secondary_nodes" => "169",
-      #     "enabled_repetition_host_in_routing" => false
       #  }
       #}
 
