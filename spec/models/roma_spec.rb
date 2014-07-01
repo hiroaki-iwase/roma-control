@@ -445,19 +445,36 @@ describe Roma do
       end
     end
 
-      #it "[4-10] each data is string" do
-      #  res_active_routing_list.each{|instance|
-      #    expect(instance.class).to be String
-      #  }
-      #end
+    context "get_routing_event" do
+      res_routing_event = Roma.new.get_routing_event
 
-      #it "[4-11] Size is same number" do
-      #  expect(res_active_routing_list.size).to be 3
-      #end
+      it "[5-2] Response is Array" do
+        expect(res_routing_event.class).to be Array
+      end
 
-      #it "[4-12] confirm detail" do
-      #  expect(res_active_routing_list).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
-      #end
+      it "[5-3] Array is empty in normal situation" do
+        expect(res_routing_event.size).to be 0
+      end
+    end
+
+    context "get_routing_dump" do
+      res_routingdump_json = Roma.new.get_routing_dump('json')
+      res_routingdump_yaml = Roma.new.get_routing_dump('yaml')
+
+      it "[5-4] Response is Array" do
+        expect(res_routingdump_json.class).to be Array
+        expect(res_routingdump_yaml.class).to be Array
+      end
+
+      it "[5-5] Response size is 1(json)" do
+        #"routingdump json" sendback data as a 1 line
+        expect(res_routingdump_json.size).to be 1
+      end
+
+      it "[5-6] Response size is over 2000 in case of redundancy is 2(yaml)" do
+        #"routingdump yaml" sendback data as a multi line
+        expect(res_routingdump_yaml.size).to be > 2000
+      end
     end
   end
 
