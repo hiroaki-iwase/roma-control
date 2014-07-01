@@ -17,7 +17,6 @@ class ClusterController < ApplicationController
       #     "version" => "0.8.14",
       #     "primary_nodes" => "171",
       #     "secondary_nodes" => "170",
-      #     "enabled_repetition_host_in_routing" => false
       #  },
       #  "192.168.223.2_10002"=> {
       #     "status"  => "active", 
@@ -25,7 +24,6 @@ class ClusterController < ApplicationController
       #     "version" => "0.8.14",
       #     "primary_nodes" => "170",
       #     "secondary_nodes" => "169",
-      #     "enabled_repetition_host_in_routing" => false
       #  }
       #}
 
@@ -39,13 +37,20 @@ class ClusterController < ApplicationController
             session[:denominator] = info["primary_nodes"] + info["secondary_nodes"]
           end
           gon.denominator = session[:denominator]
+          gon.routing_info = @routing_info
         when "join"
           gon.host, gon.port = instance.split(/_/)
+          gon.routing_info = @routing_info
+        when "recover"
+          gon.host, gon.port = instance.split(/_/) 
+          if !session[:denominator]
+            session[:denominator] = @stats_hash["routing"]["short_vnodes"]
+          end
+          gon.denominator = session[:denominator]
           gon.routing_info = @routing_info
         end
       }
 
-      #render :text => @routing_info["192.168.223.2_10001"]["primary_nodes"].class
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end
@@ -78,11 +83,23 @@ class ClusterController < ApplicationController
   end
 
   def update #[recover]
-    roma = Roma.new
+    gon.host = ConfigGui::HOST
+    gon.port = ConfigGui::PORT
 
     begin
+      roma = Roma.new
       res = roma.send_command('recover', nil) 
-      redirect_to :action => "index"
+
+      @stats_hash = roma.get_stats
+      @active_routing_list = roma.get_active_routing_list(@stats_hash)
+      @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
+      @routing_info = roma.get_routing_info(@active_routing_list)
+      gon.routing_info = @routing_info
+      
+      gon.denominator = @stats_hash["routing"]["short_vnodes"]
+      session[:denominator] = gon.denominator
+
+      render :action => "index"
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end

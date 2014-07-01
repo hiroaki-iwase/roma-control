@@ -146,21 +146,28 @@ class Roma
     send_command('get_routing_history')
   end
 
-  def get_routing_info(active_routing_list)
-    routing_list_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
+  def initialize_instance(option_params=nil)
+    roma_instance_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
 
     get_all_routing_list.each{|instance|
-      routing_list_info[instance]["status"] = "inactive"
-      routing_list_info[instance]["size"] = nil
-      routing_list_info[instance]["version"] = nil
-      routing_list_info[instance]["primary_nodes"] = nil
-      routing_list_info[instance]["secondary_nodes"] = nil
-      routing_list_info[instance]["enabled_repetition_host_in_routing"] = nil
+      roma_instance_info[instance]["status"] = "inactive"
+      roma_instance_info[instance]["size"] = nil
+      roma_instance_info[instance]["version"] = nil
+      roma_instance_info[instance]["primary_nodes"] = nil
+      roma_instance_info[instance]["secondary_nodes"] = nil
+      unless option_params.empty?
+        option_params.each{|param|
+          roma_instance_info[instance][param] = nil
+        }
+      end
     }
-    #{"192.168.223.2_10001"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
 
+    roma_instance_info
+  end
+
+  def get_routing_info(active_routing_list, *option_params)
+    routing_list_info = initialize_instance(option_params)
     active_routing_list.each{|instance|
-
       begin
         each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
@@ -190,17 +197,20 @@ class Roma
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
         routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
 
-        ### enabled_repetition_host_in_routing
-        routing_list_info[instance]["enabled_repetition_host_in_routing"] = each_stats["stats"]["enabled_repetition_host_in_routing"].to_boolean
+        ### option params
+        unless option_params.empty?
+          option_params.each{|param|
+            value = each_stats[ApplicationController.helpers.param_group(param)][param]
+            routing_list_info[instance][param] = ApplicationController.helpers.change_param_type(value)
+          }
+        end
         
       rescue
         routing_list_info[instance]["status"] = "unknown"
-        #routing_list_info[instance]["status"] = "inactive"
       end
     }
 
     return routing_list_info
-    #{"192.168.223.2_10001"=>{"status"=>"active", "size"=>209759360, "version"=>"0.8.14"}, "192.168.223.2_10002"=>{"status"=>"inactive", "size"=>nil, "version"=>nil}}
   end
 
   def get_active_routing_list(stats_hash)

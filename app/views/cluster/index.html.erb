@@ -85,7 +85,7 @@
             <div class ="error-instance-small">
               <% @routing_info.each do |instance, info| %>
                 <% if chk_main_version(info["version"]) %>
-                  <li><%= "#{instance} using #{info["version"]}" %></li><br>
+                  <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
                 <% end %>
               <% end %>
             </div>
