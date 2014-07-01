@@ -147,22 +147,22 @@ class Roma
   end
 
   def initialize_instance(option_params=nil)
-    info = Hash.new { |hash,key| hash[key] = Hash.new {} }
+    roma_instance_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
 
     get_all_routing_list.each{|instance|
-      info[instance]["status"] = "inactive"
-      info[instance]["size"] = nil
-      info[instance]["version"] = nil
-      info[instance]["primary_nodes"] = nil
-      info[instance]["secondary_nodes"] = nil
+      roma_instance_info[instance]["status"] = "inactive"
+      roma_instance_info[instance]["size"] = nil
+      roma_instance_info[instance]["version"] = nil
+      roma_instance_info[instance]["primary_nodes"] = nil
+      roma_instance_info[instance]["secondary_nodes"] = nil
       unless option_params.empty?
         option_params.each{|param|
-          info[instance][param] = nil
+          roma_instance_info[instance][param] = nil
         }
       end
     }
 
-    info
+    roma_instance_info
   end
 
   def get_routing_info(active_routing_list, *option_params)
