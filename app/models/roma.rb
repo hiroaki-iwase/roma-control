@@ -218,7 +218,7 @@ class Roma
 
   def enabled_repetition_in_routingdump?(host = @host, port = @port)
     res = send_command('enabled_repetition_host_in_routingdump', nil, host, port)
-    res.chomp!
+    res.chomp.to_boolean
   end
 
   def get_routing_event(host = @host, port = @port)
