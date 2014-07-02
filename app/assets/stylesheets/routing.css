@@ -2,6 +2,9 @@
   background-color: salmon;
 }
 
+/**-----------------------------
+  Routing Lists
+-------------------------------- **/
 .routing-nodes {
   background-color: aqua;
   margin-top: 20px;
@@ -12,6 +15,9 @@
   margin-left: 30px;
 }
 
+/**-----------------------------
+  Routing Optios
+-------------------------------- **/
 .routing-options {
   background-color: greenyellow;
   margin-top: 20px;
@@ -34,7 +40,9 @@
   margin-bottom: 10px;
 }
 
-
+/**-----------------------------
+  Routing Hisotry
+-------------------------------- **/
 .routing-history {
   background-color: mediumslateblue;
   position: relative;

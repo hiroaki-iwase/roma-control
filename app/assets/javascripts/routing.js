@@ -2,7 +2,7 @@ $(function(){
 
     //Modal
     $('.close-modal').click(function () {
-      $('#downloadModal').modal('hide');
+      $('#download-modal').modal('hide');
     })
 
 });
