@@ -7,16 +7,17 @@
     <h4><U>Routing List</U></h4>
     <ul class="routing-nodes-list">
       <%
-      @color_type = "primary"
-      @active_routing_list.each_with_index{|nodes, i|
-        if i >= 1
-          if nodes.split("_")[0] != @active_routing_list[i-1].split("_")[0]
-            change_nodes_list_color(@color_type)
-          end
-        end  
+      @color_type = "info"
+      @active_routing_list.inject(""){|past_node, node|
+        if node.split("_")[0] != past_node.split("_")[0]
+          change_nodes_list_color(@color_type)
+        end
       %>
-        <h4><span class="label label-<%= @color_type %>"><%= nodes %></span></h4>
-      <% } %>
+        <h4><span class="label label-<%= @color_type %>"><%= node %></span></h4>
+      <%
+        node
+        }
+      %>
     <ul>
   </div>
   
