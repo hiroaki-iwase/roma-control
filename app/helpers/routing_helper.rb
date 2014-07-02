@@ -18,4 +18,15 @@ module RoutingHelper
     false
   end
 
+  def change_nodes_list_color(color_type)
+    case color_type
+    when "primary"
+      @color_type = "success"
+    when "success"
+      @color_type = "info"
+    when "info"
+      @color_type = "primary"
+    end
+     
+  end
 end

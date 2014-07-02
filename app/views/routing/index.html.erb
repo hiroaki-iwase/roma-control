@@ -6,8 +6,16 @@
   <div class="col-md-6 routing-nodes">
     <h4><U>Routing List</U></h4>
     <ul class="routing-nodes-list">
-      <% @active_routing_list.each{|nodes| %>
-        <h4><span class="label label-primary"><%= nodes %></span></h4>
+      <%
+      @color_type = "primary"
+      @active_routing_list.each_with_index{|nodes, i|
+        if i >= 1
+          if nodes.split("_")[0] != @active_routing_list[i-1].split("_")[0]
+            change_nodes_list_color(@color_type)
+          end
+        end  
+      %>
+        <h4><span class="label label-<%= @color_type %>"><%= nodes %></span></h4>
       <% } %>
     <ul>
   </div>
