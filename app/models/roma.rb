@@ -217,6 +217,19 @@ class Roma
     change_roma_res_style(stats_hash["routing"]["nodes"])
   end
 
+  def enabled_repetition_in_routingdump?(host = @host, port = @port)
+    res = send_command('enabled_repetition_host_in_routingdump', nil, host, port)
+    res.chomp!
+  end
+
+  def get_routing_event(host = @host, port = @port)
+    send_command('get_routing_event', "END", host, port)
+  end
+
+  def get_routing_dump(format, host = @host, port = @port)
+    send_command("routingdump #{format}", "END", host, port)
+  end
+
   def send_command(command, eof = "END", host = @host, port = @port)
     sock = TCPSocket.open(host, port)
 

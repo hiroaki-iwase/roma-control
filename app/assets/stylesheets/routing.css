@@ -1,0 +1,55 @@
+.routing-information {
+  background-color: salmon;
+}
+
+/**-----------------------------
+  Routing Lists
+-------------------------------- **/
+.routing-nodes {
+  background-color: aqua;
+  margin-top: 20px;
+}
+
+.routing-nodes-list {
+  background-color: lightblue;
+  margin-left: 30px;
+}
+
+/**-----------------------------
+  Routing Optios
+-------------------------------- **/
+.routing-options {
+  background-color: greenyellow;
+  margin-top: 20px;
+}
+
+.routing-options-list {
+  background-color: lightblue;
+  margin-left: 30px;
+}
+
+.repetition-error-message {
+  margin-left: 15px;
+  list-style:none;
+  color: red;
+}
+
+.download-button {
+  background-color: navajowhite;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/**-----------------------------
+  Routing Hisotry
+-------------------------------- **/
+.routing-history {
+  background-color: mediumslateblue;
+  position: relative;
+  top: 20px;
+}
+
+.routing-history-glaph {
+  background-color: limegreen;
+  margin-bottom: 15px;
+}

@@ -1,0 +1,57 @@
+<%= render 'routing/modal' %>
+
+<h1><U>Routing</U></h1>
+
+<div class="col-md-12 routing-information">
+  <div class="col-md-6 routing-nodes">
+    <h4><U>Routing List</U></h4>
+    <ul class="routing-nodes-list">
+      <% @active_routing_list.each{|nodes| %>
+        <li><%= nodes %></li>
+      <% } %>
+    <ul>
+  </div>
+  
+  <div class="col-md-6 routing-options">
+    <h4><U>Options</U></h4>
+    <ul class="routing-options-list">
+      <li>enabled_repetition_host_in_routing_dump: <%= @enabled_repetition_in_routingdump %></li>
+      <li>enabled_repetition_host_in_booting_option: <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
+      <% if @enabled_repetition_in_routingdump != @stats_hash["stats"]["enabled_repetition_host_in_routing"] %>
+        <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
+      <% end %>
+      <li>lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>
+      <li>digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
+      <li>div_bits: <%= @stats_hash["routing"]["div_bits"] %></li>
+      <li>rn: <%= @stats_hash["routing"]["redundant"] %></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-offset-9 col-md-2 download-button">
+      <button class="btn btn-info" data-toggle="modal" data-target="#download-modal">
+        Download routingdump
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-12 routing-history">
+  <h4><U>routing history</U></h4>
+  <div class="routing-history-glaph">
+    <table border="1">
+      <tr>
+        <th>date</th>
+        <th>Event</th>
+      </tr>
+      <% @routing_event.each do |event|
+        event =~ /^([-T:\d]+)\.\d+(.+)/ %>
+        <tr>
+          <td><%= $1 %></td>
+          <td><%= $2 %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
