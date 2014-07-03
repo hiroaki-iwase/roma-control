@@ -1,25 +1,37 @@
 .routing-information {
-  background-color: salmon;
+  background-color: #F8D1D1;
 }
 
 .routing-nodes {
-  background-color: aqua;
+  background-color: #FFA8A8;
   margin-top: 20px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #F8D1D1;
 }
 
 .routing-nodes-list {
-  background-color: lightblue;
   margin-left: 30px;
 }
 
 .routing-options {
-  background-color: greenyellow;
+  background-color: #FFA8A8;
   margin-top: 20px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #F8D1D1;
 }
 
 .routing-options-list {
-  background-color: lightblue;
   margin-left: 30px;
+}
+
+li.list-group-item {
+  padding: 5px;
+}
+
+li.list-striped {
+  background-color: #F8D1D1;
 }
 
 .repetition-error-message {
@@ -29,19 +41,29 @@
 }
 
 .download-button {
-  background-color: navajowhite;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
+.download-dump {
+  background-color: #5BE75B;
+  border-style: none;
+}
 
 .routing-history {
-  background-color: mediumslateblue;
+  background-color: #F8D1D1;
   position: relative;
   top: 20px;
 }
 
 .routing-history-glaph {
-  background-color: limegreen;
   margin-bottom: 15px;
+}
+
+.history-glaph-title th{
+  background-color: #cccccc;
+}
+
+.noevent {
+  background-color: #838181;
 }
