@@ -23,13 +23,13 @@
   
   <div class="col-md-6 routing-options">
     <h4><U>Options</U></h4>
-    <ul class="routing-options-list list-group">
-      <li class="list-group-item list-group-item-1">lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>
-      <li class="list-group-item list-group-item-2">digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
-      <li class="list-group-item list-group-item-3">div_bits: <%= @stats_hash["routing"]["div_bits"] %></li>
-      <li class="list-group-item list-group-item-4">redundancy: <%= @stats_hash["routing"]["redundant"] %></li>
-      <li class="list-group-item list-group-item-5">enabled_repetition_host_in_routing_dump: <%= @enabled_repetition_in_routingdump %></li>
-      <li class="list-group-item list-group-item-6">enabled_repetition_host_in_booting_option: <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
+    <ul class="routing-options-list list-group list-group-striped">
+      <li class="list-group-item list-striped">lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>
+      <li class="list-group-item">digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
+      <li class="list-group-item list-striped">div_bits: <%= @stats_hash["routing"]["div_bits"] %></li>
+      <li class="list-group-item">redundancy: <%= @stats_hash["routing"]["redundant"] %></li>
+      <li class="list-group-item list-striped">enabled_repetition_host_in_routing_dump: <%= @enabled_repetition_in_routingdump %></li>
+      <li class="list-group-item">enabled_repetition_host_in_booting_option: <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
       <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
         <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
       <% end %>
@@ -73,7 +73,7 @@
 
             <tr class=<%= column_color($2) %>>
               <td><%= $1 %></td>
-              <td><%= $2+$3 %></td>
+              <td><span class="label label-<%= column_color($2) %>"><%= $2 %></span> <%= $3 %></td>
             </tr>
           <% } %>
         </tbody>

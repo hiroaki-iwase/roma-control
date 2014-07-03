@@ -30,26 +30,8 @@ li.list-group-item {
   padding: 5px;
 }
 
-.list-group-item-1 {
-  background-color: #6EBBF8;
-}
-
-.list-group-item-2 {
-  background-color: #6EDBF8;
-}
-
-.list-group-item-3 {
-  background-color: #68E2CF;
-}
-
-.list-group-item-4 {
-  background-color: #6EF8ED;
-}
-.list-group-item-5 {
-  background-color: #6EF8B0;
-}
-.list-group-item-6 {
-  background-color: #B5F895;
+li.list-striped {
+  background-color: #F8D1D1;
 }
 
 .repetition-error-message {
