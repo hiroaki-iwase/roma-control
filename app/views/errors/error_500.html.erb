@@ -7,7 +7,7 @@
 case @ex
   when Errno::ECONNREFUSED
     %>
-    <ul>
+    <ul class="exception_msg">
       <li><%= "Gladiator can't access to ROMA" %></li>
         <ul>
           <li><%= "Please check your ROMA is booting or not" %></li>
@@ -16,7 +16,6 @@ case @ex
     </ul>
     <%
   else
-  
 end
 %>
 

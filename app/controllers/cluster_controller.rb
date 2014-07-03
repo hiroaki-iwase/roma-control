@@ -29,6 +29,15 @@ class ClusterController < ApplicationController
       #  }
       #}
 
+      @routing_info.each_key{|instance|
+        if instance =~ /ERROR/
+          gon.just_booting = true
+          break
+        else
+          gon.just_booting = false
+        end
+      }
+
       @routing_info.each{|instance, info|
         flash.now[:unknown] = instance if info.has_value?("unknown")
         case info["status"]

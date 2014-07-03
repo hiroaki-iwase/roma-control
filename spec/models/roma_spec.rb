@@ -451,29 +451,29 @@ describe Roma do
       it "[5-2] Response is Array" do
         expect(res_routing_event.class).to be Array
       end
-
-      it "[5-3] Array is empty in normal situation" do
-        expect(res_routing_event.size).to be 0
-      end
     end
 
     context "get_routing_dump" do
       res_routingdump_json = Roma.new.get_routing_dump('json')
       res_routingdump_yaml = Roma.new.get_routing_dump('yaml')
 
-      it "[5-4] Response is Array" do
+      it "[5-3] Response is Array" do
         expect(res_routingdump_json.class).to be Array
         expect(res_routingdump_yaml.class).to be Array
       end
 
-      it "[5-5] Response size is 1(json)" do
+      it "[5-4] Response size is 1(json)" do
         #"routingdump json" sendback data as a 1 line
         expect(res_routingdump_json.size).to be 1
       end
 
-      it "[5-6] Response size is over 2000 in case of redundancy is 2(yaml)" do
+      it "[5-5] Response size is over 2000 in case of redundancy is 2(yaml)" do
         #"routingdump yaml" sendback data as a multi line
         expect(res_routingdump_yaml.size).to be > 2000
+      end
+
+      it "[5-6] Error check in case of unavailable format type was sent" do
+        expect { Roma.new.get_routing_dump('xml') }.to raise_error
       end
     end
   end

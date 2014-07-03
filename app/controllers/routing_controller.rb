@@ -22,7 +22,8 @@ class RoutingController < ApplicationController
       send_data(routing_dump, :filename => "routingdump.#{format}")
 
     rescue => @ex
-      render :template => "errors/error_500", :status => 500
+      #render :template => "errors/error_500", :status => 500
+      render :file => "app/views/errors/error_500.html.erb"
     end
   end
 end

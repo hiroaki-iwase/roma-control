@@ -233,7 +233,7 @@ class Roma
     sock = TCPSocket.open(host, port)
 
     sock.write("#{command}\r\n")
-    
+
     unless eof
       @res = sock.gets
     else
@@ -241,6 +241,8 @@ class Roma
       sock.each{|s|
         break if s == "#{eof}\r\n"
         @res.push(s.chomp)
+        #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
+        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
       }
     end
 
