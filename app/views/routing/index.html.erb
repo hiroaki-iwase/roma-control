@@ -17,7 +17,7 @@
     <ul class="routing-options-list">
       <li>enabled_repetition_host_in_routing_dump: <%= @enabled_repetition_in_routingdump %></li>
       <li>enabled_repetition_host_in_booting_option: <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
-      <% if @enabled_repetition_in_routingdump != @stats_hash["stats"]["enabled_repetition_host_in_routing"] %>
+      <% if @enabled_repetition_in_routingdump != @stats_hash["stats"]["enabled_repetition_host_in_routing"].to_boolean %>
         <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
       <% end %>
       <li>lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>

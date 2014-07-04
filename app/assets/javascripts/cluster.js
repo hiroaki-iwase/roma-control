@@ -1,5 +1,17 @@
 $(function(){
 
+    //initialize of gon
+    if (typeof gon === "undefined") {
+      gon = false
+    }
+
+    //Just Booting
+    if (gon.just_booting) {
+      var element = $('.table-contents');
+      element.css("color", "#A9A9A9");
+      element.html('<tr><td colspan="8">Now ROMA is booting, please reload after a few seconds later.</td></tr>')
+    }
+
     //Modal
     $('#rbalse-modal').on('show.bs.modal', function (e) {
         $("#rbalse-hidden-value").attr("value", e.relatedTarget.name);

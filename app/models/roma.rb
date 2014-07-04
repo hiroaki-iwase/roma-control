@@ -219,7 +219,7 @@ class Roma
 
   def enabled_repetition_in_routingdump?(host = @host, port = @port)
     res = send_command('enabled_repetition_host_in_routingdump', nil, host, port)
-    res.chomp!
+    res.chomp.to_boolean
   end
 
   def get_routing_event(host = @host, port = @port)
@@ -234,7 +234,7 @@ class Roma
     sock = TCPSocket.open(host, port)
 
     sock.write("#{command}\r\n")
-    
+
     unless eof
       @res = sock.gets
     else
@@ -242,6 +242,8 @@ class Roma
       sock.each{|s|
         break if s == "#{eof}\r\n"
         @res.push(s.chomp)
+        #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
+        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
       }
     end
 
