@@ -64,6 +64,14 @@ li.list-striped {
   background-color: #cccccc;
 }
 
+.leave-column td{
+  background-color: #fdfaec;
+}
+
+.join-column td{
+  background-color: #e9f5fb;
+}
+
 .noevent {
   background-color: #838181;
 }

@@ -59,7 +59,7 @@
       </table>
 
     <% else %>
-      <table class="table table-bordered table-condensed table-striped tablesorter">
+      <table class="table table-bordered table-condensed tablesorter">
         <thead class="history-glaph-title">
           <tr class="history-glaph-title">
             <th>date</th>
@@ -71,7 +71,7 @@
             @routing_event.each{|event|
             event =~ /^([-T:\d]+)\.\d+\s(\w+)(.+)$/ %>
 
-            <tr class=<%= column_color($2) %>>
+            <tr class="<%= $2 %>-column">
               <td><%= $1 %></td>
               <td><span class="label label-<%= column_color($2) %>"><%= $2 %></span> <%= $3 %></td>
             </tr>
