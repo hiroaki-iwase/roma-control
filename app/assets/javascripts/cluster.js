@@ -8,11 +8,8 @@ $(function(){
     //Just Booting
     if (gon.just_booting) {
       var element = $('.table-contents');
-      element.css("color", "black");
-      element.position = 'absolute'; 
-      //element.css("opacity", "0.2");
-      //element.zIndex = "1";
-      element.html('<tr><td colspan="8" style="background-color: grey;">Now ROMA is booting, please reload after a few seconds later.</td></tr>')
+      element.css("color", "#A9A9A9");
+      element.html('<tr><td colspan="8">Now ROMA is booting, please reload after a few seconds later.</td></tr>')
     }
 
     //Modal
