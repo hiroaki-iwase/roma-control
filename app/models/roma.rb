@@ -230,6 +230,11 @@ class Roma
     send_command("routingdump #{format}", "END", host, port)
   end
 
+  def get_logs(line_count, host = @host, port = @port)
+    raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
+    send_command("get_logs #{line_count}", "END", host, port)
+  end
+
   def send_command(command, eof = "END", host = @host, port = @port)
     sock = TCPSocket.open(host, port)
 
