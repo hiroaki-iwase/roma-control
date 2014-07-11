@@ -222,10 +222,6 @@ class Roma
     res.chomp.to_boolean
   end
 
-  def get_routing_event(host = @host, port = @port)
-    send_command('get_routing_event', "END", host, port)
-  end
-
   def get_routing_dump(format, host = @host, port = @port)
     send_command("routingdump #{format}", "END", host, port)
   end
