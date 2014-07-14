@@ -9,14 +9,16 @@ class LogsController < ApplicationController
       @raw_logs = {}
       @active_routing_list.each{|instance|
         host, port = instance.split("_")
-        @raw_logs.store(instance, roma.get_logs(30, host, port))
+        @raw_logs.store(instance, roma.send_command('get_logs 100', "END", host, port))
       }
       @raw_logs
+
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end
   end
 
   def download
+
   end
 end
