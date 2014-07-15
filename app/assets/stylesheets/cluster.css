@@ -197,7 +197,7 @@ li.version-diff-info {
 }
 
 .table.table-bordered.result-table th{
-   background-color: #cccccc;
+  background-color: #cccccc;
 }
 
 .instance-table {
@@ -222,7 +222,7 @@ td.progress-bar-column {
 }
 
 .unknown-icon {
-  color: grey;
+  color: #808080;
   font-size: 17px;
 }
 

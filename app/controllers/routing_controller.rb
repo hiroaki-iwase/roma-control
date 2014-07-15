@@ -6,7 +6,7 @@ class RoutingController < ApplicationController
       @stats_hash = roma.get_stats
       @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
       @enabled_repetition_in_routingdump = roma.enabled_repetition_in_routingdump?
-      @routing_event = roma.get_routing_event
+      @routing_event = roma.change_roma_res_style(@stats_hash["routing"]["event"])
 
     rescue => @ex
       render :template => "errors/error_500", :status => 500
@@ -25,7 +25,7 @@ class RoutingController < ApplicationController
         @stats_hash = roma.get_stats
         @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
         @enabled_repetition_in_routingdump = roma.enabled_repetition_in_routingdump?
-        @routing_event = roma.get_routing_event
+        @routing_event = roma.change_roma_res_style(@stats_hash["routing"]["event"])
         gon.format_error = true
         render :action => "index.html.erb"
       end

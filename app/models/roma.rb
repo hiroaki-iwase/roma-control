@@ -222,12 +222,13 @@ class Roma
     res.chomp.to_boolean
   end
 
-  def get_routing_event(host = @host, port = @port)
-    send_command('get_routing_event', "END", host, port)
-  end
-
   def get_routing_dump(format, host = @host, port = @port)
     send_command("routingdump #{format}", "END", host, port)
+  end
+
+  def get_logs(line_count, host = @host, port = @port)
+    raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
+    send_command("get_logs #{line_count}", "END", host, port)
   end
 
   def send_command(command, eof = "END", host = @host, port = @port)
