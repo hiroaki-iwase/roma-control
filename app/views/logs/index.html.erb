@@ -1,45 +1,43 @@
 <h1>Logs#index</h1>
 <p>Find me in app/views/logs/index.html.erb</p>
 
-<% if false %>
-<% @raw_logs.each{|instance, logs| %>
-  <ul>
-    <li><%= instance %></li>
-    <ul>
-      <% logs.each{|log| %>
-        <li><%= log %></li>
-      <% } %>
-    </ul>
-  </ul>
-<% } %>
-<% end %>
-
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
+<div id="tabs">
+  <!-- Tabs header -->
+  <ul>
+    <% @raw_logs.each_with_index{|(instance, logs), index| %>
+      <li>
+        <a id="<%=compact_instance(instance)%>-tabs" href="#<%= compact_instance(instance) %>">
+          <%= instance %>
+        </a>
+      </li>
+    <% } %>
+  </ul>
 
-  <% @raw_logs.each_with_index{|(instance, logs), index|
-    if index == 0 %>
-      <li class="active"><a href="#<%= compact_instance(instance) %>" role="tab" data-toggle="tab"><%= instance %></a></li>
-    <% else %>
-      <li><a href="#<%= compact_instance(instance) %>" role="tab" data-toggle="tab"><%= instance %></a></li>
-    <% end %>
-  <% } %>
-</ul>
-
-
-<!-- Tab panes -->
-<div class="tab-content">
-  <% @raw_logs.each_with_index{|(instance, logs), index|
-    if index == 0 %>
-      <div class="tab-pane active" id=<%= compact_instance(instance) %>>
-    <% else %>
-      <div class="tab-pane" id=<%= compact_instance(instance) %>>
-    <% end %>
-      <% logs.each{|log|
-        log =~ /([T:.\d-]+)\W+\d+\W+(\w+)\W+(.+)/ %>
-          <li><%= "#{$1} #{$2} #{$3}" %></li>
-      <% } %>
+  <!-- Tabs body -->
+  <% @raw_logs.each{|instance, logs| %>
+    <div id=<%= compact_instance(instance) %> class="panel">
+      <table class="table tablesorter log-table">
+        <thead>
+          <tr>
+            <td>Date</td>
+            <td>LOG LEVEL</td>
+            <td>LOG</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% logs.each{|log|
+          log =~ /([T:.\d-]+)\W+\d+\W+(\w+)\W+(.+)/ %>
+            <tr>
+              <td><%= $1 %></td>
+              <td><span class="label label-<%=loglevel_colors($2)%>"><%= $2 %></span></td>
+              <td><%= $3 %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
     </div>
   <% } %>
 </div>
+
