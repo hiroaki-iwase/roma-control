@@ -82,5 +82,7 @@ li.list-striped {
 }
 
 .noevent {
-  background-color: #838181;
+  background-color: #ffffff;
+  color: #808080;
+  text-align: center;
 }
