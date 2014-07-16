@@ -13,4 +13,6 @@
 //= require jquery-2.1.0
 //= require jquery.tablesorter.js
 //= require jquery.tablesorter.widgets.js
-//= require_tree .
+//= require bootstrap
+//= require validate
+//= require jquery.validate
