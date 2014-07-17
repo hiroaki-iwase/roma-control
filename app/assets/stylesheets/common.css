@@ -2,7 +2,7 @@ html, body {
   height: 100%;
 }
 
-.wrap-main .container  {
+.wrap-main .container {
   width: auto;
 }
 
@@ -17,7 +17,7 @@ html, body {
   font-size: 18px;
 }
 
-#param-detail-list {
+.param-detail-list {
   margin-bottom: 100px;
 }
 
@@ -26,6 +26,7 @@ html, body {
   height: auto;
   margin: 0 auto -50px;
   padding: 0 0 50px;
+  min-width: 1275px;
 }
 
 #footer {
@@ -33,9 +34,10 @@ html, body {
   clear: both;
   background-color: #a62316;
   color: #ffffff;
+  min-width: 1275px;
 }
 
-#footer .container p {
+#footer .container {
   text-align: center;
   padding-top: 15px;
 }
