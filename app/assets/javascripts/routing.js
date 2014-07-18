@@ -22,12 +22,5 @@ $(function(){
         widthFixed: true,
         widgets: ["filter"], 
         headers: {0: { sorter: false }},
-        //widgetOptions : { 
-        //  filter_reset : 'button.reset-filter',
-        //  filter_cssFilter : 'tablesorter-filter', 
-        //  filter_functions : {
-        //    1 : true
-        //  }
-        //} 
     });
 });
