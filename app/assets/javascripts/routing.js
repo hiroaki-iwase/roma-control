@@ -21,7 +21,6 @@ $(function(){
         sortList: [[0,0]],
         widthFixed: true,
         widgets: ["filter"], 
-        headers: {0: { sorter: false }},
     });
 
 });

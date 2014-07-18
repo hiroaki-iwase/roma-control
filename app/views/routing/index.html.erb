@@ -68,12 +68,11 @@
         <tbody>
           <%
           @routing_event.each{|event|
-            event =~ /^([-\.:T\d]+)([a-z]+)(.+)$/
-            #event =~ /^([\d]+)-([\d]+)-([\d]+)T([\.:\d]+)([a-z]+)(.+)$/
+            event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
           %>
-            <tr class="<%= $2 %>-column">
-              <td><%= $1 %></td>
-              <td><span class="label label-<%= column_color($2) %>"><%= $2 %></span> <%= $3 %></td>
+            <tr class="<%= $3 %>-column">
+              <td><%= "#{$1} #{$2}" %></td>
+              <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
             </tr>
           <% } %>
         </tbody>
