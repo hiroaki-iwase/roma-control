@@ -2,9 +2,9 @@
 
 <%= render 'cluster/modal' %>
 
-<h1><U>Cluster</U></h1>
+<h1 class="contents-name"><U>Cluster</U></h1>
 <div class="basic-information">
-  <h2><U>Health</U>:
+  <h2 class="sub-contents-name"><U>Health</U>:
     <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
       <div class="health-button red large_size" style="display: inline-block;">
         <span class="glare red large"></span>
@@ -169,7 +169,7 @@
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
   <div class="instance-table">
-    <table class="table table-bordered result-table tablesorter">
+    <table class="table table-bordered result-table tablesorter cluster-table">
       <thead>
 
         <tr>

@@ -47,13 +47,13 @@
                 <a href="/cluster/index" class="list-group-item">Cluster</a>
                 <a href="/stat/index"    class="list-group-item">Status/Configuration</a>
                 <a href="/routing/index" class="list-group-item">Routing</a>
-                <a href="/path5"      class="list-group-item">logs[toDO]</a>
+                <a href="/logs/index"    class="list-group-item">logs(Under construction)</a>
                 <a href="/path4"      class="list-group-item">Snapshot[toDO]</a>
                 <a href="/path5"      class="list-group-item">Key/Value[toDO]</a>
                 <a href="/path5"      class="list-group-item">History[toDO]</a>
               </div>
             </div><!--/col-md-3-->
-            <div class="col-md-9" id="param-detail-list">
+            <div class="col-md-9 param-detail-list">
               <%= yield %>
             </div><!--/col-md-9-->
           </div><!--/row-->
@@ -72,5 +72,6 @@
   </div><!-- /footer -->
 
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag controller.controller_name %>
 </body>
 </html>

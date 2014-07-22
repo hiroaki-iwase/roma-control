@@ -26,7 +26,7 @@ $(function(){
     })
 
     //Table sorter
-    $('table.tablesorter').tablesorter({
+    $('table.cluster-table').tablesorter({
         theme: 'default',
         sortList: [[0,0]],
         widthFixed: true,

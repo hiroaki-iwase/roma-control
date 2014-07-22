@@ -32,6 +32,11 @@
   margin-left: 30px;
 }
 
+.routing-options-list li {
+  color:#5d5d5d;
+  font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
 li.list-group-item {
   padding: 5px;
 }
@@ -82,5 +87,7 @@ li.list-striped {
 }
 
 .noevent {
-  background-color: #838181;
+  background-color: #ffffff;
+  color: #808080;
+  text-align: center;
 }
