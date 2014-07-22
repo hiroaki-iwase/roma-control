@@ -1,3 +1,5 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
 <%= render 'routing/modal' %>
 
 <h1><U>Routing</U></h1>
@@ -58,7 +60,7 @@
       </table>
 
     <% else %>
-      <table class="table table-bordered table-condensed tablesorter routing-table">
+      <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
         <thead class="history-glaph-title">
           <tr class="history-glaph-title">
             <th>date</th>
@@ -77,6 +79,22 @@
           <% } %>
         </tbody>
       </table>
+      <div id="pager" class="pager">
+        <form>
+          <%= image_tag('previous.png', :size => "20x20", :class => "first test_arrow") %>
+          <%= image_tag('fast-backward.png', :size => "20x20", :class => "prev") %>
+          <input type="text" class="pagedisplay"/>
+          <%= image_tag('fast-forward.png', :size => "20x20", :class => "next") %>
+          <%= image_tag('next.png', :size => "20x20", :class => "last") %>
+          <select class="pagesize">
+            <option selected="selected"  value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option  value="40">40</option>
+          </select>
+        </form>
+      </div>
+
     <% end %>
   </div>
 </div>

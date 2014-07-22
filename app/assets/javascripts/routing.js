@@ -16,11 +16,25 @@ $(function(){
     }
 
     //Table sorter
-    $('table.routing-table').tablesorter({
+    //$('table.routing-table').tablesorter({
+    //    theme: 'default',
+    //    sortList: [[0,0]],
+    //    widthFixed: true,
+    //    widgets: ["filter"], 
+    //});
+
+    $('table.routing-table')
+    .tablesorter({
         theme: 'default',
-        sortList: [[0,0]],
         widthFixed: true,
-        widgets: ["filter"], 
-    });
+        sortList: [[0,0]],
+        widgets : [ "uitheme", "filter"],
+    })
+    .tablesorterPager({
+        container: $("#pager"),
+        positionFixed: false
+    }); 
+   
+
 
 });
