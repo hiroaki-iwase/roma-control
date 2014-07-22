@@ -1,6 +1,8 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
 <%= render 'routing/modal' %>
 
-<h1><U>Routing</U></h1>
+<h1 class="contents-name"><U>Routing</U></h1>
 
 <div class="col-md-12 routing-information">
   <div class="col-md-6 routing-nodes">
@@ -28,8 +30,8 @@
       <li class="list-group-item">digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
       <li class="list-group-item list-striped">div_bits: <%= @stats_hash["routing"]["div_bits"] %></li>
       <li class="list-group-item">redundancy: <%= @stats_hash["routing"]["redundant"] %></li>
-      <li class="list-group-item list-striped">enabled_repetition_host_in_routing_dump: <%= @enabled_repetition_in_routingdump %></li>
-      <li class="list-group-item">enabled_repetition_host_in_booting_option: <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
+      <li class="list-group-item list-striped">enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %></li>
+      <li class="list-group-item">enabled_repetition_host? (booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
       <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
         <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
       <% end %>
@@ -58,7 +60,7 @@
       </table>
 
     <% else %>
-      <table class="table table-bordered table-condensed tablesorter routing-table">
+      <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
         <thead class="history-glaph-title">
           <tr class="history-glaph-title">
             <th>date</th>
@@ -68,22 +70,31 @@
         <tbody>
           <%
           @routing_event.each{|event|
-            event =~ /^([-\.:T\d]+)([a-z]+)(.+)$/
-            #event =~ /^([\d]+)-([\d]+)-([\d]+)T([\.:\d]+)([a-z]+)(.+)$/
+            event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
           %>
-            <tr class="<%= $2 %>-column">
-              <td><%= $1 %></td>
-              <td><span class="label label-<%= column_color($2) %>"><%= $2 %></span> <%= $3 %></td>
+            <tr class="<%= $3 %>-column">
+              <td><%= "#{$1} #{$2}" %></td>
+              <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
             </tr>
-<% if false %>
-            <tr class="<%= $5 %>-column">
-              <td><%= "#{$1}_#{$2}_#{$3} #{$4}" %></td>
-              <td><span class="label label-<%= column_color($5) %>"><%= $5 %></span> <%= $6 %></td>
-            </tr>
-<% end %>
           <% } %>
         </tbody>
       </table>
+      <div id="pager" class="pager">
+        <form>
+          <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+          <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+          <input type="text" class="pagedisplay"/>
+          <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+          <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+          <select class="pagesize">
+            <option selected="selected"  value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option  value="40">40</option>
+          </select>
+        </form>
+      </div>
+
     <% end %>
   </div>
 </div>

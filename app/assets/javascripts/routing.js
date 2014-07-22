@@ -15,12 +15,17 @@ $(function(){
       alert("Unexpected format type was sent");
     }
 
-    //Table sorter
-    $('table.routing-table').tablesorter({
+    //Table Sorter
+    $('table.routing-table')
+    .tablesorter({
         theme: 'default',
-        sortList: [[0,0]],
         widthFixed: true,
-        widgets: ["filter"], 
-        headers: {0: { sorter: false }},
-    });
+        sortList: [[0,0]],
+        widgets : [ "uitheme", "filter"],
+    })
+    .tablesorterPager({
+        container: $("#pager"),
+        positionFixed: false
+    }); 
+
 });

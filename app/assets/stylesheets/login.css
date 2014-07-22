@@ -1,7 +1,8 @@
-#grey-area {
+.grey-area {
   z-index: 0;
   background-color: #545252;
   margin-top: 100px;
+  min-width: 1275px;
 }
 
 .gladiator-explanation {
@@ -33,7 +34,7 @@
   padding-left: 65px;
 }
 
-.login-contents {
+.login-explanation {
   padding-left: 50px;
 }
 

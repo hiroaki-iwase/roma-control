@@ -1536,7 +1536,8 @@
 					// make (#) into a negative number -> (10) = -10
 					s = s.replace(/^\s*\(([.\d]+)\)/, '-$1');
 				}
-				i = parseFloat(s);
+                                // Japanese Date Format = 2014-01-01T01:23:45.678900 -> 20140101012345678900
+				i = parseFloat(s.replace(/\s|T|:|\//g,""));
 				// return the text instead of zero
 				return isNaN(i) ? $.trim(s) : i;
 			};
