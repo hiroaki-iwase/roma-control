@@ -2,47 +2,30 @@
 
 <div class="col-md-12 get-column">
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
-
-  <%= form_tag({ :controller => 'storage', :action => 'data'}, { :method => :get, :id => 'hogehoge', :class => 'hogehoge' }) do %>
-    <span><%= text_field_tag :key_name, nil, {:placeholder=>"Please input the Key"} %></span>
-
-<% if false %>
-      <% if @roma.errors.any? %>
-        <% @roma.errors.full_messages.each do |msg| %>
-          <span class="form-error-msg"><%= msg %></span>
-        <% end %>
-      <% end %>
-<% end %>
-
-    <span class="send-button">
-      <%= submit_tag " Get Value ", { :class => "btn" }%>
-      <input type="reset" value=" reset " class="btn">
-    </span>
-  <% end %>
+  <span><%= text_field_tag :key_name, nil, {:placeholder=>"Please input Key Name", :class=>"getKeyName"} %></span>
+  <%= submit_tag " Get Value ", { :class => "btn get-value-btn" } %>
 </div>
 
 <div class="col-md-12 set-column">
   <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
-
-  <%= form_tag({ :controller => 'storage', :action => 'data'}, { :method => :put, :id => 'hogehoge', :class => 'hogehoge' }) do %>
-    <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name"} %></span>
-    <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name"} %></span>
-    <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time"} %></span>
+    <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
+    <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
+    <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
     <span class="send-button">
-      <%= submit_tag " Set ", { :class => "btn" }%>
+      <%= submit_tag " Set Value ", { :class => "btn set-value-btn" }%>
       <input type="reset" value=" reset " class="btn">
     </span>
-  <% end %>
 </div>
 
 <div class="col-md-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
   
   <h4><U>Code Generater</U></h4>
-  <span>Port No.<%= text_field_tag :key_name, nil, {:placeholder=>"Key Name"} %></span>
-  <%= submit_tag " Generate ", { :class => "btn" }%>
+  <span>Port No.<%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"snapPort"} %></span>
+  <%= submit_tag " Generate ", { :class => "btn snapshot-btn" }%>
 
   <h4><U>Status</U></h4>
-  <%= @last_snapshot_data ||= "2001/01/01 12:00:00" %>
+  <%= @last_snapshot_data ||= "[ToDO]2001/01/01 12:00:00" %>
 
 </div>
+

@@ -1,7 +1,8 @@
 Gladiator::Application.routes.draw do
   # Storage
-  get "storage/index"
-  get "storage/data"
+  get  "storage/index"
+  #get  "storage/data" => "storage#get"
+  #post "storage/data" => "storage#set"
 
   # logs
   get "logs/index"
