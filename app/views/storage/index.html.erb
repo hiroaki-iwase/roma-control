@@ -21,6 +21,8 @@
       <%= submit_tag " Set Value ", { :class => "btn set-value-btn" }%>
       <input type="reset" value=" reset " class="btn">
     </span>
+
+    <div class="set-result"></div> 
 </div>
 
 
@@ -37,6 +39,4 @@
 
   <h4><U>Status</U></h4>
   <%= @last_snapshot_data ||= "[ToDO]2001/01/01 12:00:00" %>
-
 </div>
-

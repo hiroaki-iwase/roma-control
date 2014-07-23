@@ -2,15 +2,16 @@ $(function(){
 
     $('.get-value-btn').click(function () {
        var value = $('.getKeyName').val();
-       setValue(value);
+       getValue(value);
     })
 
     $('.set-value-btn').click(function () {
        var key = $('.setKeyName').val();
        var value = $('.setValueName').val();
        var expt = $('.setExptName').val();
-       alert(key + value+ expt);
+       //console.log(key + value+ expt);
        /** Call API **/
+       setValue(key, value, expt);
     })
     
 
@@ -22,7 +23,29 @@ $(function(){
        );
     })
 
-    function setValue(value) {
+    function setValue(key, value, expt) {
+        var protocol = location.protocol;
+        var host = location.host;
+        var webApiEndPoint = protocol+"//"+host+"/api/set_value";
+
+        $.ajax({
+            url: webApiEndPoint,
+            type: 'POST',
+            data: {
+                "key": key,
+                "value": value,
+                "expt": expt
+            },
+            dataType: 'text',
+            cache: false,
+        }).done(function(data){
+            $('.set-result').text(data);
+        }).fail(function(error){
+            alert("fail to access Gladiator Web API");
+        });
+    }
+
+    function getValue(value) {
         var protocol = location.protocol;
         var host = location.host;
         var webApiEndPoint = protocol+"//"+host+"/api/get_value";

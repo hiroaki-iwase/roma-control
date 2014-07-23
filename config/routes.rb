@@ -1,8 +1,7 @@
 Gladiator::Application.routes.draw do
   # Storage
   get  "storage/index"
-  #get  "storage/data" => "storage#get"
-  #post "storage/data" => "storage#set"
+  get  "storage/data" #debug
 
   # logs
   get "logs/index"
@@ -24,7 +23,8 @@ Gladiator::Application.routes.draw do
   get  "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
   get  "api/get_routing_info"
   get  "api/get_value/:key" => "api#get_value"
-  #post "api/set_value"
+  #get  "api/set_value"
+  post "api/set_value"
 
   # cluster(Top Page)
   get  "cluster/index"
