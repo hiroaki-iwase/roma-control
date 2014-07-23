@@ -4,7 +4,13 @@
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
   <span><%= text_field_tag :key_name, nil, {:placeholder=>"Please input Key Name", :class=>"getKeyName"} %></span>
   <%= submit_tag " Get Value ", { :class => "btn get-value-btn" } %>
+
+  <div class="get-result"></div> 
 </div>
+
+
+
+
 
 <div class="col-md-12 set-column">
   <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
@@ -17,12 +23,17 @@
     </span>
 </div>
 
+
+
+
 <div class="col-md-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
   
-  <h4><U>Code Generater</U></h4>
-  <span>Port No.<%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"snapPort"} %></span>
+  <h4><U>Command Generater</U></h4>
+  <span><%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %></span>
   <%= submit_tag " Generate ", { :class => "btn snapshot-btn" }%>
+  <div class="snap-command"></div>
+
 
   <h4><U>Status</U></h4>
   <%= @last_snapshot_data ||= "[ToDO]2001/01/01 12:00:00" %>

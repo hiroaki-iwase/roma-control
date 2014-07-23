@@ -30,4 +30,18 @@ class ApiController < ApplicationController
 
     render :json => response
   end
+
+  def get_value
+    key_name = params[:key]
+
+    begin
+      response = Roma.new.get_value(key_name)[-1]
+      response ||= "No data"
+    rescue => @ex
+      response = {:status=>@ex.message}
+    end
+
+    render :json => response
+  end
+
 end
