@@ -36,9 +36,6 @@
     <div class="set-result"></div> 
 </div>
 
-
-
-
 <div class="col-md-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
   
@@ -47,7 +44,31 @@
   <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
   <div class="snap-command"></div>
 
-
   <h4><U>Status</U></h4>
-  <%= @last_snapshot_data ||= "[ToDO]2001/01/01 12:00:00" %>
+
+  <%# if @run_snapshot %>
+  <% if true %>
+    <div class="snapshot-progress" id="snapshot-progress">
+      <table border="1">
+        <thead>
+          <tr>
+            <td>storage name</td>
+            <td>status</td>
+          <tr>
+        </thead>
+        <tbody>
+          <% @safecopy_stats.each_with_index{|status, index| %>
+            <tr>
+              <td><%= "#{index}.tc" %></td>
+              <td id="snapshortStatus"><%= status %></td>
+            <tr>
+          <% } %>
+        </tbody>
+      </table>
+
+    </div>
+  <% else %>
+    <U>last snapshot date:</U><br>
+    <%= @last_snapshot_data %>
+  <% end %>
 </div>
