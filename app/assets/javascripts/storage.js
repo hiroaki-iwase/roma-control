@@ -1,5 +1,11 @@
 $(function(){
 
+    // disabled submit action when Enter key will pushed in text area
+    $(document).on("keypress", "input:not(.allow_submit)", function(event) {
+      return event.which !== 13;
+    });
+
+
     $('.get-value-btn').click(function () {
        var value = $('.getKeyName').val();
        getValue(value);

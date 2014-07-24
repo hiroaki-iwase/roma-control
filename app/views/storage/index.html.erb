@@ -2,8 +2,21 @@
 
 <div class="col-md-12 get-column">
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
-  <span><%= text_field_tag :key_name, nil, {:placeholder=>"Please input Key Name", :class=>"getKeyName"} %></span>
-  <%= submit_tag " Get Value ", { :class => "btn get-value-btn" } %>
+
+  <%= form_tag('index', { :id => 'getValue' }) do %>
+    <span>
+      <%= text_field_tag :key_name, nil, {
+            :placeholder=>"Please input Key Name", 
+            :class=>"getKeyName", 
+            :name=>"keyName",
+            }
+      %>
+    </span>
+    <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
+    <!--button type="button">Get Value</button-->
+  <% end %>
+
+
 
   <div class="get-result"></div> 
 </div>
@@ -18,8 +31,8 @@
     <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
     <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
     <span class="send-button">
-      <%= submit_tag " Set Value ", { :class => "btn set-value-btn" }%>
-      <input type="reset" value=" reset " class="btn">
+      <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
+      <input type="reset" value=" reset " class="btn allow_submit">
     </span>
 
     <div class="set-result"></div> 
@@ -33,7 +46,7 @@
   
   <h4><U>Command Generater</U></h4>
   <span><%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %></span>
-  <%= submit_tag " Generate ", { :class => "btn snapshot-btn" }%>
+  <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
   <div class="snap-command"></div>
 
 

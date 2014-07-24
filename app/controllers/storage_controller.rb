@@ -9,8 +9,8 @@ class StorageController < ApplicationController
   end
 
   def data
-    res = Roma.new.set_value("hhh", "yyysdfwefw")
-    render :text => res # debug
+    #res = Roma.new.set_value("hhh", "yyysdfwefw")
+    #render :text => res # debug
   end
 
 end
