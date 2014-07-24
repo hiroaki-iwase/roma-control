@@ -1,32 +1,39 @@
 $(function(){
 
-    // disabled submit action when Enter key will pushed in text area
-    $(document).on("keypress", "input:not(.allow_submit)", function(event) {
-      return event.which !== 13;
-    });
-
-
     $('.get-value-btn').click(function () {
        var value = $('.getKeyName').val();
        getValue(value);
     })
 
     $('.set-value-btn').click(function () {
-       var key = $('.setKeyName').val();
-       var value = $('.setValueName').val();
-       var expt = $('.setExptName').val();
-       //console.log(key + value+ expt);
-       /** Call API **/
-       setValue(key, value, expt);
+        var key = $('.setKeyName').val();
+        var value = $('.setValueName').val();
+        var expt = Number($('.setExptName').val());
+
+        if ( isNaN (expt) || expt < 0 ) {
+            $('.set-result').html(
+              "<font color='red'>Expt Time should be digit & over 0</font>"
+            );
+        }else{
+          //console.log(typeof expt);
+          setValue(key, value, expt);
+        }
     })
     
 
     $('.snapshot-btn').click(function () {
-       var port = $('.snapPort').val();
-       $('.snap-command').css("background-color", "black");
-       $('.snap-command').html(
-         "$ cd ${ROMA directory}/ruby/server<br>"+"$ bin/cpdb "+ port
-       );
+        var port = Number($('.snapPort').val());
+        if ( isNaN (port) || port < 0 ) {
+            $('.snap-command').html(
+              "<font color='red'>Port No. should be digit & over 0</font>"
+            );
+        } else {
+            $('.snap-command').css("background-color", "black");
+            $('.snap-command').html(
+              "$ cd ${ROMA directory}/ruby/server<br>"
+              + "$ bin/cpdb " + port
+            );
+        }
     })
 
     function setValue(key, value, expt) {

@@ -118,16 +118,16 @@ $(document).ready(function() {
 
 
 
-    $("#getValue").validate({
-      rules: {
-        "keyName": {
-          required: true,
-          digits: true,
-          min: 1,
-          max: 2147483647
-        },
-      }
-    });
+    //$("#getValue").validate({
+    //  rules: {
+    //    "keyName": {
+    //      required: true,
+    //      digits: true,
+    //      min: 1,
+    //      max: 2147483647
+    //    },
+    //  }
+    //});
 
     //$("#testForm").validate({
     //  rules : {

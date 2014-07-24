@@ -3,24 +3,22 @@
 <div class="col-md-12 get-column">
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
 
-  <%= form_tag('index', { :id => 'getValue' }) do %>
+  <%#= form_tag('index', { :id => 'getValue' }) do %>
     <span>
       <%= text_field_tag :key_name, nil, {
             :placeholder=>"Please input Key Name", 
             :class=>"getKeyName", 
-            :name=>"keyName",
             }
       %>
     </span>
     <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
     <!--button type="button">Get Value</button-->
-  <% end %>
+  <%# end %>
 
 
 
   <div class="get-result"></div> 
 </div>
-
 
 
 
