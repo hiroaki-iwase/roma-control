@@ -1,57 +1,61 @@
 $(function(){
 
+    function validate(param, restrictBrank, onlyDigit) {
+       if(typeof restrictBrank === 'undefined') restrictBrank = false;
+       if(typeof onlyDigit === 'undefined') onlyDigit = false;
+
+       if (restrictBrank) {
+           if (!param.match(/\S/g)) {
+               return false;
+           }
+       }
+
+       if ( onlyDigit ) {
+           if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) {
+               return false;
+           }
+       }
+
+      return true;
+    }
+
+
     $('.get-value-btn').click(function () {
         var key = $('.getKeyName').val();
-
-        //if (key.size == null) {
-        //  $('.get-result').html(
-        //    "<font color='red'>Expt Time should be digit & over 0</font>"
-        //  );
-        //  return;
-        //}
-        getValue(key);
+        
+        if (validate(key, true)) {
+            getValue(key);
+        } else {
+            $('.get-result').html("<font color='red'> Please input Key name</font>");
+        }
     })
 
     $('.set-value-btn').click(function () {
         var key = $('.setKeyName').val();
         var value = $('.setValueName').val();
-        var expt = Number($('.setExptName').val());
-        //if ( key.size == null | value.size == null | expt == null ) {
-        //  $('.set-result').html(
-        //    "<font color='red'>Expt Time should be digit & over 0</font>"
-        //  );
-        //  return;
-        //}
-        //if ( isNaN (expt) || expt < 0 ) {
-        //    $('.set-result').html(
-        //      "<font color='red'>Expt Time should be digit & over 0</font>"
-        //    );
-        //}else{
-          //console.log(typeof expt);
-          setValue(key, value, expt);
-        //}
+        var expt = $('.setExptName').val();
+
+        if (!validate(key, true) || !validate(value, true)) {
+            $('.set-result').html("<font color='red'>Please input all parameters.</font>");
+        } else if (!validate(expt, true, true)) {
+            $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
+        } else {
+            setValue(key, value, parseInt(expt, 10)) 
+        }
     })
-    
 
     $('.snapshot-btn').click(function () {
-        var port = Number($('.snapPort').val());
-        //if ( !port ) {
-        //    $('.snap-command').html(
-        //        "<font color='red'>Port No. should be digit & over 0</font>"
-        //    );
-        //    return;
-        //}
-        //if ( isNaN (port) || port < 0 ) {
-        //    $('.snap-command').html(
-        //      "<font color='red'>Port No. should be digit & over 0</font>"
-        //    );
-        //} else {
-            $('.snap-command').css("background-color", "black");
+        var port = $('.snapPort').val();
+
+        $('.snap-command').css("background-color", "black");
+        if (validate(port, true, true)) {
             $('.snap-command').html(
               "$ cd ${ROMA directory}/ruby/server<br>"
-              + "$ bin/cpdb " + port
+              + "$ bin/cpdb " + parseInt(port, 10)
             );
-        //}
+        } else {
+            $('.snap-command').html("<font color='red'>Port No. should be digit & over 0</font>");
+        }
     })
 
     function setValue(key, value, expt) {
