@@ -1,4 +1,7 @@
 class ApiController < ApplicationController
+
+skip_before_filter :verify_authenticity_token # debug
+
   def get_parameter
     host = params[:host]
     port = params[:port]
@@ -30,4 +33,32 @@ class ApiController < ApplicationController
 
     render :json => response
   end
+
+  def get_value
+    key_name = params[:key]
+
+    begin
+      response = Roma.new.get_value(key_name)[-1]
+      response ||= "ERROR: No data"
+    rescue => @ex
+      response = {:status=>@ex.message}
+    end
+
+    render :json => response
+  end
+
+  def set_value
+    key_name = params[:key]
+    value = params[:value]
+    expt_time = params[:expt]
+    
+    begin
+      response = Roma.new.set_value(key_name, value, expt_time)
+    rescue => @ex
+      response = {:status=>@ex.message}
+    end
+
+    render :text => response
+  end
+
 end

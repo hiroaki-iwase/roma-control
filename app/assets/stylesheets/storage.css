@@ -1,0 +1,17 @@
+.get-column, .set-column, .snapshot-column {
+  background-color: #F8D1D1;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.get-result, .set-result {
+  color: blue;
+  font-size: 20px;
+  padding-top: 20px;
+}
+
+.snap-command {
+  color: white;
+  font-size: 15px;
+  margin-top: 20px;
+}

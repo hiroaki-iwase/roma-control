@@ -226,6 +226,15 @@ class Roma
     send_command("routingdump #{format}", "END", host, port)
   end
 
+  def get_value(keyName, host = @host, port = @port)
+    send_command("get #{keyName}", "END", host, port)
+  end
+
+  def set_value(keyName, value, expt = 0, host = @host, port = @port)
+    # [toDO]adjust for Japanese?
+    send_command("set #{keyName} 0 #{expt} #{value.size}\r\n#{value}", nil, host, port)
+  end
+
   #def get_logs(line_count, host = @host, port = @port)
   #  raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
   #  send_command("get_logs #{line_count}", "END", host, port)
