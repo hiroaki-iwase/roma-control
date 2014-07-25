@@ -20,8 +20,4 @@ class StorageController < ApplicationController
     end
   end
 
-  #[toDO] Remove
-  def data
-  end
-
 end

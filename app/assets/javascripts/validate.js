@@ -115,45 +115,4 @@ $(document).ready(function() {
         }
       }
     });
-
-
-
-    //$("#getValue").validate({
-    //  rules: {
-    //    "keyName": {
-    //      required: true,
-    //      digits: true,
-    //      min: 1,
-    //      max: 2147483647
-    //    },
-    //  }
-    //});
-
-    //$("#testForm").validate({
-    //  rules : {
-    //        id: {
-    //            required: true,
-    //            digits: true,
-    //            minlength: 3,
-    //            maxlength: 10
-    //         },
-    //         name: {
-    //            required: true
-    //         },
-    //         date: {
-    //             date: true
-    //         }
-    //  },
-    //  messages: {
-    //     id: {
-    //       required: "idは必須項目です。",
-    //       digits: "idは数値形式で入力して下さい。",
-    //       minlength: "idは3字以上で入力して下さい。",
-    //       maxlength: "idは10字以下で入力して下さい。"
-    //     },
-    //     name: "nameは必須項目です。",
-    //     date: "dateは日付形式で入力して下さい。"
-    //   }
-    //});
-
 });
