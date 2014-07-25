@@ -4,10 +4,15 @@ class StorageController < ApplicationController
 
     begin
       stats_hash = roma.get_stats
-      @run_snapshot = stats_hash["stats"]["run_snapshot"].to_boolean
-      @safecopy_stats = roma.change_roma_res_style(stats_hash["storages[roma]"]["storage.safecopy_stats"])
-      @last_snapshot_data = stats_hash["stats"]["last_snapshot"]
 
+      active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      routing_info = roma.get_routing_info(active_routing_list, 'run_snapshot')
+      routing_info.each{|instance, info|
+        flash.now[:snapshoting] = instance if info['run_snapshot']
+      }
+      gon.snapshoting = flash.now[:snapshoting]
+
+      @last_snapshot_data = stats_hash["stats"]["last_snapshot"]
     rescue => @ex
       render :template => "errors/error_500", :status => 500
     end

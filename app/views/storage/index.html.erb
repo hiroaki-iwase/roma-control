@@ -46,9 +46,9 @@
 
   <h4><U>Status</U></h4>
 
-  <%# if @run_snapshot %>
-  <% if true %>
-    <div class="snapshot-progress" id="snapshot-progress">
+  <% if flash[:snapshoting] %>
+    <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+    <div id="snapshotProgress">
       <table border="1">
         <thead>
           <tr>
@@ -57,18 +57,18 @@
           <tr>
         </thead>
         <tbody>
-          <% @safecopy_stats.each_with_index{|status, index| %>
+          <%# @safecopy_stats.each_with_index{|status, index| %>
+          <% 10.times{|i| %>
             <tr>
-              <td><%= "#{index}.tc" %></td>
-              <td id="snapshortStatus"><%= status %></td>
+              <td><%= "#{i}.tc" %></td>
+              <td id="snapshotStatus<%=i%>"></td> <!-- change by API and Jquery -->
             <tr>
           <% } %>
         </tbody>
       </table>
 
     </div>
-  <% else %>
-    <U>last snapshot date:</U><br>
-    <%= @last_snapshot_data %>
   <% end %>
+    <U>last snapshot date:</U><br>
+    <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
 </div>
