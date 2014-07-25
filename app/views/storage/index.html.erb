@@ -13,17 +13,19 @@
   <div class="get-result"></div> 
 </div>
 
-<div class="col-md-12 set-column">
-  <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
-  <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
-  <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
-  <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
-  <span class="send-button">
-    <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
-    <input type="reset" value=" reset " class="btn allow_submit">
-  </span>
-  <div class="set-result"></div> 
-</div>
+<% if session[:user_type] == 'root' %>
+  <div class="col-md-12 set-column">
+    <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
+    <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
+    <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
+    <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
+    <span class="send-button">
+      <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
+      <input type="reset" value=" reset " class="btn allow_submit">
+    </span>
+    <div class="set-result"></div> 
+  </div>
+<% end %>
 
 <div class="col-md-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
