@@ -6,6 +6,8 @@ class StorageController < ApplicationController
       stats_hash = roma.get_stats
 
       active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+
+      # [todo ] change logic
       routing_info = roma.get_routing_info(active_routing_list, 'run_snapshot')
       routing_info.each{|instance, info|
         flash.now[:snapshoting] = instance if info['run_snapshot']
@@ -18,9 +20,8 @@ class StorageController < ApplicationController
     end
   end
 
+  #[toDO] Remove
   def data
-    #res = Roma.new.set_value("hhh", "yyysdfwefw")
-    #render :text => res # debug
   end
 
 end
