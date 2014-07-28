@@ -36,7 +36,11 @@ Gladiator::Application.routes.draw do
   get "stat/edit"
   put "stat/update"
 
- 
+  # 404 Error
+  get  '*not_found' => 'application#routing_error'
+  post '*not_found' => 'application#routing_error'
+  put  '*not_found' => 'application#routing_error'
+
   #resources :stat
 
   # The priority is based upon order of creation: first created -> highest priority.
