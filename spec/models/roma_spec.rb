@@ -1,7 +1,7 @@
 #require 'spec_helper'
 require_relative 'basic_spec'
 
-puts "[Model test(roma_spec.rb)]***************************"
+puts "[Model test(roma_spec.rb)]"
 
 begin
   roma = Roma.new
@@ -342,12 +342,11 @@ describe Roma do
 
 #[login & root cmd](ph4)=================================================================
   describe "phase4" do
-    ConfigGui::ROOT_USER = [{:username => 'test_root_user', :password => 'test_root_password', :email => 'dev-act-roma1@mail.rakuten.com'}]
-    ConfigGui::NORMAL_USER = [
+    test_root_info = [{:username => 'test_root_user', :password => 'test_root_password', :email => 'dev-act-roma1@mail.rakuten.com'}]
+    test_normal_info = [
       {:username => 'test_normal_user1', :password => 'test_normal_password1', :email => ''},
       {:username => 'test_normal_user2', :password => 'test_normal_password2'},
     ]
-
 
     context "root login check(correct)" do
       username = 'test_root_user'
@@ -355,23 +354,31 @@ describe Roma do
       email = 'dev-act-roma1@mail.rakuten.com'
       expected_res = [{:username => username, :password => password, :email => email}, "root"]
 
-      it "[4-1]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+      it "[4-1]" do 
+        stub_const("ConfigGui::ROOT_USER", test_root_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res
+      end
     end
 
     context "root login check(incorrect user)" do
       username = 'hogehoge'
       password = 'test_root_password'
 
-      it "[4-2]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+      it "[4-2]" do
+        stub_const("ConfigGui::ROOT_USER", test_root_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false
+      end
     end
 
     context "root login check(incorrect password)" do
       username = 'test_root_user'
       password = 'fugafuga'
 
-      it "[4-3]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+      it "[4-3]" do
+        stub_const("ConfigGui::ROOT_USER", test_root_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false
+      end
     end
-
 
     context "normal login check(correct) with brank email" do
       username = 'test_normal_user1'
@@ -379,7 +386,10 @@ describe Roma do
       email = ''
       expected_res = [{:username => username, :password => password, :email => email}, "normal"]
 
-      it "[4-4]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+      it "[4-4]" do
+        stub_const("ConfigGui::NORMAL_USER", test_normal_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res
+      end
     end
 
     context "normal login check(correct) with no email column" do
@@ -387,28 +397,40 @@ describe Roma do
       password = 'test_normal_password2'
       expected_res = [{:username => username, :password => password}, "normal"]
 
-      it "[4-5]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res end
+      it "[4-5]" do
+        stub_const("ConfigGui::NORMAL_USER", test_normal_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to eq expected_res
+      end
     end
 
     context "normal login check(incorrect user)" do
       username = 'hogehoge'
       password = 'test_normal_password1'
 
-      it "[4-6]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+      it "[4-6]" do
+        stub_const("ConfigGui::NORMAL_USER", test_normal_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false
+      end
     end
 
     context "normal login check(incorrect password)" do
       username = 'test_normal_user1'
       password = 'fugafuga'
 
-      it "[4-7]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+      it "[4-7]" do
+        stub_const("ConfigGui::NORMAL_USER", test_normal_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false
+      end
     end
 
     context "normal login check(incorrect pattern)" do
       username = 'test_normal_user1'
       password = 'test_normal_password2'
 
-      it "[4-8]" do expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false end
+      it "[4-8]" do
+        stub_const("ConfigGui::NORMAL_USER", test_normal_info)
+        expect(User.authenticate(username, Digest::SHA1.hexdigest(password))).to be_false
+      end
     end
 
     context "get_active_routing_list" do
@@ -445,35 +467,69 @@ describe Roma do
       end
     end
 
-    context "get_routing_event" do
-      res_routing_event = Roma.new.get_routing_event
-
-      it "[5-2] Response is Array" do
-        expect(res_routing_event.class).to be Array
-      end
-    end
-
     context "get_routing_dump" do
       res_routingdump_json = Roma.new.get_routing_dump('json')
       res_routingdump_yaml = Roma.new.get_routing_dump('yaml')
 
-      it "[5-3] Response is Array" do
+      it "[5-2] Response is Array" do
         expect(res_routingdump_json.class).to be Array
         expect(res_routingdump_yaml.class).to be Array
       end
 
-      it "[5-4] Response size is 1(json)" do
+      it "[5-3] Response size is 1(json)" do
         #"routingdump json" sendback data as a 1 line
         expect(res_routingdump_json.size).to be 1
       end
 
-      it "[5-5] Response size is over 2000 in case of redundancy is 2(yaml)" do
+      it "[5-4] Response size is over 2000 in case of redundancy is 2(yaml)" do
         #"routingdump yaml" sendback data as a multi line
         expect(res_routingdump_yaml.size).to be > 2000
       end
 
-      it "[5-6] Error check in case of unavailable format type was sent" do
+      it "[5-5] Error check in case of unavailable format type was sent" do
         expect { Roma.new.get_routing_dump('xml') }.to raise_error
+      end
+    end
+  end
+
+#[Storage](ph6)=================================================================
+  describe "phase6" do
+    context "test of get/set" do
+      roma = Roma.new
+
+      key = "hoge-#{Time.now.strftime('%Y/%m/%dT%H:%M:%S')}"
+      value = "fuga-#{Time.now.strftime('%Y/%m/%dT%H:%M:%S')}"
+
+      it "[6-1] get(Response is boolean)" do
+        expect(roma.get_value(key).class).to be Array
+      end
+
+      it "[6-2] get(key size is 0 (unset key))" do
+        expect(roma.get_value(key).size).to be 0
+      end
+
+      it "[6-3] set(set correct value) " do
+        expect(roma.set_value(key, value, 0)).to eq "STORED\r\n"
+      end
+   
+      it "[6-4] get(get correct value) " do
+        expect(roma.get_value(key).size).to be 2
+      end
+
+      it "[6-5] get(get correct value) " do
+        expect(roma.get_value(key)[0].class).to be String
+      end
+
+      it "[6-6] get(get correct value) " do
+        expect(roma.get_value(key)[0]).to eq "VALUE #{key} 0 #{value.size}"
+      end
+
+      it "[6-7] get(get correct value) " do
+        expect(roma.get_value(key)[1].class).to be String
+      end
+
+      it "[6-8] get(get correct value) " do
+        expect(roma.get_value(key)[1]).to eq value
       end
     end
   end
