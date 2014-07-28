@@ -1,10 +1,10 @@
 <h1>500 - Internal Server Error</h1>
 
-<h3><%= @ex %></h3>
+<h3><%= ex %></h3>
 
 <h4>
 <%
-case @ex
+case ex
   when Errno::ECONNREFUSED
     %>
     <ul class="exception_msg">
