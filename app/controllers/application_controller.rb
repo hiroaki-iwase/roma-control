@@ -6,11 +6,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  #if !Rails.env.development?
-    rescue_from Exception,                        with: :render_500
-    rescue_from ActiveRecord::RecordNotFound,     with: :render_404
-    rescue_from ActionController::RoutingError,   with: :render_404
-  #end
+  rescue_from Exception,                        with: :render_500
+  rescue_from ActiveRecord::RecordNotFound,     with: :render_404
+  rescue_from ActionController::RoutingError,   with: :render_404
 
   def routing_error
     raise ActionController::RoutingError.new(params[:path])
@@ -20,7 +18,9 @@ class ApplicationController < ActionController::Base
     if exception
       logger.info "Rendering 404 with exception: #{exception.message}"
     end
-    render :template => "errors/error_404", :locals => {:referer => request.referer}, :status => 404, :layout => 'application'
+
+    unexpected_url = "http://#{request.host}:#{request.port.to_s + request.fullpath}"
+    render :template => "errors/error_404", :locals => {:unexpected_url => unexpected_url}, :status => 404, :layout => 'application'
   end
 
   def render_500(exception = nil)
