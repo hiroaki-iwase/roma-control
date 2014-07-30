@@ -35,21 +35,9 @@ class ApiController < ApplicationController
   def get_value
     key_name = params[:key]
 
-    Rails.logger.debug("#{key_name}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    Rails.logger.debug("#{key_name.class}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    #Rails.logger.debug("#{key_name.size}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
     begin
-      #roma = Roma.new('key_name' => key_name)
       roma = Roma.new
-
-      #if roma.valid?
-        response = roma.get_value(key_name)[-1]
-      #else
-      #  roma.errors.full_messages.each do |msg|
-      #    response = msg
-      #  end
-      #end
+      response = roma.get_value(key_name)[-1]
       response ||= "ERROR: No data"
     rescue => @ex
       response = {:status=>@ex.message}

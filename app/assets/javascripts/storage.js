@@ -23,11 +23,11 @@ $(function(){
     $('.get-value-btn').click(function () {
         var key = $('.getKeyName').val();
         
-        //if (validate(key, true)) {
+        if (validate(key, true)) {
             getValue(key);
-        //} else {
-        //    $('.get-result').html("<font color='red'> Please input Key name</font>");
-        //}
+        } else {
+            $('.get-result').html("<font color='red'> Please input Key name</font>");
+        }
     })
 
     $('.set-value-btn').click(function () {
@@ -35,13 +35,13 @@ $(function(){
         var value = $('.setValueName').val();
         var expire = $('.setExptName').val();
 
-        //if (!validate(key, true) || !validate(value, true)) {
-        //    $('.set-result').html("<font color='red'>Please input all parameters.</font>");
-        //} else if (!validate(expire, true, true)) {
-        //    $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
-        //} else {
+        if (!validate(key, true) || !validate(value, true)) {
+            $('.set-result').html("<font color='red'>Please input all parameters.</font>");
+        } else if (!validate(expire, true, true)) {
+            $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
+        } else {
             setValue(key, value, parseInt(expire, 10)) 
-        //}
+        }
     })
 
     $('.snapshot-btn').click(function () {
