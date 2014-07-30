@@ -1,16 +1,16 @@
 $(function(){
 
-    function validate(param, restrictBrank, onlyDigit) {
-       if(typeof restrictBrank === 'undefined') restrictBrank = false;
-       if(typeof onlyDigit === 'undefined') onlyDigit = false;
+    function validate(param, checkBrank, checkDigit) {
+       if(typeof checkBrank === 'undefined') checkBrank = false;
+       if(typeof checkDigit === 'undefined') checkDigit = false;
 
-       if (restrictBrank) {
+       if (checkBrank) {
            if (!param.match(/\S/g)) {
                return false;
            }
        }
 
-       if ( onlyDigit ) {
+       if ( checkDigit ) {
            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) {
                return false;
            }
@@ -23,25 +23,25 @@ $(function(){
     $('.get-value-btn').click(function () {
         var key = $('.getKeyName').val();
         
-        if (validate(key, true)) {
+        //if (validate(key, true)) {
             getValue(key);
-        } else {
-            $('.get-result').html("<font color='red'> Please input Key name</font>");
-        }
+        //} else {
+        //    $('.get-result').html("<font color='red'> Please input Key name</font>");
+        //}
     })
 
     $('.set-value-btn').click(function () {
         var key = $('.setKeyName').val();
         var value = $('.setValueName').val();
-        var expt = $('.setExptName').val();
+        var expire = $('.setExptName').val();
 
-        if (!validate(key, true) || !validate(value, true)) {
-            $('.set-result').html("<font color='red'>Please input all parameters.</font>");
-        } else if (!validate(expt, true, true)) {
-            $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
-        } else {
-            setValue(key, value, parseInt(expt, 10)) 
-        }
+        //if (!validate(key, true) || !validate(value, true)) {
+        //    $('.set-result').html("<font color='red'>Please input all parameters.</font>");
+        //} else if (!validate(expire, true, true)) {
+        //    $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
+        //} else {
+            setValue(key, value, parseInt(expire, 10)) 
+        //}
     })
 
     $('.snapshot-btn').click(function () {
@@ -58,18 +58,29 @@ $(function(){
         }
     })
 
-    function setValue(key, value, expt) {
+    function setApiEndpoint(action) {
         var protocol = location.protocol;
         var host = location.host;
-        var webApiEndPoint = protocol+"//"+host+"/api/set_value";
+        var webApiEndpoint = protocol+"//"+host+"/api/"+action;
+        return webApiEndpoint;
+    }
+
+    function setValue(key, value, expire) {
+        var webApiEndpoint = setApiEndpoint('set_value')
 
         $.ajax({
-            url: webApiEndPoint,
+            url: webApiEndpoint,
             type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(
+                    'X-CSRF-Token',
+                    $('meta[name="csrf-token"]').attr('content')
+                )
+            },
             data: {
                 "key": key,
                 "value": value,
-                "expt": expt
+                "expire": expire
             },
             dataType: 'text',
             cache: false,
@@ -81,12 +92,10 @@ $(function(){
     }
 
     function getValue(value) {
-        var protocol = location.protocol;
-        var host = location.host;
-        var webApiEndPoint = protocol+"//"+host+"/api/get_value";
+        var webApiEndpoint = setApiEndpoint('get_value')
 
         $.ajax({
-            url: webApiEndPoint+"/"+value,
+            url: webApiEndpoint+"/"+value,
             type: 'GET',
             dataType: 'text',
             cache: false,
@@ -105,13 +114,12 @@ $(function(){
     function snapshotStatusCheck(instance) {
         var host = instance.split('_')[0]
         var port = instance.split('_')[1]
-        var webApiEndPoint
 
-        webApiEndPoint = location.protocol+"//"+location.host+"/api/get_parameter";
+        var webApiEndpoint = setApiEndpoint('get_parameter')
         $('#lastSnapshotDate').text("-----");
 
         $.ajax({
-            url: webApiEndPoint+"/"+host+"/"+port,
+            url: webApiEndpoint+"/"+host+"/"+port,
             type: 'GET',
             dataType: 'json',
             cache: false,

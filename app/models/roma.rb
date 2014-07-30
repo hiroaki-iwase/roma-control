@@ -22,7 +22,10 @@ class Roma
     :pool_expire_time,
     :EMpool_maxlength,
     :EMpool_expire_time,
-    :dns_caching
+    :dns_caching,
+    #:key_name,
+    #:value,
+    :expire_time
   attr_reader :stats_hash, :stats_json
   
   validates :dcnice,
@@ -89,6 +92,19 @@ class Roma
     allow_blank: true,
     :sub_nid => true,
     presence: true
+  #validates :key_name, :value,
+  #  allow_blank: true,
+  #  presence: true,
+  #  :numericality => { 
+  #    :only_integer => true,
+  #    :greater_than_or_equal_to => 0,
+  #    :message =>' : parameter should be digit & over 0'  }
+  validates :expire_time,
+    allow_blank: true,
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 0,
+      :message =>' : parameter should be digit & over 0'  }
 
   def initialize(params = nil)
     super(params)

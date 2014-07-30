@@ -1,7 +1,5 @@
 class ApiController < ApplicationController
 
-skip_before_filter :verify_authenticity_token # debug
-
   def get_parameter
     host = params[:host]
     port = params[:port]
@@ -37,8 +35,21 @@ skip_before_filter :verify_authenticity_token # debug
   def get_value
     key_name = params[:key]
 
+    Rails.logger.debug("#{key_name}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    Rails.logger.debug("#{key_name.class}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    #Rails.logger.debug("#{key_name.size}****aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
     begin
-      response = Roma.new.get_value(key_name)[-1]
+      #roma = Roma.new('key_name' => key_name)
+      roma = Roma.new
+
+      #if roma.valid?
+        response = roma.get_value(key_name)[-1]
+      #else
+      #  roma.errors.full_messages.each do |msg|
+      #    response = msg
+      #  end
+      #end
       response ||= "ERROR: No data"
     rescue => @ex
       response = {:status=>@ex.message}
@@ -50,10 +61,17 @@ skip_before_filter :verify_authenticity_token # debug
   def set_value
     key_name = params[:key]
     value = params[:value]
-    expt_time = params[:expt]
+    expire_time = params[:expire]
     
     begin
-      response = Roma.new.set_value(key_name, value, expt_time)
+      roma = Roma.new('expire_time' => expire_time)
+
+      if roma.valid?
+        response = roma.set_value(key_name, value, expire_time)
+      else
+        roma.errors.full_messages.each { |msg| response = msg }
+      end
+
     rescue => @ex
       response = {:status=>@ex.message}
     end

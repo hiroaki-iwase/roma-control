@@ -107,12 +107,12 @@ $(document).ready(function() {
           min: 1,
           max: 86400
         },
-        "descriptor_table_size": {
-          required: true,
-          digits: true,
-          min: 1024,
-          max: 65535
-        }
+        //"descriptor_table_size": {
+        //  required: true,
+        //  digits: true,
+        //  min: 1024,
+        //  max: 65535
+        //}
       }
     });
 });

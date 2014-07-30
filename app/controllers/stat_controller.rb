@@ -10,7 +10,7 @@ class StatController < ApplicationController
   end
 
   def update
-    @key   = params[:key]
+    @key = params[:key]
     if @key == "continuous_limit"
       @value = "#{params[:continuous_start]}:#{params[:continuous_rate]}:#{params[:continuous_full]}"
     elsif @key == "sub_nid"
@@ -19,7 +19,7 @@ class StatController < ApplicationController
       @value = params[@key]
     end
     @roma = Roma.new(@key => @value)
-    
+
     if @roma.check_param(@key, @value) && @roma.valid?
       @res = @roma.change_param(@key, @value)
     end
