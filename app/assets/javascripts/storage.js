@@ -118,7 +118,7 @@ $(function(){
         }).done(function(data){
             eachStatus = data['storages[roma]']['storage.safecopy_stats'].replace(/\[|\]/g, "").split(', ');
             if (typeof gon.pastSnapshotDate === 'undefined') {
-               gon.pastSnapshotDate = data['stats']['last_snapshot'];
+               gon.pastSnapshotDate = data['stats']['gui_last_snapshot'];
             }
             jQuery.each(eachStatus, function(index, value){
                 $('#snapshotStatus'+index).text(value)
@@ -131,16 +131,15 @@ $(function(){
     } //End of snapshotStatusCheck(instance)
 
     function checkFinish(data) {
-        if (data['stats']['run_snapshot'] == 'true') {
+        if (data['stats']['gui_run_snapshot'] == 'true') {
             setTimeout(function() { snapshotStatusCheck(gon.snapshoting) }, 1000);
         }else{
-            console.log(gon.debug)
-            if (data['stats']['last_snapshot'] != gon.pastSnapshotDate) {
+            if (data['stats']['gui_last_snapshot'] != gon.pastSnapshotDate) {
                 $('#snapshotStatus').text("Finished!");
             } else {
                 $('#snapshotStatus').text("Unexpected Error: STOP snapshot");
             }
-            $('#lastSnapshotDate').text(data['stats']['last_snapshot']);
+            $('#lastSnapshotDate').text(data['stats']['gui_last_snapshot']);
             gon.snapshoting = null
             return;
         }
