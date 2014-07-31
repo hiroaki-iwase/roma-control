@@ -19,7 +19,6 @@ $(function(){
       return true;
     }
 
-
     $('.get-value-btn').click(function () {
         var key = $('.getKeyName').val();
         
@@ -42,6 +41,12 @@ $(function(){
         } else {
             setValue(key, value, parseInt(expire, 10)) 
         }
+    })
+
+    $('.set-reset-btn').click(function () {
+        $('.setKeyName').val('');
+        $('.setValueName').val('');
+        $('.setExptName').val('');
     })
 
     $('.snapshot-btn').click(function () {
