@@ -4,13 +4,13 @@ class StorageController < ApplicationController
 
     stats_hash = roma.get_stats
     active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
-    routing_info = roma.get_routing_info(active_routing_list, 'run_snapshot')
+    routing_info = roma.get_routing_info(active_routing_list, 'gui_run_snapshot')
     routing_info.each{|instance, info|
-      flash.now[:snapshoting] = instance if info['run_snapshot']
+      flash.now[:snapshoting] = instance if info['gui_run_snapshot']
     }
     gon.snapshoting = flash.now[:snapshoting]
 
-    @last_snapshot_data = stats_hash["stats"]["last_snapshot"]
+    @last_snapshot_data = stats_hash["stats"]["gui_last_snapshot"]
   end
 
 end

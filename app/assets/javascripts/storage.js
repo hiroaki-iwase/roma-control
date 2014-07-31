@@ -1,16 +1,16 @@
 $(function(){
 
-    function validate(param, restrictBrank, onlyDigit) {
-       if(typeof restrictBrank === 'undefined') restrictBrank = false;
-       if(typeof onlyDigit === 'undefined') onlyDigit = false;
+    function validate(param, checkBrank, checkDigit) {
+       if(typeof checkBrank === 'undefined') checkBrank = false;
+       if(typeof checkDigit === 'undefined') checkDigit = false;
 
-       if (restrictBrank) {
+       if (checkBrank) {
            if (!param.match(/\S/g)) {
                return false;
            }
        }
 
-       if ( onlyDigit ) {
+       if ( checkDigit ) {
            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) {
                return false;
            }
@@ -33,14 +33,14 @@ $(function(){
     $('.set-value-btn').click(function () {
         var key = $('.setKeyName').val();
         var value = $('.setValueName').val();
-        var expt = $('.setExptName').val();
+        var expire = $('.setExptName').val();
 
         if (!validate(key, true) || !validate(value, true)) {
             $('.set-result').html("<font color='red'>Please input all parameters.</font>");
-        } else if (!validate(expt, true, true)) {
+        } else if (!validate(expire, true, true)) {
             $('.set-result').html("<font color='red'>Expt Time should be digit & over 0</font>");
         } else {
-            setValue(key, value, parseInt(expt, 10)) 
+            setValue(key, value, parseInt(expire, 10)) 
         }
     })
 
@@ -58,35 +58,44 @@ $(function(){
         }
     })
 
-    function setValue(key, value, expt) {
+    function setApiEndpoint(action) {
         var protocol = location.protocol;
         var host = location.host;
-        var webApiEndPoint = protocol+"//"+host+"/api/set_value";
+        var webApiEndpoint = protocol+"//"+host+"/api/"+action;
+        return webApiEndpoint;
+    }
+
+    function setValue(key, value, expire) {
+        var webApiEndpoint = setApiEndpoint('set_value')
 
         $.ajax({
-            url: webApiEndPoint,
+            url: webApiEndpoint,
             type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(
+                    'X-CSRF-Token',
+                    $('meta[name="csrf-token"]').attr('content')
+                )
+            },
             data: {
                 "key": key,
                 "value": value,
-                "expt": expt
+                "expire": expire
             },
             dataType: 'text',
             cache: false,
         }).done(function(data){
-            $('.set-result').text(data);
+            $('.set-result').html(data);
         }).fail(function(error){
             alert("fail to access Gladiator Web API");
         });
     }
 
     function getValue(value) {
-        var protocol = location.protocol;
-        var host = location.host;
-        var webApiEndPoint = protocol+"//"+host+"/api/get_value";
+        var webApiEndpoint = setApiEndpoint('get_value')
 
         $.ajax({
-            url: webApiEndPoint+"/"+value,
+            url: webApiEndpoint+"/"+value,
             type: 'GET',
             dataType: 'text',
             cache: false,
@@ -105,20 +114,19 @@ $(function(){
     function snapshotStatusCheck(instance) {
         var host = instance.split('_')[0]
         var port = instance.split('_')[1]
-        var webApiEndPoint
 
-        webApiEndPoint = location.protocol+"//"+location.host+"/api/get_parameter";
+        var webApiEndpoint = setApiEndpoint('get_parameter')
         $('#lastSnapshotDate').text("-----");
 
         $.ajax({
-            url: webApiEndPoint+"/"+host+"/"+port,
+            url: webApiEndpoint+"/"+host+"/"+port,
             type: 'GET',
             dataType: 'json',
             cache: false,
         }).done(function(data){
             eachStatus = data['storages[roma]']['storage.safecopy_stats'].replace(/\[|\]/g, "").split(', ');
             if (typeof gon.pastSnapshotDate === 'undefined') {
-               gon.pastSnapshotDate = data['stats']['last_snapshot'];
+               gon.pastSnapshotDate = data['stats']['gui_last_snapshot'];
             }
             jQuery.each(eachStatus, function(index, value){
                 $('#snapshotStatus'+index).text(value)
@@ -131,16 +139,15 @@ $(function(){
     } //End of snapshotStatusCheck(instance)
 
     function checkFinish(data) {
-        if (data['stats']['run_snapshot'] == 'true') {
+        if (data['stats']['gui_run_snapshot'] == 'true') {
             setTimeout(function() { snapshotStatusCheck(gon.snapshoting) }, 1000);
         }else{
-            console.log(gon.debug)
-            if (data['stats']['last_snapshot'] != gon.pastSnapshotDate) {
+            if (data['stats']['gui_last_snapshot'] != gon.pastSnapshotDate) {
                 $('#snapshotStatus').text("Finished!");
             } else {
                 $('#snapshotStatus').text("Unexpected Error: STOP snapshot");
             }
-            $('#lastSnapshotDate').text(data['stats']['last_snapshot']);
+            $('#lastSnapshotDate').text(data['stats']['gui_last_snapshot']);
             gon.snapshoting = null
             return;
         }

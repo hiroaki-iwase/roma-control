@@ -22,9 +22,14 @@ class Roma
     :pool_expire_time,
     :EMpool_maxlength,
     :EMpool_expire_time,
-    :dns_caching
+    :dns_caching,
+    :key_name,
+    :value,
+    :expire_time
   attr_reader :stats_hash, :stats_json
   
+  validates_presence_of :key_name, :value, :expire_time
+
   validates :dcnice,
     allow_blank: true,
     :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5.' },
@@ -89,6 +94,12 @@ class Roma
     allow_blank: true,
     :sub_nid => true,
     presence: true
+  validates :expire_time,
+    allow_blank: true,
+    :numericality => { 
+      :only_integer => true,
+      :greater_than_or_equal_to => 0,
+      :message =>' : parameter should be digit & over 0'  }
 
   def initialize(params = nil)
     super(params)
