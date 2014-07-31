@@ -33,13 +33,11 @@ class ApiController < ApplicationController
   end
 
   def get_value
-    key_name = params[:key]
-
     begin
-      roma = Roma.new('key_name' => key_name)
+      roma = Roma.new('key_name' => params[:key])
 
       if roma.valid?
-        response = roma.get_value(key_name)[-1]
+        response = roma.get_value(params[:key])[-1]
       else
         roma.errors.full_messages.each { |msg| response = msg }
       end
@@ -53,16 +51,12 @@ class ApiController < ApplicationController
   end
 
   def set_value
-    key_name = params[:key]
-    value = params[:value]
-    expire_time = params[:expire]
-
     begin
-      roma = Roma.new('key_name' => key_name, 'value' => value, 'expire_time' => expire_time)
+      roma = Roma.new('key_name' => params[:key], 'value' => params[:value], 'expire_time' => params[:expire])
 
       response = ""
       if roma.valid?
-        response = roma.set_value(key_name, value, expire_time)
+        response = roma.set_value(params[:key], params[:value], params[:expire])
       else
         roma.errors.full_messages.each { |msg| response += "#{msg}<br>" }
       end
