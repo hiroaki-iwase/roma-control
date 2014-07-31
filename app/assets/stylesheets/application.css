@@ -10,5 +10,8 @@
  *
  *= require_self
  *= require tablesorter/theme.default
+ *= require bootstrap
+ *= require overwrite_bootstrap
+ *= require common
  *= require_tree .
  */

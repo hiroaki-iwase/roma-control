@@ -54,6 +54,7 @@ dl dd{
 .edit-explanation{
   background-color: #e8d2d2;
   border: 1px solid #ddd;
+  font-size: 16px;
   padding: 5px;
 }
 .edit-explanation-detail{

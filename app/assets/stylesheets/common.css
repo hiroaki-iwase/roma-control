@@ -1,10 +1,7 @@
 html, body {
   height: 100%;
-}
-
-.contents-name, .sub-contents-name {
-  color:#5d5d5d;
   font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color:#5d5d5d;
 }
 
 .wrap-main .container {
