@@ -2,60 +2,77 @@
 
 <div class="col-md-12 get-column">
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
-  <span>
-    <%= text_field_tag :key_name, nil, {
-          :placeholder=>"Please input Key Name", 
-          :class=>"getKeyName", 
-          }
-    %>
-  </span>
-  <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
-  <div class="get-result"></div> 
+  <div class="get-contents">
+    <span>
+      <%= text_field_tag :key_name, nil, {
+            :placeholder=>"Please input Key Name", 
+            :class=>"getKeyName", 
+            }
+      %>
+    </span>
+    <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
+    <div class="get-result"></div> 
+  </div>
 </div>
 
 <% if session[:user_type] == 'root' %>
   <div class="col-md-12 set-column">
     <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
-    <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
-    <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
-    <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
-    <span class="send-button">
-      <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
-      <input type="reset" value=" reset " class="btn allow_submit">
-    </span>
-    <div class="set-result"></div> 
+    <div class="get-contents">
+      <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
+      <span><%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %></span>
+      <span><%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %></span>
+      <span class="send-button">
+        <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
+        <input type="reset" value="reset " class="btn set-reset-btn allow_submit">
+      </span>
+      <div class="set-result"></div> 
+    </div>
   </div>
 <% end %>
 
 <div class="col-md-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
-  <h4><U>Command Generater</U></h4>
-  <span><%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %></span>
-  <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
-  <div class="snap-command"></div>
-
-  <h4><U>Status</U></h4>
-  <% if flash[:snapshoting] %>
-    <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
-    <div id="snapshotProgress">
-      <table border="1">
-        <thead>
-          <tr>
-            <td>storage name</td>
-            <td>status</td>
-          <tr>
-        </thead>
-        <tbody>
-          <% 10.times{|i| %>
-            <tr>
-              <td><%= "#{i}.tc" %></td>
-              <td id="snapshotStatus<%=i%>"></td>
-            <tr>
-          <% } %>
-        </tbody>
-      </table>
+  <div class="snap-command-area">
+    <h4><U>Command Generater</U></h4>
+    <div class="port-input-area">
+      <span><%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %></span>
+      <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
+      <div class="snap-explanation"></div>
+      <div class="snap-command"></div>
     </div>
-  <% end %>
-    <U>last snapshot date:</U><br>
-    <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+  </div>
+
+  <div class="status-area">
+    <h4><U>Status</U></h4>
+    <% if flash[:snapshoting] %>
+      <div class="snap-progress-area">
+        <h5><U>Progress:</U></h5>
+        <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+        <div id="snapshotProgress">
+          <table class="table table-bordered table-snapshot">
+            <thead>
+              <tr>
+                <td class="storage-name-column">storage name</td>
+                <td class="status-column">status</td>
+              <tr>
+            </thead>
+            <tbody>
+              <% 10.times{|i| %>
+                <tr>
+                  <td><%= "#{i}.tc" %></td>
+                  <td id="snapshotStatus<%=i%>"></td>
+                <tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="snapshot-date-area">
+      <h5><U>last snapshot date:</U></h5>
+      <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+    </div>
+  </div>
 </div>

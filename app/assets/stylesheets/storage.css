@@ -1,17 +1,66 @@
+.get-contents, .set-contents {
+  margin-left: 20px;
+}
+
 .get-column, .set-column, .snapshot-column {
-  background-color: #F8D1D1;
+  background-color: #f8d1d1;
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
 
 .get-result, .set-result {
-  color: blue;
+  color: #0000ff;
   font-size: 20px;
   padding-top: 20px;
 }
 
+.snap-command-area, .status-area {
+  margin-left: 20px;
+}
+
+.snap-explanation {
+  margin-top: 10px;
+}
+
 .snap-command {
-  color: white;
+  color: #ffffff;
   font-size: 15px;
-  margin-top: 20px;
+  font-family: 'Arial';
+  max-width: 300px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+.snap-progress-area, .snapshot-date-area {
+  margin-left: 20px;
+}
+
+#snapshotStatus {
+  color: #0000ff;
+  font-size: 16px;
+}
+
+.port-input-area, #snapshotStatus, #snapshotProgress {
+  margin-left: 20px;
+}
+
+.table thead {
+  background-color: #cccccc;
+}
+
+.table-snapshot {
+  width: 270px;
+  white-space: nowrap;
+}
+
+.table-snapshot .storage-name-column {
+  width: 115px;
+}
+
+.table-snapshot tbody {
+  background-color: #ffffff;
+}
+
+.table-snapshot .status-column {
+  max-width: 115px;
 }
