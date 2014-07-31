@@ -52,14 +52,14 @@ $(function(){
     $('.snapshot-btn').click(function () {
         var port = $('.snapPort').val();
 
-        $('.snap-command').css("background-color", "black");
         if (validate(port, true, true)) {
-            $('.snap-command').html(
-              "$ cd ${ROMA directory}/ruby/server<br>"
-              + "$ bin/cpdb " + parseInt(port, 10)
-            );
+            $('.snap-explanation').text('Please execute below command on your ROMA server');
+            $('.snap-command').css({"color":"white", "background-color":"black", "font-size":"16px"});
+            $('.snap-command').html("$ cd ${ROMA directory}/ruby/server<br>" + "$ bin/cpdb " + parseInt(port, 10));
         } else {
-            $('.snap-command').html("<font color='red'>Port No. should be digit & over 0</font>");
+            $('.snap-explanation').text('');
+            $('.snap-command').css({"color":"red", "background-color":"transparent", "font-size":"18px"});
+            $('.snap-command').text("Port No. should be digit & over 0");
         }
     })
 
@@ -150,6 +150,7 @@ $(function(){
             if (data['stats']['gui_last_snapshot'] != gon.pastSnapshotDate) {
                 $('#snapshotStatus').text("Finished!");
             } else {
+                $('#snapshotStatus').css("color", "red");
                 $('#snapshotStatus').text("Unexpected Error: STOP snapshot");
             }
             $('#lastSnapshotDate').text(data['stats']['gui_last_snapshot']);
