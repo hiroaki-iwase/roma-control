@@ -23,9 +23,13 @@ class Roma
     :EMpool_maxlength,
     :EMpool_expire_time,
     :dns_caching,
+    :key_name,
+    :value,
     :expire_time
   attr_reader :stats_hash, :stats_json
   
+  validates_presence_of :key_name, :value, :expire_time
+
   validates :dcnice,
     allow_blank: true,
     :length => { :is => 1, :message =>' : You sholud input a priority from 1 to 5.' },

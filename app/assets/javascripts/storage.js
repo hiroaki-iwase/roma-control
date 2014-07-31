@@ -85,7 +85,7 @@ $(function(){
             dataType: 'text',
             cache: false,
         }).done(function(data){
-            $('.set-result').text(data);
+            $('.set-result').html(data);
         }).fail(function(error){
             alert("fail to access Gladiator Web API");
         });
