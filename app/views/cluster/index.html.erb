@@ -281,3 +281,45 @@
     </table>
   </div>
 </div>
+
+<div class="join-command-generate">
+  <div class="join-command-area">
+    <h3><U>Command Generater</U></h3>
+    <div class="parameter-area">
+      <div class>
+        <%= text_field_tag :new_host, nil, {:placeholder=>"New instance's host.", :id=>"newHost"} %>
+        :hogehoge
+        <div class="newHost"></div>
+      </div>
+      <div>
+        <%= text_field_tag :new_port, nil, {:placeholder=>"New instance's Port No.", :id=>"newPort"} %>
+        :hoge
+        <div class="newPort"></div>
+      </div>
+      <div>
+        <%= text_field_tag :current_host, nil, {:placeholder=>"current instance's host.", :id=>"currentHost"} %>
+        :fuga
+        <div class="currentHost"></div>
+      </div>
+      <div>
+        <%= text_field_tag :current_port, nil, {:placeholder=>"current instance's Port No.", :id=>"currentPort"} %>
+        :dada
+        <div class="currentPort"></div>
+      </div>
+      <div>
+        <%= text_field_tag :config_path, @stats_hash['stats']['config_path'], {:placeholder=>"config file's path", :id=>"configPath"} %>
+        :dada
+        <div class="configPath"></div>
+      </div>
+      <div>
+        <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
+        :dada
+      </div>
+
+      <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
+
+      <div class="join-explanation"></div>
+      <div class="join-command"></div>
+    </div>
+  </div>
+</div>

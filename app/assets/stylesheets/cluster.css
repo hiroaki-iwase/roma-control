@@ -283,3 +283,20 @@ button.reset {
 #release-modal {
   text-align: left;
 }
+
+.join-command-generate {
+  background-color: #f8d1d1;
+  padding-bottom: 20px;
+}
+
+.join-command-area {
+  margin-left: 20px;
+}
+
+.parameter-area {
+  margin-left: 20px;
+}
+
+.parameter-area > div {
+  margin-bottom: 10px;
+}
