@@ -42,7 +42,7 @@
       <% if login_check? %>
         <div class="container">
           <div class="row-fluid">
-            <div class="col-md-3">
+            <div class="col-xs-3">
               <div class="list-group">
                 <a href="/cluster/index" class="list-group-item">Cluster</a>
                 <a href="/stat/index"    class="list-group-item">Status/Configuration</a>
@@ -52,10 +52,10 @@
                 <a href="/path5"      class="list-group-item">Key/Value[toDO]</a>
                 <a href="/path5"      class="list-group-item">History[toDO]</a>
               </div>
-            </div><!--/col-md-3-->
-            <div class="col-md-9 param-detail-list">
+            </div><!--/col-xs-3-->
+            <div class="col-xs-9 param-detail-list">
               <%= yield %>
-            </div><!--/col-md-9-->
+            </div><!--/col-xs-9-->
           </div><!--/row-->
         </div><!--/container-->
 

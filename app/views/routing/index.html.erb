@@ -4,8 +4,8 @@
 
 <h1 class="contents-name"><U>Routing</U></h1>
 
-<div class="col-md-12 routing-information">
-  <div class="col-md-6 routing-nodes">
+<div class="col-xs-12 routing-information">
+  <div class="col-xs-6 routing-nodes">
     <h4><U>Routing List</U></h4>
     <ul class="routing-nodes-list">
       <%
@@ -23,7 +23,7 @@
     <ul>
   </div>
   
-  <div class="col-md-6 routing-options">
+  <div class="col-xs-6 routing-options">
     <h4><U>Options</U></h4>
     <ul class="routing-options-list list-group list-group-striped">
       <li class="list-group-item list-striped">lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>
@@ -39,7 +39,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-offset-9 col-md-2 download-button">
+    <div class="col-xs-offset-9 col-xs-2 download-button">
       <button class="btn btn-success download-dump" data-toggle="modal" data-target="#download-modal">
         Download routingdump
       </button>
@@ -47,7 +47,7 @@
   </div>
 </div>
 
-<div class="col-md-12 routing-history">
+<div class="col-xs-12 routing-history">
   <h4><U>routing history</U></h4>
   <div class="routing-history-glaph">
     <% if @routing_event.size == 0 %>
