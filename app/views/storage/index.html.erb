@@ -1,6 +1,6 @@
 <h1 class="contents-name"><U>Data</U></h1>
 
-<div class="col-md-12 get-column">
+<div class="col-xs-12 get-column">
   <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
   <div class="get-contents">
     <span>
@@ -16,7 +16,7 @@
 </div>
 
 <% if session[:user_type] == 'root' %>
-  <div class="col-md-12 set-column">
+  <div class="col-xs-12 set-column">
     <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
     <div class="get-contents">
       <span><%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %></span>
@@ -31,7 +31,7 @@
   </div>
 <% end %>
 
-<div class="col-md-12 snapshot-column">
+<div class="col-xs-12 snapshot-column">
   <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
   <div class="snap-command-area">
     <h4><U>Command Generater</U></h4>
