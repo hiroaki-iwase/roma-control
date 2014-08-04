@@ -307,20 +307,12 @@
         <div class="configPath"></div>
       </div>
       <div>
-        <%= text_field_tag :current_host, nil, {:placeholder=>"current instance's host.", :id=>"currentHost", :size=>"25"} %>
-        :exsiting(receptible) instance's IP address(or Host name).
-        <div class="currentHost"></div>
-      </div>
-      <div>
-        <%= text_field_tag :current_port, nil, {:placeholder=>"current instance's Port No.", :id=>"currentPort", :size=>"25"} %>
-        :exsiting(receptible) instance's Port No.
-        <div class="currentPort"></div>
-      </div>
-      <div>
         <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
         : Use "--enabled_repeathost" option? (Do you wanna boot all instance on single server?)
       </div>
-  
+
+      <%= hidden_field_tag :current_host, ConfigGui::HOST, {:id=>"currentHost"} %>
+      <%= hidden_field_tag :current_port,  ConfigGui::PORT, {:id=>"currentPort"} %>
       <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
   
       <div class="join-explanation"></div>
