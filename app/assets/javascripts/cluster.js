@@ -242,7 +242,7 @@ $(function(){
 
     function generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption) {
         $('.join-explanation').text("Please execute below command on your ROMA server.");
-        $('.join-command').css({"color":"white", "background-color":"black"});
+        $('.join-command').css({"padding":"10px"});
         $('.join-command').html(
             "$ cd ${ROMA directory}/ruby/server<br>" + 
             "$ bin/romad "+newHost+" -p "+newPort+" -d -j "+currentHost+"_"+currentPort+" --config "+configPath+" "+repetitionOption
@@ -261,6 +261,7 @@ $(function(){
             if (validate(value, checkBrank, checkDigit)) {
                 $('.'+key).text('');
                 $('.join-explanation').text("");
+                $('.join-command').css({"padding": "0"});
                 $('.join-command').text("");
             } else {
                 $('.'+key).css({"color":"red"});

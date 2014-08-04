@@ -295,6 +295,7 @@ button.reset {
   height: auto;
   background: #fce9e7;
   padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 .join-command-generate {
@@ -317,4 +318,10 @@ button.reset {
 
 .join-generate-btn {
   margin-bottom: 10px;
+}
+
+.join-command {
+  background-color: #0f192a;
+  border-radius: 10px;
+  color: #d1edff;
 }
