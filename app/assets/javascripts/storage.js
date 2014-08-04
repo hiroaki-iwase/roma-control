@@ -44,9 +44,7 @@ $(function(){
     })
 
     $('.set-reset-btn').click(function () {
-        $('.setKeyName').val('');
-        $('.setValueName').val('');
-        $('.setExptName').val('');
+        resetSetParam();
     })
 
     $('.snapshot-btn').click(function () {
@@ -54,12 +52,14 @@ $(function(){
 
         if (validate(port, true, true)) {
             $('.snap-explanation').text('Please execute below command on your ROMA server');
-            $('.snap-command').css({"color":"white", "background-color":"black", "font-size":"16px"});
+            $('.snap-command').css({"padding":"10px"});
             $('.snap-command').html("$ cd ${ROMA directory}/ruby/server<br>" + "$ bin/cpdb " + parseInt(port, 10));
+            $('.snap-command-error').text('');
         } else {
             $('.snap-explanation').text('');
-            $('.snap-command').css({"color":"red", "background-color":"transparent", "font-size":"18px"});
-            $('.snap-command').text("Port No. should be digit & over 0");
+            $('.snap-command').css({"padding":"0"});
+            $('.snap-command').text('');
+            $('.snap-command-error').text("Port No. should be digit & over 0");
         }
     })
 
@@ -90,10 +90,24 @@ $(function(){
             dataType: 'text',
             cache: false,
         }).done(function(data){
-            $('.set-result').html(data);
+            $('#set-modal').modal({
+                show: true
+            })
+            resetSetParam();
         }).fail(function(error){
             alert("fail to access Gladiator Web API");
         });
+    }
+
+    $(".close-modal-btn").click(function() {
+       $('#set-modal').modal('hide');
+    });
+
+    function resetSetParam() {
+        $('.setKeyName').val('');
+        $('.setValueName').val('');
+        $('.setExptName').val('');
+        $('.set-result').text('');
     }
 
     function getValue(value) {
