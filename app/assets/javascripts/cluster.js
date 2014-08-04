@@ -290,14 +290,17 @@ $(function(){
        return true;
     }
 
+    // accordion panel(join)
     $("dd").css("display","none");
 
-    $(".join-command-generate dt").click(function(){
+    $(".join-command-generate .join-command-title").click(function(){
         if($("+dd",this).css("display")=="none"){
             $("dd").slideUp("slow");
             $("+dd",this).slideDown("slow");
+            $(".accordion-status").html("<i class='icon-chevron-down'></i>");
         }else{
             $("dd").slideUp("slow");
+            $(".accordion-status").html("<i class='icon-chevron-right'></i>");
         }
     });
 

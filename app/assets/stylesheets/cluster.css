@@ -286,7 +286,7 @@ button.reset {
 /**---------------------------------------------
   Join command gerenator
 ------------------------------------------------**/
-.join-command-generate dt {
+.join-command-generate .join-command-title {
   cursor: pointer;
   height: 30px;
 }
@@ -299,9 +299,11 @@ button.reset {
 
 .join-command-generate {
   background-color: #f8d1d1;
+  margin-top: 25px;
 }
 
 .join-command-title {
+  font-size: 20px;
   margin-left: 20px;
 }
 
