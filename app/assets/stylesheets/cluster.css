@@ -225,29 +225,6 @@ td.progress-bar-column {
   font-size: 17px;
 }
 
-/**-----------------------------------------
-  table sorter
--------------------------------------------- **/
-.tablesorter-default .tablesorter-filter {
-  margin: -5px;
-}
-
-.tablesorter-default {
-  font: 15px/18px Arial, Sans-serif;
-}
-
-.tablesorter-default thead .tablesorter-headerAsc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter-default thead .tablesorter-headerDesc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter .tablesorter-filter.disabled {
-  display:none;
-}
-
 /**----------------------------------------
   btn
 ------------------------------------------- **/
