@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  /*background-color: red;*/
 }
 dl {
   width: auto;
@@ -19,7 +18,6 @@ dl dt {
   padding: 0 0 0 5px;
 }
 dl dd {
-  /*background:#eeeeee;*/
   background: #fce9e7;
   border-top: none;
   height: auto;
@@ -40,6 +38,7 @@ dl dd {
   color: #6f3737;
   text-decoration: none;
 }
+
 /** edit page **/
 .edit-title h2 {
   background-color: #e8d2d2;
@@ -82,7 +81,7 @@ dl dd {
   margin: 10px;
 }
 table.table.result-table th {
-  background-color: #BA7878;
+  background-color: #cccccc;
 }
 label.error {
   margin-left: 5px;

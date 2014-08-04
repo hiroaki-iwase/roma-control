@@ -25,6 +25,25 @@ $(function(){
         $("#release-hidden-value").attr("value", e.relatedTarget.name);
     })
 
+    $("#repetitionCheck").click(function() {
+        if($(this).is(':checked')) {
+            $('#repetition-modal').modal({
+                show: true,
+                keyboard: false
+            })
+        }
+    });
+
+    $(".activate-repetition-btn").click(function() {
+       $('#repetition-modal').modal('hide');
+    });
+
+    $(".deactivate-repetition-btn").click(function() {
+       $('#repetitionCheck').attr("checked", false);
+       $('#repetition-modal').modal('hide');
+    });
+
+
     //Table sorter
     $('table.cluster-table').tablesorter({
         theme: 'default',
@@ -200,5 +219,91 @@ $(function(){
         if(typeof host === 'undefined') host = location.host;
         window.location.assign(protocol+"//"+host+"/cluster/index");
     }
+
+    //join command generator
+    $('.join-generate-btn').click(function () {
+        var newHost = $('#newHost').val();
+        var newPort = $('#newPort').val();
+        var currentHost = $('#currentHost').val();
+        var currentPort = $('#currentPort').val();
+        var configPath = $('#configPath').val();
+        if ($("#repetitionCheck").prop('checked')) {
+            var repetitionOption = "--enabled_repeathost"
+        }
+        else {
+            var repetitionOption = ""
+        }
+
+        var params =  { 'newHost' : newHost, 'currentHost': currentHost, 'newPort' : newPort, 'currentPort': currentPort, 'configPath': configPath };
+        if (checkParams(params)) {
+            generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption)
+        }
+    })
+
+    function generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption) {
+        $('.join-explanation').text("Please execute below command on your ROMA server.");
+        $('.join-command').css({"padding":"10px"});
+        $('.join-command').html(
+            "$ cd ${ROMA directory}/ruby/server<br>" + 
+            "$ bin/romad "+newHost+" -p "+newPort+" -d -j "+currentHost+"_"+currentPort+" --config "+configPath+" "+repetitionOption
+        );
+    }
+
+    function checkParams(params) {
+        checkParams.result = true
+        jQuery.each(params, function(key, value) {
+            var checkBrank = true;
+            var checkDigit = true;
+            if (key.match(/^(newHost|currentHost|configPath)$/)) {
+                checkDigit = false;
+            }
+
+            if (validate(value, checkBrank, checkDigit)) {
+                $('.'+key).text('');
+                $('.join-explanation').text("");
+                $('.join-command').css({"padding": "0"});
+                $('.join-command').text("");
+            } else {
+                $('.'+key).css({"color":"red"});
+                if (checkDigit) {
+                    $('.'+key).text("This param should be digit & over 0");
+                } else {
+                    $('.'+key).text("This param can't be brank");
+                }
+                checkParams.result = false
+            }
+        });
+        
+        if (checkParams.result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function validate(param, checkBrank, checkDigit) {
+        if ( checkBrank ) {
+            if (!param.match(/\S/g)) { return false; }
+        }
+        if ( checkDigit ) {
+            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) { return false; }
+        }
+       return true;
+    }
+
+    // accordion panel(join)
+    $("dd").css("display","none");
+
+    $(".join-command-generate .join-command-title").click(function(){
+        if($("+dd",this).css("display")=="none"){
+            $("dd").slideUp("slow");
+            $("+dd",this).slideDown("slow");
+            $(".accordion-status").html("<i class='icon-chevron-down'></i>");
+        }else{
+            $("dd").slideUp("slow");
+            $(".accordion-status").html("<i class='icon-chevron-right'></i>");
+        }
+    });
+
 
 });
