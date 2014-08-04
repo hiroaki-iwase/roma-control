@@ -93,7 +93,7 @@
 }
 
 .extra-process {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
 }
 
 .status-caution {
@@ -190,8 +190,7 @@ li.version-diff-info {
 }
 
 .instances-information{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
+  background-color: #f8d1d1;
   padding: 5px;
   margin-top: 20px;
 }
@@ -284,19 +283,36 @@ button.reset {
   text-align: left;
 }
 
-.join-command-generate {
-  background-color: #f8d1d1;
-  padding-bottom: 20px;
+/**---------------------------------------------
+  Join command gerenator
+------------------------------------------------**/
+.join-command-generate dt {
+  cursor: pointer;
+  height: 30px;
 }
 
-.join-command-area {
+.join-command-generate dd {
+  height: auto;
+  background: #fce9e7;
+  padding-top: 10px;
+}
+
+.join-command-generate {
+  background-color: #f8d1d1;
+}
+
+.join-command-title {
   margin-left: 20px;
 }
 
 .parameter-area {
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 .parameter-area > div {
+  margin-bottom: 10px;
+}
+
+.join-generate-btn {
   margin-bottom: 10px;
 }

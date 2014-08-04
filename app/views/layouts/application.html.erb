@@ -4,7 +4,8 @@
 <head>
   <title>Gladiator</title>
   <%= include_gon %>
-  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= stylesheet_link_tag controller.controller_name , media: "all" %>
   <%= csrf_meta_tags %>
 </head>
 

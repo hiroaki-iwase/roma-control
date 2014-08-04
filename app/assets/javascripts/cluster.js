@@ -290,4 +290,16 @@ $(function(){
        return true;
     }
 
+    $("dd").css("display","none");
+
+    $(".join-command-generate dt").click(function(){
+        if($("+dd",this).css("display")=="none"){
+            $("dd").slideUp("slow");
+            $("+dd",this).slideDown("slow");
+        }else{
+            $("dd").slideUp("slow");
+        }
+    });
+
+
 });

@@ -283,43 +283,48 @@
 </div>
 
 <div class="join-command-generate">
-  <div class="join-command-area">
-    <h3><U>Command Generater</U></h3>
+  <dt>
+    <div class="join-command-title">
+      <h3><U>Join Command Generater</U></h3>
+    </div>
+  </dt>
+    
+  <dd>
     <div class="parameter-area">
-      <div class>
-        <%= text_field_tag :new_host, nil, {:placeholder=>"New instance's host.", :id=>"newHost"} %>
-        :hogehoge
+      <div>
+        <%= text_field_tag :new_host, nil, {:placeholder=>"New instance's host.", :id=>"newHost", :size=>"25"} %>
+        :new instance's IP address(or Host name).
         <div class="newHost"></div>
       </div>
       <div>
-        <%= text_field_tag :new_port, nil, {:placeholder=>"New instance's Port No.", :id=>"newPort"} %>
-        :hoge
+        <%= text_field_tag :new_port, nil, {:placeholder=>"New instance's Port No.", :id=>"newPort", :size=>"25"} %>
+        :new instance's port No.
         <div class="newPort"></div>
       </div>
       <div>
-        <%= text_field_tag :current_host, nil, {:placeholder=>"current instance's host.", :id=>"currentHost"} %>
-        :fuga
-        <div class="currentHost"></div>
-      </div>
-      <div>
-        <%= text_field_tag :current_port, nil, {:placeholder=>"current instance's Port No.", :id=>"currentPort"} %>
-        :dada
-        <div class="currentPort"></div>
-      </div>
-      <div>
-        <%= text_field_tag :config_path, @stats_hash['stats']['config_path'], {:placeholder=>"config file's path", :id=>"configPath"} %>
-        :dada
+        <%= text_field_tag :config_path, @stats_hash['stats']['config_path'], {:placeholder=>"config file's path", :id=>"configPath", :size=>"50"} %>
+        :new instance's "config.rb"'s PATH.
         <div class="configPath"></div>
       </div>
       <div>
-        <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
-        :dada
+        <%= text_field_tag :current_host, nil, {:placeholder=>"current instance's host.", :id=>"currentHost", :size=>"25"} %>
+        :exsiting(receptible) instance's IP address(or Host name).
+        <div class="currentHost"></div>
       </div>
-
+      <div>
+        <%= text_field_tag :current_port, nil, {:placeholder=>"current instance's Port No.", :id=>"currentPort", :size=>"25"} %>
+        :exsiting(receptible) instance's Port No.
+        <div class="currentPort"></div>
+      </div>
+      <div>
+        <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
+        : Use "--enabled_repeathost" option? (Do you wanna boot all instance on single server?)
+      </div>
+  
       <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
-
+  
       <div class="join-explanation"></div>
       <div class="join-command"></div>
     </div>
-  </div>
+  </dd>
 </div>
