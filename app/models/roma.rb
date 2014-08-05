@@ -111,43 +111,17 @@ class Roma
     super(params)
     @host = ConfigGui::HOST
     @port = ConfigGui::PORT
-
     init_sender
   end
-
-
 
   def init_sender
     @sender = Sender.new
   end
   private :init_sender
 
-  def version
-    #raise RuntimeError.new("Unsupported yet") # TODO
-    @sender.send_version_command("#{@host}_#{@port}")
-    #send_command('version')
-  end
-
   # new logic
   def send_command(command, value = nil, receiver = nil, host = @host, port = @port)
-
     res = @sender.send_command("#{@host}_#{@port}", command, value, receiver)
-
-    #unless eof
-    #  @res = sock.gets
-    #else
-    #  @res = []
-    #  sock.each{|s|
-    #    break if s == "#{eof}\r\n"
-    #    @res.push(s.chomp)
-    #    #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
-    #    raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
-    #  }
-    #end
-
-    #sock.close
-
-    #return @res
   end
 
   #past logic
@@ -173,17 +147,15 @@ class Roma
   #  return @res
   #end
 
-
-
-
   def get_stats(host = @host, port = @port)
-    stats_array = send_command('stats', 'END', host, port)
+    stats_array = send_command('stats', nil, 'multiplelines_receiver') # new logic
+    #stats_array = send_command('stats', 'END', host, port) #past logic
 
     @stats_hash = Hash.new { |hash,key| hash[key] = Hash.new {} }
     stats_array.each{|a|
       key   = a.split(/\s/)[0].split(".", 2)
       value = a.split(/\s/, 2)[1]
-    
+ 
       if key.size == 1
         @stats_hash["others"][key[0]] = value
       else key.size == 2
@@ -194,55 +166,10 @@ class Roma
     @stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
   end
-  
-  def check_param(k, v)
-    if v.nil?
-      errors.add(k, " : This value is required.")
-      return false
-    elsif ["auto_recover", "dns_caching"].include?(k) && !["false", "true"].include?(v)
-      errors.add(k, " : Unexpected Error. This value is required")
-      return false
-    elsif k == "lost_action" && !["auto_assign", "shutdown"].include?(v)
-      errors.add(k, " : Unexpected Error. This value is required")
-      return false
-    else
-      true
-    end
-  end
-
-  def change_param(k, v)
-    res = send_command("#{ApplicationController.helpers.change_cmd(k)} #{v}", nil)
-
-    begin
-      res_hash = change_roma_res_style(res)
-    rescue
-      errors.add(k, "was not updated. Unexpection Error( #{res} ).")
-    end
-
-    return res_hash
-  end
 
   def get_all_routing_list
-    send_command('get_routing_history')
-  end
-
-  def initialize_instance(option_params=nil)
-    roma_instance_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
-
-    get_all_routing_list.each{|instance|
-      roma_instance_info[instance]["status"] = "inactive"
-      roma_instance_info[instance]["size"] = nil
-      roma_instance_info[instance]["version"] = nil
-      roma_instance_info[instance]["primary_nodes"] = nil
-      roma_instance_info[instance]["secondary_nodes"] = nil
-      unless option_params.empty?
-        option_params.each{|param|
-          roma_instance_info[instance][param] = nil
-        }
-      end
-    }
-
-    roma_instance_info
+    #send_command('get_routing_history') # past logic
+    @sender.send_command("#{@host}_#{@port}", 'get_routing_history', nil, 'multiplelines_receiver') # new logic
   end
 
   def get_routing_info(active_routing_list, *option_params)
@@ -293,6 +220,66 @@ class Roma
     return routing_list_info
   end
 
+
+
+
+
+
+
+
+  #def version
+  #  #raise RuntimeError.new("Unsupported yet") # TODO
+  #  @sender.send_version_command("#{@host}_#{@port}")
+  #  #send_command('version')
+  #end
+
+
+  def check_param(k, v)
+    if v.nil?
+      errors.add(k, " : This value is required.")
+      return false
+    elsif ["auto_recover", "dns_caching"].include?(k) && !["false", "true"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
+    elsif k == "lost_action" && !["auto_assign", "shutdown"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
+    else
+      true
+    end
+  end
+
+  def change_param(k, v)
+    res = send_command("#{ApplicationController.helpers.change_cmd(k)} #{v}", nil)
+
+    begin
+      res_hash = change_roma_res_style(res)
+    rescue
+      errors.add(k, "was not updated. Unexpection Error( #{res} ).")
+    end
+
+    return res_hash
+  end
+
+  def initialize_instance(option_params=nil)
+    roma_instance_info = Hash.new { |hash,key| hash[key] = Hash.new {} }
+
+    get_all_routing_list.each{|instance|
+      roma_instance_info[instance]["status"] = "inactive"
+      roma_instance_info[instance]["size"] = nil
+      roma_instance_info[instance]["version"] = nil
+      roma_instance_info[instance]["primary_nodes"] = nil
+      roma_instance_info[instance]["secondary_nodes"] = nil
+      unless option_params.empty?
+        option_params.each{|param|
+          roma_instance_info[instance][param] = nil
+        }
+      end
+    }
+
+    roma_instance_info
+  end
+
   def get_active_routing_list(stats_hash)
     change_roma_res_style(stats_hash["routing"]["nodes"])
   end
@@ -322,6 +309,8 @@ class Roma
 
   # roma_res is response messages from ROMA when some command is executed
   def change_roma_res_style(roma_res)
+    raise ArgumentError, "#{__method__} support only String type argument" if roma_res.class != String
+
     case roma_res[0]
     when "{"
       roma_res = roma_res.delete('"|{|}').chomp
