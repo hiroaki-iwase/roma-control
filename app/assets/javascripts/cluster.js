@@ -237,6 +237,8 @@ $(function(){
         var params =  { 'newHost' : newHost, 'currentHost': currentHost, 'newPort' : newPort, 'currentPort': currentPort, 'configPath': configPath };
         if (checkParams(params)) {
             generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption)
+        } else {
+            resetResult();
         }
     })
 
@@ -249,31 +251,50 @@ $(function(){
         );
     }
 
+    function resetResult() {
+        $('.join-explanation').text("");
+        $('.join-command').css({"padding": "0"});
+        $('.join-command').text("");
+    }
+
     function checkParams(params) {
         checkParams.result = true
+
         jQuery.each(params, function(key, value) {
             var checkBrank = true;
-            var checkDigit = true;
+            var checkDigit = true
+            var checkMultiByte = true
+
             if (key.match(/^(newHost|currentHost|configPath)$/)) {
                 checkDigit = false;
             }
 
-            if (validate(value, checkBrank, checkDigit)) {
-                $('.'+key).text('');
-                $('.join-explanation').text("");
-                $('.join-command').css({"padding": "0"});
-                $('.join-command').text("");
-            } else {
+            if (res = validate(value, checkBrank, checkDigit, checkMultiByte)) {
                 $('.'+key).css({"color":"red"});
-                if (checkDigit) {
-                    $('.'+key).text("This param should be digit & over 0");
-                } else {
-                    $('.'+key).text("This param can't be brank");
+                switch (res) {
+                    case 'nonDigit':
+                        $('.'+key).text("This param should be digit & over 0");
+                        break;
+                    case 'brank':
+                        $('.'+key).text("This param can't be brank");
+                        break;
+                    case 'unexpected':
+                        $('.'+key).text("This param include unexpected character.");
+                        break;
                 }
                 checkParams.result = false
+            } else {
+                //remove error message
+                $('.'+key).text('');
             }
         });
-        
+
+        if ( duplicateCheck(params) ) {
+            $('.newHost').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
+            $('.newPort').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
+            checkParams.result = false
+        }
+
         if (checkParams.result) {
             return true;
         } else {
@@ -281,14 +302,25 @@ $(function(){
         }
     }
 
-    function validate(param, checkBrank, checkDigit) {
+    function validate(param, checkBrank, checkDigit, checkMultiByte) {
         if ( checkBrank ) {
-            if (!param.match(/\S/g)) { return false; }
+            if (!param.match(/\S/g)) { return 'brank'; }
         }
         if ( checkDigit ) {
-            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) { return false; }
+            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) { return 'nonDigit'; }
         }
-       return true;
+        if ( checkMultiByte ) {
+            if ( !param.match(/^[a-zA-Z0-9\/\._]+$/)) { return 'unexpected'; }
+        }
+       return false;
+    }
+
+    function duplicateCheck(params) {
+        var newInstance = params['newHost']+"_"+params['newPort'];    
+        if ( $.inArray(newInstance,gon.active_routing_list) >= 0 ) {
+            return true;
+        }
+        return false;
     }
 
     // accordion panel(join)
