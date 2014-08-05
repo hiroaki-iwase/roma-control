@@ -1,3 +1,7 @@
+html, body {
+  font-family: 'Arial';
+}
+
 .grey-area {
   z-index: 0;
   background-color: #545252;

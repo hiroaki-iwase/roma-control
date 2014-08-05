@@ -281,3 +281,41 @@
     </table>
   </div>
 </div>
+
+<div class="join-command-generate">
+    <div class="join-command-title">
+      <U>Join Command Generater</U>
+      <span class="accordion-status"><i class="icon-chevron-right"></i></span>
+    </div>
+    
+  <dd>
+    <div class="parameter-area">
+      <div>
+        <%= text_field_tag :new_host, nil, {:placeholder=>"New instance's host.", :id=>"newHost", :size=>"25"} %>
+        :new instance's IP address(or Host name).
+        <div class="newHost"></div>
+      </div>
+      <div>
+        <%= text_field_tag :new_port, nil, {:placeholder=>"New instance's Port No.", :id=>"newPort", :size=>"25"} %>
+        :new instance's port No.
+        <div class="newPort"></div>
+      </div>
+      <div>
+        <%= text_field_tag :config_path, @stats_hash['stats']['config_path'], {:placeholder=>"config file's path", :id=>"configPath", :size=>"50"} %>
+        :new instance's [config.rb]'s PATH.
+        <div class="configPath"></div>
+      </div>
+      <div>
+        <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
+        : Use "--enabled_repeathost" option? (Do you want to boot all instance on single server?)
+      </div>
+
+      <%= hidden_field_tag :current_host, ConfigGui::HOST, {:id=>"currentHost"} %>
+      <%= hidden_field_tag :current_port,  ConfigGui::PORT, {:id=>"currentPort"} %>
+      <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
+  
+      <div class="join-explanation"></div>
+      <div class="join-command"></div>
+    </div>
+  </dd>
+</div>

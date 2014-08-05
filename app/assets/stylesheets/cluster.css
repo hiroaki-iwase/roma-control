@@ -93,7 +93,7 @@
 }
 
 .extra-process {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
 }
 
 .status-caution {
@@ -190,8 +190,7 @@ li.version-diff-info {
 }
 
 .instances-information{
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
+  background-color: #f8d1d1;
   padding: 5px;
   margin-top: 20px;
 }
@@ -226,29 +225,6 @@ td.progress-bar-column {
   font-size: 17px;
 }
 
-/**-----------------------------------------
-  table sorter
--------------------------------------------- **/
-.tablesorter-default .tablesorter-filter {
-  margin: -5px;
-}
-
-.tablesorter-default {
-  font: 15px/18px Arial, Sans-serif;
-}
-
-.tablesorter-default thead .tablesorter-headerAsc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter-default thead .tablesorter-headerDesc {
-  border-bottom: #428bca 2px solid;
-}
-
-.tablesorter .tablesorter-filter.disabled {
-  display:none;
-}
-
 /**----------------------------------------
   btn
 ------------------------------------------- **/
@@ -273,6 +249,7 @@ button.reset {
   font-size: 16px;
   margin-top: 10px;
   margin-left: 50px;
+  font-family: 'Arial';
 }
 
 .modal-body .modal-explanation-detail {
@@ -281,4 +258,48 @@ button.reset {
 
 #release-modal {
   text-align: left;
+}
+
+/**---------------------------------------------
+  Join command gerenator
+------------------------------------------------**/
+.join-command-generate .join-command-title {
+  cursor: pointer;
+  height: 30px;
+}
+
+.join-command-generate dd {
+  height: auto;
+  background: #fce9e7;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.join-command-generate {
+  background-color: #f8d1d1;
+  margin-top: 25px;
+}
+
+.join-command-title {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.parameter-area {
+  margin-left: 40px;
+}
+
+.parameter-area > div {
+  margin-bottom: 10px;
+}
+
+.join-generate-btn {
+  margin-bottom: 10px;
+}
+
+.join-command {
+  background-color: #0f192a;
+  border-radius: 10px;
+  color: #d1edff;
+  margin-right: 30px;
 }

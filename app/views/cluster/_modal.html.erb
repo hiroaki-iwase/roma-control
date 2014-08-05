@@ -115,3 +115,24 @@
     </div>
   </div>
 </div><!-- End of Recover Modal -->
+
+<!-- repetition Check Modal -->
+<div class="modal fade" id="repetition-modal" tabindex="-1" role="dialog" aria-labelledby="repetitionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="repetitionModalLabel">Do you want to add enabled_repeathost option?</h4>
+      </div>
+      <div class="modal-body">
+        This option is only for debug env and ROMA is booting on single server.
+        Basically this options is not required.
+      </div>
+      <div class="modal-footer">
+        Use this option?
+        <span><%= submit_tag " YES ", { :class => "btn activate-repetition-btn", :type=>"button" } %></span>
+        <span><%= submit_tag " NO ", { :class => "btn deactivate-repetition-btn", :type=>"button" } %></span>
+      </div>
+    </div>
+  </div>
+</div><!-- End of repetition Check Modal -->

@@ -1,15 +1,14 @@
-*{
+* {
   margin: 0;
   padding: 0;
-  /*background-color: red;*/
 }
-dl{
+dl {
   width: auto;
   margin:20px auto;
   background: #f9f3f3;
   color: #6f3737;
 }
-dl dt{
+dl dt {
   background: #debdbd;
   border-bottom: 1px solid #FFFFFF;
   cursor: pointer;
@@ -18,76 +17,77 @@ dl dt{
   vertical-align: middle;
   padding: 0 0 0 5px;
 }
-dl dd{
-  /*background:#eeeeee;*/
+dl dd {
   background: #fce9e7;
   border-top: none;
   height: auto;
   font-size: 20px;
 }
-.tooltip-inner{
+.tooltip-inner {
   max-width: 300px;
   font-size: 16px;
   text-align: left;
 }
-.table .no-data-col{
+.table .no-data-col {
   background-color: #408080;
 }
-.table .not-change-col{
+.table .not-change-col {
   background-color: grey;
 }
-.table .stats-str{
+.table .stats-str {
   color: #6f3737;
   text-decoration: none;
 }
+
 /** edit page **/
-.edit-title h2{
+.edit-title h2 {
   background-color: #e8d2d2;
   border: 1px solid #ddd;
   padding: 5px;
 }
-.edit-config-name h3{
+.edit-config-name h3 {
   background-color: #e8d2d2;
   border: 1px solid #ddd;
   padding: 5px;
 }
-.edit-explanation{
+.edit-explanation  {
   background-color: #e8d2d2;
   border: 1px solid #ddd;
+  font-size: 16px;
   padding: 5px;
 }
-.edit-explanation-detail{
+.edit-explanation-detail  {
   margin-left: 10px;
 }
-.edit-default-value h4{
+.edit-default-value h4 {
   background-color: #e8d2d2;
   border: 1px solid #ddd;
   padding: 5px; 
 }
-.edit-form{
+.edit-form {
   margin: 10px;
 }
-.send-button{
+.send-button {
   margin-top: 10px;
 }
-.edit-change-value{
+.edit-change-value {
   background-color: #e8d2d2;
   border: 1px solid #ddd;
   padding: 5px; 
 }
-.edit-result{
+.edit-result {
   background-color: #ffffff;
   width: 500px;
   margin: 10px;
 }
-table.table.result-table th{
-  background-color: #BA7878;
+table.table.result-table th {
+  background-color: #cccccc;
 }
-label.error{
+label.error {
   margin-left: 5px;
   color: #ff0000;
 }
-.form-error-msg{
+.form-error-msg {
   color: #ff0000;
 }
 

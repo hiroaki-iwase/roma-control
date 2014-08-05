@@ -1,10 +1,7 @@
 html, body {
   height: 100%;
-}
-
-.contents-name, .sub-contents-name {
-  color:#5d5d5d;
   font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color:#5d5d5d;
 }
 
 .wrap-main .container {
@@ -82,4 +79,27 @@ html, body {
   -moz-opacity:0;  /** FF **/
   -khtml-opacity: 0; /* Safari 1.x */
   opacity:0;
+}
+
+/**-----------------------------------------
+  table sorter
+-------------------------------------------- **/
+.tablesorter-default .tablesorter-filter {
+  margin: -5px;
+}
+
+.tablesorter-default {
+  font: 15px/18px Arial, Sans-serif;
+}
+
+.tablesorter-default thead .tablesorter-headerAsc {
+  border-bottom: #428bca 2px solid;
+}
+
+.tablesorter-default thead .tablesorter-headerDesc {
+  border-bottom: #428bca 2px solid;
+}
+
+.tablesorter .tablesorter-filter.disabled {
+  display:none;
 }

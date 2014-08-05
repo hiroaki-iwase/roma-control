@@ -25,6 +25,25 @@ $(function(){
         $("#release-hidden-value").attr("value", e.relatedTarget.name);
     })
 
+    $("#repetitionCheck").click(function() {
+        if($(this).is(':checked')) {
+            $('#repetition-modal').modal({
+                show: true,
+                keyboard: false
+            })
+        }
+    });
+
+    $(".activate-repetition-btn").click(function() {
+       $('#repetition-modal').modal('hide');
+    });
+
+    $(".deactivate-repetition-btn").click(function() {
+       $('#repetitionCheck').attr("checked", false);
+       $('#repetition-modal').modal('hide');
+    });
+
+
     //Table sorter
     $('table.cluster-table').tablesorter({
         theme: 'default',
@@ -200,5 +219,123 @@ $(function(){
         if(typeof host === 'undefined') host = location.host;
         window.location.assign(protocol+"//"+host+"/cluster/index");
     }
+
+    //join command generator
+    $('.join-generate-btn').click(function () {
+        var newHost = $('#newHost').val();
+        var newPort = $('#newPort').val();
+        var currentHost = $('#currentHost').val();
+        var currentPort = $('#currentPort').val();
+        var configPath = $('#configPath').val();
+        if ($("#repetitionCheck").prop('checked')) {
+            var repetitionOption = "--enabled_repeathost"
+        }
+        else {
+            var repetitionOption = ""
+        }
+
+        var params =  { 'newHost' : newHost, 'currentHost': currentHost, 'newPort' : newPort, 'currentPort': currentPort, 'configPath': configPath };
+        if (checkParams(params)) {
+            generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption)
+        } else {
+            resetResult();
+        }
+    })
+
+    function generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption) {
+        $('.join-explanation').text("Please execute below command on your ROMA server.");
+        $('.join-command').css({"padding":"10px"});
+        $('.join-command').html(
+            "$ cd ${ROMA directory}/ruby/server<br>" + 
+            "$ bin/romad "+newHost+" -p "+newPort+" -d -j "+currentHost+"_"+currentPort+" --config "+configPath+" "+repetitionOption
+        );
+    }
+
+    function resetResult() {
+        $('.join-explanation').text("");
+        $('.join-command').css({"padding": "0"});
+        $('.join-command').text("");
+    }
+
+    function checkParams(params) {
+        checkParams.result = true
+
+        jQuery.each(params, function(key, value) {
+            var checkBrank = true;
+            var checkDigit = true
+            var checkMultiByte = true
+
+            if (key.match(/^(newHost|currentHost|configPath)$/)) {
+                checkDigit = false;
+            }
+
+            if (res = validate(value, checkBrank, checkDigit, checkMultiByte)) {
+                $('.'+key).css({"color":"red"});
+                switch (res) {
+                    case 'nonDigit':
+                        $('.'+key).text("This param should be digit & over 0");
+                        break;
+                    case 'brank':
+                        $('.'+key).text("This param can't be brank");
+                        break;
+                    case 'unexpected':
+                        $('.'+key).text("This param include unexpected character.");
+                        break;
+                }
+                checkParams.result = false
+            } else {
+                //remove error message
+                $('.'+key).text('');
+            }
+        });
+
+        if ( duplicateCheck(params) ) {
+            $('.newHost').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
+            $('.newPort').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
+            checkParams.result = false
+        }
+
+        if (checkParams.result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function validate(param, checkBrank, checkDigit, checkMultiByte) {
+        if ( checkBrank ) {
+            if (!param.match(/\S/g)) { return 'brank'; }
+        }
+        if ( checkDigit ) {
+            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) { return 'nonDigit'; }
+        }
+        if ( checkMultiByte ) {
+            if ( !param.match(/^[a-zA-Z0-9\/\._]+$/)) { return 'unexpected'; }
+        }
+       return false;
+    }
+
+    function duplicateCheck(params) {
+        var newInstance = params['newHost']+"_"+params['newPort'];    
+        if ( $.inArray(newInstance,gon.active_routing_list) >= 0 ) {
+            return true;
+        }
+        return false;
+    }
+
+    // accordion panel(join)
+    $("dd").css("display","none");
+
+    $(".join-command-generate .join-command-title").click(function(){
+        if($("+dd",this).css("display")=="none"){
+            $("dd").slideUp("slow");
+            $("+dd",this).slideDown("slow");
+            $(".accordion-status").html("<i class='icon-chevron-down'></i>");
+        }else{
+            $("dd").slideUp("slow");
+            $(".accordion-status").html("<i class='icon-chevron-right'></i>");
+        }
+    });
+
 
 });

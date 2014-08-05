@@ -139,7 +139,7 @@ module ClusterHelper
 
   def param_group(param)
     case param
-    when "enabled_repetition_host_in_routing"
+    when "enabled_repetition_host_in_routing", "gui_run_snapshot"
       "stats"
     when "short_vnodes"
       "routing"

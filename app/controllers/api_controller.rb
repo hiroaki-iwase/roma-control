@@ -1,4 +1,5 @@
 class ApiController < ApplicationController
+
   def get_parameter
     host = params[:host]
     port = params[:port]
@@ -30,4 +31,41 @@ class ApiController < ApplicationController
 
     render :json => response
   end
+
+  def get_value
+    begin
+      roma = Roma.new('key_name' => params[:key])
+
+      if roma.valid?
+        response = roma.get_value(params[:key])[-1]
+      else
+        roma.errors.full_messages.each { |msg| response = msg }
+      end
+
+      response ||= "No data : #{params[:key]} don't have value."
+    rescue => @ex
+      response = {:status=>@ex.message}
+    end
+
+    render :json => response
+  end
+
+  def set_value
+    begin
+      roma = Roma.new('key_name' => params[:key], 'value' => params[:value], 'expire_time' => params[:expire])
+
+      response = ""
+      if roma.valid?
+        response = roma.set_value(params[:key], params[:value], params[:expire])
+      else
+        roma.errors.full_messages.each { |msg| response += "#{msg}<br>" }
+      end
+
+    rescue => @ex
+      response = {:status=>@ex.message}
+    end
+
+    render :text => response
+  end
+
 end
