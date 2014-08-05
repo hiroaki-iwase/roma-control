@@ -3,62 +3,64 @@ class ClusterController < ApplicationController
   def index
     roma = Roma.new
 
-    @stats_hash = roma.get_stats
+    #@stats_hash = roma.get_stats
 
-    @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
-    gon.active_routing_list = @active_routing_list
-    @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
-    @routing_info = roma.get_routing_info(@active_routing_list)
-    # [toDO] Remove before release
-    #{
-    #  "192.168.223.2_10001"=> {
-    #     "status"  => "active", 
-    #     "size"    => 209759360, 
-    #     "version" => "0.8.14",
-    #     "primary_nodes" => "171",
-    #     "secondary_nodes" => "170",
-    #  },
-    #  "192.168.223.2_10002"=> {
-    #     "status"  => "active", 
-    #     "size"    => 209759360, 
-    #     "version" => "0.8.14",
-    #     "primary_nodes" => "170",
-    #     "secondary_nodes" => "169",
-    #  }
+    #@active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
+    #gon.active_routing_list = @active_routing_list
+    #@inactive_routing_list = roma.get_all_routing_list - @active_routing_list
+    #@routing_info = roma.get_routing_info(@active_routing_list)
+    ## [toDO] Remove before release
+    ##{
+    ##  "192.168.223.2_10001"=> {
+    ##     "status"  => "active", 
+    ##     "size"    => 209759360, 
+    ##     "version" => "0.8.14",
+    ##     "primary_nodes" => "171",
+    ##     "secondary_nodes" => "170",
+    ##  },
+    ##  "192.168.223.2_10002"=> {
+    ##     "status"  => "active", 
+    ##     "size"    => 209759360, 
+    ##     "version" => "0.8.14",
+    ##     "primary_nodes" => "170",
+    ##     "secondary_nodes" => "169",
+    ##  }
+    ##}
+
+    #@routing_info.each_key{|instance|
+    #  if instance =~ /ERROR/
+    #    gon.just_booting = true
+    #    break
+    #  else
+    #    gon.just_booting = false
+    #  end
     #}
 
-    @routing_info.each_key{|instance|
-      if instance =~ /ERROR/
-        gon.just_booting = true
-        break
-      else
-        gon.just_booting = false
-      end
-    }
+    #@routing_info.each{|instance, info|
+    #  flash.now[:unknown] = instance if info.has_value?("unknown")
+    #  case info["status"]
+    #  when "release"
+    #    gon.host, gon.port = instance.split(/_/) 
+    #    # in case of release was executing by console or login by other users
+    #    if !session[:denominator]
+    #      session[:denominator] = info["primary_nodes"] + info["secondary_nodes"]
+    #    end
+    #    gon.denominator = session[:denominator]
+    #    gon.routing_info = @routing_info
+    #  when "join"
+    #    gon.host, gon.port = instance.split(/_/)
+    #    gon.routing_info = @routing_info
+    #  when "recover"
+    #    gon.host, gon.port = instance.split(/_/) 
+    #    if !session[:denominator]
+    #      session[:denominator] = @stats_hash["routing"]["short_vnodes"]
+    #    end
+    #    gon.denominator = session[:denominator]
+    #    gon.routing_info = @routing_info
+    #  end
+    #}
 
-    @routing_info.each{|instance, info|
-      flash.now[:unknown] = instance if info.has_value?("unknown")
-      case info["status"]
-      when "release"
-        gon.host, gon.port = instance.split(/_/) 
-        # in case of release was executing by console or login by other users
-        if !session[:denominator]
-          session[:denominator] = info["primary_nodes"] + info["secondary_nodes"]
-        end
-        gon.denominator = session[:denominator]
-        gon.routing_info = @routing_info
-      when "join"
-        gon.host, gon.port = instance.split(/_/)
-        gon.routing_info = @routing_info
-      when "recover"
-        gon.host, gon.port = instance.split(/_/) 
-        if !session[:denominator]
-          session[:denominator] = @stats_hash["routing"]["short_vnodes"]
-        end
-        gon.denominator = session[:denominator]
-        gon.routing_info = @routing_info
-      end
-    }
+    render :text => roma.send_command('stats', nil, 'multiplelines_receiver')
   end
 
   def destroy #[rbalse]

@@ -1,7 +1,12 @@
 require 'socket'
 
+require 'sender'
+require 'con_pool' # for exeption
+
 class Roma
   include ActiveModel::Model
+
+  attr_accessor :sender #add & remove conn?
 
   attr_accessor :dcnice,
     :size_of_zredundant,
@@ -106,7 +111,70 @@ class Roma
     super(params)
     @host = ConfigGui::HOST
     @port = ConfigGui::PORT
+
+    init_sender
   end
+
+
+
+  def init_sender
+    @sender = Sender.new
+  end
+  private :init_sender
+
+  def version
+    #raise RuntimeError.new("Unsupported yet") # TODO
+    @sender.send_version_command("#{@host}_#{@port}")
+    #send_command('version')
+  end
+
+  # new logic
+  def send_command(command, value = nil, receiver = nil, host = @host, port = @port)
+
+    res = @sender.send_command("#{@host}_#{@port}", command, value, receiver)
+
+    #unless eof
+    #  @res = sock.gets
+    #else
+    #  @res = []
+    #  sock.each{|s|
+    #    break if s == "#{eof}\r\n"
+    #    @res.push(s.chomp)
+    #    #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
+    #    raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
+    #  }
+    #end
+
+    #sock.close
+
+    #return @res
+  end
+
+  #past logic
+  #def send_command(command, eof = "END", host = @host, port = @port)
+  #  sock = TCPSocket.open(host, port)
+
+  #  sock.write("#{command}\r\n")
+
+  #  unless eof
+  #    @res = sock.gets
+  #  else
+  #    @res = []
+  #    sock.each{|s|
+  #      break if s == "#{eof}\r\n"
+  #      @res.push(s.chomp)
+  #      #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
+  #      raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
+  #    }
+  #  end
+
+  #  sock.close
+
+  #  return @res
+  #end
+
+
+
 
   def get_stats(host = @host, port = @port)
     stats_array = send_command('stats', 'END', host, port)
@@ -251,28 +319,6 @@ class Roma
   #  raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
   #  send_command("get_logs #{line_count}", "END", host, port)
   #end
-
-  def send_command(command, eof = "END", host = @host, port = @port)
-    sock = TCPSocket.open(host, port)
-
-    sock.write("#{command}\r\n")
-
-    unless eof
-      @res = sock.gets
-    else
-      @res = []
-      sock.each{|s|
-        break if s == "#{eof}\r\n"
-        @res.push(s.chomp)
-        #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
-        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
-      }
-    end
-
-    sock.close
-
-    return @res
-  end
 
   # roma_res is response messages from ROMA when some command is executed
   def change_roma_res_style(roma_res)
