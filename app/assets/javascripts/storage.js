@@ -1,5 +1,17 @@
 $(function(){
 
+    //Modal
+    $(".close-modal-btn").click(function() {
+       $('#set-modal').modal('hide');
+    });
+
+    $('#set-modal').on('show.bs.modal', function (e) {
+        $('#keyModal').text($('.setKeyName').val());
+        $('#valueModal').text($('.setValueName').val());
+        $('#exptModal').text($('.setExptName').val());
+    });
+
+    //Validate
     function validate(param, checkBrank, checkDigit) {
        if(typeof checkBrank === 'undefined') checkBrank = false;
        if(typeof checkDigit === 'undefined') checkDigit = false;
@@ -92,16 +104,13 @@ $(function(){
         }).done(function(data){
             $('#set-modal').modal({
                 show: true
-            })
+            });
+
             resetSetParam();
         }).fail(function(error){
             alert("fail to access Gladiator Web API");
         });
     }
-
-    $(".close-modal-btn").click(function() {
-       $('#set-modal').modal('hide');
-    });
 
     function resetSetParam() {
         $('.setKeyName').val('');
