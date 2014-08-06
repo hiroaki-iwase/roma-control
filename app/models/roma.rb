@@ -276,7 +276,7 @@ class Roma
 
     rescue
       ConPool.instance.delete_connection(nid)
-      raise
+      raise Errno::ECONNREFUSED
     end
   end
 
