@@ -3,14 +3,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="setModalLabel">STORED</h4>
+        <h4 class="modal-title" id="setModalLabel">SET was succceded.</h4>
       </div>
       <div class="modal-body">
-        SET was succceed.<br><br>
-          key: <span id="keyModal"></span><br>
-          value: <span id="valueModal"></span><br>
-          expired_time: <span id="exptModal"></span><br>
+        <B>STORED RESULT</B><br>
+        <ul style="list-style:none;">
+          <li>key: <span id="keyModal"></span></li>
+          <li>value: <span id="valueModal"></span></li>
+          <li>expired_time: <span id="exptModal"></span></li>
+        </ul>
       </div>
       <div class="modal-footer">
         <%= submit_tag "OK", { :class => "btn close-modal-btn", :type=>"button" } %>
