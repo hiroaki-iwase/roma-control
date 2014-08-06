@@ -128,7 +128,12 @@ $(function(){
             dataType: 'text',
             cache: false,
         }).done(function(data){
-            $('.get-result').text(data);
+            if (data.match(/^null$/)) {
+              $('.get-result').text("No data: "+value+ " don't have value.");
+            } else {
+              $('.get-result').text("Value: "+data);
+            }
+
         }).fail(function(){
             alert("fail to access Gladiator Web API");
         });
