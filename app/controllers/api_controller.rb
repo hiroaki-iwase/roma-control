@@ -42,7 +42,6 @@ class ApiController < ApplicationController
         roma.errors.full_messages.each { |msg| response = msg }
       end
 
-      response ||= "No data : #{params[:key]} don't have value."
     rescue => @ex
       response = {:status=>@ex.message}
     end
