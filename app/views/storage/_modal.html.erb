@@ -1,0 +1,20 @@
+<!-- Set Result Modal -->
+<div class="modal fade" id="set-modal" tabindex="-1" role="dialog" aria-labelledby="setModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="setModalLabel">STORED</h4>
+      </div>
+      <div class="modal-body">
+        SET was succceed.<br><br>
+          key: <span id="keyModal"></span><br>
+          value: <span id="valueModal"></span><br>
+          expired_time: <span id="exptModal"></span><br>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "OK", { :class => "btn close-modal-btn", :type=>"button" } %>
+      </div>
+    </div>
+  </div>
+</div><!-- End of set Check Modal -->
