@@ -254,7 +254,7 @@ class Roma
 
   def send_command(command, eof = "END", host = @host, port = @port)
     begin
-      nid ="#{ConfigGui::HOST}_#{ConfigGui::PORT}"
+      nid ="#{host}_#{port}"
       con = ConPool.instance.get_connection(nid)
       raise unless con
 

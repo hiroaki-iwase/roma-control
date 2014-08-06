@@ -9,24 +9,6 @@ class ClusterController < ApplicationController
     gon.active_routing_list = @active_routing_list
     @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
     @routing_info = roma.get_routing_info(@active_routing_list)
-    # [toDO] Remove before release
-    #{
-    #  "192.168.223.2_10001"=> {
-    #     "status"  => "active", 
-    #     "size"    => 209759360, 
-    #     "version" => "0.8.14",
-    #     "primary_nodes" => "171",
-    #     "secondary_nodes" => "170",
-    #  },
-    #  "192.168.223.2_10002"=> {
-    #     "status"  => "active", 
-    #     "size"    => 209759360, 
-    #     "version" => "0.8.14",
-    #     "primary_nodes" => "170",
-    #     "secondary_nodes" => "169",
-    #  }
-    #}
-
     @routing_info.each_key{|instance|
       if instance =~ /ERROR/
         gon.just_booting = true
