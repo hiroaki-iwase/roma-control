@@ -14,8 +14,6 @@ class ConPool
   end
 
   def get_connection(ap)
-    Rails.logger.error("#{__method__} called")
-    Rails.logger.error("@pool is #{@pool}")
     ret,last = @pool[ap].shift if @pool.key?(ap) && @pool[ap].length > 0
     if ret && last < Time.now - @expire_time
       ret.close
@@ -23,19 +21,11 @@ class ConPool
     end
     ret = create_connection(ap) unless ret
     ret
-  rescue
-    @pool = {}
-    #nil
-    raise
   end
 
   def create_connection(ap)
-    Rails.logger.error("#{__method__} called")
     addr, port = ap.split(/[:_]/)
     TCPSocket.new(addr, port)
-  rescue
-    #@pool = {}
-    raise
   end
 
   def return_connection(ap, con)
@@ -48,11 +38,9 @@ class ConPool
     else
       @pool[ap] = [[con, Time.now]]
     end
-  rescue
   end
 
   def delete_connection(ap)
-    Rails.logger.error("#{__method__} called")
     @pool.delete(ap)
   end
 end # class ConPool
