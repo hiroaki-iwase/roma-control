@@ -103,3 +103,22 @@ html, body {
 .tablesorter .tablesorter-filter.disabled {
   display:none;
 }
+
+/**---------------------------------------------
+  Modal
+------------------------------------------------**/
+.modal-body {
+  font-size: 16px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-family: 'Arial';
+}
+
+#release-modal {
+  text-align: left;
+}
+
+.modal-header {
+  background-color: #fce9e7;
+}
+

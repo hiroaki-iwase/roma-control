@@ -243,24 +243,6 @@ button.reset {
 }
 
 /**---------------------------------------------
-  Modal
-------------------------------------------------**/
-.modal-body {
-  font-size: 16px;
-  margin-top: 10px;
-  margin-left: 50px;
-  font-family: 'Arial';
-}
-
-.modal-body .modal-explanation-detail {
-  margin-left: 30px;
-}
-
-#release-modal {
-  text-align: left;
-}
-
-/**---------------------------------------------
   Join command gerenator
 ------------------------------------------------**/
 .join-command-generate .join-command-title {
@@ -289,10 +271,6 @@ button.reset {
   margin-left: 40px;
 }
 
-.parameter-area > div {
-  margin-bottom: 10px;
-}
-
 .join-generate-btn {
   margin-bottom: 10px;
 }
@@ -302,4 +280,16 @@ button.reset {
   border-radius: 10px;
   color: #d1edff;
   margin-right: 30px;
+}
+
+.snap-input > input {
+  margin-bottom: 10px;
+  padding: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.snap-input {
+  margin-bottom: 10px;
 }
