@@ -26,7 +26,7 @@ class Roma
     :key_name,
     :value,
     :expire_time
-  attr_reader :stats_hash, :stats_json
+  attr_reader :stats_hash
   
   validates :dcnice,
     allow_nil: true,
@@ -109,7 +109,11 @@ class Roma
   end
 
   def get_stats(host = @host, port = @port)
+    Rails.logger.error("#{__method__} called")
+
     stats_array = send_command('stats', 'END', host, port)
+
+    #raise if stats_array.size == 0
 
     @stats_hash = Hash.new { |hash,key| hash[key] = Hash.new {} }
     stats_array.each{|a|
@@ -123,7 +127,6 @@ class Roma
       end
     }
     
-    @stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
   end
   
@@ -253,12 +256,20 @@ class Roma
   #end
 
   def send_command(command, eof = "END", host = @host, port = @port)
-    begin
+    #begin
+      #con = TCPSocket.open(host, port) # fail in case of ROMA is down
       nid ="#{host}_#{port}"
       con = ConPool.instance.get_connection(nid)
       raise unless con
 
-      con.write("#{command}\r\n")
+      con.write("#{command}\r\n") # error in case of ROMA down
+
+      # in case of no response(ROMA is down)
+      if con.eof?
+        ConPool.instance.delete_connection(nid)
+        raise Errno::ECONNREFUSED, "#{host}_#{port}"
+      end
+
 
       unless eof
         @res = con.gets
@@ -272,12 +283,15 @@ class Roma
       end
 
       ConPool.instance.return_connection(nid, con)
+      #raise if @res.empty?
       return @res
 
-    rescue
-      ConPool.instance.delete_connection(nid)
-      raise Errno::ECONNREFUSED
-    end
+    #rescue
+      #con.close
+      #ConPool.instance.delete_connection(nid) # non need?
+      #raise Errno::ECONNREFUSED
+      #raise
+    #end
   end
 
   # roma_res is response messages from ROMA when some command is executed

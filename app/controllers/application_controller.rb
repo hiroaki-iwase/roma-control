@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def render_404(exception = nil)
     if exception
-      logger.info "Rendering 404 with exception: #{exception.message}"
+      logger.error "Rendering 404 with exception: #{exception.message}"
     end
 
     unexpected_url = "http://#{request.host}:#{request.port.to_s + request.fullpath}"
@@ -25,7 +25,9 @@ class ApplicationController < ActionController::Base
 
   def render_500(exception = nil)
     if exception
-      logger.info "Rendering 500 with exception: #{exception.message}"
+      #logger.error "Rendering 500 with exception: #{exception.class}"
+      #logger.error "Rendering 500 with exception: #{exception.message}"
+      #logger.error "Rendering 500 with exception: #{exception.backtrace}"
     end
     render :template => "errors/error_500", :locals => {:ex => exception}, :status => 500, :layout => 'application'
   end
