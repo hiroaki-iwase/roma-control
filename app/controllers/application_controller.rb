@@ -55,4 +55,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #def check_mklhash
+  #  raise 'routing information was broken.' unless session[:mklhash]
+
+  #  roma = Roma.new
+  #  current_mklhash = roma.send_command("mklhash 0", nil)
+  #  unless current_mklhash == session[:mklhash]
+  #    stats_hash = roma.get_stats
+  #    session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+  #    session[:mklhash] = current_mklhash
+  #    Rails.logger.error('Remake routing information')
+  #  end
+  #end
+
 end

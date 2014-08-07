@@ -300,7 +300,7 @@
         :new instance's [config.rb]'s PATH.
         <div class="configPath"></div>
         <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
-        : Use "--enabled_repeathost" option? (Do you want to boot all instance on single server?)
+        : Use "--enabled_repeathost" option?
 
         <%= hidden_field_tag :current_host, ConfigGui::HOST, {:id=>"currentHost"} %>
         <%= hidden_field_tag :current_port,  ConfigGui::PORT, {:id=>"currentPort"} %>

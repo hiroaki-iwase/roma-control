@@ -15,6 +15,14 @@ class LoginController < ApplicationController
         session[:email] = ''
       end
 
+      roma = Roma.new
+      stats_hash = roma.get_stats
+      session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      session[:mklhash] = roma.send_command("mklhash 0", nil)
+
+      Rails.logger.error(session[:active_routing_list])
+      Rails.logger.error(session[:mklhash])
+ 
       if params[:referer]
         redirect_to params[:referer]
       else
