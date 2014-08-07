@@ -254,10 +254,9 @@ class Roma
   def send_command(command, eof = "END", host = @host, port = @port)
       nid ="#{host}_#{port}"
       con = ConPool.instance.get_connection(nid)
-      raise unless con
+      raise Errno::ECONNREFUSED unless con
 
       con.write("#{command}\r\n")
-      # in case of no response(ROMA is down)
       if con.eof?
         ConPool.instance.delete_connection(nid)
         raise Errno::ECONNREFUSED, "#{host}_#{port}"
