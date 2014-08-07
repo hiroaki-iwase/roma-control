@@ -1,4 +1,4 @@
-require 'socket'
+require 'con_pool'
 
 class Roma
   include ActiveModel::Model
@@ -26,7 +26,7 @@ class Roma
     :key_name,
     :value,
     :expire_time
-  attr_reader :stats_hash, :stats_json
+  attr_reader :stats_hash
   
   validates :dcnice,
     allow_nil: true,
@@ -123,7 +123,6 @@ class Roma
       end
     }
     
-    @stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
   end
   
@@ -253,25 +252,29 @@ class Roma
   #end
 
   def send_command(command, eof = "END", host = @host, port = @port)
-    sock = TCPSocket.open(host, port)
+      nid ="#{host}_#{port}"
+      con = ConPool.instance.get_connection(nid)
+      raise Errno::ECONNREFUSED unless con
 
-    sock.write("#{command}\r\n")
+      con.write("#{command}\r\n")
+      if con.eof?
+        ConPool.instance.delete_connection(nid)
+        raise Errno::ECONNREFUSED, "#{host}_#{port}"
+      end
 
-    unless eof
-      @res = sock.gets
-    else
-      @res = []
-      sock.each{|s|
-        break if s == "#{eof}\r\n"
-        @res.push(s.chomp)
-        #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
-        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
-      }
-    end
+      unless eof
+        @res = con.gets
+      else
+        @res = []
+        con.each{|s|
+          break if s == "#{eof}\r\n"
+          @res.push(s.chomp)
+          raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
+        }
+      end
 
-    sock.close
-
-    return @res
+      ConPool.instance.return_connection(nid, con)
+      return @res
   end
 
   # roma_res is response messages from ROMA when some command is executed
