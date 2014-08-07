@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :check_logined_filter
+  before_filter :check_logined_filter, :check_mklhash
   helper_method :login_check?
 
   # Prevent CSRF attacks by raising an exception.
@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from Exception,                        with: :render_500
-  rescue_from ActiveRecord::RecordNotFound,     with: :render_404
+  #rescue_from ActiveRecord::RecordNotFound,     with: :render_404
   rescue_from ActionController::RoutingError,   with: :render_404
 
   def routing_error
@@ -55,17 +55,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #def check_mklhash
-  #  raise 'routing information was broken.' unless session[:mklhash]
-
-  #  roma = Roma.new
-  #  current_mklhash = roma.send_command("mklhash 0", nil)
-  #  unless current_mklhash == session[:mklhash]
-  #    stats_hash = roma.get_stats
-  #    session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
-  #    session[:mklhash] = current_mklhash
-  #    Rails.logger.error('Remake routing information')
-  #  end
-  #end
+  def check_mklhash
+    roma = Roma.new
+    current_mklhash = roma.send_command("mklhash 0", nil)
+    unless current_mklhash == session[:mklhash]
+      stats_hash = roma.get_stats
+      session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      session[:mklhash] = current_mklhash
+      #ConfigGui::HOST = "aaa"
+      #ConfigGui::PORT = "vvv"
+      Rails.logger.error('Remake routing information')
+    end
+  end
 
 end
