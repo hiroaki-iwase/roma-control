@@ -13,34 +13,34 @@ class ConPool
     @expire_time = expire_time
   end
 
-  def get_connection(ap)
-    ret,last = @pool[ap].shift if @pool.key?(ap) && @pool[ap].length > 0
-    if ret && last < Time.now - @expire_time
-      ret.close
-      ret = nil
+  def get_connection(nid)
+    con,last = @pool[nid].shift if @pool.key?(nid) && @pool[nid].length > 0
+    if con && last < Time.now - @expire_time
+      con.close
+      con = nil
     end
-    ret = create_connection(ap) unless ret
-    ret
+    con = create_connection(nid) unless con
+    con
   end
 
-  def create_connection(ap)
-    addr, port = ap.split(/[:_]/)
+  def create_connection(nid)
+    addr, port = nid.split(/[:_]/)
     TCPSocket.new(addr, port)
   end
 
-  def return_connection(ap, con)
-    if @pool.key?(ap) && @pool[ap].length > 0
-      if @pool[ap].length > @maxlength
+  def return_connection(nid, con)
+    if @pool.key?(nid) && @pool[nid].length > 0
+      if @pool[nid].length > @maxlength
         con.close
       else
-        @pool[ap] << [con, Time.now]
+        @pool[nid] << [con, Time.now]
       end
     else
-      @pool[ap] = [[con, Time.now]]
+      @pool[nid] = [[con, Time.now]]
     end
   end
 
-  def delete_connection(ap)
-    @pool.delete(ap)
+  def delete_connection(nid)
+    @pool.delete(nid)
   end
 end # class ConPool
