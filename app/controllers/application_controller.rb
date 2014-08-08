@@ -6,11 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from Exception,                        with: :render_500
-  #rescue_from ActiveRecord::RecordNotFound,     with: :render_404
-  #rescue_from ActiveRecord::RecordNotFound,     with: :change_base
-  #rescue_from Errno::ECONNREFUSED,     with: :change_base
-  rescue_from ConPoolError,     with: :change_base
-  #rescue_from SignalException,     with: :change_base
+  rescue_from ConPoolError,                     with: :change_base
   rescue_from ActionController::RoutingError,   with: :render_404
 
   def change_base
@@ -66,7 +62,6 @@ class ApplicationController < ActionController::Base
   def render_500(exception = nil)
     if exception
       logger.error "Rendering 500 with exception: #{exception.message}"
-      #logger.error "Rendering 500 with exception: #{exception.backtrace}"
     end
     render :template => "errors/error_500", :locals => {:ex => exception}, :status => 500, :layout => 'application'
   end
@@ -106,8 +101,6 @@ class ApplicationController < ActionController::Base
       Rails.logger.error('Remake routing information')
       Rails.logger.error("session[:active_routing_list] #{session[:active_routing_list]}")
       Rails.logger.error("ession[:mklhash] #{session[:mklhash]}")
-      #$Base_Host = session[:active_routing_list][0].split(/[:_]/)[0]
-      #$Base_Port = session[:active_routing_list][0].split(/[:_]/)[1]
     end
   end
 
