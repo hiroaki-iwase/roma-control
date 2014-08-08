@@ -1,4 +1,5 @@
 require 'con_pool'
+require 'my_error'
 
 class Roma
   include ActiveModel::Model
@@ -104,8 +105,15 @@ class Roma
 
   def initialize(params = nil)
     super(params)
-    @host = ConfigGui::HOST
-    @port = ConfigGui::PORT
+    if $Base_Host && $Base_Port
+      @host = $Base_Host
+      @port = $Base_Port
+    else
+      @host = ConfigGui::HOST
+      @port = ConfigGui::PORT
+    end
+
+    #Rails.logger.error("@Base_instance => #{$Base_Host}_#{$Base_Port}")
   end
 
   def get_stats(host = @host, port = @port)
@@ -252,29 +260,33 @@ class Roma
   #end
 
   def send_command(command, eof = "END", host = @host, port = @port)
-      nid ="#{host}_#{port}"
-      con = ConPool.instance.get_connection(nid)
-      raise Errno::ECONNREFUSED unless con
+    nid ="#{host}_#{port}"
+    con = ConPool.instance.get_connection(nid)
+    #raise Errno::ECONNREFUSED unless con
+    #raise ConPoolError unless con
+    raise unless con
 
-      con.write("#{command}\r\n")
-      if con.eof?
-        ConPool.instance.delete_connection(nid)
-        raise Errno::ECONNREFUSED, "#{host}_#{port}"
-      end
+    con.write("#{command}\r\n")
+    if con.eof?
+      ConPool.instance.delete_connection(nid)
+      #raise Errno::ECONNREFUSED, "#{host}_#{port}"
+      raise ConPoolError, "#{host}_#{port}"
+      #raise ActiveRecord::RecordNotFound
+    end
 
-      unless eof
-        @res = con.gets
-      else
-        @res = []
-        con.each{|s|
-          break if s == "#{eof}\r\n"
-          @res.push(s.chomp)
-          raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
-        }
-      end
+    unless eof
+      @res = con.gets
+    else
+      @res = []
+      con.each{|s|
+        break if s == "#{eof}\r\n"
+        @res.push(s.chomp)
+        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
+      }
+    end
 
-      ConPool.instance.return_connection(nid, con)
-      return @res
+    ConPool.instance.return_connection(nid, con)
+    return @res
   end
 
   # roma_res is response messages from ROMA when some command is executed

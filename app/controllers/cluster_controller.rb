@@ -6,8 +6,8 @@ class ClusterController < ApplicationController
     @stats_hash = roma.get_stats
     @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
     gon.active_routing_list = @active_routing_list
-    @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
 
+    @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
     begin
       @routing_info = roma.get_routing_info(@active_routing_list)
       @routing_info.each{|instance, info|
@@ -33,7 +33,12 @@ class ClusterController < ApplicationController
           gon.routing_info = @routing_info
         end
       }
+    rescue ConPoolError
+      Rails.logger.error("rescued ConPoolError in cluster Controller")
+      @routing_info = {}
+      gon.just_booting = true
     rescue Errno::ECONNREFUSED
+      Rails.logger.error("rescued Errno::ECONNREFUSED in cluster Controller")
       @routing_info = {}
       gon.just_booting = true
     end
@@ -41,6 +46,7 @@ class ClusterController < ApplicationController
 
   def destroy #[rbalse]
     host, port = params[:target_instance].split(/_/)
+
     roma = Roma.new
 
     if session[:released]
@@ -55,12 +61,14 @@ class ClusterController < ApplicationController
       res = roma.send_command('rbalse', nil, host, port) 
     end
 
-    redirect_to :action => "index"
+    redirect_to(:action => "index")
   end
 
   def update #[recover]
-    gon.host = ConfigGui::HOST
-    gon.port = ConfigGui::PORT
+    #gon.host = ConfigGui::HOST
+    #gon.port = ConfigGui::PORT
+    gon.host = $Base_Host
+    gon.port = $Base_Port
 
     roma = Roma.new
     res = roma.send_command('recover', nil) 

@@ -11,7 +11,7 @@ class StorageController < ApplicationController
     gon.snapshoting = flash.now[:snapshoting]
 
     @last_snapshot_data = stats_hash["stats"]["gui_last_snapshot"]
-    @last_snapshot_data = 'never execute snapshot after (re)boot ROMA' if @last_snapshot_data = '[]'
+    @last_snapshot_data = 'never execute snapshot after (re)boot ROMA' if @last_snapshot_data == '[]'
   end
 
 end

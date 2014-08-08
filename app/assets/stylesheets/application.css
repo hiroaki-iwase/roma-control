@@ -13,5 +13,6 @@
  *= require overwrite_bootstrap
  *= require non-responsive
  *= require_tree ./tablesorter
+ *= require error
  *= require common
  */
