@@ -67,8 +67,8 @@ class ClusterController < ApplicationController
   def update #[recover]
     #gon.host = ConfigGui::HOST
     #gon.port = ConfigGui::PORT
-    gon.host = $Base_Host
-    gon.port = $Base_Port
+    gon.host = $baseHost
+    gon.port = $basePort
 
     roma = Roma.new
     res = roma.send_command('recover', nil) 

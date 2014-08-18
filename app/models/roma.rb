@@ -105,15 +105,13 @@ class Roma
 
   def initialize(params = nil)
     super(params)
-    if $Base_Host && $Base_Port
-      @host = $Base_Host
-      @port = $Base_Port
+    if $baseHost && $basePort
+      @host = $baseHost
+      @port = $basePort
     else
       @host = ConfigGui::HOST
       @port = ConfigGui::PORT
     end
-
-    #Rails.logger.error("@Base_instance => #{$Base_Host}_#{$Base_Port}")
   end
 
   def get_stats(host = @host, port = @port)
@@ -262,8 +260,6 @@ class Roma
   def send_command(command, eof = "END", host = @host, port = @port)
     nid ="#{host}_#{port}"
     con = ConPool.instance.get_connection(nid)
-    #raise Errno::ECONNREFUSED unless con
-    #raise ConPoolError unless con
     raise unless con
 
     con.write("#{command}\r\n")

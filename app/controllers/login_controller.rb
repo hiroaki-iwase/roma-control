@@ -19,10 +19,10 @@ class LoginController < ApplicationController
       stats_hash = roma.get_stats
       session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
       session[:mklhash] = roma.send_command("mklhash 0", nil)
-      $Base_Host = session[:active_routing_list][0].split(/[:_]/)[0]
-      $Base_Port = session[:active_routing_list][0].split(/[:_]/)[1]
-      Rails.logger.error(session[:active_routing_list])
-      Rails.logger.error(session[:mklhash])
+      $baseHost = session[:active_routing_list][0].split(/[:_]/)[0]
+      $basePort = session[:active_routing_list][0].split(/[:_]/)[1]
+      Rails.logger.debug(session[:active_routing_list])
+      Rails.logger.debug(session[:mklhash])
  
       if params[:referer]
         redirect_to params[:referer]
@@ -39,8 +39,8 @@ class LoginController < ApplicationController
 
   def logout
     reset_session
-    $Base_Host = nil
-    $Base_Port = nil
+    $baseHost = nil
+    $basePort = nil
     redirect_to '/login/index'
   end
 

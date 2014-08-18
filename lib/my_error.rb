@@ -1,0 +1,1 @@
+class ConPoolError < StandardError; end

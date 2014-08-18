@@ -10,15 +10,14 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError,   with: :render_404
 
   def change_base
-    Rails.logger.error("ConPoolError happened")
-    Rails.logger.error("#{__method__} called")
-    Rails.logger.error("session[:active_routing_list] #{session[:active_routing_list]}")
+    Rails.logger.warn("ConPoolError happened")
+    Rails.logger.debug("session[:active_routing_list] =>  #{session[:active_routing_list]}")
 
     if session[:active_routing_list]
       if session[:active_routing_list].size == 1
         Rails.logger.error("All instace were down")
-        $Base_Host = nil
-        $Base_Port = nil
+        $baseHost = nil
+        $basePort = nil
         render_500 Errno::ECONNREFUSED.new
         return
       else
@@ -26,10 +25,9 @@ class ApplicationController < ActionController::Base
           begin
             Roma.new.send_command('whoami', nil, instance.split(/[:_]/)[0], instance.split(/[:_]/)[1])
 
-            $Base_Host = instance.split(/[:_]/)[0]
-            $Base_Port = instance.split(/[:_]/)[1]
-            Rails.logger.error("changed Base HOST & PORT")
-            Rails.logger.error("Base_instance => #{$Base_Host}_#{$Base_Port}")
+            $baseHost = instance.split(/[:_]/)[0]
+            $basePort = instance.split(/[:_]/)[1]
+            Rails.logger.warn("changed base HOST & PORT => #{$baseHost}_#{$basePort}")
             redirect_to :action => "index"
             return
           rescue
@@ -98,9 +96,9 @@ class ApplicationController < ActionController::Base
       stats_hash = roma.get_stats
       session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
       session[:mklhash] = current_mklhash
-      Rails.logger.error('Remake routing information')
-      Rails.logger.error("session[:active_routing_list] #{session[:active_routing_list]}")
-      Rails.logger.error("ession[:mklhash] #{session[:mklhash]}")
+      Rails.logger.warn('Remake routing information')
+      Rails.logger.warn("session[:active_routing_list] => #{session[:active_routing_list]}")
+      Rails.logger.warn("session[:mklhash] => #{session[:mklhash]}")
     end
   end
 
