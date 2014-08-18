@@ -7,7 +7,10 @@
 </h1>
 <dl>
   <% Constants::STATS_COL_NAME.each{|name| %>
-  <dt><%= name.capitalize %></dt>
+  <dt class="<%=name.gsub(/\[\w+\]/, "")%>">
+    <%= name.capitalize %>
+    <span class="accordion-status-<%=name.gsub(/\[\w+\]/, "")%>"><i class="icon-chevron-right"></i></span>
+  </dt>
   <dd>
     <table class="table">
       <tbody>

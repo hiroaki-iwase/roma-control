@@ -1,14 +1,48 @@
-class ApplicationController < ActionController::Base
-  before_filter :check_logined_filter
-  helper_method :login_check?
+require 'my_error'
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+class ApplicationController < ActionController::Base
+  before_filter :check_logined_filter, :check_mklhash
+  helper_method :login_check?
   protect_from_forgery with: :exception
 
   rescue_from Exception,                        with: :render_500
-  rescue_from ActiveRecord::RecordNotFound,     with: :render_404
+  rescue_from ConPoolError,                     with: :change_base
   rescue_from ActionController::RoutingError,   with: :render_404
+
+  def change_base
+    Rails.logger.warn("ConPoolError happened")
+    Rails.logger.debug("session[:active_routing_list] =>  #{session[:active_routing_list]}")
+
+    if session[:active_routing_list]
+      if session[:active_routing_list].size == 1
+        Rails.logger.error("All instace were down")
+        $baseHost = nil
+        $basePort = nil
+        render_500 Errno::ECONNREFUSED.new
+        return
+      else
+        session[:active_routing_list].each{|instance|
+          begin
+            Roma.new.send_command('whoami', nil, instance.split(/[:_]/)[0], instance.split(/[:_]/)[1])
+
+            $baseHost = instance.split(/[:_]/)[0]
+            $basePort = instance.split(/[:_]/)[1]
+            Rails.logger.warn("changed base HOST & PORT => #{$baseHost}_#{$basePort}")
+            redirect_to :action => "index"
+            return
+          rescue
+            next
+          end 
+        }
+
+        Rails.logger.error("All instace were down")
+        render_500 Errno::ECONNREFUSED.new
+      end
+    else
+      Rails.logger.error("session[:active_routing_list] do NOT exists! (ROMA didn't boot yet.)")
+      render_500 Errno::ECONNREFUSED.new
+    end
+  end
 
   def routing_error
     raise ActionController::RoutingError.new(params[:path])
@@ -16,7 +50,7 @@ class ApplicationController < ActionController::Base
 
   def render_404(exception = nil)
     if exception
-      logger.info "Rendering 404 with exception: #{exception.message}"
+      logger.error "Rendering 404 with exception: #{exception.message}"
     end
 
     unexpected_url = "http://#{request.host}:#{request.port.to_s + request.fullpath}"
@@ -25,7 +59,7 @@ class ApplicationController < ActionController::Base
 
   def render_500(exception = nil)
     if exception
-      logger.info "Rendering 500 with exception: #{exception.message}"
+      logger.error "Rendering 500 with exception: #{exception.message}"
     end
     render :template => "errors/error_500", :locals => {:ex => exception}, :status => 500, :layout => 'application'
   end
@@ -52,6 +86,19 @@ class ApplicationController < ActionController::Base
     else
       flash[:filter_msg] = "please login!!"
         redirect_to :controller => 'login', :action => 'index'
+    end
+  end
+
+  def check_mklhash
+    roma = Roma.new
+    current_mklhash = roma.send_command("mklhash 0", nil)
+    unless current_mklhash == session[:mklhash]
+      stats_hash = roma.get_stats
+      session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      session[:mklhash] = current_mklhash
+      Rails.logger.warn('Remake routing information')
+      Rails.logger.warn("session[:active_routing_list] => #{session[:active_routing_list]}")
+      Rails.logger.warn("session[:mklhash] => #{session[:mklhash]}")
     end
   end
 

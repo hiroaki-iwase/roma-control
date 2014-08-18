@@ -1,4 +1,5 @@
-require 'socket'
+require 'con_pool'
+require 'my_error'
 
 class Roma
   include ActiveModel::Model
@@ -26,7 +27,7 @@ class Roma
     :key_name,
     :value,
     :expire_time
-  attr_reader :stats_hash, :stats_json
+  attr_reader :stats_hash
   
   validates :dcnice,
     allow_nil: true,
@@ -104,8 +105,13 @@ class Roma
 
   def initialize(params = nil)
     super(params)
-    @host = ConfigGui::HOST
-    @port = ConfigGui::PORT
+    if $baseHost && $basePort
+      @host = $baseHost
+      @port = $basePort
+    else
+      @host = ConfigGui::HOST
+      @port = ConfigGui::PORT
+    end
   end
 
   def get_stats(host = @host, port = @port)
@@ -123,7 +129,6 @@ class Roma
       end
     }
     
-    @stats_json = ActiveSupport::JSON.encode(@stats_hash)
     @stats_hash
   end
   
@@ -253,24 +258,30 @@ class Roma
   #end
 
   def send_command(command, eof = "END", host = @host, port = @port)
-    sock = TCPSocket.open(host, port)
+    nid ="#{host}_#{port}"
+    con = ConPool.instance.get_connection(nid)
+    raise unless con
 
-    sock.write("#{command}\r\n")
+    con.write("#{command}\r\n")
+    if con.eof?
+      ConPool.instance.delete_connection(nid)
+      #raise Errno::ECONNREFUSED, "#{host}_#{port}"
+      raise ConPoolError, "#{host}_#{port}"
+      #raise ActiveRecord::RecordNotFound
+    end
 
     unless eof
-      @res = sock.gets
+      @res = con.gets
     else
       @res = []
-      sock.each{|s|
+      con.each{|s|
         break if s == "#{eof}\r\n"
         @res.push(s.chomp)
-        #raise "ROMA send back Error message=>#{s}" if s.chomp =~ /^CLIENT_ERROR$/
-        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR$/
+        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
       }
     end
 
-    sock.close
-
+    ConPool.instance.return_connection(nid, con)
     return @res
   end
 

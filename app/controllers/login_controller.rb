@@ -1,5 +1,5 @@
 class LoginController < ApplicationController
-  skip_before_filter :check_logined_filter
+  skip_before_filter :check_logined_filter, :check_mklhash
   before_filter :redirect_top?, :only => 'index'
   
   def auth
@@ -15,6 +15,15 @@ class LoginController < ApplicationController
         session[:email] = ''
       end
 
+      roma = Roma.new
+      stats_hash = roma.get_stats
+      session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      session[:mklhash] = roma.send_command("mklhash 0", nil)
+      $baseHost = session[:active_routing_list][0].split(/[:_]/)[0]
+      $basePort = session[:active_routing_list][0].split(/[:_]/)[1]
+      Rails.logger.debug(session[:active_routing_list])
+      Rails.logger.debug(session[:mklhash])
+ 
       if params[:referer]
         redirect_to params[:referer]
       else
@@ -30,6 +39,8 @@ class LoginController < ApplicationController
 
   def logout
     reset_session
+    $baseHost = nil
+    $basePort = nil
     redirect_to '/login/index'
   end
 

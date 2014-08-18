@@ -190,7 +190,6 @@
       </thead>
       <tbody class="table-contents">
         <% 
-        #[ToDO] why not use with_idx?
         index = 0
         @routing_info.each do |(instance, info)|
           if info["status"] == "active" %>
@@ -301,10 +300,10 @@
         :new instance's [config.rb]'s PATH.
         <div class="configPath"></div>
         <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
-        : Use "--enabled_repeathost" option? (Do you want to boot all instance on single server?)
+        : Use "--enabled_repeathost" option?
 
-        <%= hidden_field_tag :current_host, ConfigGui::HOST, {:id=>"currentHost"} %>
-        <%= hidden_field_tag :current_port,  ConfigGui::PORT, {:id=>"currentPort"} %>
+        <%= hidden_field_tag :current_host, $baseHost, {:id=>"currentHost"} %>
+        <%= hidden_field_tag :current_port,  $basePort, {:id=>"currentPort"} %>
       </div>
       <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
   
