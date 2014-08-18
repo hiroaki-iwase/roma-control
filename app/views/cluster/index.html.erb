@@ -302,10 +302,8 @@
         <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
         : Use "--enabled_repeathost" option?
 
-        <%#= hidden_field_tag :current_host, ConfigGui::HOST, {:id=>"currentHost"} %>
-        <%#= hidden_field_tag :current_port,  ConfigGui::PORT, {:id=>"currentPort"} %>
-        <%= hidden_field_tag :current_host, $Base_Host, {:id=>"currentHost"} %>
-        <%= hidden_field_tag :current_port,  $Base_Port, {:id=>"currentPort"} %>
+        <%= hidden_field_tag :current_host, $baseHost, {:id=>"currentHost"} %>
+        <%= hidden_field_tag :current_port,  $basePort, {:id=>"currentPort"} %>
       </div>
       <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
   
