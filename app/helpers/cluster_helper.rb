@@ -25,6 +25,14 @@ module ClusterHelper
     status !~ /inactive|unknown/
   end
 
+  def memory_mode?(stats_hash)
+    if stats_hash['storages[roma]']['storage.option'].size == 0
+      return true
+    else
+      return false
+    end
+  end
+
   def short_vnodes?(stats_hash)
     if stats_hash["routing"]["short_vnodes"].chomp == "0"
       return false

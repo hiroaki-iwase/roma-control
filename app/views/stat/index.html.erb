@@ -19,7 +19,8 @@
         <% end %>
 
         <% @stats_hash[name].each{|k,v|
-          next if check_skip_columns(k)
+          next if check_skip_columns(k, @stats_hash)
+
           # for storage option
           if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
             <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></a></td><td></td></tr>

@@ -4,7 +4,6 @@ class LoginController < ApplicationController
   
   def auth
     usr, type = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
-
     if usr && type
       session[:username] = usr[:username]
       session[:password] = Digest::SHA1.hexdigest(usr[:password])
@@ -17,6 +16,35 @@ class LoginController < ApplicationController
 
       roma = Roma.new
       stats_hash = roma.get_stats
+
+      ###Version check(ROMA main unit)
+      #version = self.class.helpers.chk_roma_version(stats_hash['others']['version'])
+      #case version
+      #when 65536..Float::INFINITY # over 1.0.0
+      #when 
+      #when 65536..Float::INFINITY
+
+      #unless version
+      #  Rails.logger.warn("Gladiator can NOT find 'plugin_gui.rb' plugin.")
+      #  reset_session
+      #  flash[:login_error] = 'missing plugin'
+      #  redirect_to :action => 'index' and return
+      #end
+      #if version < 65536
+      #  Rails.logger.warn("Gladiator do NOT suppor this version => #{stats_hash['others']['version']}")
+      #  reset_session
+      #  flash[:login_error] = 'Unsupport version'
+      #  redirect_to :action => 'index' and return
+      #end
+
+      ###plugin check(config_gui.rb)
+      unless roma.change_roma_res_style(stats_hash['config']['PLUGIN_FILES']).include?('plugin_gui.rb')
+        Rails.logger.warn("Gladiator can NOT find 'plugin_gui.rb' plugin.")
+        reset_session
+        flash[:login_error] = 'missing plugin'
+        redirect_to :action => 'index' and return
+      end
+
       session[:active_routing_list] = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
       session[:mklhash] = roma.send_command("mklhash 0", nil)
       $baseHost = session[:active_routing_list][0].split(/[:_]/)[0]
@@ -32,7 +60,7 @@ class LoginController < ApplicationController
 
     else
       flash[:referer] = params[:referer]
-      flash[:error] = 'username or password is incorrect!!'
+      flash[:login_error] = 'username or password is incorrect!!'
       redirect_to :action => 'index'
     end
   end

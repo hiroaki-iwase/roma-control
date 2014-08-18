@@ -1,7 +1,7 @@
 module ConfigGui
   HOST = "192.168.223.2"
-  PORT = 10001
-  #PORT = 20001
+  #PORT = 10001
+  PORT = 20001
 
   # user list
   ROOT_USER = [
