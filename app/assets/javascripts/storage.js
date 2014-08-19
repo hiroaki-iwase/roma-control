@@ -1,5 +1,15 @@
 $(function(){
 
+     //$("#btn").click(function() {
+         $("#overlay").fadeIn();
+     //});
+     //$("#close").click(function() {
+     //    $("#overlay").fadeOut();
+     //});
+
+
+
+
     //Modal
     $(".close-modal-btn").click(function() {
        $('#set-modal').modal('hide');

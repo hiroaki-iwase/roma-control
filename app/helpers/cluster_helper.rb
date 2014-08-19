@@ -21,6 +21,15 @@ module ClusterHelper
     end
   end
 
+  def chk_roma_version(vs)
+    if /(\d+)\.(\d+)\.(\d+)/ =~ vs
+      version = ($1.to_i << 16) + ($2.to_i << 8) + $3.to_i
+      return version
+    end
+
+    raise
+  end
+
   def is_active?(status)
     status !~ /inactive|unknown/
   end
@@ -62,6 +71,13 @@ module ClusterHelper
   end
 
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
+    # for past version
+    if command == 'recover'
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356
+        return "disabled"
+      end
+    end
+
     case command
     when "recover"
       return nil if can_i_recover?(stats_hash, routing_info)

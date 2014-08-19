@@ -1,3 +1,69 @@
+#coveredArea{
+        /**background: #717171;**/
+        /**color: #eeeeee;**/
+        /**display:block;**/
+        /**margin: 400px auto;**/
+        /**width: 70px;**/
+        /**text-align: center;**/
+        /**font-size: 15px;**/
+        /**padding:5px 0;**/
+        /**border-radius: 3px;**/
+        /**cursor: pointer;**/
+}
+ 
+#overlay{
+    display: none;
+    /**width: 100%;**/
+    /**height:100%;**/
+    text-align: center;
+    vertical-align: middle;
+    /**position: fixed;**/
+    /**position: relative;**/
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    /**top: 0;**/
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+}
+ 
+#text{
+
+    height: 50px;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    right: 10%;
+    bottom: 25%;
+
+    font-size: 40px;
+    color: #eee;
+    /**padding-top: 400px;**/
+    /**vertical-align: middle;**/
+    font-weight: bold;
+    white-space: nowrap;
+}
+ 
+/**
+    #close{
+        background: #eeeeee url(images/ico.jpg) no-repeat 10px center;
+        color: #717171;
+        width: 70px;
+        margin: auto;
+        text-align: center;
+        font-size: 15px;
+        padding:5px 0 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+**/
+
+
+
+
+
+
 .get-contents, .set-contents {
   margin-left: 20px;
 }

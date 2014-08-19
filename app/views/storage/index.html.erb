@@ -36,49 +36,57 @@
 <% end %>
 
 <% unless memory_mode?(@stats_hash) %>
-  <div class="col-xs-12 snapshot-column">
-    <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
-    <div class="snap-command-area">
-      <h4><U>Command Generater</U></h4>
-      <div class="port-input">
-        <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
-        <div class="snap-explanation"></div>
-        <div class="snap-command"></div>
-        <div class="snap-command-error"></div>
-      </div>
+  <div class="col-xs-12 snapshot-column" id="versionTest">
+
+    <div id="overlay">
+       <div id="text">You can Not use this function</div>
     </div>
-  
-    <div class="status-area">
-      <h4><U>Status</U></h4>
-      <% if flash[:snapshoting] %>
-        <div class="snap-progress-area">
-          <h5><U>Progress:</U></h5>
-          <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
-          <div id="snapshotProgress">
-            <table class="table table-bordered table-snapshot">
-              <thead>
-                <tr>
-                  <td class="storage-name-column">storage name</td>
-                  <td class="status-column">status</td>
-                <tr>
-              </thead>
-              <tbody>
-                <% 10.times{|i| %>
-                  <tr>
-                    <td><%= "#{i}.tc" %></td>
-                    <td id="snapshotStatus<%=i%>"></td>
-                  <tr>
-                <% } %>
-              </tbody>
-            </table>
-          </div>
+
+    <div id="coveredArea">
+
+      <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
+      <div class="snap-command-area">
+        <h4><U>Command Generater</U></h4>
+        <div class="port-input">
+          <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
+          <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
+          <div class="snap-explanation"></div>
+          <div class="snap-command"></div>
+          <div class="snap-command-error"></div>
         </div>
-      <% end %>
+      </div>
   
-      <div class="snapshot-date-area">
-        <h5><U>last snapshot date:</U></h5>
-        <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+      <div class="status-area">
+        <h4><U>Status</U></h4>
+        <% if flash[:snapshoting] %>
+          <div class="snap-progress-area">
+            <h5><U>Progress:</U></h5>
+            <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+            <div id="snapshotProgress">
+              <table class="table table-bordered table-snapshot">
+                <thead>
+                  <tr>
+                    <td class="storage-name-column">storage name</td>
+                    <td class="status-column">status</td>
+                  <tr>
+                </thead>
+                <tbody>
+                  <% 10.times{|i| %>
+                    <tr>
+                      <td><%= "#{i}.tc" %></td>
+                      <td id="snapshotStatus<%=i%>"></td>
+                    <tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% end %>
+  
+        <div class="snapshot-date-area">
+          <h5><U>last snapshot date:</U></h5>
+          <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+        </div>
       </div>
     </div>
   </div>
