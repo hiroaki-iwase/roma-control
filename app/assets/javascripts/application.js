@@ -17,4 +17,5 @@
 //= require bootstrap
 //= require validate
 //= require jquery.validate
+//= require error
 //= require common

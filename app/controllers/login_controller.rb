@@ -1,5 +1,5 @@
 class LoginController < ApplicationController
-  skip_before_filter :check_logined_filter, :check_mklhash
+  skip_before_filter :check_logined_filter, :check_mklhash, :unsupport_version?
   before_filter :redirect_top?, :only => 'index'
   
   def auth
@@ -22,12 +22,10 @@ class LoginController < ApplicationController
       case version
       when 0..2058 # earlier than v0.8.10 
         reset_session
-        flash[:login_error] = 'unsupport version'
         redirect_to :action => 'index' and return
-      #when 2059..65535 # v0.8.11 - v0.8.14
-      #  reset_session
-      #  flash[:login_error] = 'unsupport version'
-      #  redirect_to :action => 'index' and return
+      when 2059..65535 # v0.8.11 - v0.8.14
+        flash[:login_error] = 'unsupport version'
+        flash[:unsupport] = stats_hash['others']['version']
       when 65536..Float::INFINITY # over 1.0.0
         # nothing
       end
