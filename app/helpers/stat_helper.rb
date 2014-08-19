@@ -1,10 +1,22 @@
 module StatHelper
 
-  def check_skip_columns(column)
+  def check_skip_columns(column, stats_hash)
     if /^storage\[\d*\]/ =~ column
       return true
     end
+    if memory_mode?(stats_hash)
+      return true if /storage\.option|storage\.safecopy_stats/ =~ column
+    end
   end
+
+  def memory_mode?(stats_hash)
+    if stats_hash['storages[roma]']['storage.option'].size == 0
+      return true
+    else
+      return false
+    end
+  end
+  private :memory_mode?
 
   def explanation(column)
     case column

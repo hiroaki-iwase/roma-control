@@ -80,11 +80,11 @@ class ApplicationController < ActionController::Base
         raise if !User.authenticate(session[:username], session[:password])
       rescue
         reset_session
-        flash[:filter_msg] = "illegal user data!!"
+        flash[:login_error] = "illegal user data!!"
         redirect_to :controller => 'login', :action => 'index'
       end
     else
-      flash[:filter_msg] = "please login!!"
+      flash[:login_error] = "please login!!"
         redirect_to :controller => 'login', :action => 'index'
     end
   end

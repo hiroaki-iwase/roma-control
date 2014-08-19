@@ -176,8 +176,10 @@
           <th rowspan="2">No.</th>
           <th rowspan="2">Cluster Name</th>
           <th rowspan="2" data-placeholder="">Status</th>
-          <th rowspan="2">Data rate</th>
-          <th rowspan="2" class="datasize-column">Data size</th>
+          <% unless memory_mode?(@stats_hash) %>
+            <th rowspan="2">Data rate</th>
+            <th rowspan="2" class="datasize-column">Data size</th>
+          <% end %>
           <th colspan="2">vnodes count</th>
           <% if session[:user_type] == 'root' %>
             <th rowspan="2" class="button-column">&nbsp;</th>
@@ -222,26 +224,28 @@
               <% end %>
             </td>
 
-            <!-- Data rate -->
-            <td class="progress-bar-column">
-              <% if is_active?(info["status"]) %>
-                <div class="progress progress-striped active" >
-                  <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
-                     <% if current_size_rate(info["size"]) >= 25.0 %>
-                       <%= current_size_rate(info["size"]) %> %
-                     <% end %>
-                  </span>
-                  <% if current_size_rate(info["size"]) < 25.0 %>
-                    (<%= current_size_rate(info["size"]) %> %)
-                  <% end %>
-                </div>
-              <% end %>
-            </td>
+            <% unless memory_mode?(@stats_hash) %>
+              <!-- Data rate -->
+              <td class="progress-bar-column">
+                <% if is_active?(info["status"]) %>
+                  <div class="progress progress-striped active" >
+                    <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
+                       <% if current_size_rate(info["size"]) >= 25.0 %>
+                         <%= current_size_rate(info["size"]) %> %
+                       <% end %>
+                    </span>
+                    <% if current_size_rate(info["size"]) < 25.0 %>
+                      (<%= current_size_rate(info["size"]) %> %)
+                    <% end %>
+                  </div>
+                <% end %>
+              </td>
 
-            <!-- Data size -->
-            <td nowrap>
-              <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
-            </td>
+              <!-- Data size -->
+              <td nowrap>
+                <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
+              </td>
+            <% end %>
 
             <!-- vnodes count -->
             <% instance_name = instance.gsub(/[^0-9]/,"") %>

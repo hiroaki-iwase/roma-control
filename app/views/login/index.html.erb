@@ -1,3 +1,5 @@
+<%= render 'login/modal' %>
+
 <div class="container">
   <div class="row">
     <div class="col-xs-12 grey-area">
@@ -26,7 +28,7 @@
           <div class="login-form-area">
             <%= form_tag :action => 'auth' do %>
               <div class="field">
-                <%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %>
+                <%= text_field_tag(:username, '', { :placeholder =>'username', :size => 30 }) %>
               </div>
               <div class="field">
                 <%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %>
@@ -38,11 +40,14 @@
                 Login to Gladiator
               </button>
             <% end %>
-            <span class="login-error"><%= flash[:error] %></span>
-            <span class="login-error"><%= flash[:filter_msg] %></span>
+            <% if flash[:login_error] %>
+              <br>
+              <span class="login-error"><%= flash[:login_error] %></span>
+            <% end %>
           </div> <!-- login-form-area -->
         </div> <!-- col-xs-7 -->
       </div> <!--login-contents"-->
     </div> <!--class="col-xs-12" id="grey-area" -->
   </div> <!--row-->
 </div> <!--container -->
+
