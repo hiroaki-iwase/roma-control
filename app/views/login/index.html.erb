@@ -28,15 +28,15 @@
           <div class="login-form-area">
             <%= form_tag :action => 'auth' do %>
               <div class="field">
-                <%= text_field_tag(:username, '', { :placeholder =>'username',:id => 'userNameValue', :size => 30 }) %>
+                <%= text_field_tag(:username, '', { :placeholder =>'username', :size => 30 }) %>
               </div>
               <div class="field">
-                <%= password_field_tag(:password, '', { :placeholder => 'password', :id => 'passWordValue', :size => 30 }) %>
+                <%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %>
               </div>
               <% if flash[:referer] %>
                 <%= hidden_field_tag :referer, flash[:referer] %>
               <% end %>
-              <button class="btn btn-success" id="loginButton">
+              <button class="btn btn-success">
                 Login to Gladiator
               </button>
             <% end %>
