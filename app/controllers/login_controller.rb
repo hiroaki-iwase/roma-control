@@ -1,6 +1,7 @@
 class LoginController < ApplicationController
   skip_before_filter :check_logined_filter, :check_mklhash
   before_filter :redirect_top?, :only => 'index'
+  skip_before_filter :verify_authenticity_token #debug
   
   def auth
     usr, type = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
@@ -18,24 +19,12 @@ class LoginController < ApplicationController
       stats_hash = roma.get_stats
 
       ###Version check(ROMA main unit)
-      #version = self.class.helpers.chk_roma_version(stats_hash['others']['version'])
-      #case version
-      #when 65536..Float::INFINITY # over 1.0.0
-      #when 
-      #when 65536..Float::INFINITY
-
-      #unless version
-      #  Rails.logger.warn("Gladiator can NOT find 'plugin_gui.rb' plugin.")
-      #  reset_session
-      #  flash[:login_error] = 'missing plugin'
-      #  redirect_to :action => 'index' and return
-      #end
-      #if version < 65536
-      #  Rails.logger.warn("Gladiator do NOT suppor this version => #{stats_hash['others']['version']}")
-      #  reset_session
-      #  flash[:login_error] = 'Unsupport version'
-      #  redirect_to :action => 'index' and return
-      #end
+      version = self.class.helpers.chk_roma_version(stats_hash['others']['version'])
+      case version
+      when 65536..Float::INFINITY # over 1.0.0
+      else
+        session[:unsupport] = true
+      end
 
       ###plugin check(config_gui.rb)
       unless roma.change_roma_res_style(stats_hash['config']['PLUGIN_FILES']).include?('plugin_gui.rb')

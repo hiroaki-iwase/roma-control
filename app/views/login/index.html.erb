@@ -26,12 +26,12 @@
         <div class="col-xs-7">
           <%= image_tag("colloseum.png", :id => "login-background") %>
           <div class="login-form-area">
-            <%= form_tag :action => 'auth' do %>
+            <%#= form_tag :action => 'auth' do %>
               <div class="field">
-                <%= text_field_tag(:username, '', { :placeholder =>'username' ,:size => 30 }) %>
+                <%= text_field_tag(:username, '', { :placeholder =>'username',:id => 'userNameValue', :size => 30 }) %>
               </div>
               <div class="field">
-                <%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %>
+                <%= password_field_tag(:password, '', { :placeholder => 'password', :id => 'passWordValue', :size => 30 }) %>
               </div>
               <% if flash[:referer] %>
                 <%= hidden_field_tag :referer, flash[:referer] %>
@@ -39,8 +39,9 @@
               <button class="btn btn-success" id="loginButton">
                 Login to Gladiator
               </button>
-            <% end %>
+            <%# end %>
             <% if flash[:login_error] %>
+              <br>
               <span class="login-error"><%= flash[:login_error] %></span>
             <% end %>
           </div> <!-- login-form-area -->
@@ -49,3 +50,4 @@
     </div> <!--class="col-xs-12" id="grey-area" -->
   </div> <!--row-->
 </div> <!--container -->
+

@@ -1,5 +1,6 @@
 $(function(){
 
+    //plugin check
     if($(".login-error").length){
         errorMsg = $(".login-error").text();
         if (errorMsg.match(/missing plugin/)) {
@@ -9,26 +10,38 @@ $(function(){
         }
     }
 
-    //$("#loginButton").click(function() {
-    //    checkRomaVersion();
-    //    //alert('sss');
-    //        //if($(this).is(':checked')) {
-    //        //    $('#repetition-modal').modal({
-    //        //        show: true,
-    //        //        keyboard: false
-    //        //    })
-    //        //}
-    //});
+    //version check
+    $("#loginButton").click(function() {
+        version = checkRomaVersion();
+        if (version >= 65536) { // over v1.0.0
+           //access to auth
+            var userName = $('#userNameValue').val();
+            var passWord = $('#passWordValue').val();
+            login(userName, passWord);
 
-    //function setApiEndpoint(action) {
-    //    var protocol = location.protocol;
-    //    var host = location.host;
-    //    var webApiEndpoint = protocol+"//"+host+"/api/"+action;
-    //    return webApiEndpoint;
-    //}
+        } else if ( version >= 2059 && version < 65536 ) { //v0.8.11 - v0.8.14
+            var userName = $('#userNameValue').val();
+            var passWord = $('#passWordValue').val();
+            $('#loginUserName').val(userName);
+            $('#loginPassword').val(passWord);
+            $('#version-modal').modal({
+                show: true,
+                keyboard: false,
+            });
+        } else { // below v0.8.10 and unexpected version
+            $('.password').val('');
+            $('#version-restrict-modal').modal({
+                show: true,
+                keyboard: false,
+            });
+        }
+    });
 
-    //function checkRomaVersion() {
-
+    function checkRomaVersion() {
+    //      $('#plugin-modal').modal({
+    //          show: true,
+    //      });
+        return 777777;
     //    //var host = instance.split('_')[0]
     //    //var port = instance.split('_')[1]
 
@@ -48,5 +61,45 @@ $(function(){
     //      alert("fail to check ROMA version");
     //    });
     //}//End of checkRomaVersion
+
+    //function setApiEndpoint(action) {
+    //    var protocol = location.protocol;
+    //    var host = location.host;
+    //    var webApiEndpoint = protocol+"//"+host+"/api/"+action;
+    //    return webApiEndpoint;
+    }
+
+    function login(userName, passWord) {
+    //    //var host = instance.split('_')[0]
+    //    //var port = instance.split('_')[1]
+
+    var webApiEndpoint = 'http://192.168.223.2:3000/login/auth'
+
+    //    var webApiEndpoint = setApiEndpoint('get_parameter')
+
+    var data = {username:userName, password:passWord}
+        $.ajax({
+            //url: webApiEndpoint,
+            url: "login/auth",
+            type: 'POST',
+            //dataType: 'json',
+            data: {
+                username: 'hiroaki.iwase',
+                password: 'rakuten'
+            },
+            dataType: "html",
+            cache: false,
+        }).done(function(data){
+            console.log('OK');
+        }).fail(function(){
+            alert("fail to check ROMA version");
+        });
+
+    //function setApiEndpoint(action) {
+    //    var protocol = location.protocol;
+    //    var host = location.host;
+    //    var webApiEndpoint = protocol+"//"+host+"/api/"+action;
+    //    return webApiEndpoint;
+    }
 
 });

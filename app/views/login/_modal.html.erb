@@ -1,123 +1,56 @@
-<% if false %>
-  <!-- rbalse Modal -->
-  <div class="modal fade" id="rbalse-modal" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>This function kill the instance without release vnodes.</li>
-              <ul class="modal-explanation-detail">
-                <li>Target instance will be removed from routing file. </li>
-                <li>Vnodes in charge of target instance will not be automatically released. </li>
-                <li>This process generate short vnodes. </li>
-                <li>If you wanna release vnodes before killing process, please use Release button.</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <%= form_tag :action => 'destroy' do %>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Run rbalse</button>
-            <input id="rbalse-hidden-value" type="hidden" name="target_instance" value=''>
+<!-- version Check Modal -->
+<div class="modal fade" id="version-modal" tabindex="-1" role="dialog" aria-labelledby="versionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="versionModalLabel"> Your ROMA version is Not supported.</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>Gladiator will support only after ROMA v1.0.0.</li>
+          <li>You can use Gladiator with after v0.8.11 narrowly.<br>
+              But some functions are restricted.</li>
+          <li>We strongly recommend to update ROMA.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        Continue to use Gladiator?
+        <%= form_tag :action => 'auth' do %>
+          <%= hidden_field_tag :username, '', :id => 'loginUserName' %>
+          <%= hidden_field_tag :password, '', :id => 'loginPassword' %>
+          <% if flash[:referer] %>
+            <%= hidden_field_tag :referer, flash[:referer] %>
           <% end %>
-        </div>
-      </div>
-    </div>
-  </div><!-- End of rbalse Modal -->
-  
-  <!-- rbalse Modal(after release) -->
-  <div class="modal fade" id="rbalse-modal-after-release" tabindex="-1" role="dialog" aria-labelledby="rbalseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="rbalseModalLabel">Do you want to run rbalse?</h4>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>You should rbalse(kill) instance after releasing.</li>
-              <ul class="modal-explanation-detail">
-                <li>If you don't wanna rbalse now, do not forget to execute rbalse later. </li>
-                <li>(Until executing rbalse, you can't do other operations.)</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <%= form_tag :action => 'destroy' do %>
-            <a href="index" type="button" class="btn btn-default">Cancel</a>
-            <button type="submit" class="btn btn-primary">Run rbalse</button>
-            <input id="rbalse-hidden-value-after-release" type="hidden" name="target_instance" value=''>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div><!-- End of rbalse Modal(after release) -->
-  
-  <!-- Release Modal -->
-  <div class="modal fade" id="release-modal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="releaseModalLabel">Do you want to run Release?</h4>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>This function release the vnodes to other surviving instances without kill instance.
-              <ul class="modal-explanation-detail">
-                <li>Target instance will be removed from routing file. </li>
-                <li>Target instance will not be automatically down. </li>
-                <li>So after releasing, you have to execute rbalse.</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <%= form_tag :action => 'release' do %>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Run Release</button>
-            <input id="release-hidden-value" type="hidden" name="target_instance" value=''>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div><!-- End of Release Modal -->
-  
-  <!-- Recover Modal -->
-  <div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="recoverModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="recoverModalLabel">Do you want to run Recover?</h4>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>This function updates routing file with surviving instances.
-              <ul class="modal-explanation-detail">
-                <li>Inactive instance will be removed from routing file. </li>
-                <li>After recovering, you can't use inactive instance without join as a new instance or modify routing directly.</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <form action="update" method="get" style="display:inline">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Run Recover</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div><!-- End of Recover Modal -->
-<% end %>
 
+          <button class="btn btn-primary">YES</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div><!-- End of repetition Check Modal -->
+
+<!-- version Restriction Modal -->
+<div class="modal fade" id="version-restrict-modal" tabindex="-1" role="dialog" aria-labelledby="versionRestrictModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="versionRestrictModalLabel"> Your ROMA version is Not supported.</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>Gladiator will support only after ROMA v1.0.0.</li>
+          <li>You can NOT use Gladiator with earlier than ROMA v0.8.10.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div><!-- End of repetition Check Modal -->
 
 <!-- plugin Check Modal -->
 <div class="modal fade" id="plugin-modal" tabindex="-1" role="dialog" aria-labelledby="pluginModalLabel" aria-hidden="true">
