@@ -20,9 +20,16 @@ class LoginController < ApplicationController
       ###Version check(ROMA main unit)
       version = self.class.helpers.chk_roma_version(stats_hash['others']['version'])
       case version
+      when 0..2058 # earlier than v0.8.10 
+        reset_session
+        flash[:login_error] = 'unsupport version'
+        redirect_to :action => 'index' and return
+      when 2059..65535 # v0.8.11 - v0.8.14
+        reset_session
+        flash[:login_error] = 'unsupport version'
+        redirect_to :action => 'index' and return
       when 65536..Float::INFINITY # over 1.0.0
-      else
-        session[:unsupport] = true
+        # nothing
       end
 
       ###plugin check(config_gui.rb)
