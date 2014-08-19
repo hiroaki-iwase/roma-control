@@ -26,7 +26,7 @@
         <div class="col-xs-7">
           <%= image_tag("colloseum.png", :id => "login-background") %>
           <div class="login-form-area">
-            <%#= form_tag :action => 'auth' do %>
+            <%= form_tag :action => 'auth' do %>
               <div class="field">
                 <%= text_field_tag(:username, '', { :placeholder =>'username',:id => 'userNameValue', :size => 30 }) %>
               </div>
@@ -39,7 +39,7 @@
               <button class="btn btn-success" id="loginButton">
                 Login to Gladiator
               </button>
-            <%# end %>
+            <% end %>
             <% if flash[:login_error] %>
               <br>
               <span class="login-error"><%= flash[:login_error] %></span>

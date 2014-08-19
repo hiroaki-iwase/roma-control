@@ -1,7 +1,6 @@
 class LoginController < ApplicationController
   skip_before_filter :check_logined_filter, :check_mklhash
   before_filter :redirect_top?, :only => 'index'
-  skip_before_filter :verify_authenticity_token #debug
   
   def auth
     usr, type = User.authenticate(params['username'], Digest::SHA1.hexdigest(params['password']))
