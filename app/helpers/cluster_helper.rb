@@ -21,25 +21,8 @@ module ClusterHelper
     end
   end
 
-  def chk_roma_version(vs)
-    if /(\d+)\.(\d+)\.(\d+)/ =~ vs
-      version = ($1.to_i << 16) + ($2.to_i << 8) + $3.to_i
-      return version
-    end
-
-    raise
-  end
-
   def is_active?(status)
     status !~ /inactive|unknown/
-  end
-
-  def memory_mode?(stats_hash)
-    if stats_hash['storages[roma]']['storage.option'].size == 0
-      return true
-    else
-      return false
-    end
   end
 
   def short_vnodes?(stats_hash)
@@ -92,6 +75,7 @@ module ClusterHelper
 
   def can_i_recover?(stats_hash, routing_info)
     return false if released_flg?(routing_info)
+    return false if flash[:unknown]
 
     if !short_vnodes?(stats_hash) || extra_process_chk(routing_info) || 
        stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
@@ -103,6 +87,7 @@ module ClusterHelper
 
   def can_i_release?(stats_hash, routing_info, target_instance)
     return false if released_flg?(routing_info)
+    return false if flash[:unknown]
 
     if extra_process_chk(routing_info)
       return false
@@ -179,23 +164,6 @@ module ClusterHelper
     end
     
     param
-  end
-
-  def past_version?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) < 65536
-      return true
-    else
-      return false
-    end
-  end
-
-  def chk_roma_version(vs)
-    if /(\d+)\.(\d+)\.(\d+)/ =~ vs
-      version = ($1.to_i << 16) + ($2.to_i << 8) + $3.to_i
-      return version
-    end
-
-    raise
   end
 
 end

@@ -35,9 +35,7 @@
         <% if past_version?(@stats_hash) %>
           <div id="overlay1"><div id="text1">You can Not use this function</div></div>
         <% end %>
-        <div id="coveredArea1">
-          enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
-        </div>
+        enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
       </li>
 
       <% unless past_version?(@stats_hash) %>
@@ -58,67 +56,62 @@
   </div>
 </div>
 
-
 <div class="col-xs-12 routing-history">
-
   <% if past_version?(@stats_hash) %>
     <div id="overlay2">
-       <div id="text2">
-         You can Not use this function<br>
-         in this version.
-       </div>
+      <div id="text2">
+        You can Not use this function<br>in this version.
+      </div>
     </div>
   <% end %>
 
-  <div id="coveredArea2">
-    <h4><U>routing history</U></h4>
-    <div class="routing-history-glaph">
-      <% if @routing_event.size == 0 %>
-        <table class="table table-bordered table-condensed">
+  <h4><U>routing history</U></h4>
+  <div class="routing-history-glaph">
+    <% if @routing_event.size == 0 %>
+      <table class="table table-bordered table-condensed">
+        <tr class="history-glaph-title">
+          <th>date</th>
+          <th>Event</th>
+        </tr>
+        <tr class="noevent"><td colspan="3">never happened leave or join yet</td></tr>
+      </table>
+
+    <% else %>
+      <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
+        <thead class="history-glaph-title">
           <tr class="history-glaph-title">
             <th>date</th>
             <th>Event</th>
           </tr>
-          <tr class="noevent"><td colspan="3">never happened leave or join yet</td></tr>
-        </table>
-
-      <% else %>
-        <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
-          <thead class="history-glaph-title">
-            <tr class="history-glaph-title">
-              <th>date</th>
-              <th>Event</th>
+        </thead>
+        <tbody>
+          <%
+          @routing_event.each{|event|
+            event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
+          %>
+            <tr class="<%= $3 %>-column">
+              <td><%= "#{$1} #{$2}" %></td>
+              <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
             </tr>
-          </thead>
-          <tbody>
-            <%
-            @routing_event.each{|event|
-              event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
-            %>
-              <tr class="<%= $3 %>-column">
-                <td><%= "#{$1} #{$2}" %></td>
-                <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-        <div id="pager" class="pager">
-          <form>
-            <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
-            <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
-            <input type="text" class="pagedisplay"/>
-            <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
-            <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
-            <select class="pagesize">
-              <option selected="selected"  value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option  value="40">40</option>
-            </select>
-          </form>
-        </div>
+          <% } %>
+        </tbody>
+      </table>
+      <div id="pager" class="pager">
+        <form>
+          <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+          <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+          <input type="text" class="pagedisplay"/>
+          <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+          <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+          <select class="pagesize">
+            <option selected="selected"  value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option  value="40">40</option>
+          </select>
+        </form>
+      </div>
 
-      <% end %>
-    </div>
+    <% end %>
   </div>
 </div>

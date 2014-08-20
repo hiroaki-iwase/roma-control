@@ -94,8 +94,14 @@
         <td class="panel-roma-version">
           ROMA version
           <div class="panel-value">
+            <% if past_version?(@stats_hash) %>
+              <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+            <% end %>
             <%= @stats_hash["others"]["version"] %>
             <div class ="error-instance-small">
+              <% if past_version?(@stats_hash) %>
+                Unsupport version
+              <% end %>
               <% @routing_info.each do |instance, info| %>
                 <% if chk_main_version(info["version"]) %>
                   <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
@@ -221,11 +227,6 @@
             <td style="text-align: left"><%= instance %></td>
 
             <!-- instance status -->
-            <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
-              <td class="past-version-status"> 
-                can Not use
-              </td>
-            <% else %>
               <td class="instance-status-column" nowrap> 
                 <% if info["status"] == "active" %>
                   <div class="health-button green small_size" style="display: inline-block;"></div>
@@ -241,7 +242,6 @@
                   <%= info["status"] %>
                 <% end %>
               </td>
-            <% end %>
 
             <% unless memory_mode?(@stats_hash) %>
               <!-- Data rate -->
@@ -249,13 +249,15 @@
                 <% if is_active?(info["status"]) %>
                   <div class="progress progress-striped active" >
                     <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
-                       <% if current_size_rate(info["size"]) >= 25.0 %>
+                       <% if current_size_rate(info["size"]) >= 30.0 %>
                          <%= current_size_rate(info["size"]) %> %
                        <% end %>
                     </span>
-                    <% if current_size_rate(info["size"]) < 25.0 %>
+                    <span class="rate-count">
+                    <% if current_size_rate(info["size"]) < 30.0 %>
                       (<%= current_size_rate(info["size"]) %> %)
                     <% end %>
+                    <span>
                   </div>
                 <% end %>
               </td>

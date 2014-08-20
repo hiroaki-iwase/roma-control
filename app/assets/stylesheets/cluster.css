@@ -226,6 +226,10 @@ td.progress-bar-column {
   min-width: 125px;
 }
 
+.rate-count {
+  color: #848484;
+}
+
 .unknown-icon {
   color: #808080;
   font-size: 17px;
