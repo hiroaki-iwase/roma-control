@@ -6,8 +6,6 @@ $(function(){
     });
 
     // support past version
-    $("#overlayLog").fadeIn('fast');
-    $(".restriction-panel").fadeIn('fast');
     $('#logLink').click(function(e){
         e.preventDefault();
     });

@@ -49,11 +49,11 @@
                 <a href="/stat/index"    class="list-group-item">Status/Configuration</a>
                 <a href="/routing/index" class="list-group-item">Routing</a>
                 <a href="/logs/index"    class="list-group-item" id="logLink">
-                  <% if past_version?(@stats_hash) %>
+                  <%# if past_version?(@stats_hash) %>
                     <div class="restriction-panel">
                       <div class="restriction-msg restriction-msg-log">You can Not use this function</div>
                     </div>
-                  <% end %>
+                  <%# end %>
                   logs(Under construction)
                 </a>
                 <a href="/storage/index" class="list-group-item">Data Management</a>
