@@ -18,7 +18,7 @@
 #text{
   height: 50px;
   position: absolute;
-  top: 35%;
+  top: 25%;
   left: 10%;
   right: 10%;
   bottom: 25%;
@@ -29,6 +29,10 @@
   /**vertical-align: middle;**/
   font-weight: bold;
   white-space: nowrap;
+  filter: alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
+ 
 }
  
 .get-contents, .set-contents {

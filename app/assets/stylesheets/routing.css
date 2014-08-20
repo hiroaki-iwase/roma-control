@@ -130,6 +130,9 @@ li.list-striped {
   /**vertical-align: middle;**/
   font-weight: bold;
   white-space: nowrap;
+  filter: alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
 }
 
 
@@ -155,16 +158,18 @@ li.list-striped {
 #text2{
   height: 50px;
   position: absolute;
-  top: 35%;
+  top: 20%;
   left: 10%;
   right: 10%;
   bottom: 25%;
-
   font-size: 30px;
   color: #eee;
   /**padding-top: 400px;**/
   /**vertical-align: middle;**/
   font-weight: bold;
   white-space: nowrap;
+  filter: alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
 }
 

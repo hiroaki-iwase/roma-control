@@ -4,7 +4,13 @@
 
 <h1 class="contents-name"><U>Cluster</U></h1>
 <div class="basic-information">
-  <h2 class="sub-contents-name"><U>Health</U>:
+  <div class="col-xs-12">
+    <span id="overlay">
+      <div id="text">can Not use</div>
+    </span>
+    <span class="sub-contents-name">
+      <u>Health</u>:
+    </span>
     <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
       <div class="health-button red large_size" style="display: inline-block;">
         <span class="glare red large"></span>
@@ -22,14 +28,13 @@
     <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
-    
     <!-- for past version -->
     <% if past_version?(@stats_hash) %>
       <span class="past-version-recover-msg">
          You can Not use recover with this ROMA version in this situation.
       </span>
     <% end %>
-  </h2>
+  </div>
 
 
   <% if short_vnodes?(@stats_hash) %>
@@ -216,21 +221,27 @@
             <td style="text-align: left"><%= instance %></td>
 
             <!-- instance status -->
-            <td class="instance-status-column" nowrap> 
-              <% if info["status"] == "active" %>
-                <div class="health-button green small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% elsif info["status"] == "inactive" %>
-                <div class="health-button grey small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% elsif info["status"] == "unknown" %>
-                <span class="unknown-icon"><i class="icon-question-sign"></i></span>
-                <%= info["status"] %>
-              <% else %>
-                <div class="health-button yellow small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% end %>
-            </td>
+            <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+              <td class="past-version-status"> 
+                can Not use
+              </td>
+            <% else %>
+              <td class="instance-status-column" nowrap> 
+                <% if info["status"] == "active" %>
+                  <div class="health-button green small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% elsif info["status"] == "inactive" %>
+                  <div class="health-button grey small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% elsif info["status"] == "unknown" %>
+                  <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                  <%= info["status"] %>
+                <% else %>
+                  <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% end %>
+              </td>
+            <% end %>
 
             <% unless memory_mode?(@stats_hash) %>
               <!-- Data rate -->

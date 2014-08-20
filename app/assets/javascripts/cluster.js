@@ -1,5 +1,7 @@
 $(function(){
 
+    $("#overlay").fadeIn('fast');
+
     //for past version
     if ($('.past-version-recover-msg')[0]) {
       $('#recoverButton').css({"background-color":"grey", "border":"none"});

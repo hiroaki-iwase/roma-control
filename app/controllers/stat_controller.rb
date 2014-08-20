@@ -7,6 +7,7 @@ class StatController < ApplicationController
     @key   = params[:key]
     @value = params[:value]
     @roma = Roma.new(@key => @value)
+    @stats_hash = @roma.get_stats
   end
 
   def update

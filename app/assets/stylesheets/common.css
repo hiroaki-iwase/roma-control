@@ -122,3 +122,43 @@ html, body {
   background-color: #fce9e7;
 }
 
+#overlayLog{
+  display: none;
+  /**width: 100%;**/
+  /**height:100%;**/
+  text-align: center;
+  vertical-align: middle;
+  /**position: fixed;**/
+  /**position: relative;**/
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /**top: 0;**/
+  z-index: 100;
+  background: rgba(0,0,0,0.7);
+}
+
+#textLog{
+  height: 50px;
+  vertical-align: middle;
+  position: absolute;
+  top: 25%;
+  left: 3%;
+  right: 3%;
+  bottom: 25%;
+  font-size: 16px;
+  color: #eee;
+  filter: alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
+  /**padding-top: 400px;**/
+  /**vertical-align: middle;**/
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.sub-contents-name {
+  font-size: 28px;
+}

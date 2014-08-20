@@ -191,7 +191,8 @@ class Roma
         ### status[active|inactive|recover|join]
         if each_stats["stats"]["run_recover"].chomp == "true"
           status = "recover"
-        elsif each_stats["stats"]["run_join"].chomp == "true"
+        # for past version
+        elsif each_stats["stats"]["run_join"] && each_stats["stats"]["run_join"].chomp == "true"
           status = "join"
         elsif each_stats["stats"]["run_release"].chomp == "true"
           status = "release"
