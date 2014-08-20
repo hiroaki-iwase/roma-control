@@ -19,10 +19,18 @@
       </div>
     <% end %>
 
-    <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
+    <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
+    
+    <!-- for past version -->
+    <% if past_version?(@stats_hash) %>
+      <span class="past-version-recover-msg">
+         You can Not use recover with this ROMA version in this situation.
+      </span>
+    <% end %>
   </h2>
+
 
   <% if short_vnodes?(@stats_hash) %>
     <div class="status-caution">

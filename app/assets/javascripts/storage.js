@@ -1,14 +1,6 @@
 $(function(){
 
-     //$("#btn").click(function() {
-         $("#overlay").fadeIn();
-     //});
-     //$("#close").click(function() {
-     //    $("#overlay").fadeOut();
-     //});
-
-
-
+    $("#overlay").fadeIn('fast');
 
     //Modal
     $(".close-modal-btn").click(function() {

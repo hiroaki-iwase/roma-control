@@ -30,11 +30,22 @@
       <li class="list-group-item">digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
       <li class="list-group-item list-striped">div_bits: <%= @stats_hash["routing"]["div_bits"] %></li>
       <li class="list-group-item">redundancy: <%= @stats_hash["routing"]["redundant"] %></li>
-      <li class="list-group-item list-striped">enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %></li>
-      <li class="list-group-item">enabled_repetition_host? (booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
-      <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
-        <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
+      <li class="list-group-item list-striped">enabled_repetition_host? (booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
+      <li class="list-group-item">
+        <% if past_version?(@stats_hash) %>
+          <div id="overlay1"><div id="text1">You can Not use this function</div></div>
+        <% end %>
+        <div id="coveredArea1">
+          enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
+        </div>
+      </li>
+
+      <% unless past_version?(@stats_hash) %>
+        <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
+          <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
+        <% end %>
       <% end %>
+
     </ul>
   </div>
 
@@ -47,54 +58,64 @@
   </div>
 </div>
 
-<div class="col-xs-12 routing-history">
-  <h4><U>routing history</U></h4>
-  <div class="routing-history-glaph">
-    <% if @routing_event.size == 0 %>
-      <table class="table table-bordered table-condensed">
-        <tr class="history-glaph-title">
-          <th>date</th>
-          <th>Event</th>
-        </tr>
-        <tr class="noevent"><td colspan="3">never happened leave or join yet</td></tr>
-      </table>
 
-    <% else %>
-      <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
-        <thead class="history-glaph-title">
+<div class="col-xs-12 routing-history">
+
+  <% if past_version?(@stats_hash) %>
+    <div id="overlay2">
+       <div id="text2">You can Not use this function</div>
+    </div>
+  <% end %>
+
+  <div id="coveredArea2">
+    <h4><U>routing history</U></h4>
+    <div class="routing-history-glaph">
+      <% if @routing_event.size == 0 %>
+        <table class="table table-bordered table-condensed">
           <tr class="history-glaph-title">
             <th>date</th>
             <th>Event</th>
           </tr>
-        </thead>
-        <tbody>
-          <%
-          @routing_event.each{|event|
-            event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
-          %>
-            <tr class="<%= $3 %>-column">
-              <td><%= "#{$1} #{$2}" %></td>
-              <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
-      <div id="pager" class="pager">
-        <form>
-          <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
-          <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
-          <input type="text" class="pagedisplay"/>
-          <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
-          <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
-          <select class="pagesize">
-            <option selected="selected"  value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option  value="40">40</option>
-          </select>
-        </form>
-      </div>
+          <tr class="noevent"><td colspan="3">never happened leave or join yet</td></tr>
+        </table>
 
-    <% end %>
+      <% else %>
+        <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
+          <thead class="history-glaph-title">
+            <tr class="history-glaph-title">
+              <th>date</th>
+              <th>Event</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%
+            @routing_event.each{|event|
+              event =~ /^([-\d]+)T([\.:\d]+)([a-z]+)(.+)$/
+            %>
+              <tr class="<%= $3 %>-column">
+                <td><%= "#{$1} #{$2}" %></td>
+                <td><span class="label label-<%= column_color($3) %>"><%= $3 %></span> <%= $4 %></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <div id="pager" class="pager">
+          <form>
+            <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+            <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+            <input type="text" class="pagedisplay"/>
+            <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+            <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+            <select class="pagesize">
+              <option selected="selected"  value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option  value="40">40</option>
+            </select>
+          </form>
+        </div>
+
+      <% end %>
+    </div>
   </div>
 </div>

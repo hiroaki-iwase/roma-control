@@ -38,9 +38,11 @@
 <% unless memory_mode?(@stats_hash) %>
   <div class="col-xs-12 snapshot-column" id="versionTest">
 
-    <div id="overlay">
-       <div id="text">You can Not use this function</div>
-    </div>
+    <% unless can_i_use_snapshot?(@stats_hash) %>
+      <div id="overlay">
+         <div id="text">You can Not use this function</div>
+      </div>
+    <% end %>
 
     <div id="coveredArea">
 

@@ -73,7 +73,7 @@ module ClusterHelper
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
     # for past version
     if command == 'recover'
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
         return "disabled"
       end
     end
@@ -179,6 +179,23 @@ module ClusterHelper
     end
     
     param
+  end
+
+  def past_version?(stats_hash)
+    if chk_roma_version(stats_hash['others']['version']) < 65536
+      return true
+    else
+      return false
+    end
+  end
+
+  def chk_roma_version(vs)
+    if /(\d+)\.(\d+)\.(\d+)/ =~ vs
+      version = ($1.to_i << 16) + ($2.to_i << 8) + $3.to_i
+      return version
+    end
+
+    raise
   end
 
 end
