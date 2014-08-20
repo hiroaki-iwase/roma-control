@@ -1,5 +1,5 @@
 require 'con_pool'
-require 'my_error'
+require 'gladiator_exception'
 
 class Roma
   include ActiveModel::Model
