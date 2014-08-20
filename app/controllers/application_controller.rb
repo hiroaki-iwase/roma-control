@@ -1,4 +1,4 @@
-require 'my_error'
+require 'gladiator_exception'
 
 class ApplicationController < ActionController::Base
   before_filter :check_logined_filter, :check_mklhash
