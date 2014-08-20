@@ -38,8 +38,8 @@
 <% unless memory_mode?(@stats_hash) %>
   <div class="col-xs-12 snapshot-column" id="versionTest">
     <% unless can_i_use_snapshot?(@stats_hash) %>
-      <div id="overlay">
-        <div id="text">
+      <div class="restriction-panel">
+        <div class="restriction-msg">
           You can Not use this function<br>in this ROMA version.
         </div>
       </div>

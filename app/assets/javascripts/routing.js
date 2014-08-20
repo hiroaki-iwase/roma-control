@@ -2,7 +2,6 @@ $(function(){
 
 
     $("#overlay1").fadeIn('fast');
-    $("#overlay2").fadeIn('fast');
 
     //initialize of gon
     if (typeof gon === "undefined") {

@@ -1,7 +1,5 @@
 $(function(){
 
-    $("#overlay").fadeIn('fast');
-
     //Modal
     $(".close-modal-btn").click(function() {
        $('#set-modal').modal('hide');

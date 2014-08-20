@@ -33,7 +33,9 @@
       <li class="list-group-item list-striped">enabled_repetition_host? (booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
       <li class="list-group-item">
         <% if past_version?(@stats_hash) %>
-          <div id="overlay1"><div id="text1">You can Not use this function</div></div>
+          <div class="restriction-panel">
+            <div class="restriction-msg restriction-msg-repetition">You can Not use this function</div>
+          </div>
         <% end %>
         enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
       </li>
@@ -58,8 +60,8 @@
 
 <div class="col-xs-12 routing-history">
   <% if past_version?(@stats_hash) %>
-    <div id="overlay2">
-      <div id="text2">
+    <div class="restriction-panel">
+      <div class="restriction-msg">
         You can Not use this function<br>in this version.
       </div>
     </div>

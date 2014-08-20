@@ -1,9 +1,5 @@
 $(function(){
 
-
-    $("#overlay").fadeIn('fast');
-
-    //$("dd:not(:first)").css("display","none");                                                                                            
     $("dd").css("display","none");
 
     $("dl dt").click(function(){
