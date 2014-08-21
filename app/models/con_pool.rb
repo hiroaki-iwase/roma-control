@@ -7,7 +7,7 @@ class ConPool
   attr_accessor :maxlength
   attr_accessor :expire_time
 
-  def initialize(maxlength = 10, expire_time = 60)
+  def initialize(maxlength = 1, expire_time = 60)
     @pool = {}
     @maxlength = maxlength
     @expire_time = expire_time

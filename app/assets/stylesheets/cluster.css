@@ -247,32 +247,6 @@ td.past-version-status {
   white-space: nowrap;
 }
 
-#overlay{
-  display: none;
-  width: 153px;
-  height: 100%;
-  /**position: fixed;**/
-  /**position: relative;**/
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background: rgba(0,0,0,0.7);
-  text-align: center;
-}
-
-#text {
-  position: absolute;
-  top: 25%;
-  left: 3%;
-  right: 3%;
-  bottom: 25%;
-  font-size: 16px;
-  color: #eee;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
 /**----------------------------------------
   btn
 ------------------------------------------- **/

@@ -5,7 +5,7 @@ $(function(){
       delay: { show: 200, hide: 50 },
     });
 
-    // support past version
+    // for past version
     $('#logLink').click(function(e){
         e.preventDefault();
     });

@@ -1,8 +1,5 @@
 $(function(){
 
-
-    $("#overlay1").fadeIn('fast');
-
     //initialize of gon
     if (typeof gon === "undefined") {
       gon = false

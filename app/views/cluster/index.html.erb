@@ -29,7 +29,6 @@
     <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
-
   </div>
 
   <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
@@ -107,9 +106,7 @@
               <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
             <% end %>
             <%= @stats_hash["others"]["version"] %>
-
             <div class ="error-instance-small">
-
               <% if past_version?(@stats_hash) %>
                 Unsupport version<br>
               <% end %>
@@ -122,7 +119,6 @@
                 <% end %>
               <% end %>
             </div>
-
           </div>
         </td>
       </tr>
@@ -199,11 +195,6 @@
   <% end %>
 
 </div>
-
-
-<% if true %>
-  <div class="test"></div>
-<% end %>
 
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
