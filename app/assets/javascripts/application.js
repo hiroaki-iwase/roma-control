@@ -10,11 +10,12 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery-2.1.0
+//= require jquery-2.1.1.min
 //= require jquery.tablesorter.js
 //= require jquery.tablesorter.widgets.js
 //= require jquery.tablesorter.pager.js
 //= require bootstrap
 //= require validate
 //= require jquery.validate
+//= require error
 //= require common

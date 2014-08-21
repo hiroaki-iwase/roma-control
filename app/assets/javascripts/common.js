@@ -5,4 +5,9 @@ $(function(){
       delay: { show: 200, hide: 50 },
     });
 
+    // for past version
+    $('#logLink').click(function(e){
+        e.preventDefault();
+    });
+
 });

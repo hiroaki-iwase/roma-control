@@ -1,5 +1,5 @@
 require 'con_pool'
-require 'my_error'
+require 'gladiator_exception'
 
 class Roma
   include ActiveModel::Model
@@ -191,7 +191,8 @@ class Roma
         ### status[active|inactive|recover|join]
         if each_stats["stats"]["run_recover"].chomp == "true"
           status = "recover"
-        elsif each_stats["stats"]["run_join"].chomp == "true"
+        # for past version
+        elsif each_stats["stats"]["run_join"] && each_stats["stats"]["run_join"].chomp == "true"
           status = "join"
         elsif each_stats["stats"]["run_release"].chomp == "true"
           status = "release"
@@ -223,7 +224,7 @@ class Roma
         end
         
       rescue
-        routing_list_info[instance]["status"] = "unknown"
+        routing_list_info[instance]["status"] = "no_response"
       end
     }
 
@@ -265,9 +266,7 @@ class Roma
     con.write("#{command}\r\n")
     if con.eof?
       ConPool.instance.delete_connection(nid)
-      #raise Errno::ECONNREFUSED, "#{host}_#{port}"
       raise ConPoolError, "#{host}_#{port}"
-      #raise ActiveRecord::RecordNotFound
     end
 
     unless eof

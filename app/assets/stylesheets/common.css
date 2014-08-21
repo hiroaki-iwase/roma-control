@@ -81,6 +81,10 @@ html, body {
   opacity:0;
 }
 
+.sub-contents-name {
+  font-size: 28px;
+}
+
 /**-----------------------------------------
   table sorter
 -------------------------------------------- **/
@@ -122,3 +126,38 @@ html, body {
   background-color: #fce9e7;
 }
 
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-panel {
+  background: rgba(0,0,0,0.7);
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.restriction-msg {
+  color: #eeeeee;
+  font-size: 30px;
+  font-weight: bold;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  right: 15%;
+  bottom: 15%;
+  filter: alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
+  white-space: nowrap;
+}
+
+.restriction-msg-log {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  font-size: 16px;
+}

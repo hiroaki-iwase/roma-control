@@ -4,8 +4,15 @@
 
 <h1 class="contents-name"><U>Cluster</U></h1>
 <div class="basic-information">
-  <h2 class="sub-contents-name"><U>Health</U>:
-    <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
+  <div class="col-xs-12">
+    <span class="sub-contents-name">
+      <u>Health</u>:
+    </span>
+    <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+      <div class="health-button grey large_size" style="display: inline-block;">
+        <span class="glare grey large"></span>
+      </div>
+    <% elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
       <div class="health-button red large_size" style="display: inline-block;">
         <span class="glare red large"></span>
       </div>
@@ -19,15 +26,29 @@
       </div>
     <% end %>
 
-    <button class="btn btn-warning" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
+    <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
-  </h2>
+  </div>
+
+  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+    <div class="status-caution restriction-health-button">
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      Health button function is not supported ROMA v0.8.11.
+    </div>
+  <% end %>
 
   <% if short_vnodes?(@stats_hash) %>
     <div class="status-caution">
       <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
-      ROMA have short vnodes. You can solve by executing "Recover" button.
+        <!-- for past version -->
+        <% if !can_recover_end?(@stats_hash) %>
+          <span class="recover-restriction-msg">
+             Recover is not supported with this ROMA version and this lost_action setting.
+          </span>
+        <% else %>
+          ROMA have short vnodes. You can solve by executing "Recover" button.
+        <% end %>
     </div>
   <% end %>
 
@@ -52,10 +73,10 @@
     </div>
   <% end %>
 
-  <% if flash[:unknown] %>
+  <% if flash[:no_response] %>
     <div class="status-caution">
-      <span class="unknown-icon"><i class="icon-question-sign"></i></span>
-      No response from <%= flash[:unknown] %>. Did you execute rbalse just now?<br>
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      No response from <%= flash[:no_response] %>. Did you execute rbalse just now?<br>
       &ensp;&ensp;&thinsp;In this case, please reload page after few seconds.
     </div>
   <% end %>
@@ -81,8 +102,17 @@
         <td class="panel-roma-version">
           ROMA version
           <div class="panel-value">
+            <% if past_version?(@stats_hash) %>
+              <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+            <% end %>
             <%= @stats_hash["others"]["version"] %>
             <div class ="error-instance-small">
+              <% if past_version?(@stats_hash) %>
+                Unsupport version<br>
+              <% end %>
+              <% if eosl_expired?(@stats_hash) %>
+                EOSL expired<br>
+              <% end %>
               <% @routing_info.each do |instance, info| %>
                 <% if chk_main_version(info["version"]) %>
                   <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
@@ -194,9 +224,9 @@
         <% 
         index = 0
         @routing_info.each do |(instance, info)|
-          if info["status"] == "active" %>
+          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
             <tr>
-          <% elsif info["status"] =~ /inactive|unknown/ %>
+          <% elsif info["status"] =~ /inactive|no_response/ %>
             <tr class="active">
           <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
@@ -208,21 +238,24 @@
             <td style="text-align: left"><%= instance %></td>
 
             <!-- instance status -->
-            <td class="instance-status-column" nowrap> 
-              <% if info["status"] == "active" %>
-                <div class="health-button green small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% elsif info["status"] == "inactive" %>
-                <div class="health-button grey small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% elsif info["status"] == "unknown" %>
-                <span class="unknown-icon"><i class="icon-question-sign"></i></span>
-                <%= info["status"] %>
-              <% else %>
-                <div class="health-button yellow small_size" style="display: inline-block;"></div>
-                <%= info["status"] %>
-              <% end %>
-            </td>
+              <td class="instance-status-column"> 
+                <% if info["status"] == "inactive" %>
+                  <div class="health-button grey small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% elsif info["status"] == "no_response" %>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+                  <%= info["status"] %>
+                <% elsif chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+                  unsupported
+                <% elsif info["status"] == "active" %>
+                  <div class="health-button green small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% else %>
+                  <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% end %>
+              </td>
 
             <% unless memory_mode?(@stats_hash) %>
               <!-- Data rate -->
@@ -230,13 +263,15 @@
                 <% if is_active?(info["status"]) %>
                   <div class="progress progress-striped active" >
                     <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
-                       <% if current_size_rate(info["size"]) >= 25.0 %>
+                       <% if current_size_rate(info["size"]) >= 30.0 %>
                          <%= current_size_rate(info["size"]) %> %
                        <% end %>
                     </span>
-                    <% if current_size_rate(info["size"]) < 25.0 %>
+                    <span class="rate-count">
+                    <% if current_size_rate(info["size"]) < 30.0 %>
                       (<%= current_size_rate(info["size"]) %> %)
                     <% end %>
+                    <span>
                   </div>
                 <% end %>
               </td>

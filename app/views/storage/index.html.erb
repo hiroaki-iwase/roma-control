@@ -36,7 +36,15 @@
 <% end %>
 
 <% unless memory_mode?(@stats_hash) %>
-  <div class="col-xs-12 snapshot-column">
+  <div class="col-xs-12 snapshot-column" id="versionTest">
+    <% unless can_i_use_snapshot?(@stats_hash) %>
+      <div class="restriction-panel">
+        <div class="restriction-msg restriction-msg-snapshot">
+          You can Not use this function<br>in this ROMA version.
+        </div>
+      </div>
+    <% end %>
+
     <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
     <div class="snap-command-area">
       <h4><U>Command Generater</U></h4>

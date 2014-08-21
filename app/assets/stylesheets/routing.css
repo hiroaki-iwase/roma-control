@@ -47,9 +47,8 @@ li.list-striped {
 }
 
 .repetition-error-message {
-  margin-left: 15px;
-  list-style:none;
   color: red;
+  margin-left: 15px;
 }
 
 .download-button {
@@ -91,4 +90,13 @@ li.list-striped {
   background-color: #ffffff;
   color: #808080;
   text-align: center;
+}
+
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-msg-repetition {
+  position: absolute;
+  top: 10%;
+  font-size: 16px;
 }

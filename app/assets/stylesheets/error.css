@@ -3,3 +3,8 @@
   font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
   color:#5d5d5d;
 }
+
+.current-version {
+  color: red;
+  font-weight: bold;
+}

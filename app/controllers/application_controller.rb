@@ -1,12 +1,13 @@
-require 'my_error'
+require 'gladiator_exception'
 
 class ApplicationController < ActionController::Base
-  before_filter :check_logined_filter, :check_mklhash
+  before_filter :check_logined_filter, :check_mklhash, :unsupport_version?
   helper_method :login_check?
   protect_from_forgery with: :exception
 
   rescue_from Exception,                        with: :render_500
   rescue_from ConPoolError,                     with: :change_base
+  rescue_from UnsupportedError,                 with: :confirm_unsupport
   rescue_from ActionController::RoutingError,   with: :render_404
 
   def change_base
@@ -64,12 +65,20 @@ class ApplicationController < ActionController::Base
     render :template => "errors/error_500", :locals => {:ex => exception}, :status => 500, :layout => 'application'
   end
 
+  def confirm_unsupport
+    render :template => "errors/unsupport", :layout => 'application'
+  end
+
   private
   def login_check?
     if session[:username] && session[:password] && User.authenticate(session[:username], session[:password])
       return true
     end
     false
+  end
+
+  def unsupport_version?
+    raise UnsupportedError if flash[:unsupport]
   end
 
   def check_logined_filter

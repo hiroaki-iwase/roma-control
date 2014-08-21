@@ -9,15 +9,6 @@ module StatHelper
     end
   end
 
-  def memory_mode?(stats_hash)
-    if stats_hash['storages[roma]']['storage.option'].size == 0
-      return true
-    else
-      return false
-    end
-  end
-  private :memory_mode?
-
   def explanation(column)
     case column
       when "DEFAULT_LOST_ACTION"
