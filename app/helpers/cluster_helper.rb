@@ -55,11 +55,7 @@ module ClusterHelper
 
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
     # for past version
-    if command == 'recover'
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
-        return "disabled"
-      end
-    end
+    return "disabled" if command == 'recover' && !can_recover_end?(stats_hash)
 
     case command
     when "recover"
@@ -71,6 +67,14 @@ module ClusterHelper
     end
 
     return "disabled"
+  end
+
+  def can_recover_end?(stats_hash)
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
+        return false
+      end
+
+      return true
   end
 
   def can_i_recover?(stats_hash, routing_info)

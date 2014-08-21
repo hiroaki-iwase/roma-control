@@ -1,21 +1,23 @@
 $(function(){
 
     //for past version
-    if ($('.past-version-recover-msg')[0]) {
-      $('#recoverButton').css({"background-color":"grey", "border":"none"});
-      $('.table-contents td:nth-of-type(3)').css({"background-color":"#f5f5f5"});
+    if ($('.recover-restriction-msg')[0]) {
+        $('#recoverButton').css({"background-color":"grey", "border":"none"});
+    }
+    if ($('.restriction-health-button')[0]) {
+        $('.table-contents td:nth-of-type(3)').css({"background-color":"silver", "color":"#696969"});
     }
 
     //initialize of gon
     if (typeof gon === "undefined") {
-      gon = false
+        gon = false
     }
 
     //Just Booting
     if (gon.just_booting) {
-      var element = $('.table-contents');
-      element.css("color", "#A9A9A9");
-      element.html('<tr><td colspan="8">Now ROMA is booting, please reload after a few seconds later.</td></tr>')
+        var element = $('.table-contents');
+        element.css("color", "#A9A9A9");
+        element.html('<tr><td colspan="8">Now ROMA is booting, please reload after a few seconds later.</td></tr>')
     }
 
     //Modal
@@ -41,12 +43,12 @@ $(function(){
     });
 
     $(".activate-repetition-btn").click(function() {
-       $('#repetition-modal').modal('hide');
+        $('#repetition-modal').modal('hide');
     });
 
     $(".deactivate-repetition-btn").click(function() {
-       $('#repetitionCheck').attr("checked", false);
-       $('#repetition-modal').modal('hide');
+        $('#repetitionCheck').attr("checked", false);
+        $('#repetition-modal').modal('hide');
     });
 
 

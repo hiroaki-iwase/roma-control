@@ -8,7 +8,11 @@
     <span class="sub-contents-name">
       <u>Health</u>:
     </span>
-    <% if @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
+    <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+      <div class="health-button grey large_size" style="display: inline-block;">
+        <span class="glare grey large"></span>
+      </div>
+    <% elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
       <div class="health-button red large_size" style="display: inline-block;">
         <span class="glare red large"></span>
       </div>
@@ -25,19 +29,27 @@
     <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
       Recover
     </button>
-    <!-- for past version -->
-    <% if past_version?(@stats_hash) %>
-      <span class="past-version-recover-msg">
-         You can Not use recover with this ROMA version in this situation.
-      </span>
-    <% end %>
+
   </div>
 
+  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+    <div class="status-caution restriction-health-button">
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      Health button function is not supported ROMA v0.8.11.
+    </div>
+  <% end %>
 
   <% if short_vnodes?(@stats_hash) %>
     <div class="status-caution">
       <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
-      ROMA have short vnodes. You can solve by executing "Recover" button.
+        <!-- for past version -->
+        <% if !can_recover_end?(@stats_hash) %>
+          <span class="recover-restriction-msg">
+             Recover is not supported with this ROMA version and this lost_action setting.
+          </span>
+        <% else %>
+          ROMA have short vnodes. You can solve by executing "Recover" button.
+        <% end %>
     </div>
   <% end %>
 
