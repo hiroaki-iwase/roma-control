@@ -5,9 +5,6 @@
 <h1 class="contents-name"><U>Cluster</U></h1>
 <div class="basic-information">
   <div class="col-xs-12">
-    <span id="overlay">
-      <div id="text">can Not use</div>
-    </span>
     <span class="sub-contents-name">
       <u>Health</u>:
     </span>
@@ -102,6 +99,10 @@
               <% if past_version?(@stats_hash) %>
                 Unsupport version
               <% end %>
+              <br>
+              <% if eosl_expired?(@stats_hash) %>
+                EOSL expired
+              <% end %>
               <% @routing_info.each do |instance, info| %>
                 <% if chk_main_version(info["version"]) %>
                   <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
@@ -185,6 +186,11 @@
 
 </div>
 
+
+<% if true %>
+  <div class="test"></div>
+<% end %>
+
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
   <div class="instance-table">
@@ -213,7 +219,7 @@
         <% 
         index = 0
         @routing_info.each do |(instance, info)|
-          if info["status"] == "active" %>
+          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
             <tr>
           <% elsif info["status"] =~ /inactive|unknown/ %>
             <tr class="active">
@@ -227,15 +233,18 @@
             <td style="text-align: left"><%= instance %></td>
 
             <!-- instance status -->
-              <td class="instance-status-column" nowrap> 
-                <% if info["status"] == "active" %>
-                  <div class="health-button green small_size" style="display: inline-block;"></div>
-                  <%= info["status"] %>
-                <% elsif info["status"] == "inactive" %>
+              <td class="instance-status-column"> 
+                <% if info["status"] == "inactive" %>
                   <div class="health-button grey small_size" style="display: inline-block;"></div>
                   <%= info["status"] %>
                 <% elsif info["status"] == "unknown" %>
                   <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                  <%= info["status"] %>
+                <% elsif chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+                  <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                  unsupported
+                <% elsif info["status"] == "active" %>
+                  <div class="health-button green small_size" style="display: inline-block;"></div>
                   <%= info["status"] %>
                 <% else %>
                   <div class="health-button yellow small_size" style="display: inline-block;"></div>

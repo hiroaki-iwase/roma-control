@@ -1,5 +1,3 @@
-
-
 .routing-information {
   background-color: #F8D1D1;
 }
@@ -49,9 +47,8 @@ li.list-striped {
 }
 
 .repetition-error-message {
-  margin-left: 15px;
-  list-style:none;
   color: red;
+  margin-left: 15px;
 }
 
 .download-button {

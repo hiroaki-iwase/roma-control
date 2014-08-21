@@ -1,10 +1,9 @@
 $(function(){
 
-    $("#overlay").fadeIn('fast');
-
     //for past version
     if ($('.past-version-recover-msg')[0]) {
       $('#recoverButton').css({"background-color":"grey", "border":"none"});
+      $('.table-contents td:nth-of-type(3)').css({"background-color":"#f5f5f5"});
     }
 
     //initialize of gon

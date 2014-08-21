@@ -218,6 +218,14 @@ li.version-diff-info {
 td.instance-status-column {
   min-width: 100px;
   text-align: left;
+  white-space: nowrap;
+}
+ 
+td.instance-status-column-past-version {
+  min-width: 100px;
+  text-align: left;
+  white-space: nowrap;
+  background-color: grey;
 } 
 
 td.progress-bar-column {

@@ -39,13 +39,14 @@
         <% end %>
         enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
       </li>
-
       <% unless past_version?(@stats_hash) %>
         <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
-          <li class="repetition-error-message"> - repetition_host option is differ between routing and booting option.</li>
+          <div class="repetition-error-message">
+            <i class="icon-warning-sign"></i>
+            repetition_host option is differ between routing and booting option.
+          </div>
         <% end %>
       <% end %>
-
     </ul>
   </div>
 
