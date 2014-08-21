@@ -13,8 +13,13 @@
     <%= explanation(@key).html_safe %>
   </div>
 </div>
+
 <div class="edit-default-value">
   <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
+</div>
+
+<div class="current-default-value">
+  <h4><U>CURRENT VALUE</U>: <%= @value %></h4>
 </div>
 
 <div class="edit-change-value col-xs-12">

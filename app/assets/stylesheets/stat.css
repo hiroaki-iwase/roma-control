@@ -87,7 +87,8 @@ dl dd {
 .edit-explanation-detail  {
   margin-left: 10px;
 }
-.edit-default-value h4 {
+.edit-default-value h4,
+.current-default-value h4 {
   background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px; 
