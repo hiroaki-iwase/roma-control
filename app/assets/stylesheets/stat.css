@@ -19,20 +19,16 @@ dl dd {
   height: auto;
   font-size: 20px;
 }
-
 .reload-btn {
   background-color: #f8d1d1;
 }
-
 .reload-btn:hover {
   background-color: #debdbd;
 }
-
 .reload-btn .icon-refresh {
   color: #6f3737;
   font-size: 20px;
 }
-
 .tooltip-inner {
   max-width: 300px;
   font-size: 16px;
@@ -44,9 +40,31 @@ dl dd {
 .table .not-change-col {
   background-color: grey;
 }
+
+.stats-column {
+  min-width: 300px;
+}
+
 .table .stats-str {
   color: #6f3737;
   text-decoration: none;
+}
+
+.table .stats-str-editable {
+  text-decoration: underline;
+}
+
+.edit-keyname {
+  white-space: nowrap;
+}
+
+.edit-btn {
+  padding: 1px 12px;
+  color: #878787;
+}
+
+.edit-btn:hover {
+  background-color: #cacaca;
 }
 
 /** edit page **/
@@ -80,6 +98,11 @@ dl dd {
 .send-button {
   margin-top: 10px;
 }
+
+.send-button .btn:hover {
+  background-color: #cacaca;
+}
+
 .edit-change-value {
   background-color: #f8d1d1;
   border: 1px solid #ddd;

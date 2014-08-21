@@ -26,8 +26,7 @@ class StatController < ApplicationController
     end
 
     @stats_hash = @roma.get_stats
-    @value = @stats_hash["routing"][@key] if @key =~ /^(sub_nid|auto_recover_time)$/
-
+    #@value = @stats_hash["routing"][@key] if @key =~ /^sub_nid$/
     render :action => "edit"
   end
 end
