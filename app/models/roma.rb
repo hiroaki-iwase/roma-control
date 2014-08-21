@@ -266,9 +266,7 @@ class Roma
     con.write("#{command}\r\n")
     if con.eof?
       ConPool.instance.delete_connection(nid)
-      #raise Errno::ECONNREFUSED, "#{host}_#{port}"
       raise ConPoolError, "#{host}_#{port}"
-      #raise ActiveRecord::RecordNotFound
     end
 
     unless eof

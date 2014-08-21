@@ -5,7 +5,7 @@ dl {
   color: #6f3737;
 }
 dl dt {
-  background: #debdbd;
+  background: #f8d1d1;
   border-bottom: 1px solid #FFFFFF;
   cursor: pointer;
   height: 30px;
@@ -19,6 +19,20 @@ dl dd {
   height: auto;
   font-size: 20px;
 }
+
+.reload-btn {
+  background-color: #f8d1d1;
+}
+
+.reload-btn:hover {
+  background-color: #debdbd;
+}
+
+.reload-btn .icon-refresh {
+  color: #6f3737;
+  font-size: 20px;
+}
+
 .tooltip-inner {
   max-width: 300px;
   font-size: 16px;
@@ -37,17 +51,17 @@ dl dd {
 
 /** edit page **/
 .edit-title h2 {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px;
 }
 .edit-config-name h3 {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px;
 }
 .edit-explanation  {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   font-size: 16px;
   padding: 5px;
@@ -56,7 +70,7 @@ dl dd {
   margin-left: 10px;
 }
 .edit-default-value h4 {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px; 
 }
@@ -67,7 +81,7 @@ dl dd {
   margin-top: 10px;
 }
 .edit-change-value {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px; 
 }

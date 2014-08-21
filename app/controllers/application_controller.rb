@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   def render_404(exception = nil)
     if exception
       logger.error "Rendering 404 with exception: #{exception.message}"
+      logger.error "Rendering 404 with exception: #{exception.backtrace}"
     end
 
     unexpected_url = "http://#{request.host}:#{request.port.to_s + request.fullpath}"

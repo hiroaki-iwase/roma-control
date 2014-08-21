@@ -83,7 +83,7 @@
 /**---------------------------------------------
   Past version support
 ------------------------------------------------**/
-.restriction-msg {
+.restriction-msg-snapshot {
   position: absolute;
   top: 25%;
 }
