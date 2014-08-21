@@ -11,7 +11,7 @@ class ClusterController < ApplicationController
     begin
       @routing_info = roma.get_routing_info(@active_routing_list)
       @routing_info.each{|instance, info|
-        flash.now[:unknown] = instance if info.has_value?("unknown")
+        flash.now[:no_response] = instance if info.has_value?("no_response")
         case info["status"]
         when "release"
           gon.host, gon.port = instance.split(/_/) 

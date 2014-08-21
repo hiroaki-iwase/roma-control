@@ -62,10 +62,10 @@
     </div>
   <% end %>
 
-  <% if flash[:unknown] %>
+  <% if flash[:no_response] %>
     <div class="status-caution">
-      <span class="unknown-icon"><i class="icon-question-sign"></i></span>
-      No response from <%= flash[:unknown] %>. Did you execute rbalse just now?<br>
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      No response from <%= flash[:no_response] %>. Did you execute rbalse just now?<br>
       &ensp;&ensp;&thinsp;In this case, please reload page after few seconds.
     </div>
   <% end %>
@@ -221,7 +221,7 @@
         @routing_info.each do |(instance, info)|
           if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
             <tr>
-          <% elsif info["status"] =~ /inactive|unknown/ %>
+          <% elsif info["status"] =~ /inactive|no_response/ %>
             <tr class="active">
           <% elsif info["status"] =~ /recover|join|release/ %>
             <tr class="warning">
@@ -237,11 +237,11 @@
                 <% if info["status"] == "inactive" %>
                   <div class="health-button grey small_size" style="display: inline-block;"></div>
                   <%= info["status"] %>
-                <% elsif info["status"] == "unknown" %>
-                  <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                <% elsif info["status"] == "no_response" %>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
                   <%= info["status"] %>
                 <% elsif chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
-                  <span class="unknown-icon"><i class="icon-question-sign"></i></span>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
                   unsupported
                 <% elsif info["status"] == "active" %>
                   <div class="health-button green small_size" style="display: inline-block;"></div>

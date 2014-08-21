@@ -224,7 +224,7 @@ class Roma
         end
         
       rescue
-        routing_list_info[instance]["status"] = "unknown"
+        routing_list_info[instance]["status"] = "no_response"
       end
     }
 

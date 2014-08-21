@@ -22,7 +22,7 @@ module ClusterHelper
   end
 
   def is_active?(status)
-    status !~ /inactive|unknown/
+    status !~ /inactive|no_response/
   end
 
   def short_vnodes?(stats_hash)
@@ -75,7 +75,7 @@ module ClusterHelper
 
   def can_i_recover?(stats_hash, routing_info)
     return false if released_flg?(routing_info)
-    return false if flash[:unknown]
+    return false if flash[:no_response]
 
     if !short_vnodes?(stats_hash) || extra_process_chk(routing_info) || 
        stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
@@ -87,7 +87,7 @@ module ClusterHelper
 
   def can_i_release?(stats_hash, routing_info, target_instance)
     return false if released_flg?(routing_info)
-    return false if flash[:unknown]
+    return false if flash[:no_response]
 
     if extra_process_chk(routing_info)
       return false
