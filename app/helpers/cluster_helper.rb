@@ -22,7 +22,7 @@ module ClusterHelper
   end
 
   def is_active?(status)
-    status !~ /inactive|unknown/
+    status !~ /inactive|no_response/
   end
 
   def short_vnodes?(stats_hash)
@@ -54,6 +54,9 @@ module ClusterHelper
   end
 
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
+    # for past version
+    return "disabled" if command == 'recover' && !can_recover_end?(stats_hash)
+
     case command
     when "recover"
       return nil if can_i_recover?(stats_hash, routing_info)
@@ -66,8 +69,17 @@ module ClusterHelper
     return "disabled"
   end
 
+  def can_recover_end?(stats_hash)
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
+        return false
+      end
+
+      return true
+  end
+
   def can_i_recover?(stats_hash, routing_info)
     return false if released_flg?(routing_info)
+    return false if flash[:no_response]
 
     if !short_vnodes?(stats_hash) || extra_process_chk(routing_info) || 
        stats_hash["routing"]["nodes.length"] < stats_hash["routing"]["redundant"]
@@ -79,6 +91,7 @@ module ClusterHelper
 
   def can_i_release?(stats_hash, routing_info, target_instance)
     return false if released_flg?(routing_info)
+    return false if flash[:no_response]
 
     if extra_process_chk(routing_info)
       return false
@@ -112,6 +125,14 @@ module ClusterHelper
     end
 
     true
+  end
+
+  def can_i_use_snapshot?(stats_hash)
+    if chk_roma_version(stats_hash['others']['version']) >= 2062
+      return true
+    else
+      return false
+    end
   end
 
   # check "--enabled_repeathost" option is on or off.
@@ -155,6 +176,18 @@ module ClusterHelper
     end
     
     param
+  end
+
+  def health_btn_color(stats_hash)
+    if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11
+      return 'grey'
+    elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0"
+      return 'red'
+    elsif @stats_hash["routing"]["short_vnodes"].chomp !="0"
+      return 'yellow'
+    else
+      return 'green'
+    end 
   end
 
 end

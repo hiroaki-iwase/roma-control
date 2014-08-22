@@ -46,6 +46,10 @@
   margin-left: 20px;
 }
 
+.status-area h5 {
+  text-decoration: underline;
+}
+
 #snapshotStatus {
   color: #1D86FE;
   font-size: 16px;
@@ -78,4 +82,12 @@
 
 #lastSnapshotDate {
   margin-left: 20px;
+}
+
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-msg-snapshot {
+  position: absolute;
+  top: 25%;
 }

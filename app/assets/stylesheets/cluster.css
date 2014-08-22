@@ -5,10 +5,7 @@
   padding: 0;
   position: relative;
   display: block;
-  /** border: 1px solid rgba(0,0,0,0.5); **/
   border-radius: 100px;
-  /**-webkit-box-reflect: 
-    below -33px -webkit-gradient(linear, right top, left top, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0))); **/
 }
 
 .health-button.large_size {
@@ -79,13 +76,28 @@
   top: -4px; /** pozition **/
 }
 
+.error-message {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.require-reload-msg {
+  padding: 20px;
+}
+
 /**-----------------------------
   Health param
 -------------------------------- **/
-.error-instance-small {
-  font-size: 12px;
+#recover-button {
+  margin-left: 5px;
+  margin-bottom: 8px;
 }
 
+.health-param {
+  font-size: 28px;
+  padding: 10px;
+}
 .extra-pbar {
   padding-left: 30px;
   padding-right: 10px;
@@ -94,14 +106,16 @@
 
 .extra-process {
   background-color: #f8d1d1;
+  margin-top: 10px;
+}
+
+.extra-process .sub-contents-name {
+  font-size: 20px;
+  margin-left: 10px;
 }
 
 .status-caution {
   color: red;
-  padding-left: 20px;
-}
-
-.unknown-message {
   padding-left: 20px;
 }
 
@@ -132,10 +146,17 @@
   color: #ff0000;
   font-size: 15px;
 }
+
+.recover-restriction-msg {
+  color: #ff0000;
+  font-size: 15px;
+}
+
 /**-----------------------------
   Status Panel
 -------------------------------- **/
 .status-panel {
+  margin-top: 5px;
   font-size: 22px;
   color: #ffffff;
   text-align: center;
@@ -152,13 +173,15 @@
   background-color: #dc8383;
 }
 
-.status-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
+.status-panel .panel-server, .panel-short-vnodes, .panel-short-vnodes-error, .panel-gladiator-version {
   background-color: #d15959;
 }
 
+/**
 .status-panel .panel-short-vnodes-error {
   background-color: #d15959;
 }
+**/
 
 .status-panel .panel-value {
   display: table-cell;
@@ -166,6 +189,13 @@
   width: 220px;
   height: 60px;
   font-size: 26px;
+}
+
+.error-instance-small {
+  font-size: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li.version-diff-info {
@@ -212,6 +242,14 @@ li.version-diff-info {
 td.instance-status-column {
   min-width: 100px;
   text-align: left;
+  white-space: nowrap;
+}
+ 
+td.instance-status-column-past-version {
+  min-width: 100px;
+  text-align: left;
+  white-space: nowrap;
+  background-color: grey;
 } 
 
 td.progress-bar-column {
@@ -220,9 +258,21 @@ td.progress-bar-column {
   min-width: 125px;
 }
 
-.unknown-icon {
+.rate-count {
+  color: #848484;
+}
+
+.no-response-icon {
   color: #808080;
   font-size: 17px;
+}
+
+td.past-version-status {
+  background: rgba(0,0,0,0.7);
+  color: #dddddd;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 /**----------------------------------------

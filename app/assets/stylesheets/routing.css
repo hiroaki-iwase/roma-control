@@ -7,15 +7,15 @@
 -------------------------------- **/
 .routing-nodes {
   background-color: #FFA8A8;
-  margin-top: 20px;
   border-style: solid;
   border-width: 10px;
   border-color: #F8D1D1;
 }
 
 .routing-nodes-list {
-  margin-left: 30px;
+  margin-left: 15px;
   font-family: 'Arial';
+  list-style: none;
 }
 
 /**-----------------------------
@@ -23,7 +23,6 @@
 -------------------------------- **/
 .routing-options {
   background-color: #FFA8A8;
-  margin-top: 20px;
   border-style: solid;
   border-width: 10px;
   border-color: #F8D1D1;
@@ -47,9 +46,8 @@ li.list-striped {
 }
 
 .repetition-error-message {
-  margin-left: 15px;
-  list-style:none;
   color: red;
+  margin-left: 15px;
 }
 
 .download-button {
@@ -91,4 +89,13 @@ li.list-striped {
   background-color: #ffffff;
   color: #808080;
   text-align: center;
+}
+
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-msg-repetition {
+  position: absolute;
+  top: 10%;
+  font-size: 16px;
 }

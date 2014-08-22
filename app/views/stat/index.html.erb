@@ -1,10 +1,12 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-<h1 class="contents-name"><U>Status</U>
-<button type="button" class="btn btn-default btn-lg" style="background-color: #debdbd;">
-  <a href="" data-no-turbolink="1"><i class="icon-refresh" style="color: #6f3737; font-size:20px;"></i></a>
-</button>
-</h1>
+<div class="status-title">
+  <span class="status-contents-name">Status</span>
+  <button type="button" class="btn btn-default btn-lg reload-btn">
+    <a href="" data-no-turbolink="1"><i class="icon-refresh"></i></a>
+  </button>
+</div>
+
 <dl>
   <% Constants::STATS_COL_NAME.each{|name| %>
   <dt class="<%=name.gsub(/\[\w+\]/, "")%>">
@@ -19,41 +21,27 @@
         <% end %>
 
         <% @stats_hash[name].each{|k,v|
-          next if check_skip_columns(k)
+          next if check_skip_columns(k, @stats_hash)
+
           # for storage option
           if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
             <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></a></td><td></td></tr>
-            <tr><td>　　　　bnum  </td><td><%= $1 %></td></tr>
-            <tr><td>　　　　xmsiz </td><td><%= $2 %></td></tr>
-            <tr><td>　　　　opts  </td><td><%= $3 %></td></tr>
-            <tr><td>　　　　dfunit</td><td><%= $4 %></td></tr>
+            <tr><td class="storage-option">bnum  </td><td><%= $1 %></td></tr>
+            <tr><td class="storage-option">xmsiz </td><td><%= $2 %></td></tr>
+            <tr><td class="storage-option">opts  </td><td><%= $3 %></td></tr>
+            <tr><td class="storage-option">dfunit</td><td><%= $4 %></td></tr>
           <% next; end %>
           <tr <% if v.chomp == "false" %>class="not-change-col"<% end %>>
-            <td valign="top" >
+            <td valign="top" class="stats-column">
               <% if default_value(k) != nil; %>
-                <U><%= link_to(
-                         k,
-                         {
-                           :controller => "stat",
-                           :action => "edit",
-                           :key => k, :value => v
-                         }, 
-                         :"data-toggle" => "tooltip",
-                         :title => explanation(k),
-                         :class => "stats-str"
-                       ) 
-                 %></U>
+                <span data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str stats-str-editable"><%= k %></span>
                 <%= link_to(
-                      sanitize('<i class="icon-pencil" style="font-size:20px; color: red;"></i>'),
-                      {
-                        :controller => "stat",
-                        :action => "edit",
-                        :key => k, :value => v
-                      }
+                      sanitize("<button class='btn edit-btn'>Edit</button>", :tags => %w(button)),
+                      {:controller => "stat", :action => "edit", :key => k, :value => v}
                     )
-                 %>
+                %>
               <% else %>
-                <a href="#" data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></a>
+                <div data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></div>
               <% end %>  
             </td>
             <td valign="top" ><%= v %></td>

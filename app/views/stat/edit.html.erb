@@ -1,23 +1,37 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-<h1><U>Status</U></h1>
-<div class="edit-title">
-  <h2><U>Dynamic Change Setting</U></h2>
+<div class="main-contents-name">Status</div>
+<div class="sub-contents-name">
+  Dynamic Change Setting
 </div>
 <div class="edit-config-name">
-  <h3><U>Select</U>: <%= @key %></h3>
+  <span class="small-contents-name">Selected Parameter</span>: <%= @key %>
 </div>
 <div class="edit-explanation">
-  <h4><U>Explanation</U>:</h4>
+  <div class="small-contents-name">Explanation:</div>
   <div class="edit-explanation-detail">
     <%= explanation(@key).html_safe %>
   </div>
 </div>
+
 <div class="edit-default-value">
-  <h4><U>DEFAULT VALUE</U>: <%= default_value(@key).to_s %></h4>
+  <span class="small-contents-name">DEFAULT VALUE</span>: <%= default_value(@key).to_s %>
 </div>
-<div class="edit-change-value">
-  <h4><U>CHANGE VALUE</U>:</h4>
+
+<div class="current-default-value">
+  <span class="small-contents-name">CURRENT VALUE</span>: <%= @value %>
+</div>
+
+<div class="edit-change-value col-xs-12">
+  <% if past_version?(@stats_hash) %>
+    <div class="restriction-panel">
+      <div class="restriction-msg">
+        You can Not use this function<br>in this ROMA version.
+      </div>
+    </div>
+  <% end %>
+
+  <span class="small-contents-name">CHANGE VALUE</span>:
   <%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_change_value', :class => 'edit-form' }) do %>
     <% if @key == "continuous_limit" %>
       <% limit = @value.split(/:/) %>
@@ -47,14 +61,13 @@
     </div>
   <% end %>
   
-  <%# if Rails.application.routes.recognize_path(request.referrer)[:action] == "edit" %>
   <% if @res %>
-    <h4><U>RESULT</U>:</h4>
+    <span class="small-contents-name">RESULT</span>:
     <div class="edit-result">
       <table class="table table-bordered result-table">
       	<tr>
-      		<th>Host_Port</th>
-      		<th>Result</th>
+      	  <th>Host_Port</th>
+      	  <th>Result</th>
       	</tr>
         <% @res.each{|k, v| %>
           <tr>

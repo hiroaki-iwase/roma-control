@@ -1,9 +1,9 @@
 <%= render 'storage/modal' %>
 
-<h1 class="contents-name"><U>Data</U></h1>
+<div class="main-contents-name">Data</div>
 
 <div class="col-xs-12 get-column">
-  <div class="sub-contents-name"><h3><U>Get:</U></h3></div>
+  <div class="sub-contents-name">Get</div>
   <div class="get-contents">
     <span class="get-input">
       <%= text_field_tag :key_name, nil, {
@@ -19,7 +19,7 @@
 
 <% if session[:user_type] == 'root' %>
   <div class="col-xs-12 set-column">
-    <div class="sub-contents-name"><h3><U>Set:</U></h3></div>
+    <div class="sub-contents-name">Set</div>
     <div class="set-contents">
       <span class="set-input">
         <%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %>
@@ -35,49 +35,59 @@
   </div>
 <% end %>
 
-<div class="col-xs-12 snapshot-column">
-  <div class="sub-contents-name"><h3><U>Snapshot:</U></h3></div>
-  <div class="snap-command-area">
-    <h4><U>Command Generater</U></h4>
-    <div class="port-input">
-      <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-      <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
-      <div class="snap-explanation"></div>
-      <div class="snap-command"></div>
-      <div class="snap-command-error"></div>
-    </div>
-  </div>
-
-  <div class="status-area">
-    <h4><U>Status</U></h4>
-    <% if flash[:snapshoting] %>
-      <div class="snap-progress-area">
-        <h5><U>Progress:</U></h5>
-        <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
-        <div id="snapshotProgress">
-          <table class="table table-bordered table-snapshot">
-            <thead>
-              <tr>
-                <td class="storage-name-column">storage name</td>
-                <td class="status-column">status</td>
-              <tr>
-            </thead>
-            <tbody>
-              <% 10.times{|i| %>
-                <tr>
-                  <td><%= "#{i}.tc" %></td>
-                  <td id="snapshotStatus<%=i%>"></td>
-                <tr>
-              <% } %>
-            </tbody>
-          </table>
+<% unless memory_mode?(@stats_hash) %>
+  <div class="col-xs-12 snapshot-column" id="versionTest">
+    <% unless can_i_use_snapshot?(@stats_hash) %>
+      <div class="restriction-panel">
+        <div class="restriction-msg restriction-msg-snapshot">
+          You can Not use this function<br>in this ROMA version.
         </div>
       </div>
     <% end %>
 
-    <div class="snapshot-date-area">
-      <h5><U>last snapshot date:</U></h5>
-      <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+    <div class="sub-contents-name">Snapshot</div>
+    <div class="snap-command-area">
+      <div class="small-contents-name">Command Generater</div>
+      <div class="port-input">
+        <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
+        <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
+        <div class="snap-explanation"></div>
+        <div class="snap-command"></div>
+        <div class="snap-command-error"></div>
+      </div>
+    </div>
+  
+    <div class="status-area">
+      <div class="small-contents-name">Status</div>
+      <% if flash[:snapshoting] %>
+        <div class="snap-progress-area">
+          <h5>Progress:</h5>
+          <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+          <div id="snapshotProgress">
+            <table class="table table-bordered table-snapshot">
+              <thead>
+                <tr>
+                  <td class="storage-name-column">storage name</td>
+                  <td class="status-column">status</td>
+                <tr>
+              </thead>
+              <tbody>
+                <% 10.times{|i| %>
+                  <tr>
+                    <td><%= "#{i}.tc" %></td>
+                    <td id="snapshotStatus<%=i%>"></td>
+                  <tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+  
+      <div class="snapshot-date-area">
+        <h5>last snapshot date:</h5>
+        <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

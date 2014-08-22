@@ -1,8 +1,11 @@
 module StatHelper
 
-  def check_skip_columns(column)
+  def check_skip_columns(column, stats_hash)
     if /^storage\[\d*\]/ =~ column
       return true
+    end
+    if memory_mode?(stats_hash)
+      return true if /storage\.option|storage\.safecopy_stats/ =~ column
     end
   end
 

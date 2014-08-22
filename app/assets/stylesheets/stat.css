@@ -1,11 +1,11 @@
 dl {
   width: auto;
-  margin:20px auto;
+  margin:10px auto;
   background: #f9f3f3;
   color: #6f3737;
 }
 dl dt {
-  background: #debdbd;
+  background: #f8d1d1;
   border-bottom: 1px solid #FFFFFF;
   cursor: pointer;
   height: 30px;
@@ -19,6 +19,17 @@ dl dd {
   height: auto;
   font-size: 20px;
 }
+.reload-btn {
+  background-color: #f8d1d1;
+  padding-top: 0px;
+}
+.reload-btn:hover {
+  background-color: #debdbd;
+}
+.reload-btn .icon-refresh {
+  color: #6f3737;
+  font-size: 20px;
+}
 .tooltip-inner {
   max-width: 300px;
   font-size: 16px;
@@ -30,24 +41,44 @@ dl dd {
 .table .not-change-col {
   background-color: grey;
 }
+
+.stats-column {
+  min-width: 300px;
+}
+
 .table .stats-str {
   color: #6f3737;
   text-decoration: none;
 }
 
-/** edit page **/
-.edit-title h2 {
-  background-color: #e8d2d2;
-  border: 1px solid #ddd;
-  padding: 5px;
+.table .stats-str-editable {
+  text-decoration: underline;
 }
-.edit-config-name h3 {
-  background-color: #e8d2d2;
+
+.edit-keyname {
+  white-space: nowrap;
+}
+
+.edit-btn {
+  padding: 1px 12px;
+  color: #878787;
+}
+
+.edit-btn:hover {
+  background-color: #cacaca;
+}
+
+/** edit page **/
+.edit-config-name {
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
+  font-size: 18px;
   padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .edit-explanation  {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   font-size: 16px;
   padding: 5px;
@@ -55,10 +86,14 @@ dl dd {
 .edit-explanation-detail  {
   margin-left: 10px;
 }
-.edit-default-value h4 {
-  background-color: #e8d2d2;
+.edit-default-value ,
+.current-default-value {
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
+  font-size: 16px;
   padding: 5px; 
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .edit-form {
   margin: 10px;
@@ -66,8 +101,13 @@ dl dd {
 .send-button {
   margin-top: 10px;
 }
+
+.send-button .btn:hover {
+  background-color: #cacaca;
+}
+
 .edit-change-value {
-  background-color: #e8d2d2;
+  background-color: #f8d1d1;
   border: 1px solid #ddd;
   padding: 5px; 
 }
@@ -91,3 +131,17 @@ label.error {
 .btn-lg {
   padding: 5px 10px;
 }
+
+.table > tbody > tr > td.storage-option {
+  padding-left: 45px;
+}
+
+.status-title {
+  font-size: 36px;
+  padding-top: 10px;
+}
+
+.status-contents-name {
+  text-decoration: underline;
+}
+

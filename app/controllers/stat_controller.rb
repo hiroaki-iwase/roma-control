@@ -7,6 +7,7 @@ class StatController < ApplicationController
     @key   = params[:key]
     @value = params[:value]
     @roma = Roma.new(@key => @value)
+    @stats_hash = @roma.get_stats
   end
 
   def update
@@ -23,8 +24,9 @@ class StatController < ApplicationController
     if @roma.check_param(@key, @value) && @roma.valid?
       @res = @roma.change_param(@key, @value)
     end
-    @value = Roma.new.get_stats["routing"]["sub_nid"] if @key == "sub_nid"
-    @value = Roma.new.get_stats["routing"]["auto_recover_time"] if @key == "auto_recover_time"
+
+    @stats_hash = @roma.get_stats
+    @value = @stats_hash["routing"][@key] if @key =~ /^sub_nid$/
     render :action => "edit"
   end
 end
