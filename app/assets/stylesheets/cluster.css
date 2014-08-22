@@ -5,10 +5,7 @@
   padding: 0;
   position: relative;
   display: block;
-  /** border: 1px solid rgba(0,0,0,0.5); **/
   border-radius: 100px;
-  /**-webkit-box-reflect: 
-    below -33px -webkit-gradient(linear, right top, left top, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0))); **/
 }
 
 .health-button.large_size {
@@ -79,13 +76,23 @@
   top: -4px; /** pozition **/
 }
 
+.error-message {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.require-reload-msg {
+  padding: 20px;
+}
+
 /**-----------------------------
   Health param
 -------------------------------- **/
-.error-instance-small {
-  font-size: 12px;
+.health-param {
+  font-size: 28px;
+  padding: 10px;
 }
-
 .extra-pbar {
   padding-left: 30px;
   padding-right: 10px;
@@ -94,6 +101,12 @@
 
 .extra-process {
   background-color: #f8d1d1;
+  margin-top: 10px;
+}
+
+.extra-process .sub-contents-name {
+  font-size: 20px;
+  margin-left: 10px;
 }
 
 .status-caution {
@@ -138,6 +151,7 @@
   Status Panel
 -------------------------------- **/
 .status-panel {
+  margin-top: 5px;
   font-size: 22px;
   color: #ffffff;
   text-align: center;
@@ -154,13 +168,15 @@
   background-color: #dc8383;
 }
 
-.status-panel .panel-server, .panel-short-vnodes, .panel-gladiator-version {
+.status-panel .panel-server, .panel-short-vnodes, .panel-short-vnodes-error, .panel-gladiator-version {
   background-color: #d15959;
 }
 
+/**
 .status-panel .panel-short-vnodes-error {
   background-color: #d15959;
 }
+**/
 
 .status-panel .panel-value {
   display: table-cell;
@@ -168,6 +184,13 @@
   width: 220px;
   height: 60px;
   font-size: 26px;
+}
+
+.error-instance-small {
+  font-size: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li.version-diff-info {

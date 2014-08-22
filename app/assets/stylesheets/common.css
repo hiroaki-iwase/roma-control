@@ -81,8 +81,28 @@ html, body {
   opacity:0;
 }
 
+/**-----------------------------------------
+  contents-name
+-------------------------------------------- **/
+.main-contents-name {
+  font-size: 36px;
+  text-decoration: underline;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
 .sub-contents-name {
-  font-size: 28px;
+  font-size: 24px;
+  text-decoration: underline;
+}
+
+.small-contents-name {
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+.colon {
+  font-size: 24px;
 }
 
 /**-----------------------------------------
