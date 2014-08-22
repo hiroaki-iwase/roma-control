@@ -170,4 +170,16 @@ module ClusterHelper
     param
   end
 
+  def health_btn_color(stats_hash)
+    if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11
+      return 'grey'
+    elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0"
+      return 'red'
+    elsif @stats_hash["routing"]["short_vnodes"].chomp !="0"
+      return 'yellow'
+    else
+      return 'green'
+    end 
+  end
+
 end

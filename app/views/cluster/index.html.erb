@@ -1,45 +1,26 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
 <%= render 'cluster/modal' %>
 
-<h1 class="contents-name"><U>Cluster</U></h1>
-<div class="basic-information">
-  <div class="col-xs-12">
-    <span class="sub-contents-name">
-      <u>Health</u>:
-    </span>
-    <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
-      <div class="health-button grey large_size" style="display: inline-block;">
-        <span class="glare grey large"></span>
-      </div>
-    <% elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0" %>
-      <div class="health-button red large_size" style="display: inline-block;">
-        <span class="glare red large"></span>
-      </div>
-    <% elsif @stats_hash["routing"]["short_vnodes"].chomp !="0" %>
-      <div class="health-button yellow large_size" style="display: inline-block;">
-        <span class="glare large"></span>
-      </div>
-    <% else %>
-      <div class="health-button green large_size" style="display: inline-block;">
-        <span class="glare large"></span>
-      </div>
-    <% end %>
+<div class="main-contents-name">Cluster</div>
 
-    <button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
-      Recover
-    </button>
-  </div>
+<span class="sub-contents-name">Health</span><span class="colon">:</span>
+<div class="health-button <%= health_btn_color(@stats_hash) %> large_size" style="display: inline-block;">
+  <span class="glare large"></span>
+</div>
+<button class="btn btn-warning" id="recoverButton" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
+  Recover
+</button>
 
-  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
-    <div class="status-caution restriction-health-button">
+<ul class="error-message">
+  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11 %>
+    <li class="status-caution restriction-health-button">
       <span class="no-response-icon"><i class="icon-question-sign"></i></span>
       Health button function is not supported ROMA v0.8.11.
-    </div>
+    </li>
   <% end %>
-
+  
   <% if short_vnodes?(@stats_hash) %>
-    <div class="status-caution">
+    <li class="status-caution">
       <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
         <!-- for past version -->
         <% if !can_recover_end?(@stats_hash) %>
@@ -49,152 +30,129 @@
         <% else %>
           ROMA have short vnodes. You can solve by executing "Recover" button.
         <% end %>
-    </div>
+    </li>
   <% end %>
-
+  
   <% if lost_vnodes?(@stats_hash) %>
-    <div class="status-caution">
+    <li class="status-caution">
       <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
       ROMA have lost vnodes. If you want to repair this, you should rollback routing file directly.
-    </div>
+    </li>
   <% end %>
-
+  
   <% if released_flg?(@routing_info) %>
-    <div class="status-caution">
+    <li class="status-caution">
       <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
       You have to rbalse after finising release process.
-    </div>
+    </li>
   <% end %>
-
+  
   <% if flash[:error_message] %>
-    <div class="status-caution">
+    <li class="status-caution">
       <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
       <%= flash[:error_message] %>
-    </div>
+    </li>
   <% end %>
-
+  
   <% if flash[:no_response] %>
-    <div class="status-caution">
+    <li class="status-caution">
       <span class="no-response-icon"><i class="icon-question-sign"></i></span>
       No response from <%= flash[:no_response] %>. Did you execute rbalse just now?<br>
-      &ensp;&ensp;&thinsp;In this case, please reload page after few seconds.
-    </div>
+      <span class="require-reload-msg">In this case, please reload page after few seconds.</span>
+    </li>
   <% end %>
+</ul>
 
-  <div class="basic-columns"> 
-    <table class="status-panel">
-      <tr>
-        <td class="panel-instance">
-          instance count
-          <div class="panel-value">
-            <%= @stats_hash["routing"]["nodes.length"] %><br>
-              <div class="error-instance-small">
-                <% @inactive_routing_list.each{|instance| %><li> <%= instance %> is down</li><% } %>
-              </div>
+<table class="status-panel">
+  <tr>
+    <td class="panel-instance">
+      instance count
+      <div class="panel-value">
+        <%= @stats_hash["routing"]["nodes.length"] %><br>
+          <div class="error-instance-small">
+            <% @inactive_routing_list.each{|instance| %><li> <%= instance %> is down</li><% } %>
           </div>
-        </td>
-        <td class="panel-server">
-          server count
-          <div class="panel-value">
-            <%= get_active_server_list.size %>
-          </div>
-        </td>
-        <td class="panel-roma-version">
-          ROMA version
-          <div class="panel-value">
-            <% if past_version?(@stats_hash) %>
-              <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+      </div>
+    </td>
+    <td class="panel-server">
+      server count
+      <div class="panel-value">
+        <%= get_active_server_list.size %>
+      </div>
+    </td>
+    <td class="panel-roma-version">
+      ROMA version
+      <div class="panel-value">
+        <% if past_version?(@stats_hash) %>
+          <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+        <% end %>
+        <%= @stats_hash["others"]["version"] %>
+        <ul class ="error-instance-small">
+          <% if past_version?(@stats_hash) %><li>Unsupport version</li><% end %>
+          <% if eosl_expired?(@stats_hash) %><li>EOSL expired</li><% end %>
+          <% @routing_info.each do |instance, info| %>
+            <% if chk_main_version(info["version"]) %>
+              <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
             <% end %>
-            <%= @stats_hash["others"]["version"] %>
-            <div class ="error-instance-small">
-              <% if past_version?(@stats_hash) %>
-                Unsupport version<br>
-              <% end %>
-              <% if eosl_expired?(@stats_hash) %>
-                EOSL expired<br>
-              <% end %>
-              <% @routing_info.each do |instance, info| %>
-                <% if chk_main_version(info["version"]) %>
-                  <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </td>
-      </tr>
-    
-      <tr>
+          <% end %>
+        </ul>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="panel-short-vnodes">
+      short vnodes
+      <div class="panel-value">
         <% if short_vnodes?(@stats_hash) %>
-          <td class="panel-short-vnodes-error">
-            short vnodes
-            <div class="panel-value">
-              <span id="short-vnodes-cnt">
-                <%= @stats_hash["routing"]["short_vnodes"] %>
-              </span>
-              <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
-            </div>
-          </td>
+          <span id="short-vnodes-cnt"><%= @stats_hash["routing"]["short_vnodes"] %></span>
+          <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
         <% else %>
-          <td class="panel-short-vnodes">
-            short vnodes
-            <div class="panel-value">
-              <%= @stats_hash["routing"]["short_vnodes"] %>
-            </div>
-          </td>
+          <%= @stats_hash["routing"]["short_vnodes"] %>
         <% end %>
-    
-        <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
-          <td class="panel-lost-vnodes">
-            lost vnodes
-            <div class="panel-value">
-              <span class="panel-value"><%= @stats_hash["routing"]["lost_vnodes"] %></span>
-            </div>
-          </td>
-        <% else %>
-          <td class="panel-lost-vnodes" id="lost-vnodes-exist">
-            lost vnodes
-            <div class="panel-value">
-              <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
-              <span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
-            </div>
-          </td>
-        <% end %>
-            
-        <td class="panel-gladiator-version">
-          Gladiator version
-          <div class="panel-value">
-            <%= Constants::VERSION %>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
+      </div>
+    </td>
 
-  <% if ex_process = extra_process_chk(@routing_info)
-    case ex_process %>
-    <% when "recover" %>
-      <div class="extra-process" id="extra-process-recover">
-    <% when "release" %>
-      <div class="extra-process" id="extra-process-release">
-    <% when "join" %>
-      <div class="extra-process" id="extra-process-join">
-    <% end %>
+    <td class="panel-lost-vnodes">
+      lost vnodes
+      <div class="panel-value">
+      <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+        <%= @stats_hash["routing"]["lost_vnodes"] %>
+      <% else %>
+        <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
+        <span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
+      <% end %>
+      </div>
+    </td>
+ 
+    <td class="panel-gladiator-version">
+      Gladiator version
+      <div class="panel-value"><%= Constants::VERSION %></div>
+    </td>
+  </tr>
+</table>
 
-      <h3><U>Executing process</U></h3>
-      <div class="extra-pbar">
-        <p><%= ex_process %> is being executed</p>
-
-        <div class="progress progress-striped active">
-          <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-            <span id="extra-bar-rate">[ToDO]% Complete</span>
-          </div>
+<% if ex_process = extra_process_chk(@routing_info) %>
+  <% case ex_process %>
+  <% when "recover" %>
+    <div class="extra-process" id="extra-process-recover">
+  <% when "release" %>
+    <div class="extra-process" id="extra-process-release">
+  <% when "join" %>
+    <div class="extra-process" id="extra-process-join">
+  <% end %>
+    <div class="sub-contents-name">Executing process</div>
+    <div class="extra-pbar">
+      <p><%= ex_process %> is being executed</p>
+      <div class="progress progress-striped active">
+        <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+          <span id="extra-bar-rate">Now executing</span>
         </div>
-
       </div>
     </div>
-  <% end %>
+  </div>
+<% end %>
 
-</div>
 
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
@@ -321,10 +279,10 @@
 </div>
 
 <div class="join-command-generate">
-    <div class="join-command-title">
-      <U>Join Command Generater</U>
-      <span class="accordion-status"><i class="icon-chevron-right"></i></span>
-    </div>
+  <div class="sub-contents-name join-command-title">
+    Join Command Generater
+    <span class="accordion-status"><i class="icon-chevron-right"></i></span>
+  </div>
     
   <dd>
     <div class="parameter-area">

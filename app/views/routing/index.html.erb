@@ -2,11 +2,12 @@
 
 <%= render 'routing/modal' %>
 
-<h1 class="contents-name"><U>Routing</U></h1>
+<div class="main-contents-name">Routing</div>
 
 <div class="col-xs-12 routing-information">
+  <div class="sub-contents-name">Routing information</div>
   <div class="col-xs-6 routing-nodes">
-    <h4><U>Routing List</U></h4>
+    <div class="small-contents-name">Routing List</div>
     <ul class="routing-nodes-list">
       <%
       @color_type = "info"
@@ -15,16 +16,13 @@
           change_nodes_list_color(@color_type)
         end
       %>
-        <h4><span class="label label-<%= @color_type %>"><%= node %></span></h4>
-      <%
-        node
-        }
-      %>
-    <ul>
+        <h4><li class="label label-<%= @color_type %>"><%= node %></li></h4>
+      <% node } %>
+    </ul>
   </div>
   
   <div class="col-xs-6 routing-options">
-    <h4><U>Options</U></h4>
+    <div class="small-contents-name">Options</div>
     <ul class="routing-options-list list-group list-group-striped">
       <li class="list-group-item list-striped">lost_action: <%= @stats_hash["routing"]["lost_action"] %></li>
       <li class="list-group-item">digst_bits: <%= @stats_hash["routing"]["dgst_bits"] %></li>
@@ -68,7 +66,7 @@
     </div>
   <% end %>
 
-  <h4><U>routing history</U></h4>
+  <div class="sub-contents-name">Routing history</div>
   <div class="routing-history-glaph">
     <% if @routing_event.size == 0 %>
       <table class="table table-bordered table-condensed">

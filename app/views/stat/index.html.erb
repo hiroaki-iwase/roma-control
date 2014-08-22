@@ -1,10 +1,11 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
 <h1 class="contents-name"><U>Status</U>
-<button type="button" class="btn btn-default btn-lg reload-btn">
-  <a href="" data-no-turbolink="1"><i class="icon-refresh"></i></a>
-</button>
+  <button type="button" class="btn btn-default btn-lg reload-btn">
+    <a href="" data-no-turbolink="1"><i class="icon-refresh"></i></a>
+  </button>
 </h1>
+
 <dl>
   <% Constants::STATS_COL_NAME.each{|name| %>
   <dt class="<%=name.gsub(/\[\w+\]/, "")%>">

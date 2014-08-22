@@ -68,15 +68,13 @@ dl dd {
 }
 
 /** edit page **/
-.edit-title h2 {
+.edit-config-name {
   background-color: #f8d1d1;
   border: 1px solid #ddd;
+  font-size: 18px;
   padding: 5px;
-}
-.edit-config-name h3 {
-  background-color: #f8d1d1;
-  border: 1px solid #ddd;
-  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .edit-explanation  {
   background-color: #f8d1d1;
@@ -87,11 +85,14 @@ dl dd {
 .edit-explanation-detail  {
   margin-left: 10px;
 }
-.edit-default-value h4,
-.current-default-value h4 {
+.edit-default-value ,
+.current-default-value {
   background-color: #f8d1d1;
   border: 1px solid #ddd;
+  font-size: 16px;
   padding: 5px; 
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .edit-form {
   margin: 10px;
