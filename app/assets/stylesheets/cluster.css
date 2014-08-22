@@ -89,6 +89,10 @@
 /**-----------------------------
   Health param
 -------------------------------- **/
+.health-param {
+  font-size: 28px;
+  padding: 10px;
+}
 .extra-pbar {
   padding-left: 30px;
   padding-right: 10px;

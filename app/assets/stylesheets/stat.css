@@ -1,6 +1,6 @@
 dl {
   width: auto;
-  margin:20px auto;
+  margin:10px auto;
   background: #f9f3f3;
   color: #6f3737;
 }
@@ -21,6 +21,7 @@ dl dd {
 }
 .reload-btn {
   background-color: #f8d1d1;
+  padding-top: 0px;
 }
 .reload-btn:hover {
   background-color: #debdbd;
@@ -134,3 +135,13 @@ label.error {
 .table > tbody > tr > td.storage-option {
   padding-left: 45px;
 }
+
+.status-title {
+  font-size: 36px;
+  padding-top: 10px;
+}
+
+.status-contents-name {
+  text-decoration: underline;
+}
+

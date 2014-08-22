@@ -3,7 +3,7 @@
 
 <div class="main-contents-name">Cluster</div>
 
-<span class="sub-contents-name">Health</span><span class="colon">:</span>
+<span class="sub-contents-name health-param">Health</span><span class="colon">:</span>
 <div class="health-button <%= health_btn_color(@stats_hash) %> large_size" style="display: inline-block;">
   <span class="glare large"></span>
 </div>
@@ -153,13 +153,11 @@
   </div>
 <% end %>
 
-
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
   <div class="instance-table">
     <table class="table table-bordered result-table tablesorter cluster-table">
       <thead>
-
         <tr>
           <th rowspan="2">No.</th>
           <th rowspan="2">Cluster Name</th>
