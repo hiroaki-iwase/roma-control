@@ -89,6 +89,11 @@
 /**-----------------------------
   Health param
 -------------------------------- **/
+#recover-button {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
 .health-param {
   font-size: 28px;
   padding: 10px;
