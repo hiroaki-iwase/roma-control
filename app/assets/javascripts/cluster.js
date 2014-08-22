@@ -2,7 +2,7 @@ $(function(){
 
     //for past version
     if ($('.recover-restriction-msg')[0]) {
-        $('#recoverButton').css({"background-color":"grey", "border":"none"});
+        $('#recover-button').css({"background-color":"grey", "border":"none"});
     }
     if ($('.restriction-health-button')[0]) {
         $('.table-contents td:nth-of-type(3)').css({"background-color":"silver", "color":"#696969"});

@@ -127,6 +127,14 @@ module ClusterHelper
     true
   end
 
+  def can_i_use_snapshot?(stats_hash)
+    if chk_roma_version(stats_hash['others']['version']) >= 2062
+      return true
+    else
+      return false
+    end
+  end
+
   # check "--enabled_repeathost" option is on or off.
   def repetition_host?(stats_hash)
     stats_hash["stats"]["enabled_repetition_host_in_routing"].to_boolean
