@@ -1,6 +1,6 @@
 $(function(){
 
-    if ($('#versionConfirm')[0]) {
+    if ($('#version-confirm')[0]) {
         $('#version-modal').modal({
             show: true,
             keyboard: false,

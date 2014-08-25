@@ -6,7 +6,7 @@ $(function(){
     });
 
     // for past version
-    $('#logLink').click(function(e){
+    $('#log-link').click(function(e){
         e.preventDefault();
     });
 
