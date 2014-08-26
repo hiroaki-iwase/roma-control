@@ -31,7 +31,7 @@ $(function() {
     }
 
     $("#logs-button").click(function() {
-        $("#logs-button").html("<img alt='Ajax loader' src='/assets/ajax-loader.gif' ></img> gathering log data");
+        $("#logs-button").html("<img alt='Ajax loader' src='/assets/ajax-loader.gif'> gathering log data");
         $("#logs-button").css({"background-color":"#222222"});
         $("#logs-button").attr('disabled', true);
     });
