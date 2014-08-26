@@ -1,10 +1,5 @@
 $(function(){
 
-    //initialize of gon
-    //if (typeof gon === "undefined") {
-    //  gon = false
-    //}
-
     //Modal
     $('.close-modal').click(function () {
       $('#download-modal').modal('hide');

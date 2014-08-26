@@ -252,9 +252,6 @@ class Roma
     send_command("set #{keyName} 0 #{expt} #{value.size}\r\n#{value}", nil, host, port)
   end
 
-
-#================================================================
-
   def start_gather_logs(line_count, host, port)
     raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
     send_command("gather_logs #{line_count}", "STARTED", host, port)
@@ -279,9 +276,6 @@ class Roma
 
     return raw_logs
   end
-
-
-#================================================================
 
   def send_command(command, eof = "END", host = @host, port = @port)
     nid ="#{host}_#{port}"
