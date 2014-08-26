@@ -249,14 +249,39 @@ class Roma
   end
 
   def set_value(keyName, value, expt = 0, host = @host, port = @port)
-    # [toDO]adjust for Japanese?
     send_command("set #{keyName} 0 #{expt} #{value.size}\r\n#{value}", nil, host, port)
   end
 
-  #def get_logs(line_count, host = @host, port = @port)
-  #  raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
-  #  send_command("get_logs #{line_count}", "END", host, port)
-  #end
+
+#================================================================
+
+  def start_gather_logs(line_count, host, port)
+    raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
+    send_command("gather_logs #{line_count}", "STARTED", host, port)
+  end
+
+  def show_logs(host, port)
+    send_command("show_logs", "END", host, port)
+  end
+
+  def get_all_logs(active_routing_list)
+    active_routing_list.each{|instance|
+      self.start_gather_logs(100, instance.split("_")[0], instance.split("_")[1])
+    }
+
+    sleep 5 # wait for finishing gathering
+
+    raw_logs = {}
+    active_routing_list.each{|instance|
+      logs = self.show_logs(instance.split("_")[0], instance.split("_")[1])
+      raw_logs.store(instance, logs)
+    }
+
+    return raw_logs
+  end
+
+
+#================================================================
 
   def send_command(command, eof = "END", host = @host, port = @port)
     nid ="#{host}_#{port}"

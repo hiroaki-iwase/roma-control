@@ -6,8 +6,8 @@ $(function(){
     });
 
     // for past version
-    $('#logLink').click(function(e){
-        e.preventDefault();
-    });
+    //$('#logLink').click(function(e){
+    //    e.preventDefault();
+    //});
 
 });
