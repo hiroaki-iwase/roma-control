@@ -67,18 +67,4 @@ class ApiController < ApplicationController
     render :text => response
   end
 
-  def get_all_logs
-    roma = Roma.new
-
-    begin
-      stats_hash = roma.get_stats
-      active_routing_list = roma.get_active_routing_list(stats_hash)
-      response = roma.get_all_logs(active_routing_list)
-    rescue => @ex
-      response = {:status=>@ex.message}
-    end
-
-    render :json => response
-  end
-
 end

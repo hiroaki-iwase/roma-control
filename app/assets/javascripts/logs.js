@@ -31,35 +31,9 @@ $(function() {
     }
 
     $("#logs-button").click(function() {
-        $(this).html("<img alt='Ajax loader' src='/assets/ajax-loader.gif' ></img> gathering log data");
-        $(this).css({"background-color":"#222222"});
-        $(this).attr('disabled', true);
+        $("#logs-button").html("<img alt='Ajax loader' src='/assets/ajax-loader.gif' ></img> gathering log data");
+        $("#logs-button").css({"background-color":"#222222"});
+        $("#logs-button").attr('disabled', true);
     });
-
-
-
-    //    protocol = location.protocol;
-    //    host = location.host;
-    //    webApiEndPoint = protocol+"//"+host+"/api/get_all_logs"
-
-    //    $.ajax({
-    //        url: webApiEndPoint,
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        timeout:10000,
-    //        cache: false,
-    //    }).done(function(data){
-    //        $('#logs-button').attr('disabled', false);
-    //        $('#logs-button').text("Update Log");
-    //        $('#logs-button').css({"background-color":"orange"});
-
-    //        $('.test').text(typeof data['192.168.223.2_10001']);
-
-    //        console.log(data);
-    //    }).fail(function(){
-    //        $('#logs-button').text("Retry");
-    //        $('#logs-button').css({"background-color":"red"});
-    //        alert("fail to access Gladiator Web API");
-    //    });
 
 })

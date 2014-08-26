@@ -23,7 +23,6 @@ Gladiator::Application.routes.draw do
   get  "api/get_routing_info"
   get  "api/get_value/:key" => "api#get_value"
   post "api/set_value"
-  get  "api/get_all_logs"
 
   # cluster(Top Page)
   get  "cluster/index"
