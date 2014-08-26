@@ -9,9 +9,9 @@ $(function(){
     }
 
     //initialize of gon
-    if (typeof gon === "undefined") {
-        gon = false
-    }
+    //if (typeof gon === "undefined") {
+    //    gon = false
+    //}
 
     //Just Booting
     if (gon.just_booting) {

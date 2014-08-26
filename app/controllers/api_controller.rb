@@ -67,15 +67,13 @@ class ApiController < ApplicationController
     render :text => response
   end
 
-  def get_logs
+  def get_all_logs
     roma = Roma.new
 
     begin
       stats_hash = roma.get_stats
       active_routing_list = roma.get_active_routing_list(stats_hash)
-      response = roma.get_logs(active_routing_list, 100)
-      #response = roma.get_routing_info(active_routing_list, "enabled_repetition_host_in_routing", "short_vnodes")
-
+      response = roma.get_all_logs(active_routing_list)
     rescue => @ex
       response = {:status=>@ex.message}
     end

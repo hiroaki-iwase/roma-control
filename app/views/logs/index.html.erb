@@ -1,17 +1,38 @@
 <div class="main-contents-name">Log</div>
 
 
-<button class="btn btn-info" id="logs-button">
+<% if false %>
+<!--button class="btn btn-info" id="logs-button">
   Get logs
-</button>
+</button-->
+<form method="post" action="/logs/show_logs">
+<% if @raw_logs %>
+  <button type="submit"  class="btn btn-warning" id="logs-button">Update</button>
+<% else %>
+  <button type="submit" class="btn btn-info" id="logs-button">Get Logs</button>
+<% end %>
+</form>
+<% end %>
+
 
 
 <% if true %>
+<% if @raw_logs %>
+  <a href="show_logs" type="button" class="btn btn-warning" id="logs-button">Update</a>
+  <%#= button_to 'update', 'update', :class=>'btn btn-warning' %>
+<% else %>
+  <a href="show_logs" type="button" class="btn btn-info" id="logs-button">Get Logs</a>
+  <%#= button_to 'vvv', 'index', :method => :get %>
+  <%#= button_to 'get', 'show_logs', :class=>'btn btn-info' %>
+<% end %>
+<% end %>
+
+<% if @raw_logs %>
 <!-- Nav tabs -->
 <div id="tabs">
   <!-- Tabs header -->
   <ul>
-    <% @raw_logs.each_with_index{|(instance, logs), index| %>
+    <% @raw_logs.each_key{|instance| %>
       <li>
         <a id="<%=compact_instance(instance)%>-tabs" href="#<%= compact_instance(instance) %>">
           <%= instance %>

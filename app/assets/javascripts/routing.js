@@ -1,9 +1,9 @@
 $(function(){
 
     //initialize of gon
-    if (typeof gon === "undefined") {
-      gon = false
-    }
+    //if (typeof gon === "undefined") {
+    //  gon = false
+    //}
 
     //Modal
     $('.close-modal').click(function () {

@@ -4,7 +4,7 @@ Gladiator::Application.routes.draw do
 
   # logs
   get "logs/index"
-  get "logs/download"
+  get "logs/show_logs"
 
   # routing
   get "routing/index"
@@ -18,12 +18,12 @@ Gladiator::Application.routes.draw do
   get  "login/logout"
 
   # API
-  get  "api/get_logs/:host/:port" => "api#get_logs", :host => /.*/
   get  "api/get_parameter"
   get  "api/get_parameter/:host/:port" => "api#get_parameter", :host => /.*/
   get  "api/get_routing_info"
   get  "api/get_value/:key" => "api#get_value"
   post "api/set_value"
+  get  "api/get_all_logs"
 
   # cluster(Top Page)
   get  "cluster/index"
