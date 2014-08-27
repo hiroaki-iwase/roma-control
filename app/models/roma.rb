@@ -252,7 +252,8 @@ class Roma
     send_command("set #{keyName} 0 #{expt} #{value.size}\r\n#{value}", nil, host, port)
   end
 
-  def start_gather_logs(line_count, host, port)
+  def start_gather_logs(line_count, logs_sleep_time ,host, port)
+    @logs_sleep_time = logs_sleep_time
     raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
     send_command("gather_logs #{line_count}", "STARTED", host, port)
   end
@@ -263,10 +264,10 @@ class Roma
 
   def get_all_logs(active_routing_list)
     active_routing_list.each{|instance|
-      self.start_gather_logs(100, instance.split("_")[0], instance.split("_")[1])
+      self.start_gather_logs(100, 5, instance.split("_")[0], instance.split("_")[1])
     }
 
-    sleep 5 # wait for finishing gathering
+    sleep @logs_sleep_time # wait for finishing gathering
 
     raw_logs = {}
     active_routing_list.each{|instance|
