@@ -5,6 +5,7 @@ Gladiator::Application.routes.draw do
   # logs
   get "logs/index"
   get "logs/show_logs"
+  get "logs/update"
 
   # routing
   get "routing/index"

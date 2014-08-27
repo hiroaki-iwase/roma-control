@@ -49,13 +49,14 @@
                 <a href="/cluster/index" class="list-group-item">Cluster</a>
                 <a href="/stat/index"    class="list-group-item">Status/Configuration</a>
                 <a href="/routing/index" class="list-group-item">Routing</a>
-                <a href="/logs/index"    class="list-group-item" id="logLink">
+                <a href="/logs/index"    class="list-group-item" id="log-link">
                   <%# if past_version?(@stats_hash) %>
+                  <% if false %>
                     <div class="restriction-panel">
-                      <div class="restriction-msg restriction-msg-log">You can Not use this function</div>
+                      <div class="restriction-msg restriction-msg-log">Can Not use in this ROMA version</div>
                     </div>
-                  <%# end %>
-                  logs(Under construction)
+                  <% end %>
+                  logs
                 </a>
                 <a href="/storage/index" class="list-group-item">Data Management</a>
               </div>

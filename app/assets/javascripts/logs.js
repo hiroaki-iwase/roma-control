@@ -32,7 +32,7 @@ $(function() {
 
     $("#logs-button").click(function() {
         $("#logs-button").html("<img alt='Ajax loader' src='/assets/ajax-loader.gif'> gathering log data");
-        $("#logs-button").css({"background-color":"#222222"});
+        $("#logs-button").css({"background-color":"#222222", "border-color":"#222222"});
         $("#logs-button").attr('disabled', true);
     });
 

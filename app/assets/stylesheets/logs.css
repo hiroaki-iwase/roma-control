@@ -23,3 +23,7 @@
 
 #tabs li a { padding:5px 10px; color:#777777; letter-spacing:-1px; outline:none; text-decoration:none; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;} /** font **/
 
+.loader-prepare {
+  display: none;
+}
+

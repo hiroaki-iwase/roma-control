@@ -17,4 +17,10 @@ class LogsController < ApplicationController
       redirect_to :action => "index"
     end
   end
+
+  def update
+    session[:ref] = nil
+    redirect_to :action => "show_logs"
+  end
+
 end

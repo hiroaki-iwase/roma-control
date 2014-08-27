@@ -177,7 +177,9 @@ html, body {
 
 .restriction-msg-log {
   position: absolute;
+  top: 25%;
   left: 3%;
   right: 3%;
-  font-size: 16px;
+  bottom: 15%;
+  font-size: 14px;
 }
