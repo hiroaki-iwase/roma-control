@@ -8,11 +8,6 @@ $(function(){
         $('.table-contents td:nth-of-type(3)').css({"background-color":"silver", "color":"#696969"});
     }
 
-    //initialize of gon
-    if (typeof gon === "undefined") {
-        gon = false
-    }
-
     //Just Booting
     if (gon.just_booting) {
         var element = $('.table-contents');
