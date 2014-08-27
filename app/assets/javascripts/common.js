@@ -10,9 +10,4 @@ $(function(){
       delay: { show: 200, hide: 50 },
     });
 
-    // for past version
-    //$('#log-link').click(function(e){
-    //    e.preventDefault();
-    //});
-
 });
