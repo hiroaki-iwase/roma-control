@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 
   def change_base
     Rails.logger.warn("ConPoolError happened")
-    Rails.logger.debug("session[:active_routing_list] =>  #{session[:active_routing_list]}")
+    Rails.logger.debug("session[:active_routing_list] => #{session[:active_routing_list]}")
 
     if session[:active_routing_list]
       if session[:active_routing_list].size == 1
-        Rails.logger.error("All instace were down")
+        Rails.logger.error("All instaces were down")
         $baseHost = nil
         $basePort = nil
         render_500 Errno::ECONNREFUSED.new
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
             $baseHost = instance.split(/[:_]/)[0]
             $basePort = instance.split(/[:_]/)[1]
-            Rails.logger.warn("changed base HOST & PORT => #{$baseHost}_#{$basePort}")
+            Rails.logger.warn("changed base instance => #{$baseHost}_#{$basePort}")
             redirect_to :action => "index"
             return
           rescue
@@ -36,11 +36,11 @@ class ApplicationController < ActionController::Base
           end 
         }
 
-        Rails.logger.error("All instace were down")
+        Rails.logger.error("All instaces were down")
         render_500 Errno::ECONNREFUSED.new
       end
     else
-      Rails.logger.error("session[:active_routing_list] do NOT exists! (ROMA didn't boot yet.)")
+      Rails.logger.error("session[:active_routing_list] do NOT exists!")
       render_500 Errno::ECONNREFUSED.new
     end
   end

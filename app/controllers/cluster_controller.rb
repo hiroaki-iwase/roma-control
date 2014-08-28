@@ -34,11 +34,11 @@ class ClusterController < ApplicationController
         end
       }
     rescue ConPoolError
-      Rails.logger.error("rescued ConPoolError in cluster Controller")
+      Rails.logger.warn("rescued ConPoolError in cluster Controller")
       @routing_info = {}
       gon.just_booting = true
     rescue Errno::ECONNREFUSED
-      Rails.logger.error("rescued Errno::ECONNREFUSED in cluster Controller")
+      Rails.logger.warn("rescued Errno::ECONNREFUSED in cluster Controller")
       @routing_info = {}
       gon.just_booting = true
     end
@@ -65,8 +65,6 @@ class ClusterController < ApplicationController
   end
 
   def update #[recover]
-    #gon.host = ConfigGui::HOST
-    #gon.port = ConfigGui::PORT
     gon.host = $baseHost
     gon.port = $basePort
 
