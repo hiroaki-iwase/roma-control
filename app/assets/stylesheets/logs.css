@@ -26,3 +26,12 @@
 .tablesorter-filter {
   min-width: 80px;
 }
+
+.tablesorter-default th, .tablesorter-default thead td {
+  background-color: #ddd;
+  font-size: 13px;
+}
+
+.panel {
+  background-color: transparent;
+}
