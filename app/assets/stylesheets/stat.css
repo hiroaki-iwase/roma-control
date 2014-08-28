@@ -106,6 +106,10 @@ dl dd {
   background-color: #cacaca;
 }
 
+.send-button .btn-info:hover {
+  background-color: #0AB1E3;
+}
+
 .edit-change-value {
   background-color: #f8d1d1;
   border: 1px solid #ddd;

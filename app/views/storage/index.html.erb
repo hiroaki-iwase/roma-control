@@ -12,7 +12,7 @@
             }
       %>
     </span>
-    <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
+    <%= submit_tag " Get Value ", { :class => "btn btn-info get-value-btn allow_submit", :type=>"button" } %>
     <div class="get-result"></div> 
   </div>
 </div>
@@ -27,7 +27,7 @@
         <%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %>
       </span>
       <span class="send-button">
-        <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
+        <%= submit_tag " Set Value ", { :class => "btn btn-info set-value-btn allow_submit" }%>
         <input type="reset" value="reset " class="btn set-reset-btn allow_submit">
       </span>
       <div class="set-result"></div> 
@@ -50,7 +50,7 @@
       <div class="small-contents-name">Command Generater</div>
       <div class="port-input">
         <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
+        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit" }%>
         <div class="snap-explanation"></div>
         <div class="snap-command"></div>
         <div class="snap-command-error"></div>

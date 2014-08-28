@@ -15,6 +15,14 @@
   margin-bottom: 20px;
 }
 
+.btn:hover {
+  background-color: #cacaca;
+}
+
+.btn-info:hover {
+  background-color: #0AB1E3;
+}
+
 .get-result, .set-result {
   color: #1D86FE;
   font-size: 20px;
