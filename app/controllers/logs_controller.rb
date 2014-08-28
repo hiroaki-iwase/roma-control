@@ -1,11 +1,11 @@
 class LogsController < ApplicationController
   def index
-    session[:ref] = nil
+    session[:referer] = nil
   end
 
   def show_logs
-    if request.path_info != session[:ref]
-      session[:ref] = request.path_info
+    if request.path_info != session[:referer]
+      session[:referer] = request.path_info
       roma = Roma.new
       stats_hash = roma.get_stats
       active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
@@ -19,7 +19,7 @@ class LogsController < ApplicationController
   end
 
   def update
-    session[:ref] = nil
+    session[:referer] = nil
     redirect_to :action => "show_logs"
   end
 
