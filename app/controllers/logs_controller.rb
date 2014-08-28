@@ -1,23 +1,26 @@
 class LogsController < ApplicationController
   def index
-    roma = Roma.new
-
-    @stats_hash = roma.get_stats
-    @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
-    gon.routing_list = @active_routing_list.map{|instance|
-      self.class.helpers.compact_instance(instance)
-    }
-
-    @raw_logs = {}
-    @active_routing_list.each{|instance|
-      host, port = instance.split("_")
-      @raw_logs.store(instance, roma.send_command('get_logs 100', "END", host, port))
-    }
-
-    @raw_logs
+    session[:referer] = nil
   end
 
-  def download
-
+  def show_logs
+    if request.path_info != session[:referer]
+      session[:referer] = request.path_info
+      roma = Roma.new
+      stats_hash = roma.get_stats
+      active_routing_list = roma.change_roma_res_style(stats_hash["routing"]["nodes"])
+      gon.routing_list = active_routing_list.map{|instance|
+        self.class.helpers.compact_instance(instance)
+      }
+      @raw_logs = roma.get_all_logs(active_routing_list)
+    else
+      redirect_to :action => "index"
+    end
   end
+
+  def update
+    session[:referer] = nil
+    redirect_to :action => "show_logs"
+  end
+
 end
