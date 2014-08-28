@@ -32,8 +32,9 @@
           </tr>
         </thead>
         <tbody>
-          <% logs.each{|log|
-          log =~ /([T:.\d-]+)\W+\d+\W+(\w+)\W+(.+)/ %>
+          <%
+          logs.each{|log|
+            log =~ /([T:.\d-]+)\W+\d+\W+(\w+)\W+(.+)/ %>
             <tr>
               <td nowrap><%= $1 %></td>
               <td><span class="label label-<%=loglevel_colors($2)%>"><%= $2 %></span></td>
