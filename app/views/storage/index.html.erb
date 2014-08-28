@@ -62,7 +62,11 @@
       <% if flash[:snapshoting] %>
         <div class="snap-progress-area">
           <h5>Progress:</h5>
-          <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+          <div id="snapshotStatus">
+            <%= flash[:snapshoting] %> is executing snapshot
+            <%= image_tag "ajax-loader.gif" %>
+          </div>
+          
           <div id="snapshotProgress">
             <table class="table table-bordered table-snapshot">
               <thead>

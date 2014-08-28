@@ -163,6 +163,12 @@ $(function(){
             }
             jQuery.each(eachStatus, function(index, value){
                 $('#snapshotStatus'+index).text(value)
+                if (value == ':safecopy_flushed') {
+                    $('#snapshotStatus'+index).css({"background-color":"#c1fff1"})
+                } else {
+                    $('#snapshotStatus'+index).css({"background-color":"#ffffff"})
+                }
+
             }); 
             checkFinish(data);
 
