@@ -2,6 +2,7 @@
 
 <div class="main-contents-name">Data</div>
 
+<!-- Get -->
 <div class="col-xs-12 get-column">
   <div class="sub-contents-name">Get</div>
   <div class="get-contents">
@@ -17,14 +18,15 @@
   </div>
 </div>
 
+<!-- Set -->
 <% if session[:user_type] == 'root' %>
   <div class="col-xs-12 set-column">
     <div class="sub-contents-name">Set</div>
     <div class="set-contents">
       <span class="set-input">
         <%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %>
-        <%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %>
-        <%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %>
+        <%= text_field_tag :value_name, nil, {:placeholder=>"Value Name", :class=>"setValueName"} %>
+        <%= text_field_tag :expt_time, nil, {:placeholder=>"Expired Time", :class=>"setExptName"} %>
       </span>
       <span class="send-button">
         <%= submit_tag " Set Value ", { :class => "btn btn-info set-value-btn allow_submit" }%>
@@ -35,8 +37,9 @@
   </div>
 <% end %>
 
+<!-- Snapshot -->
 <% unless memory_mode?(@stats_hash) %>
-  <div class="col-xs-12 snapshot-column" id="versionTest">
+  <div class="col-xs-12 snapshot-column">
     <% unless can_i_use_snapshot?(@stats_hash) %>
       <div class="restriction-panel">
         <div class="restriction-msg restriction-msg-snapshot">

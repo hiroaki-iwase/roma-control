@@ -6,9 +6,9 @@ $(function(){
     });
 
     $('#set-modal').on('show.bs.modal', function (e) {
-        $('#keyModal').text($('.setKeyName').val());
-        $('#valueModal').text($('.setValueName').val());
-        $('#exptModal').text($('.setExptName').val());
+        $('#key-modal').text($('.setKeyName').val());
+        $('#value-modal').text($('.setValueName').val());
+        $('#expt-modal').text($('.setExptName').val());
     });
 
     //Validate
