@@ -46,7 +46,6 @@ $(function(){
         $('#repetition-modal').modal('hide');
     });
 
-
     //Table sorter
     $('table.cluster-table').tablesorter({
         theme: 'default',
@@ -107,7 +106,6 @@ $(function(){
                     startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
 
                     //set vnodes count
-                    //[toDO : use instance variables]
                     if (primaryVnodes < startPrimaryVnodes) {
                         color_primary = "red"
                         icon_primary  = 'arrow-down'
@@ -169,7 +167,7 @@ $(function(){
 
             case "recover":
                 shortVnodes = data["short_vnodes"];
-                progressRate = Math.round(((gon.denominator - shortVnodes)/gon.denominator)*1000) / 10 //[toDO] use rational?
+                progressRate = Math.round(((gon.denominator - shortVnodes)/gon.denominator)*1000) / 10
                 $('#extra-progress-bar').css("width",progressRate + "%");
                 $('#extra-bar-rate').text(progressRate+ "% Complete");
                 break;
@@ -192,7 +190,6 @@ $(function(){
 
             case "join":
                 if (data["status"] != "join") {
-                    //[toDO] sleep
                     setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
                     setTimeout(function() { calcProgressRate(process) }, 1000);
@@ -204,7 +201,6 @@ $(function(){
                 progressRate = Math.round(((gon.denominator - shortVnodes)/gon.denominator)*1000) / 10
                 if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");
-                    //[toDO] sleep
                     setTimeout(function() { redirectClusterPage() }, 3000);
                 }else{
                     setTimeout(function() { calcProgressRate(process) }, 1000);

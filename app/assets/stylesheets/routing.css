@@ -50,9 +50,21 @@ li.list-striped {
   margin-left: 15px;
 }
 
+
+/**-----------------------------
+  Download
+-------------------------------- **/
 .download-button {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body button {
+  margin: 0 10px;
 }
 
 /**-----------------------------
@@ -69,11 +81,11 @@ li.list-striped {
   top: 20px;
 }
 
-.routing-history-glaph {
+.routing-history-table {
   margin-bottom: 15px;
 }
 
-.history-glaph-title th{
+.history-table-title th{
   background-color: #cccccc;
 }
 

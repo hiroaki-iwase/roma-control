@@ -15,8 +15,8 @@ $(function(){
     });
 
     $("[data-toggle=tooltip]").tooltip({
-      placement: 'left',
-      html: true
+        placement: 'left',
+        html: true
     });
 
 });

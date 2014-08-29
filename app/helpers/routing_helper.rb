@@ -31,6 +31,8 @@ module RoutingHelper
     when "primary"
       @color_type = "success"
     when "success"
+      @color_type = "warning"
+    when "warning"
       @color_type = "info"
     when "info"
       @color_type = "primary"

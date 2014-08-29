@@ -2,33 +2,33 @@ $(function(){
 
     //Modal
     $(".close-modal-btn").click(function() {
-       $('#set-modal').modal('hide');
+        $('#set-modal').modal('hide');
     });
 
     $('#set-modal').on('show.bs.modal', function (e) {
-        $('#keyModal').text($('.setKeyName').val());
-        $('#valueModal').text($('.setValueName').val());
-        $('#exptModal').text($('.setExptName').val());
+        $('#key-modal').text($('.setKeyName').val());
+        $('#value-modal').text($('.setValueName').val());
+        $('#expt-modal').text($('.setExptName').val());
     });
 
     //Validate
     function validate(param, checkBrank, checkDigit) {
-       if(typeof checkBrank === 'undefined') checkBrank = false;
-       if(typeof checkDigit === 'undefined') checkDigit = false;
+        if(typeof checkBrank === 'undefined') checkBrank = false;
+        if(typeof checkDigit === 'undefined') checkDigit = false;
 
-       if (checkBrank) {
-           if (!param.match(/\S/g)) {
-               return false;
-           }
-       }
+        if (checkBrank) {
+            if (!param.match(/\S/g)) {
+                return false;
+            }
+        }
 
-       if ( checkDigit ) {
-           if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) {
-               return false;
-           }
-       }
+        if ( checkDigit ) {
+            if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) {
+                return false;
+            }
+        }
 
-      return true;
+       return true;
     }
 
     $('.get-value-btn').click(function () {
@@ -163,11 +163,17 @@ $(function(){
             }
             jQuery.each(eachStatus, function(index, value){
                 $('#snapshotStatus'+index).text(value)
+                if (value == ':safecopy_flushed') {
+                    $('#snapshotStatus'+index).css({"background-color":"#c1fff1"})
+                } else {
+                    $('#snapshotStatus'+index).css({"background-color":"#ffffff"})
+                }
+
             }); 
             checkFinish(data);
 
         }).fail(function(){
-          alert("fail to access Gladiator Web API");
+            alert("fail to access Gladiator Web API");
         });
     } //End of snapshotStatusCheck(instance)
 

@@ -1,24 +1,39 @@
-.get-contents, .set-contents {
-  margin-left: 20px;
-}
-
-.get-input > input, .set-input > input, .port-input .snapPort {
-  padding: 3px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
 .get-column, .set-column, .snapshot-column {
   background-color: #f8d1d1;
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
 
+.get-contents, .set-contents {
+  margin-left: 20px;
+}
+
+.get-input > input, .set-input > input, .port-input > .snapPort {
+  padding: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #cacaca;
+}
+
+.btn-info:hover {
+  background-color: #0AB1E3;
+}
+
 .get-result, .set-result {
   color: #1D86FE;
   font-size: 20px;
   padding-top: 20px;
+  width: 850px;
+  word-wrap:break-word;
+}
+
+#key-modal, #value-modal, #expt-modal {
+  width: 300px;
+  word-wrap:break-word;
 }
 
 .snap-command-area, .status-area {
