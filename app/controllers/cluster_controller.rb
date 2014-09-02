@@ -34,7 +34,7 @@ class ClusterController < ApplicationController
         end
       }
     rescue ConPoolError
-      Rails.logger.warn("rescued ConPoolError in cluster Controller")
+      Rails.logger.error("rescued ConPoolError in cluster Controller")
       @routing_info = {}
       gon.just_booting = true
     rescue Errno::ECONNREFUSED
