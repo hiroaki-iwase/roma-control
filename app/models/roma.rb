@@ -296,7 +296,7 @@ class Roma
       con.each{|s|
         break if s == "#{eof}\r\n"
         @res.push(s.chomp)
-        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
+        raise "ROMA send back ERROR\r\n#{s.chomp}" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
       }
     end
 
