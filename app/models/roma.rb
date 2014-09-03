@@ -308,14 +308,14 @@ class Roma
   def change_roma_res_style(roma_res)
     case roma_res[0]
     when "{"
-      roma_res = roma_res.delete('"|{|}').chomp
+      roma_res = roma_res.chomp.gsub(/"|^{|}$/, '')
       roma_res = roma_res.split(/,\s*|=>/)
       roma_res.each_with_index{|column, idx|
         roma_res[idx] = column.to_i if column =~ /^\d+$/
       }
       new_style_res = Hash[*roma_res]
     when "["
-      roma_res = roma_res.delete("\"[]\s").chomp
+      roma_res = roma_res.chomp.gsub(/"|^\[|\]$|\s/, '')
       new_style_res = roma_res.split(/,/)
     else
       raise "Unexpected style"
