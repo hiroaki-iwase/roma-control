@@ -2,6 +2,7 @@
 
 <div class="main-contents-name">Data</div>
 
+<!-- Get -->
 <div class="col-xs-12 get-column">
   <div class="sub-contents-name">Get</div>
   <div class="get-contents">
@@ -12,22 +13,23 @@
             }
       %>
     </span>
-    <%= submit_tag " Get Value ", { :class => "btn get-value-btn allow_submit", :type=>"button" } %>
+    <%= submit_tag " Get Value ", { :class => "btn btn-info get-value-btn allow_submit", :type=>"button" } %>
     <div class="get-result"></div> 
   </div>
 </div>
 
+<!-- Set -->
 <% if session[:user_type] == 'root' %>
   <div class="col-xs-12 set-column">
     <div class="sub-contents-name">Set</div>
     <div class="set-contents">
       <span class="set-input">
         <%= text_field_tag :key_name, nil, {:placeholder=>"Key Name", :class=>"setKeyName"} %>
-        <%= text_field_tag :value_name, nil, {:placeholder=>"value Name", :class=>"setValueName"} %>
-        <%= text_field_tag :expt_time, nil, {:placeholder=>"Expt Time", :class=>"setExptName"} %>
+        <%= text_field_tag :value_name, nil, {:placeholder=>"Value Name", :class=>"setValueName"} %>
+        <%= text_field_tag :expt_time, nil, {:placeholder=>"Expired Time", :class=>"setExptName"} %>
       </span>
       <span class="send-button">
-        <%= submit_tag " Set Value ", { :class => "btn set-value-btn allow_submit" }%>
+        <%= submit_tag " Set Value ", { :class => "btn btn-info set-value-btn allow_submit" }%>
         <input type="reset" value="reset " class="btn set-reset-btn allow_submit">
       </span>
       <div class="set-result"></div> 
@@ -35,8 +37,9 @@
   </div>
 <% end %>
 
+<!-- Snapshot -->
 <% unless memory_mode?(@stats_hash) %>
-  <div class="col-xs-12 snapshot-column" id="versionTest">
+  <div class="col-xs-12 snapshot-column">
     <% unless can_i_use_snapshot?(@stats_hash) %>
       <div class="restriction-panel">
         <div class="restriction-msg restriction-msg-snapshot">
@@ -50,7 +53,7 @@
       <div class="small-contents-name">Command Generater</div>
       <div class="port-input">
         <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn snapshot-btn allow_submit" }%>
+        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit" }%>
         <div class="snap-explanation"></div>
         <div class="snap-command"></div>
         <div class="snap-command-error"></div>
@@ -62,7 +65,11 @@
       <% if flash[:snapshoting] %>
         <div class="snap-progress-area">
           <h5>Progress:</h5>
-          <div id="snapshotStatus"><%= flash[:snapshoting] %> is executing snapshot</div>
+          <div id="snapshotStatus">
+            <%= flash[:snapshoting] %> is executing snapshot
+            <%= image_tag "ajax-loader.gif" %>
+          </div>
+          
           <div id="snapshotProgress">
             <table class="table table-bordered table-snapshot">
               <thead>

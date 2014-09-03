@@ -128,6 +128,10 @@ html, body {
   display:none;
 }
 
+.tablesorter-header-inner {
+  color:#5d5d5d;
+}
+
 /**---------------------------------------------
   Modal
 ------------------------------------------------**/
@@ -187,4 +191,3 @@ html, body {
 .access-loader {
   display: none;
 }
-

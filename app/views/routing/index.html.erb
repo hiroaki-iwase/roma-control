@@ -67,10 +67,10 @@
   <% end %>
 
   <div class="sub-contents-name">Routing history</div>
-  <div class="routing-history-glaph">
+  <div class="routing-history-table">
     <% if @routing_event.size == 0 %>
       <table class="table table-bordered table-condensed">
-        <tr class="history-glaph-title">
+        <tr class="history-table-title">
           <th>date</th>
           <th>Event</th>
         </tr>
@@ -79,8 +79,8 @@
 
     <% else %>
       <table class="table table-bordered table-condensed tablesorter routing-table ts-pager">
-        <thead class="history-glaph-title">
-          <tr class="history-glaph-title">
+        <thead class="history-table-title">
+          <tr>
             <th>date</th>
             <th>Event</th>
           </tr>

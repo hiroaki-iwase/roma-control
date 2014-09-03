@@ -32,7 +32,7 @@ class LoginController < ApplicationController
 
       ###plugin check(config_gui.rb)
       unless roma.change_roma_res_style(stats_hash['config']['PLUGIN_FILES']).include?('plugin_gui.rb')
-        Rails.logger.warn("Gladiator can NOT find 'plugin_gui.rb' plugin.")
+        Rails.logger.error("ROMA can NOT find 'plugin_gui.rb' plugin.")
         reset_session
         flash[:login_error] = 'missing plugin'
         redirect_to :action => 'index' and return
@@ -42,8 +42,8 @@ class LoginController < ApplicationController
       session[:mklhash] = roma.send_command("mklhash 0", nil)
       $baseHost = session[:active_routing_list][0].split(/[:_]/)[0]
       $basePort = session[:active_routing_list][0].split(/[:_]/)[1]
-      Rails.logger.debug(session[:active_routing_list])
-      Rails.logger.debug(session[:mklhash])
+      Rails.logger.debug("session[:active_routing_list] => #{session[:active_routing_list]}")
+      Rails.logger.debug("session[:mklhash] => #{session[:mklhash]}")
  
       if params[:referer]
         redirect_to params[:referer]

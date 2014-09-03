@@ -4,7 +4,6 @@ class ContinuousLimitValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     @continuous_limit_ary = value.split(':')
     @continuous_limit_ary.each_with_index do |continuous_limit, index|
-      Rails.logger.debug continuous_limit
       begin
         Integer(continuous_limit)
       rescue ArgumentError

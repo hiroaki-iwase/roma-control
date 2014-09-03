@@ -177,12 +177,6 @@
   background-color: #d15959;
 }
 
-/**
-.status-panel .panel-short-vnodes-error {
-  background-color: #d15959;
-}
-**/
-
 .status-panel .panel-value {
   display: table-cell;
   vertical-align: middle;

@@ -162,9 +162,9 @@ describe Roma do
             it_should_behave_like 'validation check', column, "500:60:hoge",  "Character", "con0"
             it_should_behave_like 'validation check', column, nil, "nil"
           elsif column == "sub_nid"
-            it_should_behave_like 'dynamic cmd check', column, "127.0.0.0/24 192.168.10.202 127.0.0.1", group, "string"
-            it_should_behave_like 'validation check', column, "127.0.0.0/24 192.168.10.202 127.0.0.1", "normal"
-            it_should_behave_like 'validation check', column, "1111.2222.3333.4444/24 192.168.10.202 127.0.0.1", "Over Limit"
+            it_should_behave_like 'dynamic cmd check', column, "127.0.0.0/24 127.0.0.1 localhost", group, "string"
+            it_should_behave_like 'validation check', column, "127.0.0.0/24 127.0.0.1 localhost", "normal"
+            it_should_behave_like 'validation check', column, "1111.2222.3333.4444/24 127.0.0.1 localhost", "Over Limit"
             it_should_behave_like 'validation check', column, nil, "nil"
           elsif column == "lost_action"
             it_should_behave_like 'dynamic cmd check', column, "shutdown", group, "string"
@@ -241,7 +241,7 @@ describe Roma do
     end
 
     context "change_roma_res_style(array)" do
-      roma_res_example_array = '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'
+      roma_res_example_array = '["localhost_10001", "localhost_10002", "localhost_10003"]'
       res_array = roma.change_roma_res_style(roma_res_example_array)
 
       it "[3-21] Response is Array" do
@@ -253,12 +253,12 @@ describe Roma do
       end
 
       it "[3-23] confirm detail" do
-        expect(res_array).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
+        expect(res_array).to eq(["localhost_10001", "localhost_10002", "localhost_10003"])
       end
     end
 
     context "change_roma_res_style(hash)" do
-      roma_res_example_hash = '{"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062}'
+      roma_res_example_hash = '{"localhost_10001"=>2062, "localhost_10002"=>2062, "localhost_10003"=>2062}'
       res_hash = roma.change_roma_res_style(roma_res_example_hash)
 
       it "[3-24] Response is Hash" do
@@ -276,7 +276,7 @@ describe Roma do
       end
 
       it "[3-27] confirm detail" do
-        expect(res_hash).to eq({"192.168.223.2_10001"=>2062, "192.168.223.2_10002"=>2062, "192.168.223.2_10003"=>2062})
+        expect(res_hash).to eq({"localhost_10001"=>2062, "localhost_10002"=>2062, "localhost_10003"=>2062})
       end
     end
 
@@ -434,7 +434,7 @@ describe Roma do
     end
 
     context "get_active_routing_list" do
-      stats_example = {"routing"=>{"nodes" => '["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"]'}}
+      stats_example = {"routing"=>{"nodes" => '["localhost_10001", "localhost_10002", "localhost_10003"]'}}
       res_active_routing_list = Roma.new.get_active_routing_list(stats_example)
 
       it "[4-9] Response is Array" do
@@ -452,7 +452,7 @@ describe Roma do
       end
 
       it "[4-12] confirm detail" do
-        expect(res_active_routing_list).to eq(["192.168.223.2_10001", "192.168.223.2_10002", "192.168.223.2_10003"])
+        expect(res_active_routing_list).to eq(["localhost_10001", "localhost_10002", "localhost_10003"])
       end
     end
   end
