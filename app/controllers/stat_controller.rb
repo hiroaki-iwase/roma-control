@@ -8,6 +8,16 @@ class StatController < ApplicationController
     @value = params[:value]
     @roma = Roma.new(@key => @value)
     @stats_hash = @roma.get_stats
+    catch :find_current_value do
+      @stats_hash.each_value{|params_hash|
+         params_hash.each{|key, value|
+           if key == @key
+             @current_value = value
+             throw :find_current_value
+           end
+         }
+      }
+    end
   end
 
   def update
@@ -26,7 +36,16 @@ class StatController < ApplicationController
     end
 
     @stats_hash = @roma.get_stats
-    @value = @stats_hash["routing"][@key] if @key =~ /^sub_nid$/
+    catch :find_current_value do
+      @stats_hash.each_value{|params_hash|
+         params_hash.each{|key, value|
+           if key == @key
+             @current_value = value
+             throw :find_current_value
+           end
+         }
+      }
+    end
     render :action => "edit"
   end
 end
