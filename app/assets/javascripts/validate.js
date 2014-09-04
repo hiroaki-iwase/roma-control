@@ -9,7 +9,7 @@ $(document).ready(function() {
         },
         "hilatency_warn_time": {
           required: true,
-          digits: true,
+          number: true,
           min: 1,
           max: 60
         },

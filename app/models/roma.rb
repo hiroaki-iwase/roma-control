@@ -47,7 +47,6 @@ class Roma
   validates :hilatency_warn_time,
       allow_nil: true,
       :numericality => { 
-        :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 60,
         :message =>' : number must be from 1 to 60.' }
