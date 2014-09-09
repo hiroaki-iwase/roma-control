@@ -1,4 +1,4 @@
-$(function(){
+$(window).load(function() {
 
     //for past version
     if ($('.recover-restriction-msg')[0]) {
