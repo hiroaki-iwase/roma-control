@@ -1,4 +1,4 @@
-$(function(){
+$(window).load(function() {
 
     //for past version
     if ($('.recover-restriction-msg')[0]) {
@@ -289,9 +289,9 @@ $(function(){
         });
 
         if ( duplicateCheck(params) ) {
-            $('.newHost').css({"color":"red"});
+            $('.newHost').css({"color":"#ff0000"});
             $('.newHost').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
-            $('.newPort').css({"color":"red"});
+            $('.newPort').css({"color":"#ff0000"});
             $('.newPort').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
             checkParams.result = false
         }
