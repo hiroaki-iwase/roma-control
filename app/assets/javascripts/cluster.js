@@ -1,4 +1,4 @@
-$(function(){
+$(window).load(function() {
 
     //for past version
     if ($('.recover-restriction-msg')[0]) {
@@ -289,7 +289,9 @@ $(function(){
         });
 
         if ( duplicateCheck(params) ) {
+            $('.newHost').css({"color":"#ff0000"});
             $('.newHost').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
+            $('.newPort').css({"color":"#ff0000"});
             $('.newPort').text(params['newHost']+"_"+params['newPort']+" is already being used in cluster.");
             checkParams.result = false
         }
@@ -309,7 +311,7 @@ $(function(){
             if (!isFinite(parseInt(param, 10)) || parseInt(param, 10) < 0 ) { return 'nonDigit'; }
         }
         if ( checkMultiByte ) {
-            if ( !param.match(/^[a-zA-Z0-9\/\._]+$/)) { return 'unexpected'; }
+            if ( !param.match(/^[a-zA-Z0-9\/\._\-]+$/)) { return 'unexpected'; }
         }
        return false;
     }

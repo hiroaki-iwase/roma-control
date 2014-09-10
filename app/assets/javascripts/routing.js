@@ -15,7 +15,7 @@ $(function(){
     .tablesorter({
         theme: 'default',
         widthFixed: true,
-        sortList: [[0,0]],
+        sortList: [[0,1]],
         widgets : [ "uitheme", "filter"],
     })
     .tablesorterPager({

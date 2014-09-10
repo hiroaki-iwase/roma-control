@@ -11,7 +11,7 @@ module Constants
   DEFAULT_STREAM_COPY_WAIT_PARAM          = 0.001
   DEFAULT_DCNICE                          = 3
   DEFAULT_ZREDUNDANT                      = 0
-  DEFAULT_HILATENCY_WARN_TIME             = 5
+  DEFAULT_HILATENCY_WARN_TIME             = 5.0
   DEFAULT_WB_COMMAND_MAP                  = {}
   DEFAULT_LATENCY_LOG                     = false
   DEFAULT_LATENCY_CHECK_CMD               = ["get", "set", "delete"]

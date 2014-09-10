@@ -47,7 +47,6 @@ class Roma
   validates :hilatency_warn_time,
       allow_nil: true,
       :numericality => { 
-        :only_integer => true,
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 60,
         :message =>' : number must be from 1 to 60.' }
@@ -296,7 +295,7 @@ class Roma
       con.each{|s|
         break if s == "#{eof}\r\n"
         @res.push(s.chomp)
-        raise "ROMA send back ERROR" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
+        raise "ROMA send back ERROR\r\n#{s.chomp}" if s.chomp =~ /^CLIENT_ERROR|^SERVER_ERROR/
       }
     end
 
@@ -308,15 +307,15 @@ class Roma
   def change_roma_res_style(roma_res)
     case roma_res[0]
     when "{"
-      roma_res = roma_res.delete('"|{|}').chomp
-      roma_res = roma_res.split(/,\s*|=>/)
+      roma_res = roma_res.chomp.gsub(/"|^{|}$/, '')
+      roma_res = roma_res.split(/,[\s]*|=>/)
       roma_res.each_with_index{|column, idx|
         roma_res[idx] = column.to_i if column =~ /^\d+$/
       }
       new_style_res = Hash[*roma_res]
     when "["
-      roma_res = roma_res.delete("\"[]\s").chomp
-      new_style_res = roma_res.split(/,/)
+      roma_res = roma_res.chomp.gsub(/"|^\[|\]$/, '')
+      new_style_res = roma_res.split(/,[\s]*/)
     else
       raise "Unexpected style"
     end
