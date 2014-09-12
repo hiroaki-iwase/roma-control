@@ -41,3 +41,15 @@
 .panel {
   background-color: transparent;
 }
+
+/**---------------------------------------------
+ *   Past version support
+ *   ------------------------------------------------**/
+.restriction-panel-logs {
+  min-height: 180px;
+}
+
+.restriction-msg-logs {
+  position: absolute;
+  top: 25%;
+}

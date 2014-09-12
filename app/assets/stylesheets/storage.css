@@ -37,6 +37,7 @@
 }
 
 .snap-command-area, .status-area {
+  margin-top: 10px;
   margin-left: 20px;
 }
 
@@ -105,4 +106,10 @@
 .restriction-msg-snapshot {
   position: absolute;
   top: 25%;
+}
+
+.restriction-msg-snapshot-status {
+  position: absolute;
+  top: 25%;
+  font-size:24px;
 }

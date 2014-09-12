@@ -55,8 +55,9 @@
       <% end %>
     <% end %>
     <%= hidden_field_tag :key, @key %>
+
     <div class="send-button">
-      <%= submit_tag " store ", { :class => "btn btn-info" }%>
+      <%= submit_tag " store ", { :class => "btn btn-info", :disabled=>past_version?(@stats_hash) }%>
       <input type="reset" value=" reset " class="btn">
     </div>
   <% end %>

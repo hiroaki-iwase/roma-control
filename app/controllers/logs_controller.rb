@@ -1,6 +1,7 @@
 class LogsController < ApplicationController
   def index
     session[:referer] = nil
+    @stats_hash = Roma.new.get_stats
   end
 
   def show_logs
