@@ -61,6 +61,15 @@
     </div>
   
     <div class="status-area">
+      <% if chk_roma_version(@stats_hash['others']['version']) == 2062 #v0.8.14 %>
+        <div class="col-xs-12">
+          <div class="restriction-panel">
+            <div class="restriction-msg restriction-msg-snapshot-status">
+              You can Not use this function in this ROMA version.
+            </div>
+          </div>
+      <% end %>
+ 
       <div class="small-contents-name">Status</div>
       <% if flash[:snapshoting] %>
         <div class="snap-progress-area">
@@ -96,5 +105,9 @@
         <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
       </div>
     </div>
+    <% if chk_roma_version(@stats_hash['others']['version']) == 2062 #v0.8.14 %>
+      </div>
+    <% end %>
+
   </div>
 <% end %>
