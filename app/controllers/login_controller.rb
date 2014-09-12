@@ -22,6 +22,7 @@ class LoginController < ApplicationController
       case version
       when 0..2058 # earlier than v0.8.10 
         reset_session
+        flash[:login_error] = "Gladiator don't support the version older than v0.8.11."
         redirect_to :action => 'index' and return
       when 2059..65535 # v0.8.11 - v0.8.14
         flash[:login_error] = 'unsupport version'
