@@ -6,9 +6,11 @@
         You can Not use this function<br>in this ROMA version.
       </div>
     </div>
+    <button class="btn btn-info" disabled>Get Logs</button>
+  <% else %>
+    <a href="show_logs" type="button" class="btn btn-info" id="logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+      <span id="log-button-msg">Get Logs</span>
+    </a>
   <% end %>
-  <a href="show_logs" type="button" class="btn btn-info" id="logs-button">
-    <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-    <span id="log-button-msg">Get Logs</span>
-  </a>
 </div>
