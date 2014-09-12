@@ -1,6 +1,6 @@
 $(window).load(function() {
 
-    if (gon) {
+    if (gon.routing_list) {
         //Tabs
         jQuery.each(gon.routing_list, function() {
             $("#"+this+"-tabs").click(function(){
