@@ -53,7 +53,7 @@
       <div class="small-contents-name">Command Generater</div>
       <div class="port-input">
         <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit" }%>
+        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit", :disabled=>(chk_roma_version(@stats_hash['others']['version']) < 2062) }%>
         <div class="snap-explanation"></div>
         <div class="snap-command"></div>
         <div class="snap-command-error"></div>
