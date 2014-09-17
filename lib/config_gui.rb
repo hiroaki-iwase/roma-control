@@ -1,18 +1,19 @@
 module ConfigGui
-  HOST = "192.168.223.2"
-  PORT = 10001
+  # input your ROMA's ip address or hostname
+  HOST = ""
 
-  # user list
+  # input your ROMA's port No.
+  PORT = ""
+
+  # set your account infomation
+  # [:username] and [:password] are set a limit by 30 characters.
   ROOT_USER = [
-    #{:username => 'input your username', :password => 'input passsword', :email => '[optional]gravatar's email address},
-    #[:username] and [:password] are set a limit by 30 characters.
-    {:username => 'hiroaki.iwase', :password => 'rakuten', :email => 'hiroaki.iwase.r@gmail.com' },
-    {:username => 'root', :password => '1234', :email => '' },
+    ###{:username => 'input your username', :password => 'input passsword', :email => '[optional]gravatar's email address},
+    #{:username => '', :password => '', :email => '' },
   ]
 
   NORMAL_USER = [
-    {:username => 'roma1', :password => 'pass1', :email => 'dev-act-roma@mail.rakuten.com' },
-    {:username => 'roma2', :password => 'pass2', :email => '' },
+    ### NORMAL user are limited some functions.
+    #{:username => '', :password => '', :email => '' },
   ]
-
 end
