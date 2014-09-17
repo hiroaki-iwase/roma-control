@@ -1,5 +1,9 @@
 $(function(){
 
+    $(".reload-btn").click(function(){
+      location.reload();
+    });
+
     $("dd").css("display","none");
 
     $("dl dt").click(function(){
